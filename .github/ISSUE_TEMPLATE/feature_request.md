@@ -1,20 +1,29 @@
 ---
-name: Feature request
-about: Suggest an idea for this project
-title: ''
-labels: ''
+name: "✨ 新規機能のリクエスト"
+about: "新しい機能の提案を記載してください。"
+title: "[新機能] - 機能の概要"
+labels: 新規機能
 assignees: ''
 
 ---
 
-**Is your feature request related to a problem? Please describe.**
-A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
+### 機能の目的
 
-**Describe the solution you'd like**
-A clear and concise description of what you want to happen.
+この機能がどのような目的で使用されるのか、なぜ必要なのかを簡潔に説明してください。
 
-**Describe alternatives you've considered**
-A clear and concise description of any alternative solutions or features you've considered.
+### 実装内容の概要
 
-**Additional context**
-Add any other context or screenshots about the feature request here.
+どのような機能を実装する予定か、簡単な概要を記載してください。
+
+### 実装方法の詳細
+
+具体的にどのように実装する予定か、可能な限り詳細に記載してください。
+
+### 影響範囲
+
+この機能によって影響を受ける他の部分があれば記載してください。
+
+### 補足情報
+
+実装に際して注意点や追加の情報があれば記載してください。
+
