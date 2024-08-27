@@ -1,53 +1,14 @@
-name: Auto Add Issues to Task Project
-
+name: AutoProject
 on:
   issues:
     types: [opened]
 
 jobs:
-  add_to_project:
+  automate-project-columns:
     runs-on: ubuntu-latest
     steps:
-      - name: Add issue to Task project
-        uses: actions/github-script@v6
+      - uses: alex-page/github-project-automation-plus@v0.3.0
         with:
-          script: |
-            const projectNumber = 1; // あなたのプロジェクトの番号（例：1）
-            const columnName = "To Do"; // カラム名を指定
-
-            const owner = context.repo.owner;
-            const repo = context.repo.repo;
-            const issueNumber = context.issue.number;
-
-            // リポジトリのプロジェクトを取得
-            const { data: projects } = await github.projects.listForRepo({
-              owner,
-              repo
-            });
-
-            // プロジェクトを検索
-            const project = projects.find(p => p.number === projectNumber);
-
-            if (!project) {
-              throw new Error(`Project with number ${projectNumber} not found`);
-            }
-
-            // プロジェクトのカラムを取得
-            const { data: columns } = await github.projects.listColumns({
-              project_id: project.id
-            });
-
-            const column = columns.find(c => c.name === columnName);
-
-            if (!column) {
-              throw new Error(`Column with name ${columnName} not found in project`);
-            }
-
-            // Issueをプロジェクトのカラムに追加
-            await github.projects.createCard({
-              column_id: column.id,
-              content_id: issueNumber,
-              content_type: 'Issue'
-            });
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          project: Task
+          column: Todo
+          repo-token: ${{ secrets.GH_TOKEN }}
