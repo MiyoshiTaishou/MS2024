@@ -250,6 +250,7 @@ GameObject:
   m_Component:
   - component: {fileID: 356842394}
   - component: {fileID: 356842393}
+  - component: {fileID: 356842395}
   m_Layer: 0
   m_Name: GameLauncher
   m_TagString: Untagged
@@ -273,6 +274,8 @@ MonoBehaviour:
     type: 3}
   playerAvatarPrefab:
     RawGuidValue: 45c84d37f32367a4f9452e6be3e2b255
+  ipAddress: 192.168.125.1
+  port: 27015
 --- !u!4 &356842394
 Transform:
   m_ObjectHideFlags: 0
@@ -288,6 +291,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &356842395
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 356842392}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d39b1d000c7e6e042b9ef90be778f3fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &961739749
 GameObject:
   m_ObjectHideFlags: 0
