@@ -12,13 +12,16 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
 
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
     {
+        Debug.Log("ê⁄ë±Ç≈Ç´ÇΩÇÊ");
         if (runner.IsServer)
         {
+            Debug.Log("ê⁄ë±Ç≈Ç´ÇΩÇÊ");
             // Create a unique position for the player
             Vector3 spawnPosition = new Vector3((player.RawEncoded % runner.Config.Simulation.PlayerCount) * 3, 1, 0);
             NetworkObject networkPlayerObject = runner.Spawn(_playerPrefab, spawnPosition, Quaternion.identity, player);
             // Keep track of the player avatars for easy access
-            _spawnedCharacters.Add(player, networkPlayerObject);
+            //_spawnedCharacters.Add(player, networkPlayerObject);
+            runner.SetPlayerObject(player, networkPlayerObject);
         }
     }
 
