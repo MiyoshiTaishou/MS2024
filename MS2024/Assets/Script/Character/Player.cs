@@ -2,19 +2,26 @@ using Fusion;
 
 public class Player : NetworkBehaviour
 {
-    private NetworkCharacterController _cc;
+    private NetworkCharacterController characterController;
 
     private void Awake()
     {
-        _cc = GetComponent<NetworkCharacterController>();
+        characterController = GetComponent<NetworkCharacterController>();
     }
 
     public override void FixedUpdateNetwork()
     {
         if (GetInput(out NetworkInputData data))
         {
+            // “ü—Í•ûŒü‚ÌƒxƒNƒgƒ‹‚ğ³‹K‰»‚·‚é
             data.direction.Normalize();
-            _cc.Move(5 * data.direction * Runner.DeltaTime);
+            // “ü—Í•ûŒü‚ğˆÚ“®•ûŒü‚Æ‚µ‚Ä‚»‚Ì‚Ü‚Ü“n‚·
+            characterController.Move(data.direction);
+
+            if (data.buttons.IsSet(NetworkInputButtons.Jump))
+            {
+                characterController.Jump();
+            }
         }
     }
 }
