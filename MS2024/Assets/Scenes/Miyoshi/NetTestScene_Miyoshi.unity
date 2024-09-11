@@ -284,7 +284,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 155d98591000cb84693779971de82dba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerPrefab:
+  networkRunnerPrefab: {fileID: 4900573497466851079, guid: ec7d6a101cb147a468d61d4a18aa9615,
+    type: 3}
+  playerAvatarPrefab:
     RawGuidValue: 45c84d37f32367a4f9452e6be3e2b255
 --- !u!1 &961739749
 GameObject:
