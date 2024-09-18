@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Fusion;
 using Fusion.Sockets;
 using UnityEngine;
@@ -14,6 +15,8 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 
     [SerializeField]
     private NetworkPrefabRef playerAvatarPrefab;
+
+    [SerializeField] private NetworkPrefabRef bossPrefab; // ボスのプレハブ
 
     private async void Start()
     {
@@ -44,6 +47,19 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
         var avatar = runner.Spawn(playerAvatarPrefab, spawnPosition, Quaternion.identity, player);
         // プレイヤー（PlayerRef）とアバター（NetworkObject）を関連付ける
         runner.SetPlayerObject(player, avatar);
+
+        // 現在のプレイヤー人数を取得
+        int playerCount = runner.ActivePlayers.Count();
+
+        // プレイヤーが2人になったらボスを召喚
+        if (playerCount == 2)
+        {
+            Debug.Log("2 players joined. Summoning the boss!");
+
+            // ボスの生成位置（例として固定位置）
+            Vector3 bossSpawnPosition = new Vector3(0f, 5f, 0f);
+            runner.Spawn(bossPrefab, bossSpawnPosition, Quaternion.identity);
+        }
     }
 
     // セッションからプレイヤーが退出した時に呼ばれるコールバック
