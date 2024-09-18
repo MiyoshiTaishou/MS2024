@@ -288,6 +288,8 @@ MonoBehaviour:
     type: 3}
   playerAvatarPrefab:
     RawGuidValue: eeac4a8135fa53148ab28aa5dad23a44
+  bossPrefab:
+    RawGuidValue: 00000000000000000000000000000000
 --- !u!1 &1160234425
 GameObject:
   m_ObjectHideFlags: 0
@@ -1035,10 +1037,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a887307525e0ff542adf31a9d1cd09e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isActive: 0
   damage: 1
   player: {fileID: -855815184563956046, guid: eeac4a8135fa53148ab28aa5dad23a44, type: 3}
-  playerObj: {fileID: 3456682398586312846, guid: eeac4a8135fa53148ab28aa5dad23a44,
-    type: 3}
   obj: {fileID: 1914488419}
 --- !u!65 &1914488421
 BoxCollider:
@@ -1081,7 +1082,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 29805d4916add1d49b0efe4f5472be4c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
