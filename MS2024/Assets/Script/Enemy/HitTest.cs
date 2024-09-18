@@ -10,14 +10,12 @@ public class HitTest : MonoBehaviour
     private Player player;
     public GameObject playerObj;
     private int CT;
+     [SerializeField]
+    private GameObject obj;
 
     void FixedUpdate() {
         Debug.Log(player.HP);
         Debug.Log(CT);
-        
-        if(CT >= 0){
-            Destroy(this);
-        }
     }
 
     void OnTriggerEnter(Collider other) {
@@ -26,6 +24,9 @@ public class HitTest : MonoBehaviour
         }
         if(CT >= 59){
             CT = -1;
+        }
+        if(player.HP <= 0){
+            Destroy(this.obj);
         }
         CT++;
     }
