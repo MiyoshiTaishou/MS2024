@@ -1,28 +1,33 @@
 using Fusion;
+using UnityEngine;
 
 public class Player : NetworkBehaviour
 {
     private NetworkCharacterController characterController;
-    public float HP = 10;
+    private Quaternion initialRotation;  // Å‰‚Ì‰ñ“]
 
     private void Awake()
     {
         characterController = GetComponent<NetworkCharacterController>();
+        initialRotation = transform.rotation;  // ‰Šú‚Ì‰ñ“]‚ğ•Û‘¶
     }
 
     public override void FixedUpdateNetwork()
     {
         if (GetInput(out NetworkInputData data))
         {
-            // ï¿½ï¿½ï¿½Í•ï¿½ï¿½ï¿½ï¿½Ìƒxï¿½Nï¿½gï¿½ï¿½ï¿½ğ³‹Kï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+            // “ü—Í•ûŒü‚ÌƒxƒNƒgƒ‹‚ğ³‹K‰»‚·‚é
             data.direction.Normalize();
-            // ï¿½ï¿½ï¿½Í•ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½Ä‚ï¿½ï¿½Ì‚Ü‚Ü“nï¿½ï¿½
+            // “ü—Í•ûŒü‚ğˆÚ“®•ûŒü‚Æ‚µ‚Ä‚»‚Ì‚Ü‚Ü“n‚·
             characterController.Move(data.direction);
 
             if (data.buttons.IsSet(NetworkInputButtons.Jump))
             {
                 characterController.Jump();
             }
+
+            // ƒvƒŒƒCƒ„[‚Ì‰ñ“]‚ğŒÅ’è
+            transform.rotation = initialRotation;
         }
     }
 }
