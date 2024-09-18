@@ -6,6 +6,7 @@ public class Player : NetworkBehaviour
     private NetworkCharacterController characterController;
     private Quaternion initialRotation;  // Å‰‚Ì‰ñ“]
 
+    public float HP = 10;
     private void Awake()
     {
         characterController = GetComponent<NetworkCharacterController>();
