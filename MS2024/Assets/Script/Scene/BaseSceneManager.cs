@@ -1,10 +1,13 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class BaseSceneManager : MonoBehaviour
 {
     public SceneInfoObject currentSceneInfo;
+
+    [SerializeField] private InputField roomNameInputField; // ルーム名の入力フィールド
 
     private void Start()
     {
@@ -13,6 +16,11 @@ public class BaseSceneManager : MonoBehaviour
 
     public void LoadScene(SceneInfoObject newSceneInfo)
     {
+        string roomName = roomNameInputField.text;
+
+        // ルーム名をPlayerPrefsに保存
+        PlayerPrefs.SetString("RoomName", roomName);
+
         StartCoroutine(HandleSceneTransition(newSceneInfo));
     }
 

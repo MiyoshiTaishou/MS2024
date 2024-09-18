@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CanavsFadeSceneLoad : BaseSceneManager
 {
-    public CanvasGroup fadeCanvasGroup;
+    public CanvasGroup fadeCanvasGroup;   
 
     protected override IEnumerator FadeOut(SceneInfoObject sceneInfo)
     {
