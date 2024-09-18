@@ -3,6 +3,7 @@ using Fusion;
 public class Player : NetworkBehaviour
 {
     private NetworkCharacterController characterController;
+    public float HP = 10;
 
     private void Awake()
     {
@@ -13,9 +14,9 @@ public class Player : NetworkBehaviour
     {
         if (GetInput(out NetworkInputData data))
         {
-            // “ü—Í•ûŒü‚ÌƒxƒNƒgƒ‹‚ğ³‹K‰»‚·‚é
+            // ï¿½ï¿½ï¿½Í•ï¿½ï¿½ï¿½ï¿½Ìƒxï¿½Nï¿½gï¿½ï¿½ï¿½ğ³‹Kï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             data.direction.Normalize();
-            // “ü—Í•ûŒü‚ğˆÚ“®•ûŒü‚Æ‚µ‚Ä‚»‚Ì‚Ü‚Ü“n‚·
+            // ï¿½ï¿½ï¿½Í•ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½Ä‚ï¿½ï¿½Ì‚Ü‚Ü“nï¿½ï¿½
             characterController.Move(data.direction);
 
             if (data.buttons.IsSet(NetworkInputButtons.Jump))
