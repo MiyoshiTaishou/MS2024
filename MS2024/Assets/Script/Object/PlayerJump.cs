@@ -1,10 +1,12 @@
 using UnityEngine.InputSystem;
 using UnityEngine;
+using Fusion;
+
 public class PlayerJump : MonoBehaviour
 {
     public void OnJump(InputAction.CallbackContext context)
     {
-        GetComponent<Rigidbody>().AddForce(new Vector3(0.0f, 10.0f, 0.0f));
+        GetComponent<NetworkCharacterController>().Jump();
         Debug.Log("ƒWƒƒƒ“ƒv‚µ‚Ü‚µ‚½aa");
 
     }
@@ -17,6 +19,6 @@ public class PlayerJump : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        GetComponent<Rigidbody>().AddForce(new Vector3(0.0f,10.0f,0.0f));
     }
 }
