@@ -1,12 +1,15 @@
 using Fusion;
+using UnityEngine;
 
 public class Player : NetworkBehaviour
 {
     private NetworkCharacterController characterController;
+    private Quaternion initialRotation;  // Å‰‚Ì‰ñ“]
 
     private void Awake()
     {
         characterController = GetComponent<NetworkCharacterController>();
+        initialRotation = transform.rotation;  // ‰Šú‚Ì‰ñ“]‚ğ•Û‘¶
     }
 
     public override void FixedUpdateNetwork()
@@ -22,6 +25,9 @@ public class Player : NetworkBehaviour
             {
                 characterController.Jump();
             }
+
+            // ƒvƒŒƒCƒ„[‚Ì‰ñ“]‚ğŒÅ’è
+            transform.rotation = initialRotation;
         }
     }
 }
