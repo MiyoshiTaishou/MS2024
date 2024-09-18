@@ -17,12 +17,18 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 
     private async void Start()
     {
+        // PlayerPrefsからルーム名を取得
+        string roomName = PlayerPrefs.GetString("RoomName", "DefaultRoom"); // デフォルト値を指定
+
+        Debug.Log("ルーム名" + roomName);
+
         networkRunner = Instantiate(networkRunnerPrefab);
         // NetworkRunnerのコールバック対象に、このスクリプト（GameLauncher）を登録する
         networkRunner.AddCallbacks(this);
         var result = await networkRunner.StartGame(new StartGameArgs
         {
             GameMode = GameMode.AutoHostOrClient,
+            SessionName = roomName, // PlayerPrefsから取得したルーム名を使用
             SceneManager = networkRunner.GetComponent<NetworkSceneManagerDefault>()
         });
     }
