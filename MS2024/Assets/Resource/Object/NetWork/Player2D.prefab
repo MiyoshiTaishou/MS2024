@@ -19,6 +19,8 @@ GameObject:
   - component: {fileID: 140743395096327777}
   - component: {fileID: 4093320234839733151}
   - component: {fileID: 8458544684543772981}
+  - component: {fileID: 3641264247566183741}
+  - component: {fileID: -290249344890424347}
   m_Layer: 0
   m_Name: Player2D
   m_TagString: Untagged
@@ -287,6 +289,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 9a8d95db-678d-4db8-8848-51b363926db9
     m_ActionName: Player/Jump[/XInputControllerWindows/buttonSouth]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3641264247566183741}
+        m_TargetAssemblyTypeName: PlayerParry, Assembly-CSharp
+        m_MethodName: Parry
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 78dc870c-8d2a-4f27-ba14-ce944c6c955e
+    m_ActionName: Player/Parry
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -299,7 +317,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3456682398586312846}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d47f8f1480f49ed44b8df07745059b57, type: 3}
   m_Name: 
@@ -311,7 +329,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3456682398586312846}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f3e66b8f9e2f83345ac3c28618123cda, type: 3}
   m_Name: 
@@ -343,3 +361,30 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &3641264247566183741
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3456682398586312846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8113aecc8464cc5478a354cbf225121a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ParryArea: {fileID: 1356945736595564141, guid: 762eecb810ac90748bd39ac72d56a59e,
+    type: 3}
+  HitStop: 0.05
+--- !u!114 &-290249344890424347
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3456682398586312846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0da8859ba052ea4996ee4fd99c8097b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

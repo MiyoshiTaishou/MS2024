@@ -18,6 +18,8 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 
     [SerializeField] private NetworkPrefabRef bossPrefab; // ボスのプレハブ
 
+    [SerializeField, Header("オフラインにするかどうか")] private bool isLocal;
+
     private async void Start()
     {
         // PlayerPrefsからルーム名を取得
@@ -28,12 +30,42 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
         networkRunner = Instantiate(networkRunnerPrefab);
         // NetworkRunnerのコールバック対象に、このスクリプト（GameLauncher）を登録する
         networkRunner.AddCallbacks(this);
-        var result = await networkRunner.StartGame(new StartGameArgs
+        if (!isLocal) // オンラインモードのとき
         {
-            GameMode = GameMode.AutoHostOrClient,
-            SessionName = roomName, // PlayerPrefsから取得したルーム名を使用
-            SceneManager = networkRunner.GetComponent<NetworkSceneManagerDefault>()
-        });
+            var result = await networkRunner.StartGame(new StartGameArgs
+            {
+                GameMode = GameMode.AutoHostOrClient,
+                SessionName = roomName,
+                SceneManager = networkRunner.GetComponent<NetworkSceneManagerDefault>()
+            });
+
+            if (result.Ok)
+            {
+                Debug.Log("オンラインモードでゲーム開始: " + roomName);
+            }
+            else
+            {
+                Debug.LogError("ゲーム開始に失敗: " + result.ShutdownReason);
+            }
+        }
+        else // オフラインモードのとき
+        {
+            var result = await networkRunner.StartGame(new StartGameArgs
+            {
+                GameMode = GameMode.Single, // シングルプレイヤーモード
+                SessionName = "LocalTestSession",  // ローカルテスト用セッション名
+                SceneManager = networkRunner.GetComponent<NetworkSceneManagerDefault>()
+            });
+
+            if (result.Ok)
+            {
+                Debug.Log("オフラインモードでゲーム開始");
+            }
+            else
+            {
+                Debug.LogError("オフラインモード開始に失敗: " + result.ShutdownReason);
+            }
+        }
     }
 
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)

@@ -6,9 +6,13 @@ public class PlayerJump : MonoBehaviour
 {
     public void OnJump(InputAction.CallbackContext context)
     {
-        GetComponent<NetworkCharacterController>().Jump();
-        Debug.Log("ジャンプしましたaa");
+        if(context.started)
+        {
+            GetComponent<NetworkCharacterController>().Jump();
+            Debug.Log("ジャンプしましたaa");
 
+
+        }
     }
     // Start is called before the first frame update
     void Start()
@@ -19,6 +23,6 @@ public class PlayerJump : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        GetComponent<Rigidbody>().AddForce(new Vector3(0.0f,10.0f,0.0f));
+        //GetComponent<Rigidbody>().AddForce(new Vector3(0.0f,10.0f,0.0f));
     }
 }
