@@ -38,13 +38,13 @@ public class DamagedArea : MonoBehaviour
     }
 
     void Start() {
-        isActive=true;    
+        isActive=true;
     }
 
     void FixedUpdate() {
-        Debug.Log("player.HP"+player.HP);
-        Debug.Log("NT"+nowTime);
-        Debug.Log("CD"+CD);
+        //Debug.Log("player.HP"+player.HP);
+        //Debug.Log("NT"+nowTime);
+        //Debug.Log("CD"+CD);
         //gameObject.SetActive (isActive);
     }
 
