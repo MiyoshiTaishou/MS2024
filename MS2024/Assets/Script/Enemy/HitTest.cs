@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
 [RequireComponent(typeof(Collider))]
 public class DamagedArea : MonoBehaviour
 {    
@@ -11,6 +13,7 @@ public class DamagedArea : MonoBehaviour
     [Tooltip("単体ダメージか継続ダメージを決めます")]
     public bool isSustained;
     [Tooltip("与えるダメージを決めます")]
+
     [SerializeField]
     private float damage;
     [Tooltip("継続ダメージの与える間隔を決めます(1/60秒間隔)")]
@@ -21,6 +24,7 @@ public class DamagedArea : MonoBehaviour
     [Tooltip("デバッグ用の変数です")]
     [SerializeField]
     private Player player;
+
     // public GameObject playerObj;
     private int nowTime;
     private int CD;
@@ -46,6 +50,7 @@ public class DamagedArea : MonoBehaviour
         //Debug.Log("NT"+nowTime);
         //Debug.Log("CD"+CD);
         //gameObject.SetActive (isActive);
+
     }
 
     void OnTriggerEnter(Collider other) {

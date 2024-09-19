@@ -425,10 +425,10 @@ MonoBehaviour:
     type: 3}
   playerAvatarPrefab:
     RawGuidValue: eeac4a8135fa53148ab28aa5dad23a44
+
   bossPrefab:
     RawGuidValue: 0f22cdf910d95544db8eb68a12dd5f57
   isLocal: 0
---- !u!1 &1160234425
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1177,11 +1177,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isActive: 0
   isSustained: 1
+
   damage: 1
   coolDown: 5
   player: {fileID: -855815184563956046, guid: eeac4a8135fa53148ab28aa5dad23a44, type: 3}
+  playerObj: {fileID: 3456682398586312846, guid: eeac4a8135fa53148ab28aa5dad23a44,
+    type: 3}
   obj: {fileID: 1914488419}
---- !u!65 &1914488421
+
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1222,7 +1225,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 29805d4916add1d49b0efe4f5472be4c, type: 2}
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
