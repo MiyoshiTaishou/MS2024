@@ -6,6 +6,7 @@ public class Player : NetworkBehaviour
     private NetworkCharacterController characterController;
     private Quaternion initialRotation;  // 最初の回転
 
+    [Tooltip("プレイヤーのタイトルを決めます")]
     public float HP = 10;
     private void Awake()
     {
