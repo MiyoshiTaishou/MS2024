@@ -20,7 +20,9 @@ GameObject:
   - component: {fileID: 4093320234839733151}
   - component: {fileID: 8458544684543772981}
   - component: {fileID: 3641264247566183741}
+
   - component: {fileID: -915398101253976705}
+
   m_Layer: 0
   m_Name: Player2D
   m_TagString: Untagged
@@ -183,7 +185,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b63e3731eda70b4ba521c42e18e1b2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HP: 10
+  HP: 20
 --- !u!114 &2722652368496634209
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -322,7 +324,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3456682398586312846}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d47f8f1480f49ed44b8df07745059b57, type: 3}
   m_Name: 
@@ -334,7 +336,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3456682398586312846}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f3e66b8f9e2f83345ac3c28618123cda, type: 3}
   m_Name: 
@@ -469,6 +471,7 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 4532175950711278161, guid: 762eecb810ac90748bd39ac72d56a59e,
     type: 3}
+
   m_PrefabInstance: {fileID: 8993024079399442987}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &7933501091438738502 stripped
@@ -477,3 +480,4 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 8993024079399442987}
   m_PrefabAsset: {fileID: 0}
+
