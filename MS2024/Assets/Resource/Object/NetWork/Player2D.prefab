@@ -20,9 +20,7 @@ GameObject:
   - component: {fileID: 4093320234839733151}
   - component: {fileID: 8458544684543772981}
   - component: {fileID: 3641264247566183741}
-
   - component: {fileID: -915398101253976705}
-
   m_Layer: 0
   m_Name: Player2D
   m_TagString: Untagged
@@ -277,7 +275,19 @@ MonoBehaviour:
     m_ActionId: 33eced6c-d970-4aee-b47a-d64b6981ca32
     m_ActionName: UI/TrackedDeviceOrientation
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4093320234839733151}
+        m_TargetAssemblyTypeName: PlayerJump, Assembly-CSharp
+        m_MethodName: OnJump
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 9a8d95db-678d-4db8-8848-51b363926db9
     m_ActionName: Player/Jump[/XInputControllerWindows/buttonSouth]
   - m_PersistentCalls:
@@ -296,10 +306,6 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 78dc870c-8d2a-4f27-ba14-ce944c6c955e
     m_ActionName: Player/Parry
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 14314adf-f394-4df9-b506-b00305e19f1f
-    m_ActionName: Player/ParryRelese[/XInputControllerWindows/rightShoulder]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -324,7 +330,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3456682398586312846}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f3e66b8f9e2f83345ac3c28618123cda, type: 3}
   m_Name: 
@@ -459,7 +465,6 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 4532175950711278161, guid: 762eecb810ac90748bd39ac72d56a59e,
     type: 3}
-
   m_PrefabInstance: {fileID: 8993024079399442987}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &7933501091438738502 stripped
@@ -468,4 +473,3 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 8993024079399442987}
   m_PrefabAsset: {fileID: 0}
-

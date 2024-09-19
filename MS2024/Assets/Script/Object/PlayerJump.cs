@@ -10,10 +10,8 @@ public class PlayerJump : MonoBehaviour
     {
         if(context.started)
         {
-            GetComponent<NetworkCharacterController>().Jump();
-            Debug.Log("�W�����v���܂���aa");
-
-
+            //GetComponent<NetworkCharacterController>().Jump();
+            Debug.Log("とべぇっぇぇぇぇぇぇぇぇぇぇぇぇぇぇぇぇぇぇぇぇぇぇぇぇぇぇぇぇぇぇぇぇぇぇぇぇぇぇ");
         }
     }
     // Start is called before the first frame update
@@ -24,8 +22,7 @@ public class PlayerJump : MonoBehaviour
         jumpAction = actionMap["Jump"];
         if (jumpAction == null)
         {
-            Debug.Log("�Ȃ��悶����");
-
+            
         }
     }
         // Update is called once per frame
@@ -33,12 +30,11 @@ public class PlayerJump : MonoBehaviour
     {
         if (jumpAction != null && jumpAction.triggered)
         {
-            // �{�^�����u�����ꂽ�Ƃ��v�ɂ����W�����v�����s����
-            if (jumpAction.ReadValue<float>() > 0) // �{�^����������Ă��鎞�̒l�͒ʏ� 1.0f
+            // ボタンが「押されたとき」にだけジャンプを実行する
+            if (jumpAction.ReadValue<float>() > 0) // ボタンが押されている時の値は通常 1.0f
             {
                 GetComponent<NetworkCharacterController>().Jump();
             }
         }
-
     }
 }
