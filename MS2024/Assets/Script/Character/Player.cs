@@ -5,12 +5,19 @@ public class Player : NetworkBehaviour
 {
     private NetworkCharacterController characterController;
     private Quaternion initialRotation;  // Å‰‚Ì‰ñ“]
+    Camera MainCamera;
 
     public float HP = 10;
     private void Awake()
     {
         characterController = GetComponent<NetworkCharacterController>();
         initialRotation = transform.rotation;  // ‰Šú‚Ì‰ñ“]‚ğ•Û‘¶
+    }
+
+    private void Start()
+    {
+        MainCamera = Camera.main;
+        MainCamera.GetComponent<CameraMove>().player = this.transform;
     }
 
     public override void FixedUpdateNetwork()
