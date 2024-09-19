@@ -1,41 +1,69 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerParry : MonoBehaviour
 {
+    //パリィ範囲
     [SerializeField] private GameObject ParryArea;
 
     [SerializeField] private float HitStop = 0.05f;
+
+
+    HitStop hitStop;
 
     private bool PressKey = false; 
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        hitStop = GetComponent<HitStop>();
     }
 
     // Update is called once per frame
     void Update()
     {
         //キーボードお試し
-        if(Input.GetKeyDown(KeyCode.K))
+        if(Input.GetKey(KeyCode.K))
         {
-            Vector3 pos = this.transform.position;
-            Instantiate(ParryArea,pos,Quaternion.identity);
+            ParryArea.SetActive(true);
+        }
+        else
+        {
+            //ParryArea.SetActive(false);
         }
 
         
 
     }
 
-    public void Parry(InputAction.CallbackContext context)
+    /// <summary>
+    /// コントローラー入力
+    /// </summary>
+    /// <param name="context"></param>
+    public void ParryPress(InputAction.CallbackContext context)
     {
-        PressKey = true;
+        if (context.started)
+        {
+            ParryArea.SetActive(true);
 
-        Vector3 pos = this.transform.position;
-        Instantiate(ParryArea, pos, Quaternion.identity);
+        }
+
+        if (context.canceled)
+        {
+            ParryArea.SetActive(false);
+
+        }
+    }
+
+    /// <summary>
+    /// パリィ成功時の処理
+    /// </summary>
+    public void ParrySystem()
+    {
+        hitStop.ApplyHitStop(HitStop);
+
     }
 }
