@@ -8,9 +8,13 @@ public class PlayerJump : MonoBehaviour
 
     public void OnJump(InputAction.CallbackContext context)
     {
-        GetComponent<NetworkCharacterController>().Jump();
-        Debug.Log("ƒWƒƒƒ“ƒv‚µ‚Ü‚µ‚½aa");
+        if(context.started)
+        {
+            GetComponent<NetworkCharacterController>().Jump();
+            Debug.Log("ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½vï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½aa");
 
+
+        }
     }
     // Start is called before the first frame update
     void Start()
@@ -20,7 +24,7 @@ public class PlayerJump : MonoBehaviour
         jumpAction = actionMap["Jump"];
         if (jumpAction == null)
         {
-            Debug.Log("‚È‚¢‚æ‚¶‚á‚ñ‚Õ");
+            Debug.Log("ï¿½È‚ï¿½ï¿½æ‚¶ï¿½ï¿½ï¿½ï¿½");
 
         }
     }
@@ -29,11 +33,12 @@ public class PlayerJump : MonoBehaviour
     {
         if (jumpAction != null && jumpAction.triggered)
         {
-            // ƒ{ƒ^ƒ“‚ªu‰Ÿ‚³‚ê‚½‚Æ‚«v‚É‚¾‚¯ƒWƒƒƒ“ƒv‚ğÀs‚·‚é
-            if (jumpAction.ReadValue<float>() > 0) // ƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚Ä‚¢‚é‚Ì’l‚Í’Êí 1.0f
+            // ï¿½{ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½Æ‚ï¿½ï¿½vï¿½É‚ï¿½ï¿½ï¿½ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½
+            if (jumpAction.ReadValue<float>() > 0) // ï¿½{ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½éï¿½Ì’lï¿½Í’Êï¿½ 1.0f
             {
                 GetComponent<NetworkCharacterController>().Jump();
             }
         }
+
     }
 }
