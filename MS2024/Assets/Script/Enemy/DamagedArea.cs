@@ -22,7 +22,7 @@ public class DamagedArea : MonoBehaviour
     [SerializeField]
     private Player player;
     // public GameObject playerObj;
-    private int CT;
+    private int nowTime;
     private int CD;
     [Tooltip("デバッグ用の変数です")]
      [SerializeField]
@@ -43,30 +43,30 @@ public class DamagedArea : MonoBehaviour
 
     void FixedUpdate() {
         Debug.Log("player.HP"+player.HP);
-        Debug.Log("CT"+CT);
+        Debug.Log("NT"+nowTime);
         Debug.Log("CD"+CD);
         //gameObject.SetActive (isActive);
     }
 
     void OnTriggerEnter(Collider other) {
         if(isSustained){
-            if(CT <= 1){
+            if(nowTime <= 1){
                 player.HP -= damage;
             }
-            if(CT >= coolDown){
-                CT = 0;
+            if(nowTime >= coolDown){
+                nowTime = 0;
             }
             if(player.HP <= 0){
                 isActive=false;
                 //Destroy(this.obj);
             }
-            CT++;
+            nowTime++;
         }else{
             isActive=false;
             //Destroy(this.obj);
         }
     }
     void OnTriggerExit(Collider other) {
-        //CT = 0;
+        //nowTime = 0;
     }
 }
