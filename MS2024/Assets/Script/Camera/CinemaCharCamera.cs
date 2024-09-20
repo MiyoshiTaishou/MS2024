@@ -1,21 +1,20 @@
 using Cinemachine;
 using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 
 public class CinemaCharCamera : MonoBehaviour
 {
     public CinemachineVirtualCamera virtualCamera;
 
-    private Cinemachine.CinemachineImpulseSource impulseSource;
+    private CinemachineImpulseSource impulseSource;
 
     private float defaultFOV; // デフォルトのカメラのFOV
     private Vector3 defaultPositionOffset; // デフォルトの位置オフセット
+    private Transform defaultLookAt; // デフォルトの LookAt
 
     private void Start()
     {
-        impulseSource = GetComponent<Cinemachine.CinemachineImpulseSource>();
+        impulseSource = GetComponent<CinemachineImpulseSource>();
 
         // CinemachineTransposer が存在する場合、デフォルトのオフセットを保存
         CinemachineTransposer transposer = virtualCamera.GetCinemachineComponent<CinemachineTransposer>();
@@ -23,6 +22,7 @@ public class CinemaCharCamera : MonoBehaviour
         {
             defaultFOV = virtualCamera.m_Lens.FieldOfView;
             defaultPositionOffset = transposer.m_FollowOffset;
+            defaultLookAt = virtualCamera.LookAt; // 初期のLookAtを保存
         }
         else
         {
@@ -47,22 +47,18 @@ public class CinemaCharCamera : MonoBehaviour
     /// <summary>
     /// カメラを一時的にズームインして戻す処理
     /// </summary>
+    /// <param name="zoomTarget">ズームの中心となるオブジェクトの Transform</param>
     /// <param name="zoomAmount">ズームの強さ（視野角をどれだけ狭めるか）</param>
-    /// <param name="offset">画面中央からのオフセット</param>
     /// <param name="zoomDuration">ズームインする時間</param>
-    public void CameraZoom(Vector2 offset, float zoomAmount, float zoomDuration)
+    public void CameraZoom(Transform zoomTarget, float zoomAmount, float zoomDuration)
     {
-        StartCoroutine(ZoomInAndOutCoroutine(offset, zoomAmount, zoomDuration));
+        StartCoroutine(ZoomInAndOutCoroutine(zoomTarget, zoomAmount, zoomDuration));
     }
 
-    private IEnumerator ZoomInAndOutCoroutine(Vector2 offset, float zoomAmount, float zoomDuration)
+    private IEnumerator ZoomInAndOutCoroutine(Transform zoomTarget, float zoomAmount, float zoomDuration)
     {
-        // CinemachineTransposerを使ってカメラの追従位置を操作
-        CinemachineTransposer transposer = virtualCamera.GetCinemachineComponent<CinemachineTransposer>();
-
-        // オフセットの設定
-        Vector3 newOffset = new Vector3(offset.x, offset.y, transposer.m_FollowOffset.z);
-        transposer.m_FollowOffset = newOffset;
+        // ズームする対象のオブジェクトをLookAtに設定
+        virtualCamera.LookAt = zoomTarget;
 
         // カメラの視野角をズームイン（小さく）する
         virtualCamera.m_Lens.FieldOfView = defaultFOV - zoomAmount;
@@ -70,8 +66,8 @@ public class CinemaCharCamera : MonoBehaviour
         // 指定された時間だけ待つ
         yield return new WaitForSeconds(zoomDuration);
 
-        // カメラの視野角とオフセットを元に戻す
+        // カメラの視野角とLookAtを元に戻す
         virtualCamera.m_Lens.FieldOfView = defaultFOV;
-        transposer.m_FollowOffset = defaultPositionOffset;
+        virtualCamera.LookAt = defaultLookAt; // 元のLookAtに戻す
     }
 }
