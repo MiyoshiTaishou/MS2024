@@ -33,7 +33,7 @@ public class PlayerJump : MonoBehaviour
             // ボタンが「押されたとき」にだけジャンプを実行する
             if (jumpAction.ReadValue<float>() > 0) // ボタンが押されている時の値は通常 1.0f
             {
-                GetComponent<NetworkCharacterController>().Jump();
+                //GetComponent<NetworkCharacterController>().Jump();
             }
         }
     }
