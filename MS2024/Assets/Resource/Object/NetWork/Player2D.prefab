@@ -11,8 +11,6 @@ GameObject:
   - component: {fileID: 1734742634884606549}
   - component: {fileID: 3045711136440202890}
   - component: {fileID: 5130338446531482131}
-  - component: {fileID: 2671330553312593586}
-  - component: {fileID: 8089594011443584949}
   - component: {fileID: 8129915170982835739}
   - component: {fileID: -855815184563956046}
   - component: {fileID: 2722652368496634209}
@@ -21,7 +19,9 @@ GameObject:
   - component: {fileID: 8458544684543772981}
   - component: {fileID: 3641264247566183741}
   - component: {fileID: -915398101253976705}
+
   - component: {fileID: 4936679562209583460}
+
   m_Layer: 0
   m_Name: Player2D
   m_TagString: Untagged
@@ -114,52 +114,8 @@ MonoBehaviour:
   Flags: 786433
   NestedObjects: []
   NetworkedBehaviours:
-  - {fileID: 8089594011443584949}
   - {fileID: -855815184563956046}
---- !u!143 &2671330553312593586
-CharacterController:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3456682398586312846}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Height: 0.32000002
-  m_Radius: 0.16000001
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &8089594011443584949
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3456682398586312846}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 378411a89480da345945c2f888327a2d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gravity: -20
-  jumpImpulse: 8
-  acceleration: 10
-  braking: 10
-  maxSpeed: 2
-  rotationSpeed: 15
+  - {fileID: -3543407948273942501}
 --- !u!114 &8129915170982835739
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -378,7 +334,9 @@ MonoBehaviour:
   ParryArea: {fileID: 7933501091438738502}
   parryradius: 3
   HitStop: 2
+
   KnockbackPower: 10
+
 --- !u!114 &-915398101253976705
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -391,7 +349,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cd2b2a8a97c04c42a299d9607bbca2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+
 --- !u!114 &4936679562209583460
+
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -400,9 +360,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 3456682398586312846}
   m_Enabled: 1
   m_EditorHideFlags: 0
+
   m_Script: {fileID: 11500000, guid: 7425950512706134da9a95bee779b83d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+
 --- !u!1001 &8993024079399442987
 PrefabInstance:
   m_ObjectHideFlags: 0
