@@ -20,6 +20,8 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 
     [SerializeField, Header("オフラインにするかどうか")] private bool isLocal;
 
+    [SerializeField, Header("キャラ追従カメラ")] private CinemaCharCamera charCamera;
+
     private async void Start()
     {
         // PlayerPrefsからルーム名を取得
@@ -79,6 +81,8 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
         var avatar = runner.Spawn(playerAvatarPrefab, spawnPosition, Quaternion.identity, player);
         // プレイヤー（PlayerRef）とアバター（NetworkObject）を関連付ける
         runner.SetPlayerObject(player, avatar);
+
+        charCamera.SetTarget(avatar.transform);
 
         // 現在のプレイヤー人数を取得
         int playerCount = runner.ActivePlayers.Count();
