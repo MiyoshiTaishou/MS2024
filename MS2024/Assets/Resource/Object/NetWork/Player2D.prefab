@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 8458544684543772981}
   - component: {fileID: 3641264247566183741}
   - component: {fileID: -915398101253976705}
+  - component: {fileID: 4936679562209583460}
   m_Layer: 0
   m_Name: Player2D
   m_TagString: Untagged
@@ -375,7 +376,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ParryArea: {fileID: 7933501091438738502}
+  parryradius: 3
   HitStop: 2
+  KnockbackPower: 10
 --- !u!114 &-915398101253976705
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -386,6 +389,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9cd2b2a8a97c04c42a299d9607bbca2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4936679562209583460
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3456682398586312846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7425950512706134da9a95bee779b83d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &8993024079399442987
