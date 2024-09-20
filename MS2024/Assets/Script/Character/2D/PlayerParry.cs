@@ -80,7 +80,7 @@ public class PlayerParry : MonoBehaviour
     {
         Debug.Log("ÉYÅ[ÉÄ");
         hitStop.ApplyHitStop(HitStop);
-        cinemachar.CameraZoom(Vector2.zero,5,2);
+        cinemachar.CameraZoom(this.transform,5,2);
         
     }
 }
