@@ -1,6 +1,7 @@
 using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 
 public class CinemaCharCamera : MonoBehaviour
@@ -15,6 +16,18 @@ public class CinemaCharCamera : MonoBehaviour
     private void Start()
     {
         impulseSource = GetComponent<Cinemachine.CinemachineImpulseSource>();
+
+        // CinemachineTransposer が存在する場合、デフォルトのオフセットを保存
+        CinemachineTransposer transposer = virtualCamera.GetCinemachineComponent<CinemachineTransposer>();
+        if (transposer != null)
+        {
+            defaultFOV = virtualCamera.m_Lens.FieldOfView;
+            defaultPositionOffset = transposer.m_FollowOffset;
+        }
+        else
+        {
+            Debug.LogError("CinemachineTransposer が見つかりません。インスペクタで設定してください。");
+        }
     }
 
     public void SetTarget(Transform targetTransform)
