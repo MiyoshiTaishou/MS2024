@@ -9,8 +9,13 @@ public class PlayerParry : MonoBehaviour
     //パリィ範囲
     [SerializeField] private GameObject ParryArea;
 
+    //ヒットストップ時間
     [SerializeField] private float HitStop = 0.05f;
 
+    Camera Maincamera;
+    CinemaCharCamera cinemachar;
+
+    [SerializeField] 　bool Parryflg = false;
 
     HitStop hitStop;
 
@@ -20,6 +25,8 @@ public class PlayerParry : MonoBehaviour
     void Start()
     {
         hitStop = GetComponent<HitStop>();
+        Maincamera = Camera.main;
+        cinemachar = Maincamera.GetComponent<CinemaCharCamera>();
     }
 
     // Update is called once per frame
@@ -35,7 +42,13 @@ public class PlayerParry : MonoBehaviour
             //ParryArea.SetActive(false);
         }
 
-        
+        if(Parryflg)
+        {
+            if(Input.GetKeyDown(KeyCode.L))
+            {
+                ParrySystem();
+            }
+        }
 
     }
 
@@ -48,22 +61,26 @@ public class PlayerParry : MonoBehaviour
         if (context.started)
         {
             ParryArea.SetActive(true);
-
+            Parryflg = true;
         }
 
         if (context.canceled)
         {
             ParryArea.SetActive(false);
-
+           // Parryflg= false;
         }
     }
+
+
 
     /// <summary>
     /// パリィ成功時の処理
     /// </summary>
     public void ParrySystem()
     {
+        Debug.Log("ズーム");
         hitStop.ApplyHitStop(HitStop);
-
+        cinemachar.CameraZoom(Vector2.zero,5,2);
+        
     }
 }
