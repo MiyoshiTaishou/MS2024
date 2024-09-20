@@ -7,19 +7,27 @@ using UnityEngine.InputSystem;
 public class PlayerParry : MonoBehaviour
 {
     //パリィ範囲
-    [SerializeField] private GameObject ParryArea;
+    [SerializeField,Tooltip("パリィ可視化用")] private GameObject ParryArea;
+
+    [SerializeField, Tooltip("パリィ範囲")] float parryradius = 3;
 
     //ヒットストップ時間
-    [SerializeField] private float HitStop = 0.05f;
+    [SerializeField, Tooltip("ヒットストップ時間")] private float HitStop = 0.05f;
+
+    //ノックバック
+    [SerializeField, Tooltip("ノックバック力")] float KnockbackPower = 10;
+
 
     Camera Maincamera;
     CinemaCharCamera cinemachar;
 
-    [SerializeField] 　bool Parryflg = false;
+    [SerializeField,ReadOnly] bool Parryflg = false;
 
     HitStop hitStop;
 
-    private bool PressKey = false; 
+    private bool PressKey = false;
+
+    Knockback back;
 
     // Start is called before the first frame update
     void Start()
@@ -27,23 +35,19 @@ public class PlayerParry : MonoBehaviour
         hitStop = GetComponent<HitStop>();
         Maincamera = Camera.main;
         cinemachar = Maincamera.GetComponent<CinemaCharCamera>();
+        back = GetComponent<Knockback>();
+        Vector3 scale = new Vector3(parryradius, parryradius, parryradius);
+        ParryArea.transform.localScale = scale;
     }
 
     // Update is called once per frame
     void Update()
     {
-        //キーボードお試し
-        if(Input.GetKey(KeyCode.K))
-        {
-            ParryArea.SetActive(true);
-        }
-        else
-        {
-            //ParryArea.SetActive(false);
-        }
 
         if(Parryflg)
         {
+
+            //とりあえずキーボードで仮実装
             if(Input.GetKeyDown(KeyCode.L))
             {
                 ParrySystem();
@@ -80,7 +84,7 @@ public class PlayerParry : MonoBehaviour
     {
         Debug.Log("ズーム");
         hitStop.ApplyHitStop(HitStop);
-        cinemachar.CameraZoom(this.transform,5,2);
-        
+        cinemachar.CameraZoom(this.transform,5,0.5f);
+        back.ApplyKnockback(transform.forward, KnockbackPower);
     }
 }
