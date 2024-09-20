@@ -117,6 +117,7 @@ MonoBehaviour:
   NetworkedBehaviours:
   - {fileID: -855815184563956046}
   - {fileID: 140743395096327777}
+  - {fileID: 3641264247566183741}
   - {fileID: 2947428719551211756}
 --- !u!114 &8129915170982835739
 MonoBehaviour:
@@ -337,8 +338,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ParryArea: {fileID: 7933501091438738502}
   parryradius: 3
+  ParryActivetime: 1
   HitStop: 2
-  KnockbackPower: 10
+  KnockbackPower: 100
   Parryflg: 0
 --- !u!114 &-915398101253976705
 MonoBehaviour:
@@ -490,7 +492,11 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1356945736595564141, guid: 762eecb810ac90748bd39ac72d56a59e,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3672512284090078926}
   m_SourcePrefab: {fileID: 100100000, guid: 762eecb810ac90748bd39ac72d56a59e, type: 3}
 --- !u!4 &4767101725231648890 stripped
 Transform:
@@ -504,3 +510,15 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 8993024079399442987}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &3672512284090078926
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7933501091438738502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c799bf135c1a2a4ab1f89618cfb7a7d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
