@@ -1,8 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-
-
 
 [RequireComponent(typeof(Collider))]
 public class DamagedArea : MonoBehaviour
@@ -26,14 +22,12 @@ public class DamagedArea : MonoBehaviour
     private Player player;
 
     // public GameObject playerObj;
-    private int nowTime;
-    private int CD;
-    [Tooltip("デバッグ用の変数です")]
+    private float nowTime;
+    [Tooltip("当たり判定を持つオブジェクトを決めます")]
      [SerializeField]
-    private GameObject obj;
+    //private GameObject obj;
 
-    void Awake()
-    {
+    void Awake(){
         Collider col = GetComponent<Collider>();
         if (col != null)
         {
@@ -42,36 +36,42 @@ public class DamagedArea : MonoBehaviour
     }
 
     void Start() {
-        isActive=true;
+        isActive = true;
     }
 
-    void FixedUpdate() {
+    //void FixedUpdate() {
+    void Update() {
         //Debug.Log("player.HP"+player.HP);
         //Debug.Log("NT"+nowTime);
-        //Debug.Log("CD"+CD);
         //gameObject.SetActive (isActive);
 
     }
 
-    void OnTriggerEnter(Collider other) {
-        if(isSustained){
-            if(nowTime <= 1){
+    void OnTriggerStay(Collider other) {
+        if(isActive && isSustained){
+            if(nowTime == 1){
                 player.HP -= damage;
             }
-            if(nowTime >= coolDown){
+            else if(nowTime >= coolDown){
                 nowTime = 0;
             }
+
             if(player.HP <= 0){
-                isActive=false;
-                //Destroy(this.obj);
+                return;
             }
-            nowTime++;
-        }else{
-            isActive=false;
-            //Destroy(this.obj);
         }
+        else if(isActive){
+            player.HP -= damage;
+            isActive = false;
+        }
+        nowTime += Time.deltaTime;
     }
+
     void OnTriggerExit(Collider other) {
-        //nowTime = 0;
+        nowTime = 0;
+    }
+
+    public void SetActive(bool flag){
+        isActive = flag;
     }
 }
