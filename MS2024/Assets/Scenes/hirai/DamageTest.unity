@@ -406,10 +406,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35742c059290e3049bdd0e49cb905536, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackCircle: {fileID: 3122315394160387129, guid: 9554b542d176dbe429d617d5094b963e,
-    type: 3}
+  attackCircle: {fileID: 1764584277}
   attackEffect: {fileID: 236369043}
-  delayBeforeFire: 1
+  delayEffect: 2
 --- !u!4 &234380217
 Transform:
   m_ObjectHideFlags: 0
@@ -462,7 +461,6 @@ MonoBehaviour:
   damage: 5
   coolDown: 0
   player: {fileID: -855815184563956046, guid: eeac4a8135fa53148ab28aa5dad23a44, type: 3}
-  obj: {fileID: 236369040}
 --- !u!136 &236369045
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -627,6 +625,11 @@ PrefabInstance:
     - target: {fileID: 9253828177365408, guid: a00fe416bbf5f0c439ee23f3284f0a93, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1003366273652865627, guid: a00fe416bbf5f0c439ee23f3284f0a93,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1249962988011069384, guid: a00fe416bbf5f0c439ee23f3284f0a93,
         type: 3}
@@ -1220,6 +1223,12 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1704361771}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1764584277 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3122315394160387129, guid: 9554b542d176dbe429d617d5094b963e,
+    type: 3}
+  m_PrefabInstance: {fileID: 579502504}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1882954813
 GameObject:
   m_ObjectHideFlags: 0
@@ -1394,7 +1403,6 @@ MonoBehaviour:
   damage: 0.1
   coolDown: 5
   player: {fileID: -855815184563956046, guid: eeac4a8135fa53148ab28aa5dad23a44, type: 3}
-  obj: {fileID: 1914488419}
 --- !u!23 &1914488422
 MeshRenderer:
   m_ObjectHideFlags: 0

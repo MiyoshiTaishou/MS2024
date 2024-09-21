@@ -18,6 +18,7 @@ public class AttackEffect : MonoBehaviour
 
     private void Start(){
         damagedArea = GetComponent<DamagedArea>();
+        attackCircle.SetActive(false);
     }
     void Update() {
         //this.gameObject.SetActive(false);
