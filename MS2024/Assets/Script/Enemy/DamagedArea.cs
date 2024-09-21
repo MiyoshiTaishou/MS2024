@@ -21,13 +21,10 @@ public class DamagedArea : MonoBehaviour
     [SerializeField]
     private Player player;
 
-    // public GameObject playerObj;
     private float nowTime;
-    [Tooltip("当たり判定を持つオブジェクトを決めます")]
-     [SerializeField]
-    //private GameObject obj;
 
     void Awake(){
+        //コライダーのisTriggerの値をtrueにする
         Collider col = GetComponent<Collider>();
         if (col != null)
         {
@@ -39,15 +36,14 @@ public class DamagedArea : MonoBehaviour
         isActive = true;
     }
 
-    //void FixedUpdate() {
     void Update() {
         //Debug.Log("player.HP"+player.HP);
         //Debug.Log("NT"+nowTime);
-        //gameObject.SetActive (isActive);
 
     }
 
     void OnTriggerStay(Collider other) {
+        //継続ダメージを行う処理
         if(isActive && isSustained){
             if(nowTime == 1){
                 player.HP -= damage;
@@ -60,6 +56,7 @@ public class DamagedArea : MonoBehaviour
                 return;
             }
         }
+        //単体ダメージを行う処理
         else if(isActive){
             player.HP -= damage;
             isActive = false;
@@ -68,10 +65,12 @@ public class DamagedArea : MonoBehaviour
     }
 
     void OnTriggerExit(Collider other) {
+        //判定から抜けたら無敵時間をリセット
         nowTime = 0;
     }
 
     public void SetActive(bool flag){
+        //ダメージを有効にするSetter
         isActive = flag;
     }
 }
