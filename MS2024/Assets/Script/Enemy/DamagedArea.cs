@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 [RequireComponent(typeof(Collider))]
 public class DamagedArea : MonoBehaviour
@@ -16,59 +17,86 @@ public class DamagedArea : MonoBehaviour
     [SerializeField]
     private int coolDown;
 
-    [Header("デバッグ設定")]
-    [Tooltip("デバッグ用の変数です")]
+    [Header("マルチプレイ用デバッグ設定")]
+    [Tooltip("各プレイヤーごとのisActive状態")]
     [SerializeField]
-    private Player player;
+    public Dictionary<Collider, bool> playerActiveStates = new Dictionary<Collider, bool>();
+    [Tooltip("各プレイヤーごとのクールダウンタイマー")]
+    private Dictionary<Collider, float> playerCooldowns = new Dictionary<Collider, float>();
+
+    //[Header("デバッグ設定")]
+    //[Tooltip("デバッグ用の変数です")]
+    //[SerializeField]
+    //private Player player;
 
     private float nowTime;
 
     void Awake(){
         //コライダーのisTriggerの値をtrueにする
         Collider col = GetComponent<Collider>();
-        if (col != null)
-        {
+        if (col != null){
             col.isTrigger = true;
         }
     }
 
     void Start() {
-        isActive = true;
+        isActive = false;
     }
 
     void Update() {
-        //Debug.Log("player.HP"+player.HP);
         //Debug.Log("NT"+nowTime);
 
     }
 
-    void OnTriggerStay(Collider other) {
+    void OnTriggerStay(Collider other){
+        // プレイヤーオブジェクトを取得
+        Player player = other.GetComponent<Player>();
+        Debug.Log("player.HP"+player.HP);
+        if (player == null) return;
+
+        if (!playerCooldowns.ContainsKey(other)){
+            playerCooldowns[other] = 0f;
+        }
+        if (!playerActiveStates.ContainsKey(other)){
+            playerActiveStates[other] = isActive;
+        }
+
+        float nowTime = playerCooldowns[other];
+
         //継続ダメージを行う処理
-        if(isActive && isSustained){
-            if(nowTime == 1){
+        if (isSustained){
+            if (nowTime >= coolDown){
                 player.HP -= damage;
-            }
-            else if(nowTime >= coolDown){
-                nowTime = 0;
+                playerCooldowns[other] = 0f;
             }
 
-            if(player.HP <= 0){
+            if (player.HP <= 0){
                 return;
             }
         }
         //単体ダメージを行う処理
-        else if(isActive){
-            player.HP -= damage;
-            isActive = false;
+        else{
+            if (playerActiveStates[other]){
+                player.HP -= damage;
+                playerActiveStates[other] = false;
+            }
         }
-        nowTime += Time.deltaTime;
+
+        //各プレイヤーのクールダウンタイマーを更新
+        playerCooldowns[other] += Time.deltaTime;
     }
 
-    void OnTriggerExit(Collider other) {
+    void OnTriggerExit(Collider other){
         //判定から抜けたら無敵時間をリセット
-        nowTime = 0;
-    }
+        if (playerCooldowns.ContainsKey(other)){
+            playerCooldowns.Remove(other);
+        }
 
+        if (playerActiveStates.ContainsKey(other)){
+            playerActiveStates.Remove(other);
+        }
+    }
+    
     public void SetActive(bool flag){
         //ダメージを有効にするSetter
         isActive = flag;
