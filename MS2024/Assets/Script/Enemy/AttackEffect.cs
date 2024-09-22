@@ -17,12 +17,12 @@ public class AttackEffect : MonoBehaviour
     private DamagedArea damagedArea;
 
     private void Start(){
+        //必要なスクリプトを呼び出し
         damagedArea = GetComponent<DamagedArea>();
         attackCircle.SetActive(false);
     }
     void Update() {
-        //this.gameObject.SetActive(false);
-        //attackCircle.SetActive(true);
+        //攻撃発生処理
         if (Input.GetKeyDown(KeyCode.Space)){
             PrepareAttack();
         }
@@ -31,19 +31,21 @@ public class AttackEffect : MonoBehaviour
         }
         nowTime += Time.deltaTime;
 
+        //攻撃判定を削除
         if (!attackEffect.isPlaying && damagedArea != null){
             damagedArea.SetActive(false);
         }
     }
     
     void PrepareAttack(){
-        // 攻撃予告エフェクトを表示
+        // 攻撃予告処理
         attackCircle.SetActive(true);
         attackFlag = true;
         nowTime = 0;
     }
 
     void ExecuteAttack(){
+        //攻撃処理
         attackCircle.SetActive(false);
         attackEffect.Play();
         if (damagedArea != null){
