@@ -4,23 +4,23 @@ using UnityEngine;
 public class Player : NetworkBehaviour
 {
     private NetworkCharacterController characterController;
-    private Quaternion initialRotation;  // Å‰‚Ì‰ñ“]
+    private Quaternion initialRotation;  // æœ€åˆã®å›è»¢
 
-    [Tooltip("ƒvƒŒƒCƒ„[‚Ìƒ^ƒCƒgƒ‹‚ğŒˆ‚ß‚Ü‚·")]
-    public float HP = 10;
+    [Tooltip("ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ä½“åŠ›ã‚’æ±ºã‚ã¾ã™")]
+    [Networked] public float HP { get; set; }
     private void Awake()
     {
         characterController = GetComponent<NetworkCharacterController>();
-        initialRotation = transform.rotation;  // ‰Šú‚Ì‰ñ“]‚ğ•Û‘¶
+        initialRotation = transform.rotation;  // åˆæœŸã®å›è»¢ã‚’ä¿å­˜
     }
 
     public override void FixedUpdateNetwork()
     {
         //if (GetInput(out NetworkInputData data))
         //{
-        //    // “ü—Í•ûŒü‚ÌƒxƒNƒgƒ‹‚ğ³‹K‰»‚·‚é
+        //    // å…¥åŠ›æ–¹å‘ã®ãƒ™ã‚¯ãƒˆãƒ«ã‚’æ­£è¦åŒ–ã™ã‚‹
         //    data.direction.Normalize();
-        //    // “ü—Í•ûŒü‚ğˆÚ“®•ûŒü‚Æ‚µ‚Ä‚»‚Ì‚Ü‚Ü“n‚·
+        //    // å…¥åŠ›æ–¹å‘ã‚’ç§»å‹•æ–¹å‘ã¨ã—ã¦ãã®ã¾ã¾æ¸¡ã™
         //    characterController.Move(data.direction);
 
         //    if (data.buttons.IsSet(NetworkInputButtons.Jump))
@@ -28,7 +28,7 @@ public class Player : NetworkBehaviour
         //        characterController.Jump();
         //    }
 
-        //    // ƒvƒŒƒCƒ„[‚Ì‰ñ“]‚ğŒÅ’è
+        //    // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®å›è»¢ã‚’å›ºå®š
         //    transform.rotation = initialRotation;
         //}
     }
