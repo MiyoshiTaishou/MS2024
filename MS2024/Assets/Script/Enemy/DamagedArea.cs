@@ -63,6 +63,7 @@ public class DamagedArea : MonoBehaviour
         if (isActive && isSustained){
             if (nowTime >= coolDown){
                 player.HP -= damage;
+                player.FlashReset();
                 playerCooldowns[player] = 0f;
             }
             //各プレイヤーのクールダウンタイマーを更新
@@ -72,6 +73,7 @@ public class DamagedArea : MonoBehaviour
         else if (isActive && playerActiveStates[player]){
             if (playerActiveStates[player]){
                 player.HP -= damage;
+                player.FlashReset();
                 playerActiveStates[player] = false;
             }
         }
