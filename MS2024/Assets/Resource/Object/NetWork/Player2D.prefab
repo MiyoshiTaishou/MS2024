@@ -144,6 +144,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _HP: 20
+  flashCount: 5
+  flashInterval: 1
+  damageColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &2722652368496634209
 MonoBehaviour:
   m_ObjectHideFlags: 0
