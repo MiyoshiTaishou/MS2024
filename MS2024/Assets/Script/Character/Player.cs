@@ -15,15 +15,15 @@ public class Player : NetworkBehaviour
     [Tooltip("プレイヤーの体力を決めます")]
     [Networked] public float HP { get; set; }
     
-    [Tooltip("ダメージを与えられたときの点滅回数を決めます")]
+    [Tooltip("ダメージを受けているときの点滅回数を決めます")]
     [SerializeField]
     private int flashCount = 3;
     private int nowCount;   // 現在の点滅回数
-    [Tooltip("ダメージを与えられたときの点滅する間隔を決めます")]
+    [Tooltip("ダメージを受けているときの点滅する間隔を決めます")]
     [SerializeField]
     private float flashInterval;
 
-    [Tooltip("ダメージを与えられたときの色を決めます")]
+    [Tooltip("ダメージを受けているときの色を決めます")]
     [SerializeField]
     private Color damageColor;
     private Color originalColor;
@@ -80,9 +80,11 @@ public class Player : NetworkBehaviour
     }
 
     public void FlashReset(){
-        spriteRenderer.color = damageColor;
-        flashState = FlashState.ORIGINAL;
-        nowTime = 0;
+        if (nowCount == flashCount) {
+            spriteRenderer.color = damageColor;
+            flashState = FlashState.ORIGINAL;
+            nowTime = 0;
+        }
         nowCount = 0;
     }
 }
