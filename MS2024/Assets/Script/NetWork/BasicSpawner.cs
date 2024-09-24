@@ -16,6 +16,9 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
     [SerializeField]
     private NetworkPrefabRef playerAvatarPrefab;
 
+    [SerializeField, Header("スポーンポジション")]
+    private GameObject spawnPos;
+
     [SerializeField] private NetworkPrefabRef bossPrefab; // ボスのプレハブ
 
     [SerializeField, Header("オフラインにするかどうか")] private bool isLocal;
@@ -77,6 +80,12 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
         // ランダムな生成位置（半径5の円の内部）を取得する
         var randomValue = UnityEngine.Random.insideUnitCircle * 5f;
         var spawnPosition = new Vector3(randomValue.x, 5f, randomValue.y);
+
+        if(isLocal)
+        {
+            spawnPosition = spawnPos.transform.position;
+        }
+
         // 参加したプレイヤーのアバターを生成する
         var avatar = runner.Spawn(playerAvatarPrefab, spawnPosition, Quaternion.identity, player);
         // プレイヤー（PlayerRef）とアバター（NetworkObject）を関連付ける
