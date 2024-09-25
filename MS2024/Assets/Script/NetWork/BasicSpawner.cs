@@ -95,14 +95,14 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 
         // avatarからNetworkObjectを取得して、HasInputAuthorityを確認する
         var networkObject = avatar.GetComponent<NetworkObject>();
-        if (networkObject.HasInputAuthority)  // ローカルプレイヤーのみカメラを生成する
-        {
-            var playerCamera = Instantiate(cameraPrefab);
+        //if (networkObject.HasInputAuthority)  // ローカルプレイヤーのみカメラを生成する
+        //{
+        //    var playerCamera = Instantiate(cameraPrefab);
 
-            // カメラのターゲットをプレイヤーに設定
-            charCamera = playerCamera.GetComponent<CinemaCharCamera>();
-            charCamera.SetTarget(avatar.transform);
-        }
+        //    // カメラのターゲットをプレイヤーに設定
+        //    charCamera = playerCamera.GetComponent<CinemaCharCamera>();
+        //    charCamera.SetTarget(avatar.transform);
+        //}
 
         // 現在のプレイヤー人数を取得
         int playerCount = runner.ActivePlayers.Count();
