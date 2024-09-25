@@ -36,8 +36,7 @@ public class PlayerParry : NetworkBehaviour
 
     public float GetParryActiveTime() { return ParryActivetime / 60f; }
 
-    // Start is called before the first frame update
-    void Start()
+    public override void Spawned()
     {
         hitStop = GetComponent<HitStop>();
         Maincamera = Camera.main;
@@ -52,6 +51,11 @@ public class PlayerParry : NetworkBehaviour
 
         HitStopFrame = HitStop / 60;
         ParryArea.transform.localScale = scale;
+    }
+    // Start is called before the first frame update
+    void Start()
+    {
+       
     }
 
     /// <summary>
