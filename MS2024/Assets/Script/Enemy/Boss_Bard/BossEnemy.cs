@@ -11,6 +11,10 @@ public class BossEnemy : MonoBehaviour
     //Slider
     public Slider slider;
 
+    [SerializeField]
+    [Tooltip("発生させるエフェクト(パーティクル)")]
+    private ParticleSystem particle;
+
     void Start()
     {
         //Sliderを最大にする。
@@ -26,11 +30,29 @@ public class BossEnemy : MonoBehaviour
             //HPから1を引く
             Hp = Hp - 1;
 
-            //HPをSliderに反映。
+            //HPをSliderに反映 ※HPとvalueの最大値が一致してないとうまく減らないので注意
             slider.value = Hp;
 
-            Debug.Log(slider.value);
+            // パーティクルシステムのインスタンスを生成
+            ParticleSystem newParticle = Instantiate(particle);
+            // パーティクルの発生場所をこのスクリプトをアタッチしているGameObjectの場所にする
+            newParticle.transform.position = this.transform.position;
+            // パーティクルを発生させる
+            newParticle.Play();
+            // インスタンス化したパーティクルシステムのGameObjectを1秒後に削除
+            Destroy(newParticle.gameObject, 1.0f);
+
+            //色を赤くする
+            gameObject.GetComponent<SpriteRenderer>().color = new Color32(255, 0, 0, 255);
+            //0.5秒後にvoid backを実行
+            Invoke("back", 0.2f);
 
         }
+    }
+
+    void back()
+    {
+        //色を元に戻す
+        gameObject.GetComponent<SpriteRenderer>().color = new Color32(255, 255, 255, 255);
     }
 }
