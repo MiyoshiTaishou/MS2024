@@ -22,7 +22,6 @@ public class PlayerParry : NetworkBehaviour
     //ノックバック
     [SerializeField, Tooltip("ノックバック力")] float KnockbackPower = 50;
 
-
     Camera Maincamera;
     CinemaCharCamera cinemachar;
 
@@ -58,6 +57,19 @@ public class PlayerParry : NetworkBehaviour
        
     }
 
+    public void Area()
+    {
+        Debug.Log("パリィエリアが呼ばれました");
+        ParryArea.SetActive(true);
+        Parryflg = true;
+    }
+
+    [Rpc(RpcSources.InputAuthority, RpcTargets.All)]
+    public void RPC_ParryArea()
+    {
+        Area();
+    }
+
     /// <summary>
     /// コントローラー入力
     /// </summary>
@@ -66,15 +78,9 @@ public class PlayerParry : NetworkBehaviour
     {
         if (context.started)
         {
-            ParryArea.SetActive(true);
-            Parryflg = true;
+            RPC_ParryArea();
         }
 
-        //if (context.canceled)
-        //{
-        //    ParryArea.SetActive(false);
-        //   // Parryflg= false;
-        //}
     }
 
     /// <summary>
