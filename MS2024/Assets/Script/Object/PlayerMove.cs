@@ -32,7 +32,7 @@ public class PlayerMove : NetworkBehaviour
 
     public override void FixedUpdateNetwork()
     {
-        Debug.Log("クララが立った！");
+       // Debug.Log("クララが立った！");
         // ネットワークインプットデータを受け取り計算する
         if (GetInput(out NetworkInputData data))
         {

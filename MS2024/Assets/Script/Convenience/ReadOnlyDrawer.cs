@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEditor;
 
+#if UNITY_EDITOR
 [CustomPropertyDrawer(typeof(ReadOnlyAttribute))]
 public class ReadOnlyDrawer : PropertyDrawer
 {
@@ -14,3 +15,4 @@ public class ReadOnlyDrawer : PropertyDrawer
         EditorGUI.EndDisabledGroup();
     }
 }
+#endif
