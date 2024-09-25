@@ -360,7 +360,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ParryArea: {fileID: 7933501091438738502}
   parryradius: 3
-  ParryActivetime: 1
+  ParryActivetime: 30
   HitStop: 2
   KnockbackPower: 100
   Parryflg: 0
@@ -461,6 +461,7 @@ MonoBehaviour:
   scale: {x: 1, y: 1, z: 1}
   Count: 0
   isAttack: 0
+  AttackCount: 0
 --- !u!1001 &4476810163144067245
 PrefabInstance:
   m_ObjectHideFlags: 0
