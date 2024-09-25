@@ -5,7 +5,6 @@ using Fusion;
 using Fusion.Sockets;
 using UnityEngine;
 
-// INetworkRunnerCallbacksを実装して、NetworkRunnerのコールバック処理を実行できるようにする
 public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 {
     [SerializeField]
@@ -23,7 +22,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 
     [SerializeField, Header("オフラインにするかどうか")] private bool isLocal;
 
-    [SerializeField,Header("キャラクター追従カメラ")] private GameObject cameraPrefab; // カメラのプレハブ
+    [SerializeField, Header("キャラクター追従カメラ")] private GameObject cameraPrefab; // カメラのプレハブ
 
     [SerializeField, Header("キャラ追従カメラ")] private CinemaCharCamera charCamera;
 
@@ -32,11 +31,12 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
         // PlayerPrefsからルーム名を取得
         string roomName = PlayerPrefs.GetString("RoomName", "DefaultRoom"); // デフォルト値を指定
 
-        Debug.Log("ルーム名" + roomName);
+        Debug.Log("ルーム名: " + roomName);
 
         networkRunner = Instantiate(networkRunnerPrefab);
         // NetworkRunnerのコールバック対象に、このスクリプト（GameLauncher）を登録する
         networkRunner.AddCallbacks(this);
+
         if (!isLocal) // オンラインモードのとき
         {
             var result = await networkRunner.StartGame(new StartGameArgs
@@ -77,32 +77,37 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
     {
+        Debug.Log($"Player Joined: {player}, Is Server: {runner.IsServer}");
+
         // ホスト（サーバー兼クライアント）かどうかはIsServerで判定できる
         if (!runner.IsServer) { return; }
+
         // ランダムな生成位置（半径5の円の内部）を取得する
         var randomValue = UnityEngine.Random.insideUnitCircle * 5f;
         var spawnPosition = new Vector3(randomValue.x, 5f, randomValue.y);
 
-        if(isLocal)
+        if (isLocal)
         {
             spawnPosition = spawnPos.transform.position;
         }
 
-        // 参加したプレイヤーのアバターを生成する
+        // プレイヤーのアバターを生成
         var avatar = runner.Spawn(playerAvatarPrefab, spawnPosition, Quaternion.identity, player);
-        // プレイヤー（PlayerRef）とアバター（NetworkObject）を関連付ける
         runner.SetPlayerObject(player, avatar);
+        Debug.Log($"Spawned avatar for player {player}, at position {spawnPosition}");
 
-        // avatarからNetworkObjectを取得して、HasInputAuthorityを確認する
+        // アバターのNetworkObjectを取得して、HasInputAuthorityを確認
         var networkObject = avatar.GetComponent<NetworkObject>();
-        if (networkObject.HasInputAuthority)  // ローカルプレイヤーのみカメラを生成する
-        {
-            var playerCamera = Instantiate(cameraPrefab);
+        Debug.Log($"NetworkObject HasInputAuthority: {networkObject.HasInputAuthority}");
 
-            // カメラのターゲットをプレイヤーに設定
-            charCamera = playerCamera.GetComponent<CinemaCharCamera>();
-            charCamera.SetTarget(avatar.transform);
-        }
+        // ローカルプレイヤーのみカメラを生成
+        //if (networkObject.HasInputAuthority)
+        //{
+        //    var playerCamera = Instantiate(cameraPrefab);
+        //    charCamera = playerCamera.GetComponent<CinemaCharCamera>();
+        //    charCamera.SetTarget(avatar.transform);
+        //    Debug.Log("Camera assigned to local player.");
+        //}
 
         // 現在のプレイヤー人数を取得
         int playerCount = runner.ActivePlayers.Count();
@@ -114,18 +119,26 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 
             // ボスの生成位置（例として固定位置）
             Vector3 bossSpawnPosition = new Vector3(0f, 5f, 0f);
-            runner.Spawn(bossPrefab, bossSpawnPosition, Quaternion.identity);
+            if (runner.IsServer)
+            {
+                runner.Spawn(bossPrefab, bossSpawnPosition, Quaternion.identity);
+                Debug.Log("Boss spawned at position: " + bossSpawnPosition);
+            }
         }
     }
 
     // セッションからプレイヤーが退出した時に呼ばれるコールバック
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
     {
+        Debug.Log($"Player Left: {player}");
+
         if (!runner.IsServer) { return; }
-        // 退出したプレイヤーのアバターを破棄する
+
+        // 退出したプレイヤーのアバターを破棄
         if (runner.TryGetPlayerObject(player, out var avatar))
         {
             runner.Despawn(avatar);
+            Debug.Log("Despawned avatar for player: " + player);
         }
     }
 
