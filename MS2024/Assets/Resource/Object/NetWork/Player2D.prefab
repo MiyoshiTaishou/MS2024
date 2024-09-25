@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 2947428719551211756}
   - component: {fileID: 3051068443843455605}
   - component: {fileID: 4616131850613099673}
+  - component: {fileID: 4439219941416633024}
   m_Layer: 0
   m_Name: Player2D
   m_TagString: Untagged
@@ -120,6 +121,7 @@ MonoBehaviour:
   - {fileID: 140743395096327777}
   - {fileID: 3641264247566183741}
   - {fileID: 2947428719551211756}
+  - {fileID: 4439219941416633024}
 --- !u!114 &8129915170982835739
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -271,7 +273,19 @@ MonoBehaviour:
     m_ActionId: 78dc870c-8d2a-4f27-ba14-ce944c6c955e
     m_ActionName: Player/Parry
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4439219941416633024}
+        m_TargetAssemblyTypeName: PlayerAttack, Assembly-CSharp
+        m_MethodName: OnAttack
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 576d8bc8-8b24-4d6d-86d4-cc2d6a9e6be9
     m_ActionName: Player/Attack[/XInputControllerWindows/buttonWest]
   m_NeverAutoSwitchControlSchemes: 0
@@ -429,6 +443,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0da8859ba052ea4996ee4fd99c8097b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4439219941416633024
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3456682398586312846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66e0417ee3323744fb95ab25bd262f4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AttackArea: {fileID: 5593873177869133035}
+  ParryActivetime: 300
 --- !u!1001 &4476810163144067245
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -492,6 +520,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: AttackArea
       objectReference: {fileID: 0}
+    - target: {fileID: 8323141511234858054, guid: 0a190f91198c3e74ebf03b560ee70857,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -500,6 +533,12 @@ PrefabInstance:
 --- !u!4 &3628964180879984462 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 899726713397202915, guid: 0a190f91198c3e74ebf03b560ee70857,
+    type: 3}
+  m_PrefabInstance: {fileID: 4476810163144067245}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5593873177869133035 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8323141511234858054, guid: 0a190f91198c3e74ebf03b560ee70857,
     type: 3}
   m_PrefabInstance: {fileID: 4476810163144067245}
   m_PrefabAsset: {fileID: 0}
