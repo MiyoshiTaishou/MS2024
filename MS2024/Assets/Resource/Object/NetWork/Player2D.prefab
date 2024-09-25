@@ -360,7 +360,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parryradius: 3
-  ParryActivetime: 30
+  ParryActivetime: 1
   HitStop: 2
   KnockbackPower: 100
   Parryflg: 0
@@ -456,7 +456,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AttackArea: {fileID: 5593873177869133035}
-
   ParryActivetime: 300
 --- !u!1001 &446163973822249998
 PrefabInstance:
@@ -542,13 +541,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 446163973822249998}
   m_PrefabAsset: {fileID: 0}
-=======
-  AttackStartuptime: 5
-  AttackActivetime: 10
-  scale: {x: 1, y: 1, z: 1}
-  Count: 0
-  isAttack: 0
-  AttackCount: 0
 --- !u!1001 &4476810163144067245
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -606,11 +598,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7254391033865245769, guid: 0a190f91198c3e74ebf03b560ee70857,
-        type: 3}
-      propertyPath: m_IsTrigger
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8323141511234858054, guid: 0a190f91198c3e74ebf03b560ee70857,
         type: 3}
