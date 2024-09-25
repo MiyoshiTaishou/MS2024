@@ -8,7 +8,7 @@ using UnityEngine.InputSystem;
 public class PlayerParry : NetworkBehaviour
 {
     //パリィ範囲
-    [SerializeField,Tooltip("パリィ可視化用")] private GameObject ParryArea;
+    private GameObject ParryArea;
 
     [SerializeField, Tooltip("パリィ範囲")] float parryradius = 3;
 
@@ -16,7 +16,8 @@ public class PlayerParry : NetworkBehaviour
     [SerializeField, Tooltip("パリィ効果時間")] float ParryActivetime = 3;
 
     //ヒットストップ時間
-    [SerializeField, Tooltip("ヒットストップ時間")] private float HitStop = 0.05f;
+    [SerializeField, Tooltip("ヒットストップ時間")] private int HitStop = 30;
+    private float HitStopFrame = 0; //フレームに変換する
 
     //ノックバック
     [SerializeField, Tooltip("ノックバック力")] float KnockbackPower = 50;
@@ -29,11 +30,11 @@ public class PlayerParry : NetworkBehaviour
 
     HitStop hitStop;
 
-    private bool PressKey = false;
+    [Networked] private bool PressKey { get; set; } = false;
 
     Knockback back;
 
-    public float GetParryActiveTime() { return ParryActivetime; }
+    public float GetParryActiveTime() { return ParryActivetime / 60f; }
 
     // Start is called before the first frame update
     void Start()
@@ -43,6 +44,13 @@ public class PlayerParry : NetworkBehaviour
         cinemachar = Maincamera.GetComponent<CinemaCharCamera>();
         back = GetComponent<Knockback>();
         Vector3 scale = new Vector3(parryradius, parryradius, parryradius);
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            if (transform.GetChild(i).gameObject.name == "ParryArea")
+                ParryArea = transform.GetChild(0).gameObject;
+        }
+
+        HitStopFrame = HitStop / 60;
         ParryArea.transform.localScale = scale;
     }
 
@@ -70,24 +78,33 @@ public class PlayerParry : NetworkBehaviour
     /// </summary>
     public void ParrySystem()
     {
-        hitStop.ApplyHitStop(HitStop);
+        hitStop.ApplyHitStop(HitStopFrame);
         cinemachar.CameraZoom(this.transform,5,0.5f);
         back.ApplyKnockback(transform.forward, KnockbackPower);
         ParryArea.GetComponent<ParryDisplay>().Init();
     }
 
+    [Rpc(RpcSources.InputAuthority, RpcTargets.All)]
+    public void RPC_Update()
+    {
+        ParrySystem();
+    }
+
     public override void FixedUpdateNetwork()
     {
-        if (ParryArea.activeSelf)
-        {
 
-            //とりあえずキーボードで仮実装
-            if (Input.GetKeyDown(KeyCode.L))
+        if(Object.HasInputAuthority)
+        {
+            if (ParryArea.activeSelf)
             {
-                ParrySystem();
+
+                //とりあえずキーボードで仮実装
+                if (Input.GetKeyDown(KeyCode.L))
+                {
+                    RPC_Update();
+                }
             }
         }
-
     }
 
 
