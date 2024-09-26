@@ -8,9 +8,12 @@ public class PlayerAttack : NetworkBehaviour
     [SerializeField, Tooltip("パリィ可視化用")] private GameObject AttackArea;
 
     //パリィの効果時間
-    [SerializeField, Tooltip("攻撃の持続フレーム")] int ParryActivetime = 300;
+    [SerializeField, Tooltip("攻撃の持続フレーム")] int ParryActivetime = 100;
 
-    int Count = 0;
+    [SerializeField, ReadOnly] bool isAttack = false;
+    [SerializeField, ReadOnly] int Count = 0;
+
+
 
     public void OnAttack(InputAction.CallbackContext context)
     {
@@ -18,6 +21,7 @@ public class PlayerAttack : NetworkBehaviour
         {
             Debug.Log("攻撃");
             AttackArea.SetActive(true);
+            isAttack = true;
             Count = ParryActivetime;
         }
     }
@@ -33,9 +37,9 @@ public class PlayerAttack : NetworkBehaviour
 
     }
 
-    private void FixedUpdateNetwork()
+    public override void FixedUpdateNetwork()
     {
-        if (AttackArea.active == false)
+        if (AttackArea.active == true)
         {
             Count--;
         }
