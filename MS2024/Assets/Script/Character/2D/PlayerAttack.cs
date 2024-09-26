@@ -30,11 +30,16 @@ public class PlayerAttack : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
+
+    }
+
+    private void FixedUpdateNetwork()
+    {
         if (AttackArea.active == false)
         {
             Count--;
         }
-        if(Count <= 0) 
+        if (Count <= 0)
         {
             AttackArea.SetActive(false);
         }
