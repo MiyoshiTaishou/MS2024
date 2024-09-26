@@ -115,6 +115,10 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
             // ボスの生成位置（例として固定位置）
             Vector3 bossSpawnPosition = new Vector3(0f, 5f, 0f);
             runner.Spawn(bossPrefab, bossSpawnPosition, Quaternion.identity);
+
+            // 全プレイヤーにカメラを無効化させる
+            var cameraManager = avatar.GetComponent<MainCamaeraDelete>();
+            cameraManager.RPC_DisableMainCamera();
         }
 
         Camera.main.gameObject.SetActive(false);

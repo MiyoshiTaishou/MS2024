@@ -252,7 +252,6 @@ GameObject:
   - component: {fileID: 348294348}
   - component: {fileID: 348294347}
   - component: {fileID: 348294346}
-  - component: {fileID: 348294351}
   - component: {fileID: 348294350}
   m_Layer: 0
   m_Name: Camera
@@ -395,20 +394,7 @@ MonoBehaviour:
   ObjectInterest: 1
   Flags: 262145
   NestedObjects: []
-  NetworkedBehaviours:
-  - {fileID: 348294351}
---- !u!114 &348294351
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 348294345}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 65e0f7da1279420479c1174731b974f7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  NetworkedBehaviours: []
 --- !u!1 &921894783
 GameObject:
   m_ObjectHideFlags: 0
@@ -769,8 +755,52 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4678621160689045467, guid: 2b84b475479e98c4b8d0352ae4e1ccdd,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4591294126788555377}
+    - targetCorrespondingSourceObject: {fileID: 4678621160689045467, guid: 2b84b475479e98c4b8d0352ae4e1ccdd,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4591294126788555376}
   m_SourcePrefab: {fileID: 100100000, guid: 2b84b475479e98c4b8d0352ae4e1ccdd, type: 3}
+--- !u!1 &4591294126788555375 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4678621160689045467, guid: 2b84b475479e98c4b8d0352ae4e1ccdd,
+    type: 3}
+  m_PrefabInstance: {fileID: 4591294126788555374}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4591294126788555376
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4591294126788555375}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SortKey: 4142193708
+  ObjectInterest: 1
+  Flags: 262145
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: 4591294126788555377}
+--- !u!114 &4591294126788555377
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4591294126788555375}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65e0f7da1279420479c1174731b974f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
