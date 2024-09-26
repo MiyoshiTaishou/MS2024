@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 3051068443843455605}
   - component: {fileID: 4616131850613099673}
   - component: {fileID: 4439219941416633024}
+  - component: {fileID: 6722829996438046513}
   m_Layer: 0
   m_Name: Player2D
   m_TagString: Untagged
@@ -124,6 +125,7 @@ MonoBehaviour:
   - {fileID: 3641264247566183741}
   - {fileID: 2947428719551211756}
   - {fileID: 4439219941416633024}
+  - {fileID: 6722829996438046513}
 --- !u!114 &8129915170982835739
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -458,6 +460,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AttackArea: {fileID: 5593873177869133035}
   ParryActivetime: 300
+--- !u!114 &6722829996438046513
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3456682398586312846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8df3afb24cb25f84aa8cb51d6a746fc4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cinemachineCameraPrefab: {fileID: 0}
 --- !u!1001 &446163973822249998
 PrefabInstance:
   m_ObjectHideFlags: 0
