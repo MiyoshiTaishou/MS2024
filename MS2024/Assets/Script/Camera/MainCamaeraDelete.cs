@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class MainCamaeraDelete : NetworkBehaviour
 {
-    [Rpc(RpcSources.All, RpcTargets.All)]
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     public void RPC_DisableMainCamera()
     {
         // ƒƒCƒ“ƒJƒƒ‰‚ğ–³Œø‰»

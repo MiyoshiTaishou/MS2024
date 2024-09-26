@@ -13,6 +13,7 @@ public class PlayerController : NetworkBehaviour
         if (Object.HasInputAuthority)
         {
             SetupCamera();
+            Camera.main.gameObject.SetActive(false);
         }
     }
 
