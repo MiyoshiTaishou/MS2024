@@ -20,12 +20,13 @@ public class AttackEffect : MonoBehaviour
         //必要なスクリプトを呼び出し
         damagedArea = GetComponent<DamagedArea>();
         attackCircle.SetActive(false);
+        PrepareAttack();
     }
     void Update() {
         //攻撃発生処理
-        if (Input.GetKeyDown(KeyCode.Space)){
-            PrepareAttack();
-        }
+        // if (Input.GetKeyDown(KeyCode.Space)){
+        //     PrepareAttack();
+        // }
         if(attackFlag && nowTime > delayEffect){
             ExecuteAttack();
         }

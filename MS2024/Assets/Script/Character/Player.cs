@@ -1,7 +1,7 @@
 using Fusion;
 using UnityEngine;
 
-enum FlashState{
+enum FLASH_STATE{
     ORIGINAL,
     DAMAGE
 }
@@ -28,7 +28,7 @@ public class Player : NetworkBehaviour
     private Color damageColor;
     private Color originalColor;
     private SpriteRenderer spriteRenderer;
-    private FlashState flashState; // スプライトのカラー
+    private FLASH_STATE flashState; // スプライトのカラー
     private float nowTime;
 
     private void Awake()
@@ -45,14 +45,14 @@ public class Player : NetworkBehaviour
     private void FixedUpdate(){
         // 点滅処理
         if(nowCount < flashCount){
-            if (nowTime * 10 >= flashInterval && flashState == FlashState.DAMAGE){
+            if (nowTime * 10 >= flashInterval && flashState == FLASH_STATE.DAMAGE){
                 spriteRenderer.color = damageColor;
-                flashState = FlashState.ORIGINAL;
+                flashState = FLASH_STATE.ORIGINAL;
                 nowTime = 0;
             }
-            else if (nowTime * 10 >= flashInterval && flashState == FlashState.ORIGINAL){
+            else if (nowTime * 10 >= flashInterval && flashState == FLASH_STATE.ORIGINAL){
                 spriteRenderer.color = originalColor;
-                flashState = FlashState.DAMAGE;
+                flashState = FLASH_STATE.DAMAGE;
                 nowTime = 0;
                 nowCount++;
             }
@@ -82,7 +82,7 @@ public class Player : NetworkBehaviour
     public void FlashReset(){
         if (nowCount == flashCount) {
             spriteRenderer.color = damageColor;
-            flashState = FlashState.ORIGINAL;
+            flashState = FLASH_STATE.ORIGINAL;
             nowTime = 0;
         }
         nowCount = 0;

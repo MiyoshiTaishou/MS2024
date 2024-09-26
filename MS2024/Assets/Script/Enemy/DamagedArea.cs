@@ -1,6 +1,12 @@
 using UnityEngine;
 using System.Collections.Generic;
 
+enum DAMAGE_TYPE{
+    ALL,
+    PLAYER_1,
+    PLAYER_2
+}
+
 [RequireComponent(typeof(Collider))]
 public class DamagedArea : MonoBehaviour
 {    
@@ -9,8 +15,10 @@ public class DamagedArea : MonoBehaviour
     public bool isActive;
     [Tooltip("単体ダメージか継続ダメージを決めます")]
     public bool isSustained;
+    [Tooltip("ダメージの与える対象を決めます ")]
+    [SerializeField]
+    private DAMAGE_TYPE damageType;
     [Tooltip("与えるダメージを決めます")]
-
     [SerializeField]
     private float damage;
     [Tooltip("継続ダメージの与える間隔を決めます(1/60秒間隔)")]
