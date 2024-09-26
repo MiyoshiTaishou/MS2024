@@ -12,12 +12,12 @@ public class PlayerAttack : NetworkBehaviour
 
     [SerializeField, ReadOnly] bool isAttack = false;
     [SerializeField, ReadOnly] int Count = 0;
-
+    [SerializeField, ReadOnly] bool isOwner=false;
 
 
     public void OnAttack(InputAction.CallbackContext context)
     {
-        if (context.started)
+        if (context.started&&isOwner)
         {
             Debug.Log("çUåÇ");
             AttackArea.SetActive(true);
@@ -39,7 +39,8 @@ public class PlayerAttack : NetworkBehaviour
 
     public override void FixedUpdateNetwork()
     {
-        if (Object.HasInputAuthority)
+        isOwner = Object.InputAuthority == Runner.LocalPlayer;
+        if (isOwner)
         {
             if (AttackArea.active == true)
             {
