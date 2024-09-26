@@ -14,6 +14,7 @@ public class PlayerParry : NetworkBehaviour
 
     //パリィの効果時間
     [SerializeField, Tooltip("パリィ効果時間")] float ParryActivetime = 3;
+    private float ParryActivetimeFrame = 0; //フレームに変換する
 
     //ヒットストップ時間
     [SerializeField, Tooltip("ヒットストップ時間")] private int HitStop = 30;
@@ -22,10 +23,13 @@ public class PlayerParry : NetworkBehaviour
     //ノックバック
     [SerializeField, Tooltip("ノックバック力")] float KnockbackPower = 50;
 
+    //敵からの攻撃を受けたか判定
+    public bool DamageReceive { get; set; } = false;
+
     //Camera Maincamera;
     //CinemaCharCamera cinemachar;
 
-    [SerializeField,ReadOnly] bool Parryflg = false;
+    [SerializeField, ReadOnly] bool Parryflg = false;
 
     HitStop hitStop;
 
@@ -33,7 +37,9 @@ public class PlayerParry : NetworkBehaviour
 
     Knockback back;
 
-    public float GetParryActiveTime() { return ParryActivetime / 60f; }
+    public float GetParryActiveTime() { return ParryActivetimeFrame; }
+
+    public void SetParryflg(bool flg) { Parryflg = flg; }
 
     public override void Spawned()
     {
@@ -45,21 +51,19 @@ public class PlayerParry : NetworkBehaviour
         for (int i = 0; i < transform.childCount; i++)
         {
             if (transform.GetChild(i).gameObject.name == "ParryArea")
-                ParryArea = transform.GetChild(0).gameObject;
+                ParryArea = transform.GetChild(i).gameObject;
         }
 
+        //フレームに直す
+        Debug.Log(Application.targetFrameRate);
         HitStopFrame = HitStop / 60;
+        ParryActivetimeFrame = ParryActivetime / 60;
+
         ParryArea.transform.localScale = scale;
-    }
-    // Start is called before the first frame update
-    void Start()
-    {
-       
     }
 
     public void Area()
     {
-        Debug.Log("パリィエリアが呼ばれました");
         ParryArea.SetActive(true);
         Parryflg = true;
     }
@@ -92,10 +96,11 @@ public class PlayerParry : NetworkBehaviour
         //cinemachar.CameraZoom(this.transform,5,0.5f);
         back.ApplyKnockback(transform.forward, KnockbackPower);
         ParryArea.GetComponent<ParryDisplay>().Init();
+        DamageReceive = false;
     }
 
     [Rpc(RpcSources.InputAuthority, RpcTargets.All)]
-    public void RPC_Update()
+    public void RPC_ParrySystem()
     {
         ParrySystem();
     }
@@ -109,9 +114,9 @@ public class PlayerParry : NetworkBehaviour
             {
 
                 //とりあえずキーボードで仮実装
-                if (Input.GetKeyDown(KeyCode.L))
+                if (Input.GetKeyDown(KeyCode.L) || DamageReceive)
                 {
-                    RPC_Update();
+                    RPC_ParrySystem();
                 }
             }
         }
