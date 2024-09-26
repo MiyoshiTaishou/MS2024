@@ -117,7 +117,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
             runner.Spawn(bossPrefab, bossSpawnPosition, Quaternion.identity);
 
             // 全プレイヤーにカメラを無効化させる
-            var cameraManager = avatar.GetComponent<MainCamaeraDelete>();
+            var cameraManager = GetComponent<MainCamaeraDelete>();
             cameraManager.RPC_DisableMainCamera();
         }
 
