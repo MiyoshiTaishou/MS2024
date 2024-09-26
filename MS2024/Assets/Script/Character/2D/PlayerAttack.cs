@@ -39,13 +39,16 @@ public class PlayerAttack : NetworkBehaviour
 
     public override void FixedUpdateNetwork()
     {
-        if (AttackArea.active == true)
+        if (Object.HasInputAuthority)
         {
-            Count--;
-        }
-        if (Count <= 0)
-        {
-            AttackArea.SetActive(false);
+            if (AttackArea.active == true)
+            {
+                Count--;
+            }
+            if (Count <= 0)
+            {
+                AttackArea.SetActive(false);
+            }
         }
     }
 }
