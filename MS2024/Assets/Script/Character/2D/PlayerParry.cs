@@ -22,8 +22,8 @@ public class PlayerParry : NetworkBehaviour
     //ノックバック
     [SerializeField, Tooltip("ノックバック力")] float KnockbackPower = 50;
 
-    Camera Maincamera;
-    CinemaCharCamera cinemachar;
+    //Camera Maincamera;
+    //CinemaCharCamera cinemachar;
 
     [SerializeField,ReadOnly] bool Parryflg = false;
 
@@ -38,8 +38,8 @@ public class PlayerParry : NetworkBehaviour
     public override void Spawned()
     {
         hitStop = GetComponent<HitStop>();
-        Maincamera = Camera.main;
-        cinemachar = Maincamera.GetComponent<CinemaCharCamera>();
+        //Maincamera = Camera.main;
+        //cinemachar = Maincamera.GetComponent<CinemaCharCamera>();
         back = GetComponent<Knockback>();
         Vector3 scale = new Vector3(parryradius, parryradius, parryradius);
         for (int i = 0; i < transform.childCount; i++)
@@ -89,7 +89,7 @@ public class PlayerParry : NetworkBehaviour
     public void ParrySystem()
     {
         hitStop.ApplyHitStop(HitStopFrame);
-        cinemachar.CameraZoom(this.transform,5,0.5f);
+        //cinemachar.CameraZoom(this.transform,5,0.5f);
         back.ApplyKnockback(transform.forward, KnockbackPower);
         ParryArea.GetComponent<ParryDisplay>().Init();
     }
