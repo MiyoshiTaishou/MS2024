@@ -9,7 +9,7 @@ using UnityEngine;
 public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 {
     [SerializeField]
-    private NetworkRunner networkRunnerPrefab;
+    private NetworkRunner networkRunnerPrefab;  
 
     private NetworkRunner networkRunner;
 
@@ -22,6 +22,8 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
     [SerializeField] private NetworkPrefabRef bossPrefab; // ボスのプレハブ
 
     [SerializeField, Header("オフラインにするかどうか")] private bool isLocal;
+
+    [SerializeField,Header("キャラクター追従カメラ")] private GameObject cameraPrefab; // カメラのプレハブ
 
     [SerializeField, Header("キャラ追従カメラ")] private CinemaCharCamera charCamera;
 
@@ -91,7 +93,16 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
         // プレイヤー（PlayerRef）とアバター（NetworkObject）を関連付ける
         runner.SetPlayerObject(player, avatar);
 
-        charCamera.SetTarget(avatar.transform);
+        // avatarからNetworkObjectを取得して、HasInputAuthorityを確認する
+        var networkObject = avatar.GetComponent<NetworkObject>();
+        //if (networkObject.HasInputAuthority)  // ローカルプレイヤーのみカメラを生成する
+        //{
+        //    var playerCamera = Instantiate(cameraPrefab);
+
+        //    // カメラのターゲットをプレイヤーに設定
+        //    charCamera = playerCamera.GetComponent<CinemaCharCamera>();
+        //    charCamera.SetTarget(avatar.transform);
+        //}
 
         // 現在のプレイヤー人数を取得
         int playerCount = runner.ActivePlayers.Count();
@@ -103,8 +114,8 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 
             // ボスの生成位置（例として固定位置）
             Vector3 bossSpawnPosition = new Vector3(0f, 5f, 0f);
-            runner.Spawn(bossPrefab, bossSpawnPosition, Quaternion.identity);
-        }
+            runner.Spawn(bossPrefab, bossSpawnPosition, Quaternion.identity);                  
+        }        
     }
 
     // セッションからプレイヤーが退出した時に呼ばれるコールバック

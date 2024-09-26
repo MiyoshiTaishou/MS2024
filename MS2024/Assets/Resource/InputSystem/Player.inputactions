@@ -49,6 +49,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Attack",
+                    "type": "Button",
+                    "id": "576d8bc8-8b24-4d6d-86d4-cc2d6a9e6be9",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -313,6 +322,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Parry",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fba57c8c-30d5-4262-a9ab-b6df9988b34f",
+                    "path": "<XInputController>/buttonWest",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Attack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
