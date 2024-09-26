@@ -119,9 +119,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
             // 全プレイヤーにカメラを無効化させる
             var cameraManager = GetComponent<MainCamaeraDelete>();
             cameraManager.RPC_DisableMainCamera();
-        }
-
-        Camera.main.gameObject.SetActive(false);
+        }        
     }
 
     // セッションからプレイヤーが退出した時に呼ばれるコールバック
