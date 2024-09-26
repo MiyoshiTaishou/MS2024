@@ -116,6 +116,8 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
             Vector3 bossSpawnPosition = new Vector3(0f, 5f, 0f);
             runner.Spawn(bossPrefab, bossSpawnPosition, Quaternion.identity);
         }
+
+        Camera.main.gameObject.SetActive(false);
     }
 
     // セッションからプレイヤーが退出した時に呼ばれるコールバック
