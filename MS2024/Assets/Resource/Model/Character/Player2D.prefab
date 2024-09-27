@@ -15,6 +15,9 @@ GameObject:
   - component: {fileID: 8458544684543772981}
   - component: {fileID: 3051068443843455605}
   - component: {fileID: -8286472982996973084}
+  - component: {fileID: 8098995252397189171}
+  - component: {fileID: -4670425713865945590}
+  - component: {fileID: -1825052066718410784}
   m_Layer: 0
   m_Name: Player2D
   m_TagString: Untagged
@@ -211,7 +214,7 @@ MonoBehaviour:
     m_ActionName: Player/Jump[/XInputControllerWindows/buttonSouth]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: -4670425713865945590}
         m_TargetAssemblyTypeName: PlayerParry, Assembly-CSharp
         m_MethodName: ParryPress
         m_Mode: 0
@@ -304,6 +307,48 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3661d2fe1e2347a44bf608c3e0e678f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 5
+--- !u!114 &8098995252397189171
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3456682398586312846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cd2b2a8a97c04c42a299d9607bbca2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-4670425713865945590
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3456682398586312846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84ddef77695fed84da1507564b30a018, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parryradius: 3
+  ParryActivetime: 30
+  HitStop: 3
+  KnockbackPower: 50
+  Parryflg: 0
+--- !u!114 &-1825052066718410784
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3456682398586312846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7425950512706134da9a95bee779b83d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &4476810163144067245
@@ -401,7 +446,7 @@ PrefabInstance:
     - target: {fileID: 1356945736595564141, guid: 762eecb810ac90748bd39ac72d56a59e,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4532175950711278161, guid: 762eecb810ac90748bd39ac72d56a59e,
         type: 3}
