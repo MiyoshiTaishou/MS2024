@@ -13,13 +13,23 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField, Tooltip("UŒ‚‚Ì‘±ƒtƒŒ[ƒ€")] int AttackActiveFrame = 50;
 
     //UŒ‚‚Ìd’¼ŠÔ
-    [SerializeField,Tooltip("UŒ‚‚Ìd’¼ƒtƒŒ[ƒ€")] int AttackRecoveryFrame = 100;
+    [SerializeField, Tooltip("UŒ‚‚Ìd’¼ƒtƒŒ[ƒ€")] int AttackRecoveryFrame = 100;
 
     [SerializeField, ReadOnly] bool isAttack = false;
     [SerializeField, ReadOnly] int Count = 0;
 
-    [SerializeField,ReadOnly,Tooltip("‰½˜AŒ‚–Ú")] int nHit = 0;
-
+    [ReadOnly,Tooltip("‰½˜AŒ‚–Ú")] static int nHit = 0;
+    [SerializeField, Tooltip("Å‘å˜AŒ‚”")] int nMaxHit = 2;
+    public int GetHit() {return nHit;}
+    public void AddHit()
+    {
+        nHit++;
+        if(nHit>nMaxHit)
+        {
+            nHit = 0;
+        }
+        Debug.Log("˜AŒ‚”:" + nHit);
+    }
     enum AttackState
     {
         None,Startup,Active,Recovery
@@ -36,11 +46,17 @@ public class PlayerAttack : MonoBehaviour
             state = AttackState.Startup;
             isAttack = true;
         }
+        else if (context.started && nHit==2) 
+        {
+            Debug.Log("˜AŒgUŒ‚");
+            Count = AttackStartupFrame;
+            state = AttackState.Startup;
+            isAttack = true;
+        }
     }
     // Start is called before the first frame update
     void Start()
     {
-        
     }
 
     // Update is called once per frame

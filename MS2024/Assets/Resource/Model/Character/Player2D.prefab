@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: -4670425713865945590}
   - component: {fileID: -1825052066718410784}
   - component: {fileID: 258535163928245900}
+  - component: {fileID: 1868253667153895889}
   m_Layer: 0
   m_Name: Player2D
   m_TagString: Untagged
@@ -370,7 +371,23 @@ MonoBehaviour:
   AttackRecoveryFrame: 100
   isAttack: 0
   Count: 0
-  nHit: 0
+  nMaxHit: 3
+--- !u!114 &1868253667153895889
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3456682398586312846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17a0c44982c24c44da937a074b1fdeab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  input: {fileID: 0}
+  moveSpeed: 5
+  moveSpeedAcc: 1
+  maxSpeed: 10
 --- !u!1001 &4476810163144067245
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -477,6 +494,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e03cee35b1b10e49a8efeaf6594d6c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 3456682398586312846}
 --- !u!1001 &8993024079399442987
 PrefabInstance:
   m_ObjectHideFlags: 0
