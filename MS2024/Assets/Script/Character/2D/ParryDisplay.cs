@@ -12,6 +12,7 @@ public class ParryDisplay : MonoBehaviour
     private void Start()
     {
         player = transform.parent.GetComponent<PlayerParry>();
+        Init();
     }
 
     public void Init()

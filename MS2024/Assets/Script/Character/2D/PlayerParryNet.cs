@@ -5,7 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerParry : MonoBehaviour
+public class PlayerParryNet : NetworkBehaviour
 {
     //パリィ範囲
     private GameObject ParryArea;
@@ -13,11 +13,11 @@ public class PlayerParry : MonoBehaviour
     [SerializeField, Tooltip("パリィ範囲")] float parryradius = 3;
 
     //パリィの効果時間
-    [SerializeField, Tooltip("パリィ効果時間")] float ParryActivetime = 30;
+    [SerializeField, Tooltip("パリィ効果時間")] float ParryActivetime = 3;
     private float ParryActivetimeFrame = 0; //フレームに変換する
 
     //ヒットストップ時間
-    [SerializeField, Tooltip("ヒットストップ時間")] private int HitStop = 3;
+    [SerializeField, Tooltip("ヒットストップ時間")] private int HitStop = 30;
     private float HitStopFrame = 0; //フレームに変換する
 
     //ノックバック
@@ -37,14 +37,19 @@ public class PlayerParry : MonoBehaviour
 
     Knockback back;
 
+    private NetworkRunner runner;
+
     //表示時間のゲッター
     public float GetParryActiveTime() { return ParryActivetimeFrame; }
 
     //パリィ状態かどうか
     public void SetParryflg(bool flg) { Parryflg = flg; }
 
-    private void Start()
+    public override void Spawned()
     {
+        // NetworkRunnerのインスタンスを取得
+        runner = FindObjectOfType<NetworkRunner>();
+
         hitStop = GetComponent<HitStop>();
         //Maincamera = Camera.main;
         //cinemachar = Maincamera.GetComponent<CinemaCharCamera>();
@@ -70,6 +75,12 @@ public class PlayerParry : MonoBehaviour
         Parryflg = true;
     }
 
+    [Rpc(RpcSources.InputAuthority, RpcTargets.All)]
+    public void RPC_ParryArea()
+    {
+        Area();
+    }
+
     /// <summary>
     /// コントローラー入力
     /// </summary>
@@ -78,7 +89,7 @@ public class PlayerParry : MonoBehaviour
     {
         if (context.started)
         {
-            Area();
+            RPC_ParryArea();
         }
 
     }
@@ -88,7 +99,6 @@ public class PlayerParry : MonoBehaviour
     /// </summary>
     public void ParrySystem()
     {
-        Debug.Log("パリィ");
         hitStop.ApplyHitStop(HitStopFrame);
         //cinemachar.CameraZoom(this.transform,5,0.5f);
         back.ApplyKnockback(transform.forward, KnockbackPower);
@@ -96,16 +106,42 @@ public class PlayerParry : MonoBehaviour
         DamageReceive = false;
     }
 
-    public void Update()
+    [Rpc(RpcSources.InputAuthority, RpcTargets.All)]
+    public void RPC_ParrySystem()
+    {
+        ParrySystem();
+    }
+
+    public override void FixedUpdateNetwork()
     {
 
-        if (ParryArea.activeSelf)
+        if (runner != null)
         {
-            //とりあえずキーボードで仮実装
-            if (Input.GetKeyDown(KeyCode.L) || DamageReceive)
+            Debug.Log("This instance is the Host (Server).");
+            // ホスト用の処理
+            if (runner.IsServer)
             {
-                ParrySystem();
+                if (Object.HasInputAuthority)
+                {
+                    if (ParryArea.activeSelf)
+                    {
+                        //とりあえずキーボードで仮実装
+                        if (Input.GetKeyDown(KeyCode.L) || DamageReceive)
+                        {
+                            RPC_ParrySystem();
+                        }
+                    }
+                }
             }
+            else if (runner.IsClient)
+            {
+                Debug.Log("This instance is a Client.");
+                // クライアント用の処理
+            }
+        }
+        else
+        {
+            Debug.LogError("NetworkRunner not found in the scene!");
         }
 
 
