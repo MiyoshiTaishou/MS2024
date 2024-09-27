@@ -7,11 +7,15 @@ enum BOSS_TURN{
     ATTACK,
 }
 
+// struct PlayerObj {
+//     GameObject playerObj;
+//     float distance;
+// }
+
 public class BossAI : MonoBehaviour
 {
     [Header("移動設定")]
     [Tooltip("移動速度を決めます")]
-
     [SerializeField]
     private float moveSpeed;
     [Header("攻撃設定")]
@@ -22,8 +26,8 @@ public class BossAI : MonoBehaviour
     [SerializeField]
     private int skillCount;
     private BOSS_TURN bossTurn;
-    private GameObject player;
-    private List<GameObject> foundObjects = new List<GameObject>();
+    private List<GameObject> playerObjects = new List<GameObject>();
+    private GameObject targetPlayer;
     private string targetTag = "Player";
 
     private void Start(){
@@ -41,10 +45,19 @@ public class BossAI : MonoBehaviour
         // Debug.log(pos);
         // float angle = skillCount / 360;
         float distance;
+        foreach (GameObject obj in playerObjects) {
+            // 距離を計算
+            Vector3 pointA = transform.position; // 自分の位置
+            Vector3 pointB = obj.transform.position; // ターゲットの位置
+            distance = (pointB - pointA).magnitude; // ベクトルの長さで距離を計算
+
+            // デバッグ用の線を描画
+            Debug.DrawLine(pointA, pointB, Color.red); // 自分からターゲットへ赤い線
+            Debug.Log("Distance: " + distance);
+        }
+
         switch (bossTurn){
             case BOSS_TURN.MOVE:
-                distance = Vector3.Distance(transform.position, transform.position);
-                Debug.Log("Distance: " + distance);
                 break;
             case BOSS_TURN.ATTACK:
                 Debug.Log("Attack");
@@ -56,10 +69,11 @@ public class BossAI : MonoBehaviour
     }
 
     private void PlayerSearch() {
+        Debug.LogError("プレイヤーサーチ");
         GameObject[] allObjects = GameObject.FindGameObjectsWithTag("Player");
-        foundObjects.Clear();
+        playerObjects.Clear();
         foreach (GameObject obj in allObjects) {
-            foundObjects.Add(obj);
+            playerObjects.Add(obj);
         }
     }
 }
