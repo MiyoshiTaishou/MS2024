@@ -21,12 +21,7 @@ public class PlayerIdleState : IState
 
     public void Update()
     {
-        Vector2 move = character.input.actions["Move"].ReadValue<Vector2>();
-
-        if (move.x != 0.0f && move.y != 0.0f)
-        {
-            character.ChangeState(new PlayerMoveState(character));
-        }
+        
     }
 
     public void Exit()
