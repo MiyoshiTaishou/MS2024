@@ -32,6 +32,7 @@ public class PlayerState : MonoBehaviour
     {
         //現在の状態のUpdate処理を実行
         currentState.Update();
+        ChangeStateUpdate();
     }
 
     /// <summary>
@@ -49,5 +50,26 @@ public class PlayerState : MonoBehaviour
     public void SetAnimation(string animationName)
     {
         // アニメーションのセット処理
+    }
+
+    public void ChangeStateUpdate()
+    {
+        if(currentState is PlayerIdleState)
+        {
+            Vector2 moveInput = input.actions["Move"].ReadValue<Vector2>();
+            if(moveInput != Vector2.zero)
+            {
+                ChangeState(new PlayerMoveState(this));
+            }
+        }
+
+        if (currentState is PlayerMoveState)
+        {
+            Vector2 moveInput = input.actions["Move"].ReadValue<Vector2>();
+            if (moveInput == Vector2.zero)
+            {
+                ChangeState(new PlayerIdleState(this));
+            }
+        }
     }
 }

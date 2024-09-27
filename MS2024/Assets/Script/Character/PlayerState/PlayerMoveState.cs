@@ -20,7 +20,7 @@ public class PlayerMoveState : IState
     {
         // キャラクターが移動状態に入るときの処理
         //character.SetAnimation("Idle");
-        Debug.Log("移動処理に入ります");
+        Debug.Log("移動処理に入ります");        
     }
 
     public void Update()
@@ -36,12 +36,7 @@ public class PlayerMoveState : IState
         currentSpeed = Mathf.Min(currentSpeed, character.maxSpeed);
 
         // 移動を適用
-        character.transform.Translate(move * currentSpeed * Time.deltaTime, Space.World);
-
-        if(moveInput.x == 0.0f && moveInput.y == 0.0f)
-        {
-            character.ChangeState(new PlayerIdleState(character));
-        }
+        character.transform.Translate(move * currentSpeed * Time.deltaTime, Space.World);     
     }
 
     public void Exit()
