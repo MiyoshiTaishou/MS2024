@@ -2,27 +2,34 @@ using UnityEngine.InputSystem;
 using UnityEngine;
 using Fusion;
 
-public class PlayerAttack : NetworkBehaviour
+public class PlayerAttack : MonoBehaviour
 {
-    //ƒpƒŠƒB”ÍˆÍ
+    //UŒ‚”ÍˆÍ
     [SerializeField, Tooltip("ƒpƒŠƒB‰Â‹‰»—p")] private GameObject AttackArea;
 
-    //ƒpƒŠƒB‚ÌŒø‰ÊŠÔ
-    [SerializeField, Tooltip("UŒ‚‚Ì‘±ƒtƒŒ[ƒ€")] int ParryActivetime = 100;
+    //UŒ‚‚ª”­¶‚·‚é‚Ü‚Å‚ÌŠÔ
+    [SerializeField, Tooltip("UŒ‚‚Ì”­¶ƒtƒŒ[ƒ€")] int AttackStartupFrame = 5;
+
+    //UŒ‚‚ÌŒø‰ÊŠÔ
+    [SerializeField, Tooltip("UŒ‚‚Ì‘±ƒtƒŒ[ƒ€")] int AttackActiveFrame = 50;
+
+    //UŒ‚‚Ìd’¼ŠÔ
+    [SerializeField,Tooltip("UŒ‚‚Ìd’¼ƒtƒŒ[ƒ€")] int AttackRecoveryFrame = 10;
 
     [SerializeField, ReadOnly] bool isAttack = false;
     [SerializeField, ReadOnly] int Count = 0;
     [SerializeField, ReadOnly] bool isOwner=false;
 
+    [SerializeField,ReadOnly,Tooltip("‰½˜AŒ‚–Ú")] int nHit = 0;
 
     public void OnAttack(InputAction.CallbackContext context)
     {
-        if (context.started&&isOwner)
+        if (context.started && isOwner)
         {
             Debug.Log("UŒ‚");
             AttackArea.SetActive(true);
             isAttack = true;
-            Count = ParryActivetime;
+            Count = AttackActiveFrame;
         }
     }
     // Start is called before the first frame update
@@ -34,22 +41,13 @@ public class PlayerAttack : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-
-    }
-
-    public override void FixedUpdateNetwork()
-    {
-        isOwner = Object.InputAuthority == Runner.LocalPlayer;
-        if (isOwner)
+        if (AttackArea.active == true)
         {
-            if (AttackArea.active == true)
-            {
-                Count--;
-            }
-            if (Count <= 0)
-            {
-                AttackArea.SetActive(false);
-            }
+            Count--;
+        }
+        if (Count <= 0)
+        {
+            AttackArea.SetActive(false);
         }
     }
 }
