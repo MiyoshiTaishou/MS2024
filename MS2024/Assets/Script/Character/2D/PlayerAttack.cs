@@ -1,6 +1,5 @@
 using UnityEngine.InputSystem;
 using UnityEngine;
-using Fusion;
 
 public class PlayerAttack : MonoBehaviour
 {
@@ -18,13 +17,12 @@ public class PlayerAttack : MonoBehaviour
 
     [SerializeField, ReadOnly] bool isAttack = false;
     [SerializeField, ReadOnly] int Count = 0;
-    [SerializeField, ReadOnly] bool isOwner=false;
 
     [SerializeField,ReadOnly,Tooltip("âΩòAåÇñ⁄")] int nHit = 0;
 
     public void OnAttack(InputAction.CallbackContext context)
     {
-        if (context.started && isOwner)
+        if (context.started)
         {
             Debug.Log("çUåÇ");
             AttackArea.SetActive(true);
