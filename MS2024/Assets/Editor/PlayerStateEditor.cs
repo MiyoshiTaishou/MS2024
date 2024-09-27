@@ -1,0 +1,29 @@
+using UnityEngine;
+using UnityEditor;
+
+[CustomEditor(typeof(PlayerState))]
+public class PlayerStateEditor : Editor
+{
+    // フォールドアウトの状態を保持する変数   
+    private bool showMovementSettings = true;
+
+    public override void OnInspectorGUI()
+    {
+        // キャスト対象のスクリプト
+        PlayerState playerState = (PlayerState)target;
+       
+        // 折りたたみ可能な「Movement設定」
+        showMovementSettings = EditorGUILayout.Foldout(showMovementSettings, "プレイヤーの移動関連の項目");
+        if (showMovementSettings)
+        {
+            EditorGUI.indentLevel++;
+            playerState.moveSpeed = EditorGUILayout.FloatField("移動速度", playerState.moveSpeed);
+            playerState.moveSpeedAcc = EditorGUILayout.FloatField("移動加速度", playerState.moveSpeedAcc);
+            playerState.maxSpeed = EditorGUILayout.FloatField("限界速度", playerState.maxSpeed);
+            EditorGUI.indentLevel--;
+        }
+
+        // デフォルトのインスペクター部分を表示
+        DrawDefaultInspector();
+    }
+}
