@@ -122,7 +122,6 @@ MonoBehaviour:
   - {fileID: 140743395096327777}
   - {fileID: 3641264247566183741}
   - {fileID: 2947428719551211756}
-  - {fileID: 4439219941416633024}
   - {fileID: -690463178033389914}
 --- !u!114 &8129915170982835739
 MonoBehaviour:
@@ -457,7 +456,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AttackArea: {fileID: 5593873177869133035}
-  ParryActivetime: 300
+  AttackStartupFrame: 5
+  AttackActiveFrame: 50
+  AttackRecoveryFrame: 10
+  isAttack: 0
+  Count: 0
+  isOwner: 0
+  nHit: 0
 --- !u!114 &-690463178033389914
 MonoBehaviour:
   m_ObjectHideFlags: 0
