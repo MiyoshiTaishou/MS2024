@@ -275,7 +275,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 80
   m_CollisionDetection: 0
 --- !u!65 &3051068443843455605
 BoxCollider:
@@ -370,7 +370,6 @@ MonoBehaviour:
   AttackRecoveryFrame: 10
   isAttack: 0
   Count: 0
-  isOwner: 0
   nHit: 0
 --- !u!1001 &4476810163144067245
 PrefabInstance:
@@ -429,6 +428,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7254391033865245769, guid: 0a190f91198c3e74ebf03b560ee70857,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8323141511234858054, guid: 0a190f91198c3e74ebf03b560ee70857,
         type: 3}
