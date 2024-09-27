@@ -16,7 +16,6 @@ GameObject:
   - component: {fileID: 3051068443843455605}
   - component: {fileID: -8286472982996973084}
   - component: {fileID: 8098995252397189171}
-  - component: {fileID: -4670425713865945590}
   - component: {fileID: -1825052066718410784}
   - component: {fileID: 258535163928245900}
   - component: {fileID: 1868253667153895889}
@@ -216,7 +215,7 @@ MonoBehaviour:
     m_ActionName: Player/Jump[/XInputControllerWindows/buttonSouth]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: -4670425713865945590}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PlayerParry, Assembly-CSharp
         m_MethodName: ParryPress
         m_Mode: 0
@@ -324,23 +323,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cd2b2a8a97c04c42a299d9607bbca2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &-4670425713865945590
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3456682398586312846}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 84ddef77695fed84da1507564b30a018, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  parryradius: 3
-  ParryActivetime: 30
-  HitStop: 3
-  KnockbackPower: 50
-  Parryflg: 0
 --- !u!114 &-1825052066718410784
 MonoBehaviour:
   m_ObjectHideFlags: 0
