@@ -26,14 +26,14 @@ public class PlayerParry : MonoBehaviour
     //敵からの攻撃を受けたか判定
     public bool DamageReceive { get; set; } = false;
 
-    //Camera Maincamera;
-    //CinemaCharCamera cinemachar;
+    Camera Maincamera;
+    CinemaCharCamera cinemachar;
 
     [SerializeField, ReadOnly] bool Parryflg = false;
 
     HitStop hitStop;
 
-    [Networked] private bool PressKey { get; set; } = false;
+    //private bool PressKey { get; set; } = false;
 
     Knockback back;
 
@@ -46,8 +46,8 @@ public class PlayerParry : MonoBehaviour
     private void Start()
     {
         hitStop = GetComponent<HitStop>();
-        //Maincamera = Camera.main;
-        //cinemachar = Maincamera.GetComponent<CinemaCharCamera>();
+        Maincamera = Camera.main;
+        cinemachar = Maincamera.GetComponent<CinemaCharCamera>();
         back = GetComponent<Knockback>();
         Vector3 scale = new Vector3(parryradius, parryradius, parryradius);
         for (int i = 0; i < transform.childCount; i++)
@@ -83,6 +83,16 @@ public class PlayerParry : MonoBehaviour
 
     }
 
+    //public void ParryHit(InputAction.CallbackContext context)
+    //{
+
+    //    if (ParryArea.activeSelf)
+    //    {
+    //        ParrySystem();
+    //    }
+
+    //}
+
     /// <summary>
     /// パリィ成功時の処理
     /// </summary>
@@ -90,7 +100,7 @@ public class PlayerParry : MonoBehaviour
     {
         Debug.Log("パリィ");
         hitStop.ApplyHitStop(HitStopFrame);
-        //cinemachar.CameraZoom(this.transform,5,0.5f);
+       // cinemachar.CameraZoom(this.transform,5,0.5f);
         back.ApplyKnockback(transform.forward, KnockbackPower);
         ParryArea.GetComponent<ParryDisplay>().Init();
         DamageReceive = false;
