@@ -150,8 +150,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _HP: 20
   flashCount: 5
-  flashInterval: 1
+  flashInterval: 0.2
   damageColor: {r: 1, g: 0, b: 0, a: 1}
+  isHost: 0
 --- !u!114 &2722652368496634209
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -458,6 +459,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AttackArea: {fileID: 5593873177869133035}
   ParryActivetime: 300
+  isAttack: 0
+  Count: 0
+  isOwner: 0
 --- !u!114 &-690463178033389914
 MonoBehaviour:
   m_ObjectHideFlags: 0

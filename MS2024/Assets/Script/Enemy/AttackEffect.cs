@@ -11,7 +11,8 @@ public class AttackEffect : MonoBehaviour
     private ParticleSystem attackEffect;
     [Tooltip("攻撃発生までの遅延時間を決めます")]
     [SerializeField]
-    private float delayEffect;
+    public float delayEffect;
+
     private bool attackFlag;
     private float nowTime;
     private DamagedArea damagedArea;
@@ -35,6 +36,7 @@ public class AttackEffect : MonoBehaviour
         //攻撃判定を削除
         if (!attackEffect.isPlaying && damagedArea != null){
             damagedArea.SetActive(false);
+            // Destroy(gameObject);
         }
     }
     

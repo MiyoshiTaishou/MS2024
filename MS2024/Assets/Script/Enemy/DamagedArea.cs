@@ -21,7 +21,7 @@ public class DamagedArea : MonoBehaviour
     [Tooltip("与えるダメージを決めます")]
     [SerializeField]
     private float damage;
-    [Tooltip("継続ダメージの与える間隔を決めます(1/60秒間隔)")]
+    [Tooltip("継続ダメージの与える間隔を決めます(1/60秒間隔)\n今後廃止予定")]
     [SerializeField]
     private int coolDown;
 
@@ -70,6 +70,9 @@ public class DamagedArea : MonoBehaviour
         //継続ダメージを行う処理
         if (isActive && isSustained){
             if (nowTime >= coolDown){
+                if((damageType == DAMAGE_TYPE.PLAYER_1 && !player.isHost) ||
+                    (damageType == DAMAGE_TYPE.PLAYER_2 && player.isHost))
+                    return;
                 player.HP -= damage;
                 player.FlashReset();
                 playerCooldowns[player] = 0f;
@@ -80,6 +83,9 @@ public class DamagedArea : MonoBehaviour
         //単体ダメージを行う処理
         else if (isActive && playerActiveStates[player]){
             if (playerActiveStates[player]){
+                if((damageType == DAMAGE_TYPE.PLAYER_1 && !player.isHost) ||
+                    (damageType == DAMAGE_TYPE.PLAYER_2 && player.isHost))
+                    return;
                 player.HP -= damage;
                 player.FlashReset();
                 playerActiveStates[player] = false;

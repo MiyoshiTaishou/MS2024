@@ -88,6 +88,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isActive: 1
   isSustained: 0
+  damageType: 0
   damage: 5
   coolDown: 0
 --- !u!1001 &4259750070876017726
@@ -187,6 +188,16 @@ PrefabInstance:
     - target: {fileID: 9253828177365408, guid: a00fe416bbf5f0c439ee23f3284f0a93, type: 3}
       propertyPath: m_Name
       value: FirePillar
+      objectReference: {fileID: 0}
+    - target: {fileID: 1003366273652865627, guid: a00fe416bbf5f0c439ee23f3284f0a93,
+        type: 3}
+      propertyPath: InitialModule.startSpeed.scalar
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 1003366273652865627, guid: a00fe416bbf5f0c439ee23f3284f0a93,
+        type: 3}
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1249962988011069384, guid: a00fe416bbf5f0c439ee23f3284f0a93,
         type: 3}
