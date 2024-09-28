@@ -6,6 +6,7 @@ public class PlayerStateEditor : Editor
 {
     // フォールドアウトの状態を保持する変数   
     private bool showMovementSettings = true;
+    private bool showJumpSettings = true;
 
     public override void OnInspectorGUI()
     {
@@ -21,6 +22,14 @@ public class PlayerStateEditor : Editor
             playerState.moveSpeedAcc = EditorGUILayout.FloatField("移動加速度", playerState.moveSpeedAcc);
             playerState.maxSpeed = EditorGUILayout.FloatField("限界速度", playerState.maxSpeed);
             EditorGUI.indentLevel--;
+        }
+
+        showJumpSettings = EditorGUILayout.Foldout(showJumpSettings, "プレイヤーのジャンプ関連の項目");
+        if (showJumpSettings)
+        {
+            EditorGUI.indentLevel++;
+            playerState.jumpForce = EditorGUILayout.FloatField("ジャンプの力", playerState.jumpForce);
+            playerState.fallMultiplier = EditorGUILayout.FloatField("落下速度", playerState.fallMultiplier);
         }
 
         // デフォルトのインスペクター部分を表示

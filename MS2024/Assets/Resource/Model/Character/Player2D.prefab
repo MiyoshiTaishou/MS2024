@@ -370,6 +370,8 @@ MonoBehaviour:
   moveSpeed: 5
   moveSpeedAcc: 1
   maxSpeed: 10
+  jumpForce: 5
+  fallMultiplier: 2.5
 --- !u!1001 &4476810163144067245
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -493,7 +495,7 @@ PrefabInstance:
     - target: {fileID: 1356945736595564141, guid: 762eecb810ac90748bd39ac72d56a59e,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4532175950711278161, guid: 762eecb810ac90748bd39ac72d56a59e,
         type: 3}

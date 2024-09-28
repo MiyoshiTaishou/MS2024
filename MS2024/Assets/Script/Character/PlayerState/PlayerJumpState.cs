@@ -2,27 +2,33 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMoveState : IState
+/// <summary>
+/// ジャンプ関連の処理
+/// </summary>
+public class PlayerJumpState : IState
 {
-    private PlayerState character;
-    private Vector2 moveInput;   
-    private Rigidbody rb;        // Rigidbody参照
+    private PlayerState character;    
+    private Rigidbody rb;
+    private Vector2 moveInput;  
 
-    public PlayerMoveState(PlayerState character)
+    public PlayerJumpState(PlayerState character)
     {
         this.character = character;
-        // キャラクターの Rigidbody を取得
-        rb = character.GetComponent<Rigidbody>();
     }
 
     public void Enter()
     {
-        // キャラクターが移動状態に入るときの処理
-        Debug.Log("移動処理に入ります");
+        rb = character.GetComponent<Rigidbody>();
+        rb.velocity = new Vector3(rb.velocity.x, character.jumpForce, rb.velocity.z);
     }
 
-    public void Update()
+    public void Exit()
     {
+        
+    }  
+
+    public void Update()
+    {      
         // 入力から移動ベクトルを取得
         moveInput = character.input.actions["Move"].ReadValue<Vector2>();
         Vector3 move = new Vector3(moveInput.x, 0, moveInput.y).normalized;
@@ -37,10 +43,16 @@ public class PlayerMoveState : IState
         Vector3 velocity = move * character.currentSpeed;
         velocity.y = rb.velocity.y;  // Y軸の速度は変更しない
         rb.velocity = velocity;      // Rigidbody の速度を設定
-    }
 
-    public void Exit()
-    {
-        // Idle状態を抜けるときの処理
-    }
+        //落下処理
+        if (rb.velocity.y < 0)
+        {
+            rb.velocity += Vector3.up * Physics.gravity.y * (character.fallMultiplier - 1) * Time.deltaTime;
+        }
+
+        if(rb.velocity.y == 0)
+        {
+            character.ChangeState(new PlayerIdleState(character));
+        }
+    }   
 }
