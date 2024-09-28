@@ -17,6 +17,12 @@ public class PlayerState : MonoBehaviour
     [HideInInspector] public float moveSpeedAcc = 1.0f;
     [HideInInspector] public float maxSpeed = 10.0f;
 
+    //ジャンプ関連
+    [HideInInspector] public float jumpForce = 5.0f;
+    [HideInInspector] public float fallMultiplier = 2.5f; // 落下速度の強化
+
+    [HideInInspector] public float currentSpeed = 0.0f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -24,7 +30,10 @@ public class PlayerState : MonoBehaviour
 
         // 初期状態を移動状態にセット (他の状態にする場合は変更)
         currentState = new PlayerIdleState(this);
-        currentState.Enter();        
+        currentState.Enter();
+
+        // ジャンプボタンが押された瞬間の処理
+        input.actions["Jump"].performed += OnJumpPerformed;
     }
 
     // Update is called once per frame
@@ -52,15 +61,24 @@ public class PlayerState : MonoBehaviour
         // アニメーションのセット処理
     }
 
+    private void OnJumpPerformed(InputAction.CallbackContext context)
+    {
+        // 状態がIdleまたはMoveの場合にジャンプへの遷移を行う
+        if (currentState is PlayerIdleState || currentState is PlayerMoveState)
+        {
+            ChangeState(new PlayerJumpState(this));
+        }
+    }
+
     public void ChangeStateUpdate()
     {
-        if(currentState is PlayerIdleState)
+        if (currentState is PlayerIdleState)
         {
             Vector2 moveInput = input.actions["Move"].ReadValue<Vector2>();
-            if(moveInput != Vector2.zero)
+            if (moveInput != Vector2.zero)
             {
                 ChangeState(new PlayerMoveState(this));
-            }
+            }        
         }
 
         if (currentState is PlayerMoveState)
@@ -69,7 +87,8 @@ public class PlayerState : MonoBehaviour
             if (moveInput == Vector2.zero)
             {
                 ChangeState(new PlayerIdleState(this));
-            }
+            }           
         }
     }
+
 }
