@@ -38,7 +38,7 @@
                     "id": "9a8d95db-678d-4db8-8848-51b363926db9",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "Press",
+                    "interactions": "",
                     "initialStateCheck": false
                 },
                 {
@@ -64,7 +64,7 @@
                 {
                     "name": "",
                     "id": "978bfe49-cc26-4a3d-ab7b-7d7a29327403",
-                    "path": "<Gamepad>/leftStick",
+                    "path": "<DualSenseGamepadHID>/leftStick",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Gamepad",
@@ -329,6 +329,17 @@
                     "name": "",
                     "id": "fba57c8c-30d5-4262-a9ab-b6df9988b34f",
                     "path": "<XInputController>/buttonWest",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e6eb5370-23a3-4297-b8cf-ebe54bdcf31d",
+                    "path": "<SwitchProControllerHID>/buttonWest",
                     "interactions": "Press",
                     "processors": "",
                     "groups": "",

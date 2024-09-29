@@ -1,55 +1,98 @@
 using UnityEngine.InputSystem;
 using UnityEngine;
-using Fusion;
 
-public class PlayerAttack : NetworkBehaviour
+public class PlayerAttack : MonoBehaviour
 {
-    //ÉpÉäÉBîÕàÕ
+    //çUåÇîÕàÕ
     [SerializeField, Tooltip("ÉpÉäÉBâ¬éãâªóp")] private GameObject AttackArea;
 
-    //ÉpÉäÉBÇÃå¯â éûä‘
-    [SerializeField, Tooltip("çUåÇÇÃéùë±ÉtÉåÅ[ÉÄ")] int ParryActivetime = 100;
+    //çUåÇÇ™î≠ê∂Ç∑ÇÈÇ‹Ç≈ÇÃéûä‘
+    [SerializeField, Tooltip("çUåÇÇÃî≠ê∂ÉtÉåÅ[ÉÄ")] int AttackStartupFrame = 25;
+
+    //çUåÇÇÃå¯â éûä‘
+    [SerializeField, Tooltip("çUåÇÇÃéùë±ÉtÉåÅ[ÉÄ")] int AttackActiveFrame = 50;
+
+    //çUåÇÇÃçdíºéûä‘
+    [SerializeField, Tooltip("çUåÇÇÃçdíºÉtÉåÅ[ÉÄ")] int AttackRecoveryFrame = 100;
 
     [SerializeField, ReadOnly] bool isAttack = false;
     [SerializeField, ReadOnly] int Count = 0;
-    [SerializeField, ReadOnly] bool isOwner=false;
 
+    [ReadOnly,Tooltip("âΩòAåÇñ⁄")] static int nHit = 0;
+    [SerializeField, Tooltip("ç≈ëÂòAåÇêî")] int nMaxHit = 2;
+    public int GetHit() {return nHit;}
+    public void AddHit()
+    {
+        nHit++;
+        if(nHit>nMaxHit)
+        {
+            nHit = 0;
+        }
+        Debug.Log("òAåÇêî:" + nHit);
+    }
+    enum AttackState
+    {
+        None,Startup,Active,Recovery
+    }
+
+    AttackState state=AttackState.None;
 
     public void OnAttack(InputAction.CallbackContext context)
     {
-        if (context.started&&isOwner)
+        if (context.started && isAttack ==false)
         {
             Debug.Log("çUåÇ");
-            AttackArea.SetActive(true);
+            Count = AttackStartupFrame;
+            state = AttackState.Startup;
             isAttack = true;
-            Count = ParryActivetime;
+        }
+        else if (context.started && nHit==2) 
+        {
+            Debug.Log("òAågçUåÇ");
+            Count = AttackStartupFrame;
+            state = AttackState.Startup;
+            isAttack = true;
         }
     }
     // Start is called before the first frame update
     void Start()
     {
-        
     }
 
     // Update is called once per frame
     void Update()
     {
-
-    }
-
-    public override void FixedUpdateNetwork()
-    {
-        isOwner = Object.InputAuthority == Runner.LocalPlayer;
-        if (isOwner)
+        switch(state)
         {
-            if (AttackArea.active == true)
-            {
+            case AttackState.None:
+                break;
+            case AttackState.Startup:
                 Count--;
-            }
-            if (Count <= 0)
-            {
-                AttackArea.SetActive(false);
-            }
+                if(Count <=0) 
+                {
+                    state= AttackState.Active;
+                    AttackArea.SetActive(true);
+                    Count = AttackActiveFrame;
+                }
+                break;
+            case AttackState.Active:
+                Count--;
+                if (Count <= 0)
+                {
+                    state = AttackState.Recovery;
+                    AttackArea.SetActive(false);
+                    Count = AttackRecoveryFrame;
+                }
+                break;
+            case AttackState.Recovery:
+                Count--;
+                if (Count <= 0)
+                {
+                    state = AttackState.None;
+                    isAttack = false;
+                    Count = 0;
+                }
+                break;
         }
     }
 }
