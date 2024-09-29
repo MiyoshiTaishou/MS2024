@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: -1825052066718410784}
   - component: {fileID: 258535163928245900}
   - component: {fileID: 1868253667153895889}
+  - component: {fileID: 4610117146495008771}
   m_Layer: 0
   m_Name: Player2D
   m_TagString: Untagged
@@ -84,7 +85,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -221045152, guid: e47328e566ce95341ae8f5de994a5698, type: 3}
+  m_Sprite: {fileID: -1908586532, guid: 731bd599ae7955e46b407799df2801a1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -296,7 +297,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.32000002, y: 0.32000002, z: 0.20000003}
+  m_Size: {x: 0.5, y: 0.8, z: 0.20000003}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &-8286472982996973084
 MonoBehaviour:
@@ -372,6 +373,28 @@ MonoBehaviour:
   maxSpeed: 10
   jumpForce: 5
   fallMultiplier: 2.5
+  currentSpeed: 0
+--- !u!95 &4610117146495008771
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3456682398586312846}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 4e74eb553f6e0ce42ac0d64e85a3fc4f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &4476810163144067245
 PrefabInstance:
   m_ObjectHideFlags: 0

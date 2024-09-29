@@ -19,6 +19,7 @@ public class PlayerMoveState : IState
     {
         // キャラクターが移動状態に入るときの処理
         Debug.Log("移動処理に入ります");
+        character.SetAnimation("APlayerWalk");
     }
 
     public void Update()

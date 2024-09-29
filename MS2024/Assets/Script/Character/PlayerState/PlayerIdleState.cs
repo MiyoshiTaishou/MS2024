@@ -16,7 +16,8 @@ public class PlayerIdleState : IState
     {
         // キャラクターがIdle状態に入るときの処理
         //character.SetAnimation("Idle");
-        Debug.Log("待機処理に入ります");       
+        Debug.Log("待機処理に入ります");
+        character.SetAnimation("APlayerIdle");
     }
 
     public void Update()

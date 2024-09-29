@@ -23,10 +23,13 @@ public class PlayerState : MonoBehaviour
 
     [HideInInspector] public float currentSpeed = 0.0f;
 
+    private Animator animator;
+
     // Start is called before the first frame update
     void Start()
     {
-        input = GetComponent<PlayerInput>();
+        input = GetComponent<PlayerInput>();   
+        animator = GetComponent<Animator>();
 
         // 初期状態を移動状態にセット (他の状態にする場合は変更)
         currentState = new PlayerIdleState(this);
@@ -59,6 +62,8 @@ public class PlayerState : MonoBehaviour
     public void SetAnimation(string animationName)
     {
         // アニメーションのセット処理
+        // Animatorのアニメーションをトリガーで切り替える
+        animator.Play(animationName);
     }
 
     private void OnJumpPerformed(InputAction.CallbackContext context)
