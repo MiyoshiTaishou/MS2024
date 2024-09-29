@@ -18,6 +18,7 @@ public class PlayerIdleState : IState
         //character.SetAnimation("Idle");
         Debug.Log("‘Ò‹@ˆ—‚É“ü‚è‚Ü‚·");
         character.SetAnimation("APlayerIdle");
+        character.currentSpeed = 0;
     }
 
     public void Update()
