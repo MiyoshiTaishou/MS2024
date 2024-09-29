@@ -62,8 +62,8 @@ public class BossAI : MonoBehaviour
     }
 
     private void FixedUpdate() {
-        if (playerObjects.Count > 0)
-            PlayerSearch();
+        // if (playerObjects.Count > 0)
+        //     PlayerSearch();
         if (nowTime.changeTargetInterval > coolTime.changeTargetInterval) {
             ChangeTargetRoutine();
             nowTime.changeTargetInterval = 0;
@@ -74,12 +74,12 @@ public class BossAI : MonoBehaviour
                 break;
 
             case BOSS_STATE.MOVING:
-                MoveTowardsTarget();
-                TryStartAttack();
+                // MoveTowardsTarget();
                 break;
 
             case BOSS_STATE.PREPARING_ATTACK:
                 // 攻撃準備中の処理（エフェクトなど）をここに追加
+                // TryStartAttack();
                 break;
 
             case BOSS_STATE.ATTACKING:
