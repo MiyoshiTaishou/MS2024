@@ -38,6 +38,15 @@ public class PlayerMoveState : IState
         Vector3 velocity = move * character.currentSpeed;
         velocity.y = rb.velocity.y;  // Y²‚Ì‘¬“x‚Í•ÏX‚µ‚È‚¢
         rb.velocity = velocity;      // Rigidbody ‚Ì‘¬“x‚ğİ’è
+
+        if (moveInput.x < 0.0f)
+        {
+            character.gameObject.transform.localScale = new Vector3(character.initScale.x * -1, character.initScale.y, character.initScale.z);
+        }
+        else if (moveInput.x > 0.0f)
+        {
+            character.gameObject.transform.localScale = character.initScale;
+        }
     }
 
     public void Exit()
