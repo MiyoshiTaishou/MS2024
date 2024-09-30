@@ -23,9 +23,6 @@ public class PlayerState : MonoBehaviour
 
     [HideInInspector] public float currentSpeed = 0.0f;
 
-    //向き関連
-    [HideInInspector] public Vector3 initScale;
-
     private Animator animator;
 
     // Start is called before the first frame update
@@ -33,7 +30,6 @@ public class PlayerState : MonoBehaviour
     {
         input = GetComponent<PlayerInput>();   
         animator = GetComponent<Animator>();
-        initScale = transform.localScale;
 
         // 初期状態を移動状態にセット (他の状態にする場合は変更)
         currentState = new PlayerIdleState(this);
