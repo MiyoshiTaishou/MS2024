@@ -1,17 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 
 public class ParryDisplay : MonoBehaviour
 {
     // 計測用のタイマー
     private float timer = 0.0f;
 
-    PlayerParry player;
+    PlayerState player;
 
     private void Start()
     {
-        player = transform.parent.GetComponent<PlayerParry>();
+        player = transform.parent.GetComponent<PlayerState>();
         Init();
     }
 
@@ -26,11 +27,13 @@ public class ParryDisplay : MonoBehaviour
         // 時間を計測
         timer += Time.deltaTime;
 
+        Debug.Log(timer);
+
         // 指定した秒数を超えたらオブジェクトを非表示にする
-        if (timer >= player.GetParryActiveTime())
+        if (timer >= player.ParryActivetime / 60)
         {
             timer = 0.0f;
-            player.SetParryflg(false);
+            //player.SetParryflg(false);
             gameObject.SetActive(false);
            
         }
