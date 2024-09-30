@@ -25,6 +25,18 @@ public class PlayerState : MonoBehaviour
 
     [HideInInspector] public Vector3 initScale;
 
+    //パリィ範囲
+    [HideInInspector, Tooltip("パリィ範囲")] public float parryradius = 3;
+
+    //パリィの効果時間
+    [HideInInspector, Tooltip("パリィ効果時間")] public float ParryActivetime = 30;
+
+    //ヒットストップ時間
+    [HideInInspector, Tooltip("ヒットストップ時間")] public int HitStop = 3;
+
+    //ノックバック
+    [HideInInspector, Tooltip("ノックバック力")] public float KnockbackPower = 10;
+
     private Animator animator;
 
     // Start is called before the first frame update
