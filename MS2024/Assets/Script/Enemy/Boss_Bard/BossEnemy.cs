@@ -11,9 +11,15 @@ public class BossEnemy : MonoBehaviour
     //Slider
     public Slider slider;
 
+    //Efect
     [SerializeField]
     [Tooltip("発生させるエフェクト(パーティクル)")]
     private ParticleSystem particle;
+
+    //SoundEfect
+    //ならすサウンドエフェクトを入れる変数
+    public AudioClip sound1;
+    AudioSource audioSource;
 
     void Start()
     {
@@ -21,6 +27,9 @@ public class BossEnemy : MonoBehaviour
         slider.value = 10;
         //HPを最大HPと同じ値に。
         Hp = maxHp;
+        //コンポーネント取得
+        audioSource = GetComponent<AudioSource>();
+
     }
 
    void Update()
@@ -41,6 +50,9 @@ public class BossEnemy : MonoBehaviour
             newParticle.Play();
             // インスタンス化したパーティクルシステムのGameObjectを1秒後に削除
             Destroy(newParticle.gameObject, 1.0f);
+
+            //Sound1を鳴らす
+            audioSource.PlayOneShot(sound1);
 
             //色を赤くする
             gameObject.GetComponent<SpriteRenderer>().color = new Color32(255, 0, 0, 255);
