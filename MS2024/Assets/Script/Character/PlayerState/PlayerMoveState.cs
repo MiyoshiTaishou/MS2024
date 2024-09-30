@@ -7,7 +7,7 @@ using Fusion.Addons.Physics;
 public class PlayerMoveState : IState
 {
     private PlayerState character;
-    private Vector2 moveInput;
+    //private Vector2 moveInput;
     private NetworkRigidbody3D networkRb;  // NetworkRigidbody 参照
 
     public PlayerMoveState(PlayerState character)
@@ -30,8 +30,8 @@ public class PlayerMoveState : IState
         if (character.Object.HasInputAuthority)
         {
             // 入力から移動ベクトルを取得
-            moveInput = character.input.actions["Move"].ReadValue<Vector2>();
-            Vector3 move = new Vector3(moveInput.x, 0, moveInput.y).normalized;
+            character.moveInput = character.input.actions["Move"].ReadValue<Vector2>();
+            Vector3 move = new Vector3(character.moveInput.x, 0, character.moveInput.y).normalized;
 
             // 加速度を加味した速度の更新
             character.currentSpeed += character.moveSpeedAcc * Time.deltaTime;
@@ -47,11 +47,11 @@ public class PlayerMoveState : IState
             networkRb.Rigidbody.velocity = velocity;
 
             // 向きの変更処理
-            if (moveInput.x < 0.0f)
+            if (character.moveInput.x < 0.0f)
             {
                 character.gameObject.transform.localScale = new Vector3(character.initScale.x * -1, character.initScale.y, character.initScale.z);
             }
-            else if (moveInput.x > 0.0f)
+            else if (character.moveInput.x > 0.0f)
             {
                 character.gameObject.transform.localScale = character.initScale;
             }

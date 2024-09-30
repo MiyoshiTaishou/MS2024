@@ -47,7 +47,7 @@ public class PlayerState : NetworkBehaviour
     private Animator animator;
     [HideInInspector] public float currentSpeed = 0.0f;
 
-    Vector2 moveInput;
+    public Vector2 moveInput;
 
 
     // Start is called before the first frame update
