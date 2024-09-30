@@ -7,14 +7,9 @@ using UnityEngine;
 /// </summary>
 public class PlayerJumpState : IState
 {
-    private PlayerState character;
+    private PlayerState character;    
     private Rigidbody rb;
-    private Vector2 moveInput;
-
-    // 地面との距離を判定するRayの長さ
-    private float rayDistance = 1.5f; // 足元から地面までの距離
-    // 地面のタグ名
-    private string groundTag = "Ground"; // 地面のタグを"Ground"とする
+    private Vector2 moveInput;  
 
     public PlayerJumpState(PlayerState character)
     {
@@ -25,16 +20,15 @@ public class PlayerJumpState : IState
     {
         rb = character.GetComponent<Rigidbody>();
         rb.velocity = new Vector3(rb.velocity.x, character.jumpForce, rb.velocity.z);
-        character.SetAnimation("APlayerJump");
     }
 
     public void Exit()
     {
-
-    }
+        
+    }  
 
     public void Update()
-    {
+    {      
         // 入力から移動ベクトルを取得
         moveInput = character.input.actions["Move"].ReadValue<Vector2>();
         Vector3 move = new Vector3(moveInput.x, 0, moveInput.y).normalized;
@@ -50,34 +44,15 @@ public class PlayerJumpState : IState
         velocity.y = rb.velocity.y;  // Y軸の速度は変更しない
         rb.velocity = velocity;      // Rigidbody の速度を設定
 
-        // 落下処理
+        //落下処理
         if (rb.velocity.y < 0)
         {
             rb.velocity += Vector3.up * Physics.gravity.y * (character.fallMultiplier - 1) * Time.deltaTime;
+        }
 
-            // 足元から下方向にRayを飛ばして地面との距離を測る
-            RaycastHit hit;
-            if (Physics.Raycast(character.transform.position, Vector3.down, out hit, rayDistance))
-            {
-                // ヒットしたオブジェクトが"Ground"タグを持っている場合、着地アニメーションを再生
-                if (hit.collider.CompareTag(groundTag))
-                {
-                    // 着地アニメーションが再生されていない場合、再生する
-                    AnimatorStateInfo animStateInfo = character.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
-                    if (!animStateInfo.IsName("APlayerLand"))
-                    {
-                        character.SetAnimation("APlayerLand");
-                    }
-                }
-            }
-        }            
-
-        // 着地アニメーションが完了したらIdleステートに移行
-        AnimatorStateInfo landAnimStateInfo = character.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
-        if (landAnimStateInfo.IsName("APlayerLand") && landAnimStateInfo.normalizedTime >= 1.0f)
+        if(rb.velocity.y == 0)
         {
-            // アニメーションが終了してからIdleステートに遷移
             character.ChangeState(new PlayerIdleState(character));
         }
-    }
+    }   
 }
