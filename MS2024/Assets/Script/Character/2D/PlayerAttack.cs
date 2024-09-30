@@ -3,23 +3,18 @@ using UnityEngine;
 
 public class PlayerAttack : IState
 {
-    //UŒ‚”ÍˆÍ
-    [SerializeField, Tooltip("ƒpƒŠƒB‰Â‹‰»—p")] private GameObject AttackArea;
+    private PlayerState character;
+    public PlayerAttack(PlayerState character)
+    {
+        this.character = character;
+    }
 
-    //UŒ‚‚ª”­¶‚·‚é‚Ü‚Å‚ÌŠÔ
-    [SerializeField, Tooltip("UŒ‚‚Ì”­¶ƒtƒŒ[ƒ€")] int AttackStartupFrame = 25;
+    GameObject AttackArea;
 
-    //UŒ‚‚ÌŒø‰ÊŠÔ
-    [SerializeField, Tooltip("UŒ‚‚Ì‘±ƒtƒŒ[ƒ€")] int AttackActiveFrame = 50;
-
-    //UŒ‚‚Ìd’¼ŠÔ
-    [SerializeField, Tooltip("UŒ‚‚Ìd’¼ƒtƒŒ[ƒ€")] int AttackRecoveryFrame = 100;
-
-    [SerializeField, ReadOnly] bool isAttack = false;
-    [SerializeField, ReadOnly] int Count = 0;
-
-    [ReadOnly,Tooltip("‰½˜AŒ‚–Ú")] static int nHit = 0;
-    [SerializeField, Tooltip("Å‘å˜AŒ‚”")] int nMaxHit = 2;
+    //ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½
+    static int nHit = 0;
+    //ï¿½Å‘ï¿½Aï¿½ï¿½ï¿½ï¿½
+    int nMaxHit = 2;
     public int GetHit() {return nHit;}
     public void AddHit()
     {
@@ -28,7 +23,7 @@ public class PlayerAttack : IState
         {
             nHit = 0;
         }
-        Debug.Log("˜AŒ‚”:" + nHit);
+        Debug.Log("ï¿½Aï¿½ï¿½ï¿½ï¿½:" + nHit);
     }
     enum AttackState
     {
@@ -43,20 +38,20 @@ public class PlayerAttack : IState
 
     public void Enter()
     {
-
-        if (isAttack == false)
+        AttackArea = character.transform.Find("PlayerAttackArea").gameObject;
+        if (character.isAttack == false)
         {
-            Debug.Log("UŒ‚");
-            Count = AttackStartupFrame;
+            Debug.Log("ï¿½Uï¿½ï¿½");
+            character.AttackCount = character.AttackStartupFrame;
             state = AttackState.Startup;
-            isAttack = true;
+            character.isAttack = true;
         }
         else if (nHit == 2)
         {
-            Debug.Log("˜AŒgUŒ‚");
-            Count = AttackStartupFrame;
+            Debug.Log("ï¿½Aï¿½gï¿½Uï¿½ï¿½");
+            character.AttackCount = character.AttackStartupFrame;
             state = AttackState.Startup;
-            isAttack = true;
+            character.isAttack = true;
         }
     }
     public void Exit() 
@@ -77,30 +72,30 @@ public class PlayerAttack : IState
             case AttackState.None:
                 break;
             case AttackState.Startup:
-                Count--;
-                if(Count <=0) 
+                character.AttackCount--;
+                if(character.AttackCount <=0) 
                 {
                     state= AttackState.Active;
                     AttackArea.SetActive(true);
-                    Count = AttackActiveFrame;
+                    character.AttackCount = character.AttackActiveFrame;
                 }
                 break;
             case AttackState.Active:
-                Count--;
-                if (Count <= 0)
+                character.AttackCount--;
+                if (character.AttackCount <= 0)
                 {
                     state = AttackState.Recovery;
                     AttackArea.SetActive(false);
-                    Count = AttackRecoveryFrame;
+                    character.AttackCount = character.AttackRecoveryFrame;
                 }
                 break;
             case AttackState.Recovery:
-                Count--;
-                if (Count <= 0)
+                character.AttackCount--;
+                if (character.AttackCount <= 0)
                 {
                     state = AttackState.None;
-                    isAttack = false;
-                    Count = 0;
+                    character.isAttack = false;
+                    character.AttackCount = 0;
                 }
                 break;
         }
