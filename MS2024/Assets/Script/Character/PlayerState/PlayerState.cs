@@ -1,10 +1,7 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Fusion;
-using Fusion.Addons.Physics;
 
 /// <summary>
 /// プレイヤーステート管理クラス
@@ -23,8 +20,6 @@ public class PlayerState : NetworkBehaviour
     [HideInInspector] public float jumpForce = 5.0f;
     [HideInInspector] public float fallMultiplier = 2.5f; // 落下速度の強化
 
-    [HideInInspector] public float currentSpeed = 0.0f;
-
     [HideInInspector] public Vector3 initScale;
 
     // パリィ範囲
@@ -40,14 +35,13 @@ public class PlayerState : NetworkBehaviour
     [HideInInspector, Tooltip("ノックバック力")] public float KnockbackPower = 10;
 
     private Animator animator;
-    private NetworkRigidbody3D networkRb; // NetworkRigidbody 参照
+    [HideInInspector] public float currentSpeed = 0.0f;
 
     // Start is called before the first frame update
     void Start()
     {
         input = GetComponent<PlayerInput>();
         animator = GetComponent<Animator>();
-        networkRb = GetComponent<NetworkRigidbody3D>(); // NetworkRigidbody を取得
 
         initScale = transform.localScale;
 
@@ -85,7 +79,6 @@ public class PlayerState : NetworkBehaviour
     public void SetAnimation(string animationName)
     {
         // アニメーションのセット処理
-        // Animatorのアニメーションをトリガーで切り替える
         animator.Play(animationName);
     }
 
