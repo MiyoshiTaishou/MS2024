@@ -41,6 +41,16 @@ public class PlayerState : MonoBehaviour
     //ノックバック
     [HideInInspector, Tooltip("ノックバック力")] public float KnockbackPower = 10;
 
+    //攻撃の値
+    //攻撃が発生するまでの時間
+    [SerializeField, Tooltip("攻撃の発生フレーム")] public int AttackStartupFrame = 25;
+    //攻撃の効果時間
+    [SerializeField, Tooltip("攻撃の持続フレーム")] public int AttackActiveFrame = 50;
+    //攻撃の硬直時間
+    [SerializeField, Tooltip("攻撃の硬直フレーム")] public int AttackRecoveryFrame = 100;
+    [SerializeField, ReadOnly] public bool isAttack = false;
+    [SerializeField, ReadOnly] public int AttackCount = 0;
+
     private Animator animator;
 
     // Start is called before the first frame update
@@ -105,12 +115,18 @@ public class PlayerState : MonoBehaviour
                 ChangeState(new PlayerMoveState(this));
             }
 
-            ////パリィ
-            //var  buttonInput = input.actions["Parry"].ReadValue<float>();
-            //if(buttonInput != 0)
-            //{
-            //    ChangeState(new PlayerParry(this));
-            //}
+            //パリィ
+            var buttonInput = input.actions["Parry"].ReadValue<float>();
+            if (buttonInput != 0)
+            {
+                ChangeState(new PlayerParry(this));
+            }
+            
+            var attackInput = input.actions["Attack"].ReadValue<float>();
+            if (attackInput != 0)
+            {
+                ChangeState(new PlayerAttack(this));
+            }
         }
 
         if (currentState is PlayerMoveState)
@@ -127,7 +143,12 @@ public class PlayerState : MonoBehaviour
             {
                 ChangeState(new PlayerParry(this));
             }
-
+            
+            var attackInput = input.actions["Attack"].ReadValue<float>();
+            if (attackInput != 0)
+            {
+                ChangeState(new PlayerAttack(this));
+            }
         }
 
         if (currentState is PlayerParry)

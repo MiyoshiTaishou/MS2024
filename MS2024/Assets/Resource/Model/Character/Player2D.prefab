@@ -17,7 +17,6 @@ GameObject:
   - component: {fileID: -8286472982996973084}
   - component: {fileID: 8098995252397189171}
   - component: {fileID: -1825052066718410784}
-  - component: {fileID: 258535163928245900}
   - component: {fileID: 1868253667153895889}
   - component: {fileID: 4610117146495008771}
   - component: {fileID: 2098017740711185546}
@@ -235,7 +234,7 @@ MonoBehaviour:
     m_ActionName: Player/Parry
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 258535163928245900}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PlayerAttack, Assembly-CSharp
         m_MethodName: OnAttack
         m_Mode: 0
@@ -339,25 +338,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7425950512706134da9a95bee779b83d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &258535163928245900
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3456682398586312846}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 66e0417ee3323744fb95ab25bd262f4b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AttackArea: {fileID: 5593873177869133035}
-  AttackStartupFrame: 25
-  AttackActiveFrame: 50
-  AttackRecoveryFrame: 100
-  isAttack: 0
-  Count: 0
-  nMaxHit: 3
 --- !u!114 &1868253667153895889
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -378,7 +358,15 @@ MonoBehaviour:
   fallMultiplier: 2.5
   currentSpeed: 0
   initScale: {x: 0, y: 0, z: 0}
-
+  parryradius: 3
+  ParryActivetime: 30
+  HitStop: 3
+  KnockbackPower: 10
+  AttackStartupFrame: 25
+  AttackActiveFrame: 50
+  AttackRecoveryFrame: 100
+  isAttack: 0
+  AttackCount: 0
 --- !u!95 &4610117146495008771
 Animator:
   serializedVersion: 5
@@ -519,7 +507,7 @@ PrefabInstance:
     - target: {fileID: 8323141511234858054, guid: 0a190f91198c3e74ebf03b560ee70857,
         type: 3}
       propertyPath: m_Name
-      value: AttackArea
+      value: PlayerAttackArea
       objectReference: {fileID: 0}
     - target: {fileID: 8323141511234858054, guid: 0a190f91198c3e74ebf03b560ee70857,
         type: 3}
