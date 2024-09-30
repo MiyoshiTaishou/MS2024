@@ -362,6 +362,7 @@ MonoBehaviour:
   ParryActivetime: 30
   HitStop: 3
   KnockbackPower: 10
+
 --- !u!95 &4610117146495008771
 Animator:
   serializedVersion: 5
@@ -509,7 +510,7 @@ PrefabInstance:
     - target: {fileID: 8323141511234858054, guid: 0a190f91198c3e74ebf03b560ee70857,
         type: 3}
       propertyPath: m_Name
-      value: AttackArea
+      value: PlayerAttackArea
       objectReference: {fileID: 0}
     - target: {fileID: 8323141511234858054, guid: 0a190f91198c3e74ebf03b560ee70857,
         type: 3}

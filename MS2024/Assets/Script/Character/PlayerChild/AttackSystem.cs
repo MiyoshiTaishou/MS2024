@@ -2,21 +2,12 @@ using UnityEngine;
 
 public class AttackSystem : MonoBehaviour
 {
-    [SerializeField, Tooltip("親オブジェクト")] GameObject player;
-    PlayerAttack playerattack;
+
 
     // Start is called before the first frame update
     void Start()
     {
-        if(!player)
-        {
-            Debug.LogError("playerないよ");
-        }
-        playerattack = player.GetComponent<PlayerAttack>();
-        if(playerattack == null) 
-        {
-            Debug.LogError("アタックないよ");
-        }
+
     }
 
     // Update is called once per frame
@@ -27,9 +18,6 @@ public class AttackSystem : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.transform.CompareTag("Enemy"))
-        {
-            playerattack.AddHit();
-        }
+        Debug.Log("ひっと");
     }
 }
