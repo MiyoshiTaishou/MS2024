@@ -6,7 +6,7 @@ public class PlayerMoveState : IState
 {
     private PlayerState character;
     private Vector2 moveInput;   
-    private Rigidbody rb;        // Rigidbody参照   
+    private Rigidbody rb;        // Rigidbody参照
 
     public PlayerMoveState(PlayerState character)
     {
@@ -19,7 +19,7 @@ public class PlayerMoveState : IState
     {
         // キャラクターが移動状態に入るときの処理
         Debug.Log("移動処理に入ります");
-        character.SetAnimation("APlayerWalk");        
+        character.SetAnimation("APlayerWalk");
     }
 
     public void Update()
@@ -38,16 +38,6 @@ public class PlayerMoveState : IState
         Vector3 velocity = move * character.currentSpeed;
         velocity.y = rb.velocity.y;  // Y軸の速度は変更しない
         rb.velocity = velocity;      // Rigidbody の速度を設定
-
-        //向きを変える処理
-        if(moveInput.x < 0.0f)
-        {
-            character.gameObject.transform.localScale = new Vector3(character.initScale.x * -1, character.initScale.y, character.initScale.z);
-        }
-        else if(moveInput.x > 0.0f)
-        {
-            character.gameObject.transform.localScale = character.initScale;
-        }
     }
 
     public void Exit()
