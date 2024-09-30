@@ -1,27 +1,25 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.IO.LowLevel.Unsafe;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.TextCore.Text;
-using UnityEngine.UI;
+using Fusion;
+using Fusion.Addons.Physics;
 
 /// <summary>
 /// プレイヤーステート管理クラス
 /// </summary>
-public class PlayerState : MonoBehaviour
+public class PlayerState : NetworkBehaviour
 {
     private IState currentState;
-    [HideInInspector]public PlayerInput input;
+    [HideInInspector] public PlayerInput input;
 
     // インスペクターで調整可能な移動速度と加速度
     [HideInInspector] public float moveSpeed = 5.0f;
     [HideInInspector] public float moveSpeedAcc = 1.0f;
     [HideInInspector] public float maxSpeed = 10.0f;
 
-    //ジャンプ関連
+    // ジャンプ関連
     [HideInInspector] public float jumpForce = 5.0f;
     [HideInInspector] public float fallMultiplier = 2.5f; // 落下速度の強化
 
@@ -29,25 +27,27 @@ public class PlayerState : MonoBehaviour
 
     [HideInInspector] public Vector3 initScale;
 
-    //パリィ範囲
+    // パリィ範囲
     [HideInInspector, Tooltip("パリィ範囲")] public float parryradius = 3;
 
-    //パリィの効果時間
+    // パリィの効果時間
     [HideInInspector, Tooltip("パリィ効果時間")] public float ParryActivetime = 30;
 
-    //ヒットストップ時間
+    // ヒットストップ時間
     [HideInInspector, Tooltip("ヒットストップ時間")] public int HitStop = 3;
 
-    //ノックバック
+    // ノックバック
     [HideInInspector, Tooltip("ノックバック力")] public float KnockbackPower = 10;
 
     private Animator animator;
+    private NetworkRigidbody3D networkRb; // NetworkRigidbody 参照
 
     // Start is called before the first frame update
     void Start()
     {
-        input = GetComponent<PlayerInput>();   
+        input = GetComponent<PlayerInput>();
         animator = GetComponent<Animator>();
+        networkRb = GetComponent<NetworkRigidbody3D>(); // NetworkRigidbody を取得
 
         initScale = transform.localScale;
 
@@ -62,9 +62,12 @@ public class PlayerState : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //現在の状態のUpdate処理を実行
-        currentState.Update();
-        ChangeStateUpdate();
+        if (Object.HasInputAuthority) // ローカルプレイヤーの場合のみ更新
+        {
+            // 現在の状態のUpdate処理を実行
+            currentState.Update();
+            ChangeStateUpdate();
+        }
     }
 
     /// <summary>
@@ -104,13 +107,6 @@ public class PlayerState : MonoBehaviour
             {
                 ChangeState(new PlayerMoveState(this));
             }
-
-            ////パリィ
-            //var  buttonInput = input.actions["Parry"].ReadValue<float>();
-            //if(buttonInput != 0)
-            //{
-            //    ChangeState(new PlayerParry(this));
-            //}
         }
 
         if (currentState is PlayerMoveState)
@@ -121,13 +117,12 @@ public class PlayerState : MonoBehaviour
                 ChangeState(new PlayerIdleState(this));
             }
 
-            //パリィ
+            // パリィ
             var buttonInput = input.actions["Parry"].ReadValue<float>();
             if (buttonInput != 0)
             {
                 ChangeState(new PlayerParry(this));
             }
-
         }
 
         if (currentState is PlayerParry)
@@ -142,14 +137,12 @@ public class PlayerState : MonoBehaviour
                 ChangeState(new PlayerIdleState(this));
             }
 
-            //パリィ
+            // パリィ
             var buttonInput = input.actions["Parry"].ReadValue<float>();
             if (buttonInput != 0)
             {
                 ChangeState(new PlayerParry(this));
             }
-
         }
     }
-
 }
