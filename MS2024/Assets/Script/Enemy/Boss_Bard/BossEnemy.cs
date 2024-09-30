@@ -21,6 +21,8 @@ public class BossEnemy : MonoBehaviour
     public AudioClip sound1;
     AudioSource audioSource;
 
+    private Animator m_Animator;
+
     void Start()
     {
         //Sliderを最大にする。
@@ -29,6 +31,8 @@ public class BossEnemy : MonoBehaviour
         Hp = maxHp;
         //コンポーネント取得
         audioSource = GetComponent<AudioSource>();
+
+        m_Animator = GetComponent<Animator>();
 
     }
 
@@ -45,7 +49,7 @@ public class BossEnemy : MonoBehaviour
             // パーティクルシステムのインスタンスを生成
             ParticleSystem newParticle = Instantiate(particle);
             // パーティクルの発生場所をこのスクリプトをアタッチしているGameObjectの場所にする
-            newParticle.transform.position = this.transform.position;
+            newParticle.transform.position = new Vector3(this.transform.position.x, this.transform.position.y+4.5f, this.transform.position.z-1);
             // パーティクルを発生させる
             newParticle.Play();
             // インスタンス化したパーティクルシステムのGameObjectを1秒後に削除
@@ -54,11 +58,18 @@ public class BossEnemy : MonoBehaviour
             //Sound1を鳴らす
             audioSource.PlayOneShot(sound1);
 
-            //色を赤くする
-            gameObject.GetComponent<SpriteRenderer>().color = new Color32(255, 0, 0, 255);
-            //0.5秒後にvoid backを実行
-            Invoke("back", 0.2f);
+            m_Animator.SetTrigger("Hit");
 
+            //色を赤くする
+            //gameObject.GetComponent<SpriteRenderer>().color = new Color32(255, 0, 0, 255);
+            //0.5秒後にvoid backを実行
+            //Invoke("back", 0.2f);
+
+        }
+
+        else if (Input.GetKeyDown("up"))
+        {
+            m_Animator.SetTrigger("Attack");
         }
     }
 
