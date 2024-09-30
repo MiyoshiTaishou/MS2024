@@ -1,7 +1,7 @@
 using UnityEngine.InputSystem;
 using UnityEngine;
 
-public class PlayerAttack : MonoBehaviour
+public class PlayerAttack : IState
 {
     //UŒ‚”ÍˆÍ
     [SerializeField, Tooltip("ƒpƒŠƒB‰Â‹‰»—p")] private GameObject AttackArea;
@@ -39,14 +39,19 @@ public class PlayerAttack : MonoBehaviour
 
     public void OnAttack(InputAction.CallbackContext context)
     {
-        if (context.started && isAttack ==false)
+    }
+
+    public void Enter()
+    {
+
+        if (isAttack == false)
         {
             Debug.Log("UŒ‚");
             Count = AttackStartupFrame;
             state = AttackState.Startup;
             isAttack = true;
         }
-        else if (context.started && nHit==2) 
+        else if (nHit == 2)
         {
             Debug.Log("˜AŒgUŒ‚");
             Count = AttackStartupFrame;
@@ -54,13 +59,18 @@ public class PlayerAttack : MonoBehaviour
             isAttack = true;
         }
     }
+    public void Exit() 
+    {
+
+    }
+
     // Start is called before the first frame update
     void Start()
     {
     }
 
     // Update is called once per frame
-    void Update()
+    public void Update()
     {
         switch(state)
         {

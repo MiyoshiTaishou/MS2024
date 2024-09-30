@@ -32,6 +32,16 @@ public class PlayerStateEditor : Editor
             playerState.fallMultiplier = EditorGUILayout.FloatField("落下速度", playerState.fallMultiplier);
         }
 
+        showJumpSettings = EditorGUILayout.Foldout(showJumpSettings, "プレイヤーのパリィ関連の項目");
+        if (showJumpSettings)
+        {
+            EditorGUI.indentLevel++;
+            playerState.parryradius = EditorGUILayout.FloatField("パリィ範囲", playerState.parryradius);
+            playerState.ParryActivetime = EditorGUILayout.FloatField("パリィ効果時間", playerState.ParryActivetime);
+            playerState.HitStop = EditorGUILayout.IntField("ヒットストップ時間", playerState.HitStop);
+            playerState.KnockbackPower = EditorGUILayout.FloatField("ノックバック力", playerState.KnockbackPower);
+        }
+
         // デフォルトのインスペクター部分を表示
         DrawDefaultInspector();
     }

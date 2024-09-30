@@ -9,7 +9,10 @@ public class PlayerJumpState : IState
 {
     private PlayerState character;    
     private Rigidbody rb;
-    private Vector2 moveInput;  
+    private Vector2 moveInput;
+
+    private float rayDistance = 1.5f;     
+    private string groundTag = "Ground";
 
     public PlayerJumpState(PlayerState character)
     {
@@ -25,10 +28,10 @@ public class PlayerJumpState : IState
     public void Exit()
     {
         
-    }  
+    }
 
     public void Update()
-    {      
+    {
         // 入力から移動ベクトルを取得
         moveInput = character.input.actions["Move"].ReadValue<Vector2>();
         Vector3 move = new Vector3(moveInput.x, 0, moveInput.y).normalized;
@@ -43,16 +46,32 @@ public class PlayerJumpState : IState
         Vector3 velocity = move * character.currentSpeed;
         velocity.y = rb.velocity.y;  // Y軸の速度は変更しない
         rb.velocity = velocity;      // Rigidbody の速度を設定
+     
 
         //落下処理
         if (rb.velocity.y < 0)
         {
             rb.velocity += Vector3.up * Physics.gravity.y * (character.fallMultiplier - 1) * Time.deltaTime;
+
+            RaycastHit hit;
+            if (Physics.Raycast(character.transform.position, Vector3.down, out hit, rayDistance))
+            {
+                if (hit.collider.CompareTag(groundTag))
+                {
+                    AnimatorStateInfo animStateInfo = character.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
+                    if (!animStateInfo.IsName("APlayerLand"))
+                    {
+                        character.SetAnimation("APlayerLand");
+                    }
+                }
+            }
         }
 
-        if(rb.velocity.y == 0)
-        {
-            character.ChangeState(new PlayerIdleState(character));
-        }
-    }   
-}
+        AnimatorStateInfo landAnimStateInfo = character.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
+        if (landAnimStateInfo.IsName("APlayerLand") && landAnimStateInfo.normalizedTime >= 1.0f)
+            if (rb.velocity.y == 0)
+            {
+                character.ChangeState(new PlayerIdleState(character));
+            }
+    }    
+}   
