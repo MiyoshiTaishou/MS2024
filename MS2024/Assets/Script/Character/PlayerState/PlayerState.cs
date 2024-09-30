@@ -67,6 +67,11 @@ public class PlayerState : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
+       
+    }
+
+    public override void FixedUpdateNetwork()
+    {
         if (Object.HasInputAuthority) // ローカルプレイヤーの場合のみ更新
         {
             // 現在の状態のUpdate処理を実行
