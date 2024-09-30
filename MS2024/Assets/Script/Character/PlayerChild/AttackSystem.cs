@@ -24,6 +24,7 @@ public class AttackSystem : MonoBehaviour
     {
         
     }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.transform.CompareTag("Enemy"))

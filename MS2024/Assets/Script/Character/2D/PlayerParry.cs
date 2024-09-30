@@ -12,18 +12,18 @@ public class PlayerParry : IState
     //パリィ範囲
     private GameObject ParryArea;
 
-    [SerializeField, Tooltip("パリィ範囲")] float parryradius = 3;
+    //[SerializeField, Tooltip("パリィ範囲")] float parryradius = 3;
 
-    //パリィの効果時間
-    [SerializeField, Tooltip("パリィ効果時間")] float ParryActivetime = 30;
+    ////パリィの効果時間
+    //[SerializeField, Tooltip("パリィ効果時間")] float ParryActivetime = 30;
     private float ParryActivetimeFrame = 0; //フレームに変換する
 
-    //ヒットストップ時間
-    [SerializeField, Tooltip("ヒットストップ時間")] private int HitStop = 3;
+    ////ヒットストップ時間
+    //[SerializeField, Tooltip("ヒットストップ時間")] private int HitStop = 3;
     private float HitStopFrame = 0; //フレームに変換する
 
-    //ノックバック
-    [SerializeField, Tooltip("ノックバック力")] float KnockbackPower = 10;
+    ////ノックバック
+    //[SerializeField, Tooltip("ノックバック力")] float KnockbackPower = 10;
 
     /// <summary>
     /// 敵からの攻撃を受けたか判定
@@ -75,7 +75,7 @@ public class PlayerParry : IState
         Maincamera = Camera.main;
         cinemachar = Maincamera.GetComponent<CinemaCharCamera>();
         back = character.GetComponent<Knockback>();
-        Vector3 scale = new Vector3(parryradius, parryradius, parryradius);
+        Vector3 scale = new Vector3(character.parryradius, character.parryradius, character.parryradius);
         for (int i = 0; i < character.transform.childCount; i++)
         {
             if (character.transform.GetChild(i).gameObject.name == "ParryArea")
@@ -83,8 +83,8 @@ public class PlayerParry : IState
         }
 
         //フレームに直す
-        HitStopFrame = HitStop / 60;
-        ParryActivetimeFrame = ParryActivetime / 60;
+        HitStopFrame = character.HitStop / 60;
+        ParryActivetimeFrame = character.ParryActivetime / 60;
 
         ParryArea.transform.localScale = scale;
     }
@@ -110,7 +110,7 @@ public class PlayerParry : IState
     {
         hitStop.ApplyHitStop(HitStopFrame);
        // cinemachar.CameraZoom(this.transform,5,0.5f);
-        back.ApplyKnockback(character.transform.forward, KnockbackPower);
+        back.ApplyKnockback(character.transform.forward, character.KnockbackPower);
         ParryArea.GetComponent<ParryDisplay>().Init();
         DamageReceive = false;
     }
