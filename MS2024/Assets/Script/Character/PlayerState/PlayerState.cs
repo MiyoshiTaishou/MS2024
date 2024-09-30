@@ -47,6 +47,8 @@ public class PlayerState : NetworkBehaviour
     private Animator animator;
     [HideInInspector] public float currentSpeed = 0.0f;
 
+    Vector2 moveInput;
+
 
     // Start is called before the first frame update
     void Start()
@@ -107,20 +109,22 @@ public class PlayerState : NetworkBehaviour
     }
 
     public void ChangeStateUpdate()
-    {
-        if (currentState is PlayerIdleState)
+    {       
+        if (GetInput(out NetworkInputData data))
         {
-            Vector2 moveInput = input.actions["Move"].ReadValue<Vector2>();
+            moveInput = data.direction;
+        }
+
+        if (currentState is PlayerIdleState)
+        {           
             if (moveInput != Vector2.zero)
             {
                 ChangeState(new PlayerMoveState(this));
             }
-
         }
 
         if (currentState is PlayerMoveState)
-        {
-            Vector2 moveInput = input.actions["Move"].ReadValue<Vector2>();
+        {           
             if (moveInput == Vector2.zero)
             {
                 ChangeState(new PlayerIdleState(this));
@@ -136,8 +140,7 @@ public class PlayerState : NetworkBehaviour
         }
 
         if (currentState is PlayerParry)
-        {
-            Vector2 moveInput = input.actions["Move"].ReadValue<Vector2>();
+        {            
             if (moveInput != Vector2.zero)
             {
                 ChangeState(new PlayerMoveState(this));
