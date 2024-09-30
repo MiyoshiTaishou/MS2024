@@ -9,9 +9,10 @@ public class AttackEffect : MonoBehaviour
     [Tooltip("攻撃エフェクトを決めます")]
     [SerializeField]
     private ParticleSystem attackEffect;
-    [Tooltip("攻撃発生までの遅延時間を決めます")]
+    [Tooltip("攻撃発生までの遅延時間を決めます(1/60秒間隔)")]
     [SerializeField]
-    private float delayEffect;
+    public float delayEffect;
+
     private bool attackFlag;
     private float nowTime;
     private DamagedArea damagedArea;
@@ -20,12 +21,13 @@ public class AttackEffect : MonoBehaviour
         //必要なスクリプトを呼び出し
         damagedArea = GetComponent<DamagedArea>();
         attackCircle.SetActive(false);
+        PrepareAttack();
     }
     void Update() {
         //攻撃発生処理
-        if (Input.GetKeyDown(KeyCode.Space)){
-            PrepareAttack();
-        }
+        // if (Input.GetKeyDown(KeyCode.Space)){
+        //     PrepareAttack();
+        // }
         if(attackFlag && nowTime > delayEffect){
             ExecuteAttack();
         }
@@ -34,6 +36,7 @@ public class AttackEffect : MonoBehaviour
         //攻撃判定を削除
         if (!attackEffect.isPlaying && damagedArea != null){
             damagedArea.SetActive(false);
+            // Destroy(gameObject);
         }
     }
     

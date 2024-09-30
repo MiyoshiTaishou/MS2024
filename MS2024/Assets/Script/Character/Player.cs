@@ -1,7 +1,7 @@
 using Fusion;
 using UnityEngine;
 
-enum FlashState{
+enum FLASH_STATE{
     ORIGINAL,
     DAMAGE
 }
@@ -11,10 +11,9 @@ public class Player : NetworkBehaviour
     private NetworkCharacterController characterController;
     private Quaternion initialRotation;  // 最初の回転
 
-    //[Header("プレイヤー設定")]
+    // [Header("プレイヤー設定")]
     [Tooltip("プレイヤーの体力を決めます")]
     [Networked] public float HP { get; set; }
-    
     [Tooltip("ダメージを受けているときの点滅回数を決めます")]
     [SerializeField]
     private int flashCount = 3;
@@ -22,13 +21,15 @@ public class Player : NetworkBehaviour
     [Tooltip("ダメージを受けているときの点滅する間隔を決めます")]
     [SerializeField]
     private float flashInterval;
-
     [Tooltip("ダメージを受けているときの色を決めます")]
     [SerializeField]
     private Color damageColor;
     private Color originalColor;
     private SpriteRenderer spriteRenderer;
-    private FlashState flashState; // スプライトのカラー
+    private FLASH_STATE flashState; // スプライトのカラー
+    [Tooltip("プレイヤーがホストであるかを決めます\n(現在は手動 いずれ自動で切り替わるように)")]
+    [SerializeField]
+    public bool isHost;
     private float nowTime;
 
     private void Awake()
@@ -42,17 +43,17 @@ public class Player : NetworkBehaviour
         originalColor = spriteRenderer.color;
         nowCount = flashCount;
     }
-    private void FixedUpdate(){
+    private void Update(){
         // 点滅処理
         if(nowCount < flashCount){
-            if (nowTime * 10 >= flashInterval && flashState == FlashState.DAMAGE){
+            if (nowTime >= flashInterval && flashState == FLASH_STATE.DAMAGE){
                 spriteRenderer.color = damageColor;
-                flashState = FlashState.ORIGINAL;
+                flashState = FLASH_STATE.ORIGINAL;
                 nowTime = 0;
             }
-            else if (nowTime * 10 >= flashInterval && flashState == FlashState.ORIGINAL){
+            else if (nowTime >= flashInterval && flashState == FLASH_STATE.ORIGINAL){
                 spriteRenderer.color = originalColor;
-                flashState = FlashState.DAMAGE;
+                flashState = FLASH_STATE.DAMAGE;
                 nowTime = 0;
                 nowCount++;
             }
@@ -82,7 +83,7 @@ public class Player : NetworkBehaviour
     public void FlashReset(){
         if (nowCount == flashCount) {
             spriteRenderer.color = damageColor;
-            flashState = FlashState.ORIGINAL;
+            flashState = FLASH_STATE.ORIGINAL;
             nowTime = 0;
         }
         nowCount = 0;
