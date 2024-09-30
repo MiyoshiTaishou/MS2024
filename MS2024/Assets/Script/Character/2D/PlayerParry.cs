@@ -7,8 +7,6 @@ using UnityEngine.InputSystem;
 
 public class PlayerParry : IState
 {
-    private bool buttonInput;
-
     //ƒpƒŠƒB”ÍˆÍ
     private GameObject ParryArea;
 

@@ -1,8 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.IO.LowLevel.Unsafe;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.TextCore.Text;
+using UnityEngine.UI;
 
 /// <summary>
 /// プレイヤーステート管理クラス
@@ -99,7 +103,14 @@ public class PlayerState : MonoBehaviour
             if (moveInput != Vector2.zero)
             {
                 ChangeState(new PlayerMoveState(this));
-            }        
+            }
+
+            ////パリィ
+            //var  buttonInput = input.actions["Parry"].ReadValue<float>();
+            //if(buttonInput != 0)
+            //{
+            //    ChangeState(new PlayerParry(this));
+            //}
         }
 
         if (currentState is PlayerMoveState)
@@ -108,7 +119,36 @@ public class PlayerState : MonoBehaviour
             if (moveInput == Vector2.zero)
             {
                 ChangeState(new PlayerIdleState(this));
-            }           
+            }
+
+            //パリィ
+            var buttonInput = input.actions["Parry"].ReadValue<float>();
+            if (buttonInput != 0)
+            {
+                ChangeState(new PlayerParry(this));
+            }
+
+        }
+
+        if (currentState is PlayerParry)
+        {
+            Vector2 moveInput = input.actions["Move"].ReadValue<Vector2>();
+            if (moveInput != Vector2.zero)
+            {
+                ChangeState(new PlayerMoveState(this));
+            }
+            else if (moveInput == Vector2.zero)
+            {
+                ChangeState(new PlayerIdleState(this));
+            }
+
+            //パリィ
+            var buttonInput = input.actions["Parry"].ReadValue<float>();
+            if (buttonInput != 0)
+            {
+                ChangeState(new PlayerParry(this));
+            }
+
         }
     }
 
