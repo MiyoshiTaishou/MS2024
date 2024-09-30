@@ -10,18 +10,11 @@ public class PlayerParry : IState
     //パリィ範囲
     private GameObject ParryArea;
 
-    //[SerializeField, Tooltip("パリィ範囲")] float parryradius = 3;
-
     ////パリィの効果時間
-    //[SerializeField, Tooltip("パリィ効果時間")] float ParryActivetime = 30;
     private float ParryActivetimeFrame = 0; //フレームに変換する
 
     ////ヒットストップ時間
-    //[SerializeField, Tooltip("ヒットストップ時間")] private int HitStop = 3;
     private float HitStopFrame = 0; //フレームに変換する
-
-    ////ノックバック
-    //[SerializeField, Tooltip("ノックバック力")] float KnockbackPower = 10;
 
     /// <summary>
     /// 敵からの攻撃を受けたか判定
@@ -85,6 +78,9 @@ public class PlayerParry : IState
         ParryActivetimeFrame = character.ParryActivetime / 60;
 
         ParryArea.transform.localScale = scale;
+
+        ParryArea.SetActive(true);
+        Parryflg = true;
     }
 
     /// <summary>
@@ -130,6 +126,7 @@ public class PlayerParry : IState
     public void Exit()
     {
         // Idle状態を抜けるときの処理
+        Parryflg = false;
     }
 
 }
