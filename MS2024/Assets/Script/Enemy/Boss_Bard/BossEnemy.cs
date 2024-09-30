@@ -71,6 +71,8 @@ public class BossEnemy : MonoBehaviour
         {
             m_Animator.SetTrigger("Attack");
         }
+
+  
     }
 
     void back()
