@@ -1,84 +1,87 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.IO.LowLevel.Unsafe;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.TextCore.Text;
-using UnityEngine.UI;
+using Fusion;
+using Fusion.Addons.Physics;
 
 /// <summary>
-/// ƒvƒŒƒCƒ„[ƒXƒe[ƒgŠÇ—ƒNƒ‰ƒX
+/// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚¹ãƒ†ãƒ¼ãƒˆç®¡ç†ã‚¯ãƒ©ã‚¹
 /// </summary>
-public class PlayerState : MonoBehaviour
+public class PlayerState : NetworkBehaviour
 {
     private IState currentState;
-    [HideInInspector]public PlayerInput input;
+    [HideInInspector] public PlayerInput input;
 
-    // ƒCƒ“ƒXƒyƒNƒ^[‚Å’²®‰Â”\‚ÈˆÚ“®‘¬“x‚Æ‰Á‘¬“x
+    // ã‚¤ãƒ³ã‚¹ãƒšã‚¯ã‚¿ãƒ¼ã§èª¿æ•´å¯èƒ½ãªç§»å‹•é€Ÿåº¦ã¨åŠ é€Ÿåº¦
     [HideInInspector] public float moveSpeed = 5.0f;
     [HideInInspector] public float moveSpeedAcc = 1.0f;
     [HideInInspector] public float maxSpeed = 10.0f;
 
-    //ƒWƒƒƒ“ƒvŠÖ˜A
+    // ã‚¸ãƒ£ãƒ³ãƒ—é–¢é€£
     [HideInInspector] public float jumpForce = 5.0f;
-    [HideInInspector] public float fallMultiplier = 2.5f; // —‰º‘¬“x‚Ì‹­‰»
+    [HideInInspector] public float fallMultiplier = 2.5f; // è½ä¸‹é€Ÿåº¦ã®å¼·åŒ–
 
     [HideInInspector] public float currentSpeed = 0.0f;
 
     [HideInInspector] public Vector3 initScale;
 
-    //ƒpƒŠƒB”ÍˆÍ
-    [HideInInspector, Tooltip("ƒpƒŠƒB”ÍˆÍ")] public float parryradius = 3;
+    // ãƒ‘ãƒªã‚£ç¯„å›²
+    [HideInInspector, Tooltip("ãƒ‘ãƒªã‚£ç¯„å›²")] public float parryradius = 3;
 
-    //ƒpƒŠƒB‚ÌŒø‰ÊŠÔ
-    [HideInInspector, Tooltip("ƒpƒŠƒBŒø‰ÊŠÔ")] public float ParryActivetime = 30;
+    // ãƒ‘ãƒªã‚£ã®åŠ¹æœæ™‚é–“
+    [HideInInspector, Tooltip("ãƒ‘ãƒªã‚£åŠ¹æœæ™‚é–“")] public float ParryActivetime = 30;
 
-    //ƒqƒbƒgƒXƒgƒbƒvŠÔ
-    [HideInInspector, Tooltip("ƒqƒbƒgƒXƒgƒbƒvŠÔ")] public int HitStop = 3;
+    // ãƒ’ãƒƒãƒˆã‚¹ãƒˆãƒƒãƒ—æ™‚é–“
+    [HideInInspector, Tooltip("ãƒ’ãƒƒãƒˆã‚¹ãƒˆãƒƒãƒ—æ™‚é–“")] public int HitStop = 3;
 
-    //ƒmƒbƒNƒoƒbƒN
-    [HideInInspector, Tooltip("ƒmƒbƒNƒoƒbƒN—Í")] public float KnockbackPower = 10;
+    // ãƒãƒƒã‚¯ãƒãƒƒã‚¯
+    [HideInInspector, Tooltip("ãƒãƒƒã‚¯ãƒãƒƒã‚¯åŠ›")] public float KnockbackPower = 10;
 
-    //UŒ‚‚Ì’l
-    //UŒ‚‚ª”­¶‚·‚é‚Ü‚Å‚ÌŠÔ
-    [SerializeField, Tooltip("UŒ‚‚Ì”­¶ƒtƒŒ[ƒ€")] public int AttackStartupFrame = 25;
-    //UŒ‚‚ÌŒø‰ÊŠÔ
-    [SerializeField, Tooltip("UŒ‚‚Ì‘±ƒtƒŒ[ƒ€")] public int AttackActiveFrame = 50;
-    //UŒ‚‚Ìd’¼ŠÔ
-    [SerializeField, Tooltip("UŒ‚‚Ìd’¼ƒtƒŒ[ƒ€")] public int AttackRecoveryFrame = 100;
+    //æ”»æ’ƒã®å€¤
+    //æ”»æ’ƒãŒç™ºç”Ÿã™ã‚‹ã¾ã§ã®æ™‚é–“
+    [SerializeField, Tooltip("æ”»æ’ƒã®ç™ºç”Ÿãƒ•ãƒ¬ãƒ¼ãƒ ")] public int AttackStartupFrame = 25;
+    //æ”»æ’ƒã®åŠ¹æœæ™‚é–“
+    [SerializeField, Tooltip("æ”»æ’ƒã®æŒç¶šãƒ•ãƒ¬ãƒ¼ãƒ ")] public int AttackActiveFrame = 50;
+    //æ”»æ’ƒã®ç¡¬ç›´æ™‚é–“
+    [SerializeField, Tooltip("æ”»æ’ƒã®ç¡¬ç›´ãƒ•ãƒ¬ãƒ¼ãƒ ")] public int AttackRecoveryFrame = 100;
     [SerializeField, ReadOnly] public bool isAttack = false;
     [SerializeField, ReadOnly] public int AttackCount = 0;
 
     private Animator animator;
+    private NetworkRigidbody3D networkRb; // NetworkRigidbody å‚ç…§
 
     // Start is called before the first frame update
     void Start()
     {
-        input = GetComponent<PlayerInput>();   
+        input = GetComponent<PlayerInput>();
         animator = GetComponent<Animator>();
+        networkRb = GetComponent<NetworkRigidbody3D>(); // NetworkRigidbody ã‚’å–å¾—
 
         initScale = transform.localScale;
 
-        // ‰Šúó‘Ô‚ğˆÚ“®ó‘Ô‚ÉƒZƒbƒg (‘¼‚Ìó‘Ô‚É‚·‚éê‡‚Í•ÏX)
+        // åˆæœŸçŠ¶æ…‹ã‚’ç§»å‹•çŠ¶æ…‹ã«ã‚»ãƒƒãƒˆ (ä»–ã®çŠ¶æ…‹ã«ã™ã‚‹å ´åˆã¯å¤‰æ›´)
         currentState = new PlayerIdleState(this);
         currentState.Enter();
 
-        // ƒWƒƒƒ“ƒvƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚½uŠÔ‚Ìˆ—
+        // ã‚¸ãƒ£ãƒ³ãƒ—ãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚ŒãŸç¬é–“ã®å‡¦ç†
         input.actions["Jump"].performed += OnJumpPerformed;
     }
 
     // Update is called once per frame
     void Update()
     {
-        //Œ»İ‚Ìó‘Ô‚ÌUpdateˆ—‚ğÀs
-        currentState.Update();
-        ChangeStateUpdate();
+        if (Object.HasInputAuthority) // ãƒ­ãƒ¼ã‚«ãƒ«ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®å ´åˆã®ã¿æ›´æ–°
+        {
+            // ç¾åœ¨ã®çŠ¶æ…‹ã®Updateå‡¦ç†ã‚’å®Ÿè¡Œ
+            currentState.Update();
+            ChangeStateUpdate();
+        }
     }
 
     /// <summary>
-    /// ó‘Ô‚Ì•ÏX
+    /// çŠ¶æ…‹ã®å¤‰æ›´
     /// </summary>
     /// <param name="newState"></param>
     public void ChangeState(IState newState)
@@ -88,17 +91,17 @@ public class PlayerState : MonoBehaviour
         currentState.Enter();
     }
 
-    // ƒLƒƒƒ‰ƒNƒ^[‚ÌƒAƒjƒ[ƒVƒ‡ƒ“‚ğİ’è‚·‚éƒƒ\ƒbƒh
+    // ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ã®ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã‚’è¨­å®šã™ã‚‹ãƒ¡ã‚½ãƒƒãƒ‰
     public void SetAnimation(string animationName)
     {
-        // ƒAƒjƒ[ƒVƒ‡ƒ“‚ÌƒZƒbƒgˆ—
-        // Animator‚ÌƒAƒjƒ[ƒVƒ‡ƒ“‚ğƒgƒŠƒK[‚ÅØ‚è‘Ö‚¦‚é
+        // ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã®ã‚»ãƒƒãƒˆå‡¦ç†
+        // Animatorã®ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã‚’ãƒˆãƒªã‚¬ãƒ¼ã§åˆ‡ã‚Šæ›¿ãˆã‚‹
         animator.Play(animationName);
     }
 
     private void OnJumpPerformed(InputAction.CallbackContext context)
     {
-        // ó‘Ô‚ªIdle‚Ü‚½‚ÍMove‚Ìê‡‚ÉƒWƒƒƒ“ƒv‚Ö‚Ì‘JˆÚ‚ğs‚¤
+        // çŠ¶æ…‹ãŒIdleã¾ãŸã¯Moveã®å ´åˆã«ã‚¸ãƒ£ãƒ³ãƒ—ã¸ã®é·ç§»ã‚’è¡Œã†
         if (currentState is PlayerIdleState || currentState is PlayerMoveState)
         {
             ChangeState(new PlayerJumpState(this));
@@ -115,18 +118,6 @@ public class PlayerState : MonoBehaviour
                 ChangeState(new PlayerMoveState(this));
             }
 
-            //ƒpƒŠƒB
-            var buttonInput = input.actions["Parry"].ReadValue<float>();
-            if (buttonInput != 0)
-            {
-                ChangeState(new PlayerParry(this));
-            }
-            
-            var attackInput = input.actions["Attack"].ReadValue<float>();
-            if (attackInput != 0)
-            {
-                ChangeState(new PlayerAttack(this));
-            }
         }
 
         if (currentState is PlayerMoveState)
@@ -137,18 +128,13 @@ public class PlayerState : MonoBehaviour
                 ChangeState(new PlayerIdleState(this));
             }
 
-            //ƒpƒŠƒB
+            // ãƒ‘ãƒªã‚£
             var buttonInput = input.actions["Parry"].ReadValue<float>();
             if (buttonInput != 0)
             {
                 ChangeState(new PlayerParry(this));
             }
-            
-            var attackInput = input.actions["Attack"].ReadValue<float>();
-            if (attackInput != 0)
-            {
-                ChangeState(new PlayerAttack(this));
-            }
+
         }
 
         if (currentState is PlayerParry)
@@ -163,14 +149,12 @@ public class PlayerState : MonoBehaviour
                 ChangeState(new PlayerIdleState(this));
             }
 
-            //ƒpƒŠƒB
+            // ãƒ‘ãƒªã‚£
             var buttonInput = input.actions["Parry"].ReadValue<float>();
             if (buttonInput != 0)
             {
                 ChangeState(new PlayerParry(this));
             }
-
         }
     }
-
 }
