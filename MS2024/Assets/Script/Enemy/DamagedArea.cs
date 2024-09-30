@@ -1,6 +1,12 @@
 using UnityEngine;
 using System.Collections.Generic;
 
+enum DAMAGE_TYPE{
+    ALL,
+    PLAYER_1,
+    PLAYER_2
+}
+
 [RequireComponent(typeof(Collider))]
 public class DamagedArea : MonoBehaviour
 {    
@@ -9,11 +15,13 @@ public class DamagedArea : MonoBehaviour
     public bool isActive;
     [Tooltip("単体ダメージか継続ダメージを決めます")]
     public bool isSustained;
+    [Tooltip("ダメージの与える対象を決めます ")]
+    [SerializeField]
+    private DAMAGE_TYPE damageType;
     [Tooltip("与えるダメージを決めます")]
-
     [SerializeField]
     private float damage;
-    [Tooltip("継続ダメージの与える間隔を決めます(1/60秒間隔)")]
+    [Tooltip("継続ダメージの与える間隔を決めます(1/60秒間隔)\n今後廃止予定")]
     [SerializeField]
     private int coolDown;
 
@@ -62,9 +70,14 @@ public class DamagedArea : MonoBehaviour
         //継続ダメージを行う処理
         if (isActive && isSustained){
             if (nowTime >= coolDown){
-                player.HP -= damage;
-                player.FlashReset();
-                playerCooldowns[player] = 0f;
+                if ((damageType == DAMAGE_TYPE.PLAYER_1 && !player.isHost) ||
+                    (damageType == DAMAGE_TYPE.PLAYER_2 &&  player.isHost))
+                    return;
+                // if (!player.ParryCheck()) { // プレイヤーパリィ処理（呼び出し先不明）
+                    player.HP -= damage;
+                    player.FlashReset();
+                    playerCooldowns[player] = 0f;
+                // }
             }
             //各プレイヤーのクールダウンタイマーを更新
             playerCooldowns[player]++;
@@ -72,9 +85,14 @@ public class DamagedArea : MonoBehaviour
         //単体ダメージを行う処理
         else if (isActive && playerActiveStates[player]){
             if (playerActiveStates[player]){
-                player.HP -= damage;
-                player.FlashReset();
-                playerActiveStates[player] = false;
+                if ((damageType == DAMAGE_TYPE.PLAYER_1 && !player.isHost) ||
+                    (damageType == DAMAGE_TYPE.PLAYER_2 &&  player.isHost))
+                    return;
+                // if (!player.ParryCheck()) { // プレイヤーパリィ処理（呼び出し先不明）
+                    player.HP -= damage;
+                    player.FlashReset();
+                    playerActiveStates[player] = false;
+                // }
             }
         }
     }
