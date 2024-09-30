@@ -13,7 +13,7 @@ public class AttackSystem : MonoBehaviour
             Debug.LogError("playerないよ");
         }
         playerattack = player.GetComponent<PlayerAttack>();
-        if(!playerattack) 
+        if(playerattack == null) 
         {
             Debug.LogError("アタックないよ");
         }
