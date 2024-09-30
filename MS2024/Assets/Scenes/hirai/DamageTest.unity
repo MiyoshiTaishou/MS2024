@@ -477,8 +477,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillObj: {fileID: 2035887316}
   maxSkillCount: 5
-  totalTime: 300
-  coolDown: 600
+  totalTime: 5
+  coolDown: 15
+  minAttackRange: 0
+  maxAttackRange: 10
 --- !u!1 &827631783
 GameObject:
   m_ObjectHideFlags: 0
@@ -512,11 +514,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b75be179e10814e42befb943a9ba5c07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 0.5
-  changeTargetInterval: 0
+  HP: 100
+  downTime: 5
+  moveSpeed: 1
+  changeTargetInterval: 30
   skills:
   - {fileID: 568827857}
-  minCooldownAfterAttack: 0
+  minCooldownAfterAttack: 10
 --- !u!54 &827631785
 Rigidbody:
   m_ObjectHideFlags: 0

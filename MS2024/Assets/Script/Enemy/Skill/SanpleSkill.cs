@@ -3,7 +3,7 @@ using UnityEngine;
 public class SampleSkill : SkillBase
 {
     public override void UseSkill(Transform bossTransform, Transform targetTransform){
-        Debug.Log("サンプルスキルを使用");
+        Debug.LogWarning("サンプルスキルを使用");
 
         // 例：プレイヤーとのベクトルで直線上にダメージ判定を設置
         Vector3 direction = (targetTransform.position - bossTransform.position).normalized;

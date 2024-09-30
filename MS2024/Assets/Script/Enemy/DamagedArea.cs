@@ -70,12 +70,14 @@ public class DamagedArea : MonoBehaviour
         //継続ダメージを行う処理
         if (isActive && isSustained){
             if (nowTime >= coolDown){
-                if((damageType == DAMAGE_TYPE.PLAYER_1 && !player.isHost) ||
-                    (damageType == DAMAGE_TYPE.PLAYER_2 && player.isHost))
+                if ((damageType == DAMAGE_TYPE.PLAYER_1 && !player.isHost) ||
+                    (damageType == DAMAGE_TYPE.PLAYER_2 &&  player.isHost))
                     return;
-                player.HP -= damage;
-                player.FlashReset();
-                playerCooldowns[player] = 0f;
+                // if (!player.ParryCheck()) { // プレイヤーパリィ処理（呼び出し先不明）
+                    player.HP -= damage;
+                    player.FlashReset();
+                    playerCooldowns[player] = 0f;
+                // }
             }
             //各プレイヤーのクールダウンタイマーを更新
             playerCooldowns[player]++;
@@ -83,12 +85,14 @@ public class DamagedArea : MonoBehaviour
         //単体ダメージを行う処理
         else if (isActive && playerActiveStates[player]){
             if (playerActiveStates[player]){
-                if((damageType == DAMAGE_TYPE.PLAYER_1 && !player.isHost) ||
-                    (damageType == DAMAGE_TYPE.PLAYER_2 && player.isHost))
+                if ((damageType == DAMAGE_TYPE.PLAYER_1 && !player.isHost) ||
+                    (damageType == DAMAGE_TYPE.PLAYER_2 &&  player.isHost))
                     return;
-                player.HP -= damage;
-                player.FlashReset();
-                playerActiveStates[player] = false;
+                // if (!player.ParryCheck()) { // プレイヤーパリィ処理（呼び出し先不明）
+                    player.HP -= damage;
+                    player.FlashReset();
+                    playerActiveStates[player] = false;
+                // }
             }
         }
     }

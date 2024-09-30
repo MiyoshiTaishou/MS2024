@@ -9,7 +9,7 @@ public class AttackEffect : MonoBehaviour
     [Tooltip("攻撃エフェクトを決めます")]
     [SerializeField]
     private ParticleSystem attackEffect;
-    [Tooltip("攻撃発生までの遅延時間を決めます")]
+    [Tooltip("攻撃発生までの遅延時間を決めます(1/60秒間隔)")]
     [SerializeField]
     public float delayEffect;
 

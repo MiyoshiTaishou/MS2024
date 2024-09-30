@@ -9,10 +9,14 @@ public abstract class SkillBase : MonoBehaviour
     public GameObject skillObj;
     [Tooltip("最大同時攻撃数を決めます")]
     public int maxSkillCount;
-    [Tooltip("攻撃発生の長さを決めます")]
+    [Tooltip("攻撃発生の長さを決めます(1秒間隔)")]
     public float totalTime;
-    [Tooltip("攻撃のクールダウンを決めます")]
+    [Tooltip("攻撃のクールダウンを決めます(1秒間隔)")]
     public float coolDown;
+    [Tooltip("攻撃の最低射程を決めます")]
+    public float minAttackRange;
+    [Tooltip("攻撃の最大射程を決めます")]
+    public float maxAttackRange;
     // [Tooltip("攻撃準備時間を決めます")]
     // public float prepareTime;
     // [Tooltip("攻撃の持続時間を決めます")]
@@ -29,7 +33,7 @@ public abstract class SkillBase : MonoBehaviour
     }
 
     public void ResetCooldown() {
-        currentCooldown = coolDown;
+        currentCooldown = coolDown * 60;
     }
 
     public abstract void UseSkill(Transform bossTransform, Transform targetTransform);

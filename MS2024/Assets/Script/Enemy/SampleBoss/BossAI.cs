@@ -5,8 +5,8 @@ using UnityEngine;
 enum BOSS_STATE {
     IDLE,
     MOVING,
-    PREPARING_ATTACK,
-    ATTACKING
+    ATTACKING,
+    DOWN,
 }
 
 [System.Serializable]
@@ -15,6 +15,8 @@ public struct CoolTime {
     public float changeTargetInterval;
     [Tooltip("攻撃の最低クールダウンを決めます")]
     public float minCooldownAfterAttack;
+    [Tooltip("ボスのダウン時間を決めます")]
+    public float downTime;
 }
 
 struct PlayerData {
@@ -25,11 +27,19 @@ struct PlayerData {
 
 public class BossAI : MonoBehaviour
 {
+    [Header("ボス設定")]
+    [Tooltip("体力を決めます")]
+    [SerializeField]
+    public float HP;
+    [Tooltip("ダウン時間を決めます(1秒間隔)")]
+    [SerializeField]
+    public float downTime;
+
     [Header("移動設定")]
     [Tooltip("移動速度を決めます")]
     [SerializeField]
     private float moveSpeed;
-    [Tooltip("ターゲットが切り替わる間隔を決めます")]
+    [Tooltip("ターゲットが切り替わる間隔を決めます(1秒間隔)")]
     [SerializeField]
     private float changeTargetInterval;
 
@@ -37,7 +47,7 @@ public class BossAI : MonoBehaviour
     [Tooltip("攻撃技を決めます")]
     [SerializeField]
     public SkillBase[] skills;
-    [Tooltip("攻撃の最低クールダウンを決めます")]
+    [Tooltip("攻撃の最低クールダウンを決めます(1秒間隔)")]
     [SerializeField]
     private float minCooldownAfterAttack;
 
@@ -49,41 +59,49 @@ public class BossAI : MonoBehaviour
     private CoolTime nowTime;
 
     private void Start() {
-        coolTime.changeTargetInterval = changeTargetInterval;
-        coolTime.minCooldownAfterAttack = minCooldownAfterAttack;
+        coolTime.changeTargetInterval = changeTargetInterval * 60;
+        coolTime.minCooldownAfterAttack = minCooldownAfterAttack * 60;
+        coolTime.downTime = downTime * 60;
     }
 
     private void Update() {
-        nowTime.minCooldownAfterAttack -= Time.deltaTime;
-        if (nowTime.minCooldownAfterAttack <= 0) {
-            bossState = BOSS_STATE.MOVING;
-        }
+        // nowTime.minCooldownAfterAttack -= Time.deltaTime;
+        // if (nowTime.minCooldownAfterAttack <= 0) {
+        //     bossState = BOSS_STATE.MOVING;
+        // }
         UpdateCooldowns();
     }
 
     private void FixedUpdate() {
-        // if (playerObjects.Count > 0)
-        //     PlayerSearch();
-        if (nowTime.changeTargetInterval > coolTime.changeTargetInterval) {
+        // 一定時間ごとにターゲット変更
+        if (playerObjects.Count >= 0) {
+            PlayerSearch();
             ChangeTargetRoutine();
-            nowTime.changeTargetInterval = 0;
         }
+        else 
+            Debug.LogWarning("プレイヤー発見" + playerObjects);
+        if (nowTime.changeTargetInterval <= 0) {
+            ChangeTargetRoutine();
+            nowTime.changeTargetInterval = coolTime.changeTargetInterval;
+        }
+
         switch (bossState) {
             case BOSS_STATE.IDLE:
                 bossState = BOSS_STATE.MOVING;
                 break;
 
             case BOSS_STATE.MOVING:
-                // MoveTowardsTarget();
-                break;
-
-            case BOSS_STATE.PREPARING_ATTACK:
-                // 攻撃準備中の処理（エフェクトなど）をここに追加
-                // TryStartAttack();
+                MoveTowardsTarget();
+                TryStartAttack();
                 break;
 
             case BOSS_STATE.ATTACKING:
                 // 攻撃中の処理はスキル側で行う
+                break;
+            
+            case BOSS_STATE.DOWN:
+                if (nowTime.downTime <= 0)
+                    bossState = BOSS_STATE.MOVING;
                 break;
         }
     }
@@ -101,27 +119,37 @@ public class BossAI : MonoBehaviour
         }
     }
 
+    private bool IsTargetWithSkillRange(int skillNum) {
+        float direction = (transform.position + currentTarget.transform.position).magnitude;
+        if (skills[skillNum].minAttackRange >= direction && skills[skillNum].maxAttackRange <= direction)
+            return true;
+        return false;
+    }
+
     private void TryStartAttack() {
         SkillBase skillToUse = GetAvailableSkill();
         if (skillToUse != null) {
-            bossState = BOSS_STATE.PREPARING_ATTACK;
+            bossState = BOSS_STATE.ATTACKING;
             AttackRoutine(skillToUse);
         }
     }
 
     private SkillBase GetAvailableSkill() {
         List<SkillBase> availableSkills = new List<SkillBase>();
-        foreach (var skill in skills) {
-            if (skill.CurrentCooldown <= 0) {
-                availableSkills.Add(skill);
+        foreach (var a in skills)  {
+            foreach (var skill in skills) {
+                if (skill.CurrentCooldown <= 0) {
+                    availableSkills.Add(skill);
+                }
             }
+
+            if (availableSkills.Count == 0) return null;
+            // クールダウンが0のスキルが複数ある場合はランダムで選択
+            int index = Random.Range(0, availableSkills.Count);
+            if (IsTargetWithSkillRange(index))
+                return availableSkills[index];
         }
-
-        if (availableSkills.Count == 0) return null;
-
-        // クールダウンが0のスキルが複数ある場合はランダムで選択
-        int index = Random.Range(0, availableSkills.Count);
-        return availableSkills[index];
+        return null;
     }
 
     private void AttackRoutine(SkillBase skill) {
@@ -130,7 +158,7 @@ public class BossAI : MonoBehaviour
         // if (skill.coolDown <= 0) return;
         // if (skill.duration <= 0) return;
 
-        bossState = BOSS_STATE.ATTACKING;
+        // bossState = BOSS_STATE.ATTACKING;
         skill.UseSkill(transform, currentTarget.transform);
 
 
@@ -139,16 +167,20 @@ public class BossAI : MonoBehaviour
         nowTime.minCooldownAfterAttack = coolTime.minCooldownAfterAttack;
     }
 
+    public void BossDown() {}
+
     private void UpdateCooldowns() {
-        float DT = Time.deltaTime;
+        float deltaTime = Time.deltaTime;
         foreach (var skill in skills) {
-            skill.UpdateCooldown(DT);
+            skill.UpdateCooldown(deltaTime);
         }
-        nowTime.changeTargetInterval   -= DT;
-        nowTime.minCooldownAfterAttack -= DT;
+        nowTime.changeTargetInterval   -= deltaTime;
+        nowTime.minCooldownAfterAttack -= deltaTime;
+        nowTime.downTime               -= deltaTime;
     }
 
     private void PlayerSearch() {
+        Debug.LogWarning("プレイヤーサーチ");
         playerObjects.Clear();
         GameObject[] allObjects = GameObject.FindGameObjectsWithTag("Player");
         playerObjects.AddRange(allObjects);
