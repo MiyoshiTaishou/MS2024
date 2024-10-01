@@ -124,12 +124,12 @@ public class DamagedArea : MonoBehaviour
     }
 
     bool IsParry() {
-        var playerState = GameObject.Find("Player2D(Clone)").GetComponent<PlayerState>();
-        var currentState = playerState.GetNumState();
-        if (currentState is PlayerParry) {
-            var parry = (PlayerParry)currentState;
-            return parry.ParryCheck();
-        }
+        // var playerState = GameObject.Find("Player2D(Clone)").GetComponent<PlayerState>();
+        // var currentState = playerState.GetNumState();
+        // if (currentState is PlayerParry) {
+        //     var parry = (PlayerParry)currentState;
+        //     return parry.ParryCheck();
+        // }
         return false;
     }
 }

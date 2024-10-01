@@ -5,6 +5,7 @@ using UnityEngine;
 enum BOSS_STATE {
     IDLE,
     MOVING,
+    PRELIMINARY_ACTION,
     ATTACKING,
     DOWN,
 }
@@ -54,14 +55,15 @@ public class BossAI : MonoBehaviour
     private BOSS_STATE bossState = BOSS_STATE.IDLE;
     private List<GameObject> playerObjects = new List<GameObject>();
     private GameObject currentTarget;
+    private SkillBase skillToUse;
     private float cooldownTimer = 0f;
     private CoolTime coolTime;
     private CoolTime nowTime;
 
     private void Start() {
-        coolTime.changeTargetInterval = changeTargetInterval * 60;
-        coolTime.minCooldownAfterAttack = minCooldownAfterAttack * 60;
-        coolTime.downTime = downTime * 60;
+        coolTime.changeTargetInterval = changeTargetInterval;
+        coolTime.minCooldownAfterAttack = minCooldownAfterAttack;
+        coolTime.downTime = downTime;
     }
 
     private void Update() {
@@ -95,9 +97,13 @@ public class BossAI : MonoBehaviour
                 TryStartAttack();
                 break;
 
+            case BOSS_STATE.PRELIMINARY_ACTION:
+                break;
+
             case BOSS_STATE.ATTACKING:
                 // 攻撃中の処理はスキル側で行う
-                // CheckAttacking();
+                CheckAttacking();
+                Debug.DrawLine(transform.position, currentTarget.transform.position, Color.red);
                 break;
             
             case BOSS_STATE.DOWN:
@@ -123,9 +129,9 @@ public class BossAI : MonoBehaviour
     private bool IsTargetWithSkillRange(int skillNum) {
         float direction = (transform.position - currentTarget.transform.position).magnitude;
         // Debug.DrawLine(transform.position, currentTarget.transform.position, Color.green);
-        Debug.LogWarning("プレイヤーとの距離："+direction);
-        Debug.LogWarning("最低射程距離："+skills[skillNum].minAttackRange);
-        Debug.LogWarning("最大射程距離："+skills[skillNum].maxAttackRange);
+        // Debug.LogWarning("プレイヤーとの距離："+direction);
+        // Debug.LogWarning("最低射程距離："+skills[skillNum].minAttackRange);
+        // Debug.LogWarning("最大射程距離："+skills[skillNum].maxAttackRange);
         if (skills[skillNum].minAttackRange <= direction && skills[skillNum].maxAttackRange >= direction)
             return true;
         return false;
@@ -144,28 +150,26 @@ public class BossAI : MonoBehaviour
             if (availableSkills.Count == 0) return null;
             // クールダウンが0のスキルが複数ある場合はランダムで選択
             int index = Random.Range(0, availableSkills.Count);
-            Debug.LogWarning("使用スキル"+availableSkills[index]);
-            if (IsTargetWithSkillRange(index)){
-                Debug.LogWarning("射程内");
-                return availableSkills[index];}
-                Debug.LogWarning("射程外");
+            if (IsTargetWithSkillRange(index))
+                return availableSkills[index];
         }
         return null;
     }
 
     private void TryStartAttack() {
-        SkillBase skillToUse = GetAvailableSkill();
+        skillToUse = GetAvailableSkill();
         if (skillToUse != null) {
             bossState = BOSS_STATE.ATTACKING;
             skillToUse.UseSkill(transform, currentTarget.transform);        
         }
     }
 
-    private void CheckAttacking(SkillBase skill) {
-        // if () return;
+    private void CheckAttacking() {
+        if (skillToUse.IsSkillUsing()) return;
         // クールダウン開始
-        skill.ResetCooldown();
+        skillToUse.ResetCooldown();
         nowTime.minCooldownAfterAttack = coolTime.minCooldownAfterAttack;
+        bossState = BOSS_STATE.MOVING;
     }
 
     public void BossDown() {}
