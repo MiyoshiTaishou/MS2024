@@ -27,7 +27,7 @@ public class ParryDisplay : MonoBehaviour
         // 時間を計測
         timer += Time.deltaTime;
 
-        Debug.Log(timer);
+        //Debug.Log(timer);
 
         // 指定した秒数を超えたらオブジェクトを非表示にする
         if (timer >= player.ParryActivetime / 60)
