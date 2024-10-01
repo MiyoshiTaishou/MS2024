@@ -1,3 +1,4 @@
+using Fusion;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,6 +8,8 @@ using UnityEngine.InputSystem;
 
 public class PlayerParry : IState
 {
+    private NetworkRunner runner;
+
     //パリィ範囲
     private GameObject ParryArea;
 
@@ -19,7 +22,7 @@ public class PlayerParry : IState
     /// <summary>
     /// 敵からの攻撃を受けたか判定
     /// </summary>
-    public bool DamageReceive { get; set; } = false;
+   // public bool DamageReceive { get; set; } = false;
 
     Camera Maincamera;
     CinemaCharCamera cinemachar;
@@ -41,15 +44,18 @@ public class PlayerParry : IState
     /// <summary>
     /// パリィ状態かどうかのチェック(プレイヤーがダメージを受けたときに呼ぶ)
     /// </summary>
-    public void ParryCheck()
+    public bool ParryCheck()
     {
         if (ParryArea.activeSelf)
         {
-            if (DamageReceive)
-            {
-                ParrySystem();
-            }
+             ParrySystem();
+            return true;
         }
+        else
+        {
+            return false;
+        }
+
     }
 
     //表示時間のゲッター
@@ -60,8 +66,6 @@ public class PlayerParry : IState
 
     public void Enter()
     {
-        
-
         hitStop = character.GetComponent<HitStop>();
         Maincamera = Camera.main;
         cinemachar = Maincamera.GetComponent<CinemaCharCamera>();
@@ -106,19 +110,60 @@ public class PlayerParry : IState
        // cinemachar.CameraZoom(this.transform,5,0.5f);
         back.ApplyKnockback(character.transform.forward, character.KnockbackPower);
         ParryArea.GetComponent<ParryDisplay>().Init();
-        DamageReceive = false;
+    }
+
+    [Rpc(RpcSources.InputAuthority, RpcTargets.All)]
+    public void RPC_ParrySystem()
+    {
+        ParrySystem();
     }
 
     public void Update()
     {
-
+        //デバック用
         if (ParryArea.activeSelf)
         {
-            //とりあえずキーボードで仮実装
-            if (Input.GetKeyDown(KeyCode.L) || DamageReceive)
+            if (Input.GetKeyDown(KeyCode.L))
             {
                 ParrySystem();
             }
+        }
+
+        if (runner != null)
+        {
+
+            // ホスト用の処理
+            if (runner.IsServer)
+            {
+                Debug.Log("This instance is the Host (Server).");
+                if (ParryArea.activeSelf)
+                {
+                    //とりあえずキーボードで仮実装
+                    if (Input.GetKeyDown(KeyCode.L))
+                    {
+                        ParrySystem();
+                    }
+                }
+            }
+            else if (runner.IsClient)
+            {
+                Debug.Log("This instance is a Client.");
+                // クライアント用の処理
+
+                // クライアント側での入力処理
+                if (ParryArea.activeSelf)
+                {
+                    if (Input.GetKeyDown(KeyCode.L))
+                    {
+                        // RPCを通じてホストにパリィを通知
+                        RPC_ParrySystem();
+                    }
+                }
+            }
+        }
+        else
+        {
+            Debug.LogError("NetworkRunner not found in the scene!");
         }
 
     }
