@@ -32,7 +32,7 @@ public abstract class SkillBase : MonoBehaviour
 
     public void UpdateCooldown(float deltaTime){
         if (currentCooldown > 0) {
-            Debug.LogWarning("スキルクールタイム:"+currentCooldown);
+            // Debug.LogWarning("スキルクールタイム:"+currentCooldown);
             currentCooldown -= deltaTime;
         }
     }
