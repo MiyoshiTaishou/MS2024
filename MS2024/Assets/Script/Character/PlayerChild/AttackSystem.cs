@@ -13,7 +13,7 @@ public class AttackSystem : MonoBehaviour
             Debug.LogError("playerないよ");
         }
         playerattack = player.GetComponent<PlayerAttack>();
-        if(!playerattack) 
+        if(playerattack == null) 
         {
             Debug.LogError("アタックないよ");
         }
@@ -24,6 +24,7 @@ public class AttackSystem : MonoBehaviour
     {
         
     }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.transform.CompareTag("Enemy"))
