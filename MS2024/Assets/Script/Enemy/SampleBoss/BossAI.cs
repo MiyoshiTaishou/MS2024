@@ -157,6 +157,7 @@ public class BossAI : MonoBehaviour
     }
 
     private void TryStartAttack() {
+        if (playerObjects == null) return;  
         skillToUse = GetAvailableSkill();
         if (skillToUse != null) {
             bossState = BOSS_STATE.ATTACKING;

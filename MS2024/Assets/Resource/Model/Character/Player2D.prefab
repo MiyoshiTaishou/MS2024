@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 1460821072406619253}
   m_Layer: 0
   m_Name: Player2D
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -356,13 +356,18 @@ MonoBehaviour:
   maxSpeed: 10
   jumpForce: 5
   fallMultiplier: 2.5
-  currentSpeed: 0
   initScale: {x: 0, y: 0, z: 0}
   parryradius: 3
   ParryActivetime: 30
   HitStop: 3
   KnockbackPower: 10
-
+  AttackStartupFrame: 25
+  AttackActiveFrame: 50
+  AttackRecoveryFrame: 100
+  isAttack: 0
+  AttackCount: 0
+  currentSpeed: 0
+  moveInput: {x: 0, y: 0}
 --- !u!95 &4610117146495008771
 Animator:
   serializedVersion: 5
@@ -550,7 +555,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e03cee35b1b10e49a8efeaf6594d6c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 3456682398586312846}
 --- !u!1001 &8993024079399442987
 PrefabInstance:
   m_ObjectHideFlags: 0
