@@ -8,8 +8,6 @@ using UnityEngine.InputSystem;
 
 public class PlayerParry : IState
 {
-    private NetworkRunner runner;
-
     //パリィ範囲
     private GameObject ParryArea;
 
@@ -46,6 +44,8 @@ public class PlayerParry : IState
     /// </summary>
     public bool ParryCheck()
     {
+       // Debug.Log("パリィ!!!");
+
         if (ParryArea.activeSelf)
         {
              ParrySystem();
@@ -107,7 +107,7 @@ public class PlayerParry : IState
     public void ParrySystem()
     {
         hitStop.ApplyHitStop(HitStopFrame);
-       // cinemachar.CameraZoom(this.transform,5,0.5f);
+        //cinemachar.CameraZoom(this.character.transform, 5,0.5f);
         back.ApplyKnockback(character.transform.forward, character.KnockbackPower);
         ParryArea.GetComponent<ParryDisplay>().Init();
     }
@@ -127,43 +127,6 @@ public class PlayerParry : IState
             {
                 ParrySystem();
             }
-        }
-
-        if (runner != null)
-        {
-
-            // ホスト用の処理
-            if (runner.IsServer)
-            {
-                Debug.Log("This instance is the Host (Server).");
-                if (ParryArea.activeSelf)
-                {
-                    //とりあえずキーボードで仮実装
-                    if (Input.GetKeyDown(KeyCode.L))
-                    {
-                        ParrySystem();
-                    }
-                }
-            }
-            else if (runner.IsClient)
-            {
-                Debug.Log("This instance is a Client.");
-                // クライアント用の処理
-
-                // クライアント側での入力処理
-                if (ParryArea.activeSelf)
-                {
-                    if (Input.GetKeyDown(KeyCode.L))
-                    {
-                        // RPCを通じてホストにパリィを通知
-                        RPC_ParrySystem();
-                    }
-                }
-            }
-        }
-        else
-        {
-            Debug.LogError("NetworkRunner not found in the scene!");
         }
 
     }

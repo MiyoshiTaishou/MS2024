@@ -50,6 +50,11 @@ public class PlayerState : NetworkBehaviour
     public Vector2 moveInput;
 
 
+    public IState GetNumState()
+    {
+        return currentState;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -118,6 +123,7 @@ public class PlayerState : NetworkBehaviour
         if (GetInput(out NetworkInputData data))
         {
             moveInput = data.direction;
+            Debug.Log(data.direction);
         }
 
         if (currentState is PlayerIdleState)
@@ -125,6 +131,13 @@ public class PlayerState : NetworkBehaviour
             if (moveInput != Vector2.zero)
             {
                 ChangeState(new PlayerMoveState(this));
+            }
+
+            // パリィ
+            var buttonInput = input.actions["Parry"].ReadValue<float>();
+            if (buttonInput != 0)
+            {
+                ChangeState(new PlayerParry(this));
             }
         }
 
