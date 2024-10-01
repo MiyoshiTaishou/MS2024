@@ -73,11 +73,11 @@ public class DamagedArea : MonoBehaviour
                 if ((damageType == DAMAGE_TYPE.PLAYER_1 && !player.isHost) ||
                     (damageType == DAMAGE_TYPE.PLAYER_2 &&  player.isHost))
                     return;
-                // if (!player.ParryCheck()) { // プレイヤーパリィ処理（呼び出し先不明）
+                if (!IsParry()) {
                     player.HP -= damage;
                     player.FlashReset();
                     playerCooldowns[player] = 0f;
-                // }
+                }
             }
             //各プレイヤーのクールダウンタイマーを更新
             playerCooldowns[player]++;
@@ -88,11 +88,11 @@ public class DamagedArea : MonoBehaviour
                 if ((damageType == DAMAGE_TYPE.PLAYER_1 && !player.isHost) ||
                     (damageType == DAMAGE_TYPE.PLAYER_2 &&  player.isHost))
                     return;
-                // if (!player.ParryCheck()) { // プレイヤーパリィ処理（呼び出し先不明）
+                if (!IsParry()) {
                     player.HP -= damage;
                     player.FlashReset();
                     playerActiveStates[player] = false;
-                // }
+                }
             }
         }
     }
@@ -121,5 +121,15 @@ public class DamagedArea : MonoBehaviour
         foreach (var player in keys){
             playerActiveStates[player] = true;
         }
+    }
+
+    bool IsParry() {
+        var playerState = GameObject.Find("Player2D(Clone)").GetComponent<PlayerState>();
+        var currentState = playerState.GetNumState();
+        if (currentState is PlayerParry) {
+            var parry = (PlayerParry)currentState;
+            return parry.ParryCheck();
+        }
+        return false;
     }
 }
