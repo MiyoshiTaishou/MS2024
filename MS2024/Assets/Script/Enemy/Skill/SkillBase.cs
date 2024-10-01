@@ -9,8 +9,8 @@ public abstract class SkillBase : MonoBehaviour
     public GameObject skillObj;
     [Tooltip("最大同時攻撃数を決めます")]
     public int maxSkillCount;
-    [Tooltip("攻撃発生の長さを決めます(1秒間隔)")]
-    public float totalTime;
+    [Tooltip("予備動作の長さを決めます(1秒間隔)")]
+    public float preliminaryTime;
     [Tooltip("攻撃のクールダウンを決めます(1秒間隔)")]
     public float coolDown;
     [Tooltip("攻撃の最低射程を決めます")]
@@ -21,20 +21,26 @@ public abstract class SkillBase : MonoBehaviour
     // public float prepareTime;
     // [Tooltip("攻撃の持続時間を決めます")]
     // public float duration;
+    protected int nowSkillCount;
 
     private float currentCooldown = 0f;
-
     public float CurrentCooldown => currentCooldown;
+
+    public void Start() {
+        nowSkillCount = maxSkillCount;
+    }
 
     public void UpdateCooldown(float deltaTime){
         if (currentCooldown > 0) {
+            Debug.LogWarning("スキルクールタイム:"+currentCooldown);
             currentCooldown -= deltaTime;
         }
     }
 
     public void ResetCooldown() {
-        currentCooldown = coolDown * 60;
+        currentCooldown = coolDown;
     }
 
     public abstract void UseSkill(Transform bossTransform, Transform targetTransform);
+    public abstract bool IsSkillUsing();
 }
