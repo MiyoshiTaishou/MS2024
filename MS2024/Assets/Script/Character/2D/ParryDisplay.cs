@@ -33,7 +33,6 @@ public class ParryDisplay : MonoBehaviour
         if (timer >= player.ParryActivetime / 60)
         {
             timer = 0.0f;
-            //player.SetParryflg(false);
             gameObject.SetActive(false);
            
         }

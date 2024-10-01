@@ -117,10 +117,11 @@ public class PlayerParryNet : NetworkBehaviour
 
         if (runner != null)
         {
-            Debug.Log("This instance is the Host (Server).");
+         
             // ホスト用の処理
             if (runner.IsServer)
             {
+                Debug.Log("This instance is the Host (Server).");
                 if (Object.HasInputAuthority)
                 {
                     if (ParryArea.activeSelf)
@@ -137,6 +138,16 @@ public class PlayerParryNet : NetworkBehaviour
             {
                 Debug.Log("This instance is a Client.");
                 // クライアント用の処理
+
+                // クライアント側での入力処理
+                if (ParryArea.activeSelf)
+                {
+                    if (Input.GetKeyDown(KeyCode.L) || DamageReceive)
+                    {
+                        // RPCを通じてホストにパリィを通知
+                        RPC_ParrySystem();
+                    }
+                }
             }
         }
         else
