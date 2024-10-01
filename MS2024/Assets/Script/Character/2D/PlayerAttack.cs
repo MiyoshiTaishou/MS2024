@@ -11,9 +11,9 @@ public class PlayerAttack : IState
 
     GameObject AttackArea;
 
-    //�����A����
+    //何連撃目
     static int nHit = 0;
-    //�ő�A����
+    //最大連撃数
     int nMaxHit = 2;
     public int GetHit() {return nHit;}
     public void AddHit()
@@ -23,7 +23,7 @@ public class PlayerAttack : IState
         {
             nHit = 0;
         }
-        Debug.Log("�A����:" + nHit);
+        Debug.Log("連撃数:" + nHit);
     }
     enum AttackState
     {
@@ -41,14 +41,14 @@ public class PlayerAttack : IState
         AttackArea = character.transform.Find("PlayerAttackArea").gameObject;
         if (character.isAttack == false)
         {
-            Debug.Log("�U��");
+            Debug.Log("攻撃");
             character.AttackCount = character.AttackStartupFrame;
             state = AttackState.Startup;
             character.isAttack = true;
         }
         else if (nHit == 2)
         {
-            Debug.Log("�A�g�U��");
+            Debug.Log("連携攻撃");
             character.AttackCount = character.AttackStartupFrame;
             state = AttackState.Startup;
             character.isAttack = true;
