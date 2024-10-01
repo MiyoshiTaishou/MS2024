@@ -44,7 +44,7 @@ public class AttachColor : MonoBehaviour
 
     void Awake()
     {
-        //var colliders = GetComponents<Collider>();
+        
         var colliders = GetComponentsInChildren<Collider>();
 
         foreach (var collider in colliders)

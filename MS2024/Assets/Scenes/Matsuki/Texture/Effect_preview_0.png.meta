@@ -1,0 +1,338 @@
+fileFormatVersion: 2
+guid: 3bcca7670135a2e419b4e37f747caddc
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 0
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Effect_preview_0_0
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 200
+        width: 16
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1906ab536eb8a0d48b1e1fce52f37254
+      internalID: 869711038
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Effect_preview_0_1
+      rect:
+        serializedVersion: 2
+        x: 109
+        y: 193
+        width: 32
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1f5811768c099a349bab06dc07ab2605
+      internalID: 1173438808
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Effect_preview_0_2
+      rect:
+        serializedVersion: 2
+        x: 185
+        y: 188
+        width: 45
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e11d76fa389463e4dbf070231cadfaa0
+      internalID: -1730884467
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Effect_preview_0_3
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 99
+        width: 51
+        height: 51
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f1fb90abfc5209e4797ca84ba2be8457
+      internalID: 560733909
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Effect_preview_0_4
+      rect:
+        serializedVersion: 2
+        x: 95
+        y: 95
+        width: 61
+        height: 58
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 608e3b9f4ae64224cbb93c10132c84d4
+      internalID: -387375625
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Effect_preview_0_5
+      rect:
+        serializedVersion: 2
+        x: 173
+        y: 90
+        width: 70
+        height: 67
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: da5d9d4f2aa974b4f95f01e2330fbbea
+      internalID: -1928442365
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Effect_preview_0_6
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 5
+        width: 77
+        height: 73
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b45ed999eed4f4648b3b4219788db78f
+      internalID: 891003414
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Effect_preview_0_21
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 3
+        width: 88
+        height: 78
+      alignment: 9
+      pivot: {x: -1.5790972, y: 0.6960092}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 18281ba880a1b6d4091fbaa8bf811c58
+      internalID: -898921626
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Effect_preview_0_7
+      rect:
+        serializedVersion: 2
+        x: 179
+        y: 2
+        width: 71
+        height: 78
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 12d5c283b805c8d40b2a28ee06972fd4
+      internalID: 261014054
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      Effect_preview_0_0: 869711038
+      Effect_preview_0_1: 1173438808
+      Effect_preview_0_10: -1294733200
+      Effect_preview_0_11: 1811924195
+      Effect_preview_0_12: -551852388
+      Effect_preview_0_13: 905520160
+      Effect_preview_0_14: 1992035907
+      Effect_preview_0_15: 695787730
+      Effect_preview_0_16: -1940582346
+      Effect_preview_0_17: 1155151827
+      Effect_preview_0_18: 1376866348
+      Effect_preview_0_19: -1330592264
+      Effect_preview_0_2: -1730884467
+      Effect_preview_0_20: -1392118415
+      Effect_preview_0_21: -1702375590
+      Effect_preview_0_22: -1119708832
+      Effect_preview_0_23: 795324473
+      Effect_preview_0_24: -2019655233
+      Effect_preview_0_25: 831722850
+      Effect_preview_0_26: -1121090297
+      Effect_preview_0_27: -745707201
+      Effect_preview_0_28: -1093089409
+      Effect_preview_0_29: 1744021189
+      Effect_preview_0_3: 560733909
+      Effect_preview_0_30: 1792644802
+      Effect_preview_0_31: 251474031
+      Effect_preview_0_32: -1050185713
+      Effect_preview_0_33: -763588664
+      Effect_preview_0_34: 419736106
+      Effect_preview_0_4: -387375625
+      Effect_preview_0_5: -1928442365
+      Effect_preview_0_6: 891003414
+      Effect_preview_0_7: -898921626
+      Effect_preview_0_8: 261014054
+      Effect_preview_0_9: 8311802
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
