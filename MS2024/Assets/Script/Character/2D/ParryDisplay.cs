@@ -8,11 +8,13 @@ public class ParryDisplay : MonoBehaviour
     // 計測用のタイマー
     private float timer = 0.0f;
 
-    PlayerState player;
+    PlayerParry player;
+
+    public bool Hit {  get; private set; } =false;
 
     private void Start()
     {
-        player = transform.parent.GetComponent<PlayerState>();
+        player = transform.parent.GetComponent<PlayerParry>();
         Init();
     }
 
@@ -27,14 +29,22 @@ public class ParryDisplay : MonoBehaviour
         // 時間を計測
         timer += Time.deltaTime;
 
-        //Debug.Log(timer);
-
         // 指定した秒数を超えたらオブジェクトを非表示にする
-        if (timer >= player.ParryActivetime / 60)
+        if (timer >= player.GetParryActiveTime())
         {
             timer = 0.0f;
             gameObject.SetActive(false);
            
         }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.tag == "Enemy")
+        {
+            Debug.Log("ひっと");
+            Hit = true;
+        }
+
     }
 }

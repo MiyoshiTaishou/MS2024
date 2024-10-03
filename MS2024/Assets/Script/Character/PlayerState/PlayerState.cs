@@ -137,7 +137,7 @@ public class PlayerState : NetworkBehaviour
             var buttonInput = input.actions["Parry"].ReadValue<float>();
             if (buttonInput != 0)
             {
-                ChangeState(new PlayerParry(this));
+                //ChangeState(new PlayerParry(this));
             }
         }
 
@@ -152,7 +152,7 @@ public class PlayerState : NetworkBehaviour
             var buttonInput = input.actions["Parry"].ReadValue<float>();
             if (buttonInput != 0)
             {
-                ChangeState(new PlayerParry(this));
+                //ChangeState(new PlayerParry(this));
             }
 
         }
@@ -172,7 +172,7 @@ public class PlayerState : NetworkBehaviour
             var buttonInput = input.actions["Parry"].ReadValue<float>();
             if (buttonInput != 0)
             {
-                ChangeState(new PlayerParry(this));
+                //ChangeState(new PlayerParry(this));
             }
         }
     }
