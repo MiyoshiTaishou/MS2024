@@ -41,7 +41,7 @@ public class LocalPlayerAttack : MonoBehaviour
             AttackArea = transform.Find("PlayerAttackArea").gameObject;
             if (isAttack == false)
             {
-                Debug.Log("UŒ‚");
+                //Debug.Log("UŒ‚");
                 AttackCount = AttackStartupFrame;
                 state = AttackState.Startup;
                 isAttack = true;
