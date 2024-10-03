@@ -52,6 +52,7 @@ public class PlayerAttack : IState
             character.AttackCount = character.AttackStartupFrame;
             state = AttackState.Startup;
             character.isAttack = true;
+
         }
     }
     public void Exit() 
