@@ -7,10 +7,10 @@ public class LocalPlayerMove : MonoBehaviour
     [SerializeField,Tooltip("â¡ë¨ìx")]float speedconf;
     [SerializeField, Tooltip("ç≈ëÂë¨ìx")] float MaxSpeed;
 
+    Vector2 vec;
     public void OnMove(InputAction.CallbackContext context)
     {
-        Vector2 vec = context.ReadValue<Vector2>();
-        rb.AddForce(vec.x, 0.0f, vec.y);
+        vec = context.ReadValue<Vector2>();
     }
     // Start is called before the first frame update
     void Start()
@@ -21,6 +21,8 @@ public class LocalPlayerMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        rb.AddForce(vec.x * speedconf, 0.0f, vec.y * speedconf);
         Vector3 vel = rb.velocity;
         if(vel.magnitude > MaxSpeed) //ç≈ëÂë¨ìxà»è„Ç…Ç»ÇÁÇ»Ç¢ÇÊÇ§Ç…í≤êÆ
         {
