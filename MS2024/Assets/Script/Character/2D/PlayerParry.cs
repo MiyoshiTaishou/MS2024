@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.TextCore.Text;
 
 public class PlayerParry : MonoBehaviour
 {
@@ -43,6 +44,8 @@ public class PlayerParry : MonoBehaviour
 
     Knockback back;
 
+    private Animator animator;
+
     /// <summary>
     /// パリィ状態かどうかのチェック(プレイヤーがダメージを受けたときに呼ぶ)
     /// </summary>
@@ -70,6 +73,7 @@ public class PlayerParry : MonoBehaviour
 
     void Start()
     {
+        animator = GetComponent<Animator>();
         hitStop = GetComponent<HitStop>();
         Maincamera = Camera.main;
         cinemachar = Maincamera.GetComponent<CinemaCharCamera>();
@@ -117,6 +121,7 @@ public class PlayerParry : MonoBehaviour
         //cinemachar.CameraZoom(this.character.transform, 5,0.5f);
         back.ApplyKnockback(transform.forward, KnockbackPower);
         ParryArea.GetComponent<ParryDisplay>().Init();
+        animator.Play("APlayerParry");
     }
 
     [Rpc(RpcSources.InputAuthority, RpcTargets.All)]
@@ -135,6 +140,11 @@ public class PlayerParry : MonoBehaviour
                 ParrySystem();
             }
         }
+
+        AnimatorStateInfo landAnimStateInfo = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
+        if (landAnimStateInfo.IsName("APlayerParry") && landAnimStateInfo.normalizedTime >= 1.0f)
+            animator.Play("APlayerIdle");
+
 
     }
 
