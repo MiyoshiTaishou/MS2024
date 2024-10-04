@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class BossEnemy : MonoBehaviour
 {
     //最大HPと現在のHP。
-    public float maxHp=10;
+    public float maxHp = 10;
     float Hp;
     //Slider
     public Slider slider;
@@ -36,7 +36,7 @@ public class BossEnemy : MonoBehaviour
 
     }
 
-   void Update()
+    void Update()
     {
         if (Input.GetKeyDown("down"))
         {
@@ -49,7 +49,7 @@ public class BossEnemy : MonoBehaviour
             // パーティクルシステムのインスタンスを生成
             ParticleSystem newParticle = Instantiate(particle);
             // パーティクルの発生場所をこのスクリプトをアタッチしているGameObjectの場所にする
-            newParticle.transform.position = new Vector3(this.transform.position.x, this.transform.position.y+4.5f, this.transform.position.z-1);
+            newParticle.transform.position = new Vector3(this.transform.position.x, this.transform.position.y + 4.5f, this.transform.position.z - 1);
             // パーティクルを発生させる
             newParticle.Play();
             // インスタンス化したパーティクルシステムのGameObjectを1秒後に削除
@@ -72,12 +72,53 @@ public class BossEnemy : MonoBehaviour
             m_Animator.SetTrigger("Attack");
         }
 
-  
+        //歩行アニメーション(後々条件とか増やして同時キー入力どうするかとか決めた方がいいと思います)
+        if (Input.GetKey("w"))
+        {
+            m_Animator.SetBool("walkForward", true);
+
+        }
+        else
+        {
+            m_Animator.SetBool("walkForward", false);
+        }
+
+        if (Input.GetKey("a"))
+        {
+            m_Animator.SetBool("Left", true);
+
+        }
+        else
+        {
+            m_Animator.SetBool("Left", false);
+        }
+
+        if (Input.GetKey("d"))
+        {
+            m_Animator.SetBool("Right", true);
+
+        }
+        else
+        {
+            m_Animator.SetBool("Right", false);
+        }
+
+        if (Input.GetKey("s"))
+        {
+            m_Animator.SetBool("Back", true);
+
+        }
+        else
+        {
+            m_Animator.SetBool("Back", false);
+        }
+
+
+        void back()
+        {
+            //色を元に戻す
+            gameObject.GetComponent<SpriteRenderer>().color = new Color32(255, 255, 255, 255);
+        }
     }
 
-    void back()
-    {
-        //色を元に戻す
-        gameObject.GetComponent<SpriteRenderer>().color = new Color32(255, 255, 255, 255);
-    }
 }
