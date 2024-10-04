@@ -21,9 +21,11 @@ GameObject:
   - component: {fileID: -2837087789928573241}
   - component: {fileID: 3035326775418748945}
   - component: {fileID: -2512826391937076488}
+
   - component: {fileID: -1775775259081188679}
   - component: {fileID: 1376164876829176568}
   - component: {fileID: 5946183354187036658}
+
   m_Layer: 0
   m_Name: Player2D(NoState)
   m_TagString: Player
@@ -412,11 +414,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   jumpForce: 5
   fallMultiplier: 2.5
+
   moveSpeed: 5
   moveSpeedAcc: 1
   maxSpeed: 10
   input: {fileID: 0}
 --- !u!114 &-1775775259081188679
+
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -425,6 +429,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3456682398586312846}
   m_Enabled: 1
   m_EditorHideFlags: 0
+
   m_Script: {fileID: 11500000, guid: 3b63e3731eda70b4ba521c42e18e1b2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
@@ -468,6 +473,7 @@ MonoBehaviour:
   NetworkedBehaviours:
   - {fileID: -1775775259081188679}
   - {fileID: 1376164876829176568}
+
 --- !u!1001 &4476810163144067245
 PrefabInstance:
   m_ObjectHideFlags: 0
