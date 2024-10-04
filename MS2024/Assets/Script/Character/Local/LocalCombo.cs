@@ -8,7 +8,7 @@ public class LocalCombo : MonoBehaviour
     public int Getcombotime() { return count; }
     public int GetMaxcombotime() { return keepcombotime; }
 
-    public void ResetCombo() { count = 0; }
+    public void ResetCombo() { nCombo = 0; }
     public void AddCombo() 
     {
         nCombo++;

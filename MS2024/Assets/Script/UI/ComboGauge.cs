@@ -17,13 +17,15 @@ public class ComboGauge : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        slider = GetComponent<Slider>();
         GameObject[] obj = FindObjectsOfType<GameObject>();
         foreach (GameObject objs in obj)
         {
             if (objs.CompareTag("Player"))
             {
-                combo = objs.transform.Find("PlayerAttackArea").GetComponent<LocalCombo>();
+                combo = objs.GetComponent<LocalCombo>();
                 maxGauge=combo.GetMaxcombotime();
+                break;
             }
         }
         if (combo == null)
