@@ -1,14 +1,16 @@
+using Fusion;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.TextCore.Text;
 
-public class PlayerParry : IState
+public class PlayerParry : MonoBehaviour
 {
     //パリィ範囲
-    private GameObject ParryArea;
+    [SerializeField, ReadOnly] private GameObject ParryArea;
 
     ////パリィの効果時間
     private float ParryActivetimeFrame = 0; //フレームに変換する
@@ -16,10 +18,22 @@ public class PlayerParry : IState
     ////ヒットストップ時間
     private float HitStopFrame = 0; //フレームに変換する
 
+    // パリィ範囲
+    [SerializeField, Tooltip("パリィ範囲")] public float parryradius = 3;
+
+    // パリィの効果時間
+    [SerializeField, Tooltip("パリィ効果時間")] public float ParryActivetime = 30;
+
+    // ヒットストップ時間
+    [SerializeField, Tooltip("ヒットストップ時間")] public int HitStop = 3;
+
+    // ノックバック
+    [SerializeField, Tooltip("ノックバック力")] public float KnockbackPower = 10;
+
     /// <summary>
     /// 敵からの攻撃を受けたか判定
     /// </summary>
-    public bool DamageReceive { get; set; } = false;
+   // public bool DamageReceive { get; set; } = false;
 
     Camera Maincamera;
     CinemaCharCamera cinemachar;
@@ -30,26 +44,25 @@ public class PlayerParry : IState
 
     Knockback back;
 
-    private PlayerState character;
-
-
-    public PlayerParry(PlayerState character)
-    {
-        this.character = character;
-    }
+    private Animator animator;
 
     /// <summary>
     /// パリィ状態かどうかのチェック(プレイヤーがダメージを受けたときに呼ぶ)
     /// </summary>
-    public void ParryCheck()
+    public bool ParryCheck()
     {
+       // Debug.Log("パリィ!!!");
+
         if (ParryArea.activeSelf)
         {
-            if (DamageReceive)
-            {
-                ParrySystem();
-            }
+             ParrySystem();
+            return true;
         }
+        else
+        {
+            return false;
+        }
+
     }
 
     //表示時間のゲッター
@@ -58,29 +71,31 @@ public class PlayerParry : IState
     //パリィ状態かどうか
     public void SetParryflg(bool flg) { Parryflg = flg; }
 
-    public void Enter()
+    void Start()
     {
-        
-
-        hitStop = character.GetComponent<HitStop>();
+        animator = GetComponent<Animator>();
+        hitStop = GetComponent<HitStop>();
         Maincamera = Camera.main;
         cinemachar = Maincamera.GetComponent<CinemaCharCamera>();
-        back = character.GetComponent<Knockback>();
-        Vector3 scale = new Vector3(character.parryradius, character.parryradius, character.parryradius);
-        for (int i = 0; i < character.transform.childCount; i++)
+        back = GetComponent<Knockback>();
+        Vector3 scale = new Vector3(parryradius, parryradius, parryradius);
+        for (int i = 0; i < transform.childCount; i++)
         {
-            if (character.transform.GetChild(i).gameObject.name == "ParryArea")
-                ParryArea = character.transform.GetChild(i).gameObject;
+            if (transform.GetChild(i).gameObject.name == "ParryArea")
+            {
+                ParryArea = transform.GetChild(i).gameObject;
+            }
         }
 
         //フレームに直す
-        HitStopFrame = character.HitStop / 60;
-        ParryActivetimeFrame = character.ParryActivetime / 60;
+        HitStopFrame = HitStop / 60;
+        ParryActivetimeFrame = ParryActivetime / 60;
 
         ParryArea.transform.localScale = scale;
 
-        ParryArea.SetActive(true);
-        Parryflg = true;
+        ////パリィ発動
+        //ParryArea.SetActive(true);
+        //Parryflg = true;
     }
 
     /// <summary>
@@ -103,30 +118,40 @@ public class PlayerParry : IState
     public void ParrySystem()
     {
         hitStop.ApplyHitStop(HitStopFrame);
-       // cinemachar.CameraZoom(this.transform,5,0.5f);
-        back.ApplyKnockback(character.transform.forward, character.KnockbackPower);
+        //cinemachar.CameraZoom(this.character.transform, 5,0.5f);
+        back.ApplyKnockback(transform.forward, KnockbackPower);
         ParryArea.GetComponent<ParryDisplay>().Init();
-        DamageReceive = false;
+        animator.Play("APlayerParry");
     }
 
-    public void Update()
+    [Rpc(RpcSources.InputAuthority, RpcTargets.All)]
+    public void RPC_ParrySystem()
     {
+        ParrySystem();
+    }
 
+    void Update()
+    {
+        //デバック用
         if (ParryArea.activeSelf)
         {
-            //とりあえずキーボードで仮実装
-            if (Input.GetKeyDown(KeyCode.L) || DamageReceive)
+            if (Input.GetKeyDown(KeyCode.L))
             {
                 ParrySystem();
             }
         }
 
+        AnimatorStateInfo landAnimStateInfo = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
+        if (landAnimStateInfo.IsName("APlayerParry") && landAnimStateInfo.normalizedTime >= 1.0f)
+            animator.Play("APlayerIdle");
+
+
     }
 
-    public void Exit()
-    {
-        // Idle状態を抜けるときの処理
-        Parryflg = false;
-    }
+    //public void Exit()
+    //{
+    //    // Idle状態を抜けるときの処理
+    //    Parryflg = false;
+    //}
 
 }

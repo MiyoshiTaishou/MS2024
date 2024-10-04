@@ -24,19 +24,18 @@ public class AttackEffect : MonoBehaviour
         PrepareAttack();
     }
     void Update() {
+        nowTime += Time.deltaTime;   
+    }
+
+    private void FixedUpdate() {
         //攻撃発生処理
-        // if (Input.GetKeyDown(KeyCode.Space)){
-        //     PrepareAttack();
-        // }
         if(attackFlag && nowTime > delayEffect){
             ExecuteAttack();
         }
-        nowTime += Time.deltaTime;
-
         //攻撃判定を削除
-        if (!attackEffect.isPlaying && damagedArea != null){
-            damagedArea.SetActive(false);
-            // Destroy(gameObject);
+        if (!attackEffect.isPlaying && damagedArea != null && nowTime >= delayEffect){
+            // damagedArea.SetActive(false);
+            Destroy(gameObject);
         }
     }
     

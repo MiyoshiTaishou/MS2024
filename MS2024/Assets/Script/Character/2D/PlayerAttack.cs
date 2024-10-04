@@ -1,108 +1,105 @@
-using UnityEngine.InputSystem;
-using UnityEngine;
+//using UnityEngine.InputSystem;
+//using UnityEngine;
 
-public class PlayerAttack : IState
-{
-    //UŒ‚”ÍˆÍ
-    [SerializeField, Tooltip("ƒpƒŠƒB‰Â‹‰»—p")] private GameObject AttackArea;
+//public class PlayerAttack : IState
+//{
+//    private PlayerState character;
+//    public PlayerAttack(PlayerState character)
+//    {
+//        this.character = character;
+//    }
 
-    //UŒ‚‚ª”­¶‚·‚é‚Ü‚Å‚ÌŠÔ
-    [SerializeField, Tooltip("UŒ‚‚Ì”­¶ƒtƒŒ[ƒ€")] int AttackStartupFrame = 25;
+//    GameObject AttackArea;
 
-    //UŒ‚‚ÌŒø‰ÊŠÔ
-    [SerializeField, Tooltip("UŒ‚‚Ì‘±ƒtƒŒ[ƒ€")] int AttackActiveFrame = 50;
+//    //ä½•é€£æ’ƒç›®
+//    static int nHit = 0;
+//    //æœ€å¤§é€£æ’ƒæ•°
+//    int nMaxHit = 2;
+//    public int GetHit() {return nHit;}
+//    public void AddHit()
+//    {
+//        nHit++;
+//        if(nHit>nMaxHit)
+//        {
+//            nHit = 0;
+//        }
+//        Debug.Log("é€£æ’ƒæ•°:" + nHit);
+//    }
+//    enum AttackState
+//    {
+//        None,Startup,Active,Recovery
+//    }
 
-    //UŒ‚‚Ìd’¼ŠÔ
-    [SerializeField, Tooltip("UŒ‚‚Ìd’¼ƒtƒŒ[ƒ€")] int AttackRecoveryFrame = 100;
+//    AttackState state=AttackState.None;
 
-    [SerializeField, ReadOnly] bool isAttack = false;
-    [SerializeField, ReadOnly] int Count = 0;
+//    public void OnAttack(InputAction.CallbackContext context)
+//    {
+//    }
 
-    [ReadOnly,Tooltip("‰½˜AŒ‚–Ú")] static int nHit = 0;
-    [SerializeField, Tooltip("Å‘å˜AŒ‚”")] int nMaxHit = 2;
-    public int GetHit() {return nHit;}
-    public void AddHit()
-    {
-        nHit++;
-        if(nHit>nMaxHit)
-        {
-            nHit = 0;
-        }
-        Debug.Log("˜AŒ‚”:" + nHit);
-    }
-    enum AttackState
-    {
-        None,Startup,Active,Recovery
-    }
+//    public void Enter()
+//    {
+//        AttackArea = transform.Find("PlayerAttackArea").gameObject;
+//        if (isAttack == false)
+//        {
+//            Debug.Log("æ”»æ’ƒ");
+//            AttackCount = AttackStartupFrame;
+//            state = AttackState.Startup;
+//            isAttack = true;
+//        }
+//        else if (nHit == 2)
+//        {
+//            Debug.Log("é€£æºæ”»æ’ƒ");
+//            AttackCount = AttackStartupFrame;
+//            state = AttackState.Startup;
+//            isAttack = true;
 
-    AttackState state=AttackState.None;
+//        }
+//    }
+//    public void Exit() 
+//    {
 
-    public void OnAttack(InputAction.CallbackContext context)
-    {
-    }
+//    }
 
-    public void Enter()
-    {
+//    // Start is called before the first frame update
+//    void Start()
+//    {
+//    }
 
-        if (isAttack == false)
-        {
-            Debug.Log("UŒ‚");
-            Count = AttackStartupFrame;
-            state = AttackState.Startup;
-            isAttack = true;
-        }
-        else if (nHit == 2)
-        {
-            Debug.Log("˜AŒgUŒ‚");
-            Count = AttackStartupFrame;
-            state = AttackState.Startup;
-            isAttack = true;
-        }
-    }
-    public void Exit() 
-    {
+//    // Update is called once per frame
+//    public void Update()
+//    {
+//        switch(state)
+//        {
+//            case AttackState.None:
+//                break;
+//            case AttackState.Startup:
+//                AttackCount--;
+//                if(AttackCount <=0) 
+//                {
+//                    state= AttackState.Active;
+//                    AttackArea.SetActive(true);
+//                    AttackCount = AttackActiveFrame;
+//                }
+//                break;
+//            case AttackState.Active:
+//                AttackCount--;
+//                if (AttackCount <= 0)
+//                {
+//                    state = AttackState.Recovery;
+//                    AttackArea.SetActive(false);
+//                    AttackCount = AttackRecoveryFrame;
+//                }
+//                break;
+//            case AttackState.Recovery:
+//                AttackCount--;
+//                if (AttackCount <= 0)
+//                {
+//                    state = AttackState.None;
+//                    isAttack = false;
+//                    AttackCount = 0;
+//                }
+//                break;
+//        }
+//    }
+//}
 
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
-
-    // Update is called once per frame
-    public void Update()
-    {
-        switch(state)
-        {
-            case AttackState.None:
-                break;
-            case AttackState.Startup:
-                Count--;
-                if(Count <=0) 
-                {
-                    state= AttackState.Active;
-                    AttackArea.SetActive(true);
-                    Count = AttackActiveFrame;
-                }
-                break;
-            case AttackState.Active:
-                Count--;
-                if (Count <= 0)
-                {
-                    state = AttackState.Recovery;
-                    AttackArea.SetActive(false);
-                    Count = AttackRecoveryFrame;
-                }
-                break;
-            case AttackState.Recovery:
-                Count--;
-                if (Count <= 0)
-                {
-                    state = AttackState.None;
-                    isAttack = false;
-                    Count = 0;
-                }
-                break;
-        }
-    }
-}

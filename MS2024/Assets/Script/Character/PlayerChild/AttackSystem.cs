@@ -2,18 +2,14 @@ using UnityEngine;
 
 public class AttackSystem : MonoBehaviour
 {
-    [SerializeField, Tooltip("親オブジェクト")] GameObject player;
-    PlayerAttack playerattack;
+    [SerializeField, Tooltip("親オブジェクトを入れる")] GameObject player;
+    LocalPlayerAttack attack;
 
     // Start is called before the first frame update
     void Start()
     {
-        if(!player)
-        {
-            Debug.LogError("playerないよ");
-        }
-        playerattack = player.GetComponent<PlayerAttack>();
-        if(playerattack == null) 
+        attack = player.GetComponent<LocalPlayerAttack>();
+        if(attack == null)
         {
             Debug.LogError("アタックないよ");
         }
@@ -27,9 +23,10 @@ public class AttackSystem : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.transform.CompareTag("Enemy"))
+        if (other.CompareTag("Enemy"))
         {
-            playerattack.AddHit();
+            attack.AddHit();
         }
+
     }
 }

@@ -1,155 +1,179 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.IO.LowLevel.Unsafe;
-using Unity.VisualScripting;
-using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.TextCore.Text;
-using UnityEngine.UI;
+//using System;
+//using UnityEngine;
+//using UnityEngine.InputSystem;
+//using Fusion;
 
-/// <summary>
-/// ƒvƒŒƒCƒ„[ƒXƒe[ƒgŠÇ—ƒNƒ‰ƒX
-/// </summary>
-public class PlayerState : MonoBehaviour
-{
-    private IState currentState;
-    [HideInInspector]public PlayerInput input;
+///// <summary>
+///// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚¹ãƒ†ãƒ¼ãƒˆç®¡ç†ã‚¯ãƒ©ã‚¹
+///// </summary>
+//public class PlayerState : NetworkBehaviour
+//{
+//    private IState currentState;
+//    [HideInInspector] public PlayerInput input;
 
-    // ƒCƒ“ƒXƒyƒNƒ^[‚Å’²®‰Â”\‚ÈˆÚ“®‘¬“x‚Æ‰Á‘¬“x
-    [HideInInspector] public float moveSpeed = 5.0f;
-    [HideInInspector] public float moveSpeedAcc = 1.0f;
-    [HideInInspector] public float maxSpeed = 10.0f;
+//    // ã‚¤ãƒ³ã‚¹ãƒšã‚¯ã‚¿ãƒ¼ã§èª¿æ•´å¯èƒ½ãªç§»å‹•é€Ÿåº¦ã¨åŠ é€Ÿåº¦
+//    [HideInInspector] public float moveSpeed = 5.0f;
+//    [HideInInspector] public float moveSpeedAcc = 1.0f;
+//    [HideInInspector] public float maxSpeed = 10.0f;
 
-    //ƒWƒƒƒ“ƒvŠÖ˜A
-    [HideInInspector] public float jumpForce = 5.0f;
-    [HideInInspector] public float fallMultiplier = 2.5f; // —‰º‘¬“x‚Ì‹­‰»
+//    // ã‚¸ãƒ£ãƒ³ãƒ—é–¢é€£
+//    [HideInInspector] public float jumpForce = 5.0f;
+//    [HideInInspector] public float fallMultiplier = 2.5f; // è½ä¸‹é€Ÿåº¦ã®å¼·åŒ–
 
-    [HideInInspector] public float currentSpeed = 0.0f;
+//    [HideInInspector] public Vector3 initScale;
 
-    [HideInInspector] public Vector3 initScale;
+//    // ãƒ‘ãƒªã‚£ç¯„å›²
+//    [HideInInspector, Tooltip("ãƒ‘ãƒªã‚£ç¯„å›²")] public float parryradius = 3;
 
-    //ƒpƒŠƒB”ÍˆÍ
-    [HideInInspector, Tooltip("ƒpƒŠƒB”ÍˆÍ")] public float parryradius = 3;
+//    // ãƒ‘ãƒªã‚£ã®åŠ¹æœæ™‚é–“
+//    [HideInInspector, Tooltip("ãƒ‘ãƒªã‚£åŠ¹æœæ™‚é–“")] public float ParryActivetime = 30;
 
-    //ƒpƒŠƒB‚ÌŒø‰ÊŠÔ
-    [HideInInspector, Tooltip("ƒpƒŠƒBŒø‰ÊŠÔ")] public float ParryActivetime = 30;
+//    // ãƒ’ãƒƒãƒˆã‚¹ãƒˆãƒƒãƒ—æ™‚é–“
+//    [HideInInspector, Tooltip("ãƒ’ãƒƒãƒˆã‚¹ãƒˆãƒƒãƒ—æ™‚é–“")] public int HitStop = 3;
 
-    //ƒqƒbƒgƒXƒgƒbƒvŠÔ
-    [HideInInspector, Tooltip("ƒqƒbƒgƒXƒgƒbƒvŠÔ")] public int HitStop = 3;
+//    // ãƒãƒƒã‚¯ãƒãƒƒã‚¯
+//    [HideInInspector, Tooltip("ãƒãƒƒã‚¯ãƒãƒƒã‚¯åŠ›")] public float KnockbackPower = 10;
 
-    //ƒmƒbƒNƒoƒbƒN
-    [HideInInspector, Tooltip("ƒmƒbƒNƒoƒbƒN—Í")] public float KnockbackPower = 10;
+//    //æ”»æ’ƒã®å€¤
+//    //æ”»æ’ƒãŒç™ºç”Ÿã™ã‚‹ã¾ã§ã®æ™‚é–“
+//    [SerializeField, Tooltip("æ”»æ’ƒã®ç™ºç”Ÿãƒ•ãƒ¬ãƒ¼ãƒ ")] public int AttackStartupFrame = 25;
+//    //æ”»æ’ƒã®åŠ¹æœæ™‚é–“
+//    [SerializeField, Tooltip("æ”»æ’ƒã®æŒç¶šãƒ•ãƒ¬ãƒ¼ãƒ ")] public int AttackActiveFrame = 50;
+//    //æ”»æ’ƒã®ç¡¬ç›´æ™‚é–“
+//    [SerializeField, Tooltip("æ”»æ’ƒã®ç¡¬ç›´ãƒ•ãƒ¬ãƒ¼ãƒ ")] public int AttackRecoveryFrame = 100;
+//    [SerializeField, ReadOnly] public bool isAttack = false;
+//    [SerializeField, ReadOnly] public int AttackCount = 0;
 
-    private Animator animator;
+//    private Animator animator;
+//    [HideInInspector] public float currentSpeed = 0.0f;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        input = GetComponent<PlayerInput>();   
-        animator = GetComponent<Animator>();
+//    public Vector2 moveInput;
 
-        initScale = transform.localScale;
 
-        // ‰Šúó‘Ô‚ğˆÚ“®ó‘Ô‚ÉƒZƒbƒg (‘¼‚Ìó‘Ô‚É‚·‚éê‡‚Í•ÏX)
-        currentState = new PlayerIdleState(this);
-        currentState.Enter();
+//    public IState GetNumState()
+//    {
+//        return currentState;
+//    }
 
-        // ƒWƒƒƒ“ƒvƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚½uŠÔ‚Ìˆ—
-        input.actions["Jump"].performed += OnJumpPerformed;
-    }
+//    // Start is called before the first frame update
+//    void Start()
+//    {
+       
+//    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        //Œ»İ‚Ìó‘Ô‚ÌUpdateˆ—‚ğÀs
-        currentState.Update();
-        ChangeStateUpdate();
-    }
+//    public override void Spawned()
+//    {
+//        input = GetComponent<PlayerInput>();
+//        animator = GetComponent<Animator>();
 
-    /// <summary>
-    /// ó‘Ô‚Ì•ÏX
-    /// </summary>
-    /// <param name="newState"></param>
-    public void ChangeState(IState newState)
-    {
-        currentState.Exit();
-        currentState = newState;
-        currentState.Enter();
-    }
+//        initScale = transform.localScale;
 
-    // ƒLƒƒƒ‰ƒNƒ^[‚ÌƒAƒjƒ[ƒVƒ‡ƒ“‚ğİ’è‚·‚éƒƒ\ƒbƒh
-    public void SetAnimation(string animationName)
-    {
-        // ƒAƒjƒ[ƒVƒ‡ƒ“‚ÌƒZƒbƒgˆ—
-        // Animator‚ÌƒAƒjƒ[ƒVƒ‡ƒ“‚ğƒgƒŠƒK[‚ÅØ‚è‘Ö‚¦‚é
-        animator.Play(animationName);
-    }
+//        // åˆæœŸçŠ¶æ…‹ã‚’ç§»å‹•çŠ¶æ…‹ã«ã‚»ãƒƒãƒˆ (ä»–ã®çŠ¶æ…‹ã«ã™ã‚‹å ´åˆã¯å¤‰æ›´)
+//        currentState = new PlayerIdleState(this);
+//        currentState.Enter();
 
-    private void OnJumpPerformed(InputAction.CallbackContext context)
-    {
-        // ó‘Ô‚ªIdle‚Ü‚½‚ÍMove‚Ìê‡‚ÉƒWƒƒƒ“ƒv‚Ö‚Ì‘JˆÚ‚ğs‚¤
-        if (currentState is PlayerIdleState || currentState is PlayerMoveState)
-        {
-            ChangeState(new PlayerJumpState(this));
-        }
-    }
+//        // ã‚¸ãƒ£ãƒ³ãƒ—ãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚ŒãŸç¬é–“ã®å‡¦ç†
+//        input.actions["Jump"].performed += OnJumpPerformed;
+//    }
 
-    public void ChangeStateUpdate()
-    {
-        if (currentState is PlayerIdleState)
-        {
-            Vector2 moveInput = input.actions["Move"].ReadValue<Vector2>();
-            if (moveInput != Vector2.zero)
-            {
-                ChangeState(new PlayerMoveState(this));
-            }
+//    // Update is called once per frame
+//    void Update()
+//    {
+       
+//    }
 
-            ////ƒpƒŠƒB
-            //var  buttonInput = input.actions["Parry"].ReadValue<float>();
-            //if(buttonInput != 0)
-            //{
-            //    ChangeState(new PlayerParry(this));
-            //}
-        }
+//    public override void FixedUpdateNetwork()
+//    {
+//        if (Object.HasInputAuthority) // ãƒ­ãƒ¼ã‚«ãƒ«ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®å ´åˆã®ã¿æ›´æ–°
+//        {
+//            // ç¾åœ¨ã®çŠ¶æ…‹ã®Updateå‡¦ç†ã‚’å®Ÿè¡Œ
+//            currentState.Update();
+//            ChangeStateUpdate();
+//        }
+//    }
 
-        if (currentState is PlayerMoveState)
-        {
-            Vector2 moveInput = input.actions["Move"].ReadValue<Vector2>();
-            if (moveInput == Vector2.zero)
-            {
-                ChangeState(new PlayerIdleState(this));
-            }
+//    /// <summary>
+//    /// çŠ¶æ…‹ã®å¤‰æ›´
+//    /// </summary>
+//    /// <param name="newState"></param>
+//    public void ChangeState(IState newState)
+//    {
+//        currentState.Exit();
+//        currentState = newState;
+//        currentState.Enter();
+//    }
 
-            //ƒpƒŠƒB
-            var buttonInput = input.actions["Parry"].ReadValue<float>();
-            if (buttonInput != 0)
-            {
-                ChangeState(new PlayerParry(this));
-            }
+//    // ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ã®ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã‚’è¨­å®šã™ã‚‹ãƒ¡ã‚½ãƒƒãƒ‰
+//    public void SetAnimation(string animationName)
+//    {
+//        animator.Play(animationName);
+//    }
 
-        }
+//    private void OnJumpPerformed(InputAction.CallbackContext context)
+//    {
+//        // çŠ¶æ…‹ãŒIdleã¾ãŸã¯Moveã®å ´åˆã«ã‚¸ãƒ£ãƒ³ãƒ—ã¸ã®é·ç§»ã‚’è¡Œã†
+//        if (currentState is PlayerIdleState || currentState is PlayerMoveState)
+//        {
+//            ChangeState(new PlayerJumpState(this));
+//        }
+//    }
 
-        if (currentState is PlayerParry)
-        {
-            Vector2 moveInput = input.actions["Move"].ReadValue<Vector2>();
-            if (moveInput != Vector2.zero)
-            {
-                ChangeState(new PlayerMoveState(this));
-            }
-            else if (moveInput == Vector2.zero)
-            {
-                ChangeState(new PlayerIdleState(this));
-            }
+//    public void ChangeStateUpdate()
+//    {       
+//        if (GetInput(out NetworkInputData data))
+//        {
+//            moveInput = data.direction;
+//            Debug.Log(data.direction);
+//        }
 
-            //ƒpƒŠƒB
-            var buttonInput = input.actions["Parry"].ReadValue<float>();
-            if (buttonInput != 0)
-            {
-                ChangeState(new PlayerParry(this));
-            }
+//        if (currentState is PlayerIdleState)
+//        {           
+//            if (moveInput != Vector2.zero)
+//            {
+//                ChangeState(new PlayerMoveState(this));
+//            }
 
-        }
-    }
+//            // ãƒ‘ãƒªã‚£
+//            var buttonInput = input.actions["Parry"].ReadValue<float>();
+//            if (buttonInput != 0)
+//            {
+//                //ChangeState(new PlayerParry(this));
+//            }
+//        }
 
-}
+//        if (currentState is PlayerMoveState)
+//        {           
+//            if (moveInput == Vector2.zero)
+//            {
+//                ChangeState(new PlayerIdleState(this));
+//            }
+
+//            // ãƒ‘ãƒªã‚£
+//            var buttonInput = input.actions["Parry"].ReadValue<float>();
+//            if (buttonInput != 0)
+//            {
+//                //ChangeState(new PlayerParry(this));
+//            }
+
+//        }
+
+//        if (currentState is PlayerParry)
+//        {            
+//            if (moveInput != Vector2.zero)
+//            {
+//                ChangeState(new PlayerMoveState(this));
+//            }
+//            else if (moveInput == Vector2.zero)
+//            {
+//                ChangeState(new PlayerIdleState(this));
+//            }
+
+//            // ãƒ‘ãƒªã‚£
+//            var buttonInput = input.actions["Parry"].ReadValue<float>();
+//            if (buttonInput != 0)
+//            {
+//                //ChangeState(new PlayerParry(this));
+//            }
+//        }
+//    }
+//}
