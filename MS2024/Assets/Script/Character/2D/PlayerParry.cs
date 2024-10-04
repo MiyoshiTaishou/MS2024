@@ -108,6 +108,13 @@ public class PlayerParry : MonoBehaviour
 
     }
 
+    public void ParryStart()
+    {
+        //animator.Play("APlayerCounter");
+        ParryArea.SetActive(true);
+        Parryflg = true;
+    }
+
     /// <summary>
     /// コントローラー入力
     /// </summary>
@@ -116,8 +123,7 @@ public class PlayerParry : MonoBehaviour
     {
         if (context.started)
         {
-            ParryArea.SetActive(true);
-            Parryflg = true;
+            ParryStart();
         }
 
     }
@@ -148,7 +154,6 @@ public class PlayerParry : MonoBehaviour
             ParryArea.SetActive(true);
             Parryflg = true;
         }
-
 
         //デバック用
         if (ParryArea.activeSelf)
