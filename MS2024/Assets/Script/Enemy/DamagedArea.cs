@@ -73,9 +73,11 @@ public class DamagedArea : MonoBehaviour
                 if ((damageType == DAMAGE_TYPE.PLAYER_1 && !player.isHost) ||
                     (damageType == DAMAGE_TYPE.PLAYER_2 &&  player.isHost))
                     return;
-                if (!IsParry()) {
+                if (!IsParry(other)) {
                     player.HP -= damage;
                     player.FlashReset();
+                    playerCooldowns[player] = 0f;
+                }else{
                     playerCooldowns[player] = 0f;
                 }
             }
@@ -88,9 +90,11 @@ public class DamagedArea : MonoBehaviour
                 if ((damageType == DAMAGE_TYPE.PLAYER_1 && !player.isHost) ||
                     (damageType == DAMAGE_TYPE.PLAYER_2 &&  player.isHost))
                     return;
-                if (!IsParry()) {
+                if (!IsParry(other)) {
                     player.HP -= damage;
                     player.FlashReset();
+                    playerActiveStates[player] = false;
+                }else{
                     playerActiveStates[player] = false;
                 }
             }
@@ -123,13 +127,9 @@ public class DamagedArea : MonoBehaviour
         }
     }
 
-    bool IsParry() {
-        // var playerState = GameObject.Find("Player2D(Clone)").GetComponent<PlayerState>();
-        // var currentState = playerState.GetNumState();
-        // if (currentState is PlayerParry) {
-        //     var parry = (PlayerParry)currentState;
-        //     return parry.ParryCheck();
-        // }
-        return false;
+    bool IsParry(Collider other) {
+        var PObj = other.GetComponent<PlayerParry>();
+        if(PObj == null) return false;
+        return PObj.ParryCheck();
     }
 }
