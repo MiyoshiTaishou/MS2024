@@ -17,16 +17,11 @@ public class LocalPlayerJump : MonoBehaviour
 
     private float currentSpeed;
     // ジャンプ関連
-    public float jumpForce = 5.0f;
-    public float fallMultiplier = 2.5f; // 落下速度の強化
+    [SerializeField, Tooltip("ジャンプ距離")] float jumpForce = 5.0f;
+    [SerializeField, Tooltip("落下速度")] float fallMultiplier = 2.5f; // 落下速度の強化
 
-    // インスペクターで調整可能な移動速度と加速度
-    public float moveSpeed = 5.0f;
-    public float moveSpeedAcc = 1.0f;
-    public float maxSpeed = 10.0f;
-
-    bool jump = false;
-    public PlayerInput input;
+    [SerializeField,ReadOnly] bool jump = true;
+    PlayerInput input;
 
 
     void Start()
@@ -40,56 +35,39 @@ public class LocalPlayerJump : MonoBehaviour
 
     public void Update()
     {
-        if(jump)
+        //落下処理
+        if (rb.velocity.y < 0)
         {
-            // 入力から移動ベクトルを取得
-
-            Vector3 move = new Vector3(moveInput.x, jumpForce, moveInput.y).normalized;
-
-            // 加速度を加味した速度の更新
-            currentSpeed += moveSpeedAcc * Time.deltaTime;
-
-            // 速度を最大速度で制限
-            currentSpeed = Mathf.Min(currentSpeed, maxSpeed);
-
-            // Rigidbody による移動
-            Vector3 velocity = move * currentSpeed;
-           // velocity.y = rb.velocity.y;  // Y軸の速度は変更しない
-            rb.velocity = velocity;      // Rigidbody の速度を設定
-
-            rb.velocity = new Vector3(rb.velocity.x, jumpForce, rb.velocity.z);
+            Debug.Log("ジャンプ終わり");
 
 
-            Debug.Log(rb.velocity);
-
-            //rb.AddForce(move);
-
-            //落下処理
-            if (rb.velocity.y < 0)
+            AnimatorStateInfo animStateInfo = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
+            if (animStateInfo.IsName("APlayerJumpUp"))
             {
-                rb.velocity += Vector3.up * Physics.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
 
-                RaycastHit hit;
-                if (Physics.Raycast(transform.position, Vector3.down, out hit, rayDistance))
+                animator.Play("APlayerJumpDown");
+
+            }
+            rb.velocity += Vector3.up * Physics.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
+
+
+        }
+
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, Vector3.down, out hit, rayDistance))
+        {
+            if (hit.collider.CompareTag(groundTag))
+            {
+                AnimatorStateInfo landAnimStateInfo = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
+                if (landAnimStateInfo.IsName("APlayerJumpDown") && landAnimStateInfo.normalizedTime >= 1.0f)
                 {
-                    if (hit.collider.CompareTag(groundTag))
-                    {
-                        AnimatorStateInfo animStateInfo = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
-                        if (!animStateInfo.IsName("APlayerLand"))
-                        {
-                            animator.Play("APlayerLand");
-                        }
-                    }
+                    animator.Play("APlayerIdle");
+                    Debug.Log("ジャンプ終わり");
+
                 }
             }
-
-            AnimatorStateInfo landAnimStateInfo = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
-            if (landAnimStateInfo.IsName("APlayerLand") && landAnimStateInfo.normalizedTime >= 1.0f)
-                animator.Play("APlayerIdle");
-
-
-            jump = false;
         }
+
 
 
     }
@@ -100,12 +78,27 @@ public class LocalPlayerJump : MonoBehaviour
     /// <param name="context"></param>
     public void Jump(InputAction.CallbackContext context)
     {
-        if (context.started)
+        if (!context.started)
         {
-            jump = true;
-            moveInput = input.actions["Move"].ReadValue<Vector2>();
+            return;
+        }
+        
+        if(jump)
+        {
+            animator.Play("APlayerJumpUp");
+            rb.AddForce(new Vector3(rb.velocity.x, jumpForce, rb.velocity.z), ForceMode.Impulse);
 
+            jump = false;
         }
 
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == groundTag)
+        {
+            jump = true;
+        }
+    }
+
 }
