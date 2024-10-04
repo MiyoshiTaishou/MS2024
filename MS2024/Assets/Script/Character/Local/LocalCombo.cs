@@ -8,7 +8,7 @@ public class LocalCombo : MonoBehaviour
         nCombo++; 
         Debug.Log("ƒRƒ“ƒ{‰ÁŽZ!" + nCombo);
     }
-    
+    public int GetCombo() { return nCombo; }
 
     // Start is called before the first frame update
     void Start()
