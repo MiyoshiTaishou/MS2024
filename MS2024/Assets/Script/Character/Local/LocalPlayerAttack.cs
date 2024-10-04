@@ -13,6 +13,8 @@ public class LocalPlayerAttack : MonoBehaviour
     [SerializeField, Tooltip("UŒ‚‚Ìd’¼ƒtƒŒ[ƒ€")] public int AttackRecoveryFrame = 100;
     [SerializeField, ReadOnly] public bool isAttack = false;
     [SerializeField, ReadOnly] public int AttackCount = 0;
+    [SerializeField, ReadOnly] bool isLeftAttack = false;
+    public void SetLeftAttack(bool _isleft) { isLeftAttack = _isleft; }
     //‰½˜AŒ‚–Ú
     static int nHit = 0;
     //Å‘å˜AŒ‚”
@@ -39,6 +41,10 @@ public class LocalPlayerAttack : MonoBehaviour
         if (context.started)
         {
             AttackArea = transform.Find("PlayerAttackArea").gameObject;
+            Vector3 pos = AttackArea.transform.localPosition;
+            float x=Mathf.Abs(pos.x);
+            pos.x = isLeftAttack ? -x : x;
+            AttackArea.transform.localPosition = pos;
             if (isAttack == false)
             {
                 //Debug.Log("UŒ‚");
