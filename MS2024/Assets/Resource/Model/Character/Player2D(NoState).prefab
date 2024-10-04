@@ -15,13 +15,13 @@ GameObject:
   - component: {fileID: 3051068443843455605}
   - component: {fileID: 2540852935815135166}
   - component: {fileID: -2352895187213329374}
-  - component: {fileID: 5038875730815367715}
   - component: {fileID: -7484973708339926428}
   - component: {fileID: -6452792717030717775}
   - component: {fileID: 4814697467015857255}
   - component: {fileID: -2837087789928573241}
   - component: {fileID: 3035326775418748945}
   - component: {fileID: -2512826391937076488}
+  - component: {fileID: 5038875730815367715}
   - component: {fileID: 2799602403822698578}
   m_Layer: 0
   m_Name: Player2D(NoState)
@@ -322,21 +322,6 @@ MonoBehaviour:
   HitStop: 3
   KnockbackPower: 10
   Parryflg: 0
---- !u!114 &5038875730815367715
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3456682398586312846}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 78e5c37517a607c488dc133a709da521, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  parry: {fileID: 0}
-  jumpForce: 10
-  fallMultiplier: 2.5
 --- !u!95 &-7484973708339926428
 Animator:
   serializedVersion: 5
@@ -427,6 +412,22 @@ MonoBehaviour:
   jumpForce: 5
   fallMultiplier: 2.5
   jump: 1
+--- !u!114 &5038875730815367715
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3456682398586312846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78e5c37517a607c488dc133a709da521, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parry: {fileID: 0}
+  jumpForce: 5
+  fallMultiplier: 2.5
+  parryjump: 1
 --- !u!114 &2799602403822698578
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -439,8 +440,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2de65e030c3b412438ebb5ea2a3daffe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  keepcombotime: 120
-  count: 0
 --- !u!1001 &4476810163144067245
 PrefabInstance:
   m_ObjectHideFlags: 0

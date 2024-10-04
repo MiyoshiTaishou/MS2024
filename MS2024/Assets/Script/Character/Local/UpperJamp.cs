@@ -97,6 +97,7 @@ public class UpperJamp : MonoBehaviour
             //パリィの範囲内に入った場合
             if (other.gameObject.name == "ParryArea")
             {
+                Debug.Log("パリィジャンプ");
                 parry = other.gameObject.transform.parent.GetComponent<PlayerParry>();
             }
         }
