@@ -37,7 +37,8 @@ public class LocalPlayerMove : MonoBehaviour
             Vector3 nomal = vel.normalized;
             float gap = vel.magnitude - MaxSpeed;
             nomal *= gap;
-            vel -= nomal;
+            vel.x -= nomal.x;
+            vel.z -= nomal.z;
             rb.velocity = vel;
         }
     }
