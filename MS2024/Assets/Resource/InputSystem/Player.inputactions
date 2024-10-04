@@ -316,8 +316,32 @@
                 },
                 {
                     "name": "",
+
+                    "id": "b3bf7ab3-4be9-419b-a363-a0dbc8b53281",
+                    "path": "<Joystick>/trigger",
+                    "interactions": "",
+
+                    "processors": "",
+                    "groups": "",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "337c732d-cdf4-41ea-a2cf-5ceef348a1a1",
                     "path": "<Gamepad>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Parry",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1330159d-7e6f-4023-854d-2dc0fa55f9eb",
+                    "path": "<HID::GP30X-Dinput>/button6",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -341,6 +365,17 @@
                     "id": "e6eb5370-23a3-4297-b8cf-ebe54bdcf31d",
                     "path": "<SwitchProControllerHID>/buttonWest",
                     "interactions": "Press",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "57ca447e-d65d-47f7-ac5f-86342888a757",
+                    "path": "<HID::GP30X-Dinput>/button3",
+                    "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Attack",
