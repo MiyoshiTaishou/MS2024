@@ -8,10 +8,8 @@ enum FLASH_STATE{
 
 public class Player : NetworkBehaviour
 {
-    private NetworkCharacterController characterController;
-    private Quaternion initialRotation;  // 最初の回転
-
     // [Header("プレイヤー設定")]
+
     [Tooltip("プレイヤーの体力を決めます")]
     [Networked] public float HP { get; set; }
     [Tooltip("ダメージを受けているときの点滅回数を決めます")]
@@ -31,6 +29,8 @@ public class Player : NetworkBehaviour
     [SerializeField]
     public bool isHost;
     private float nowTime;
+    private NetworkCharacterController characterController;
+    private Quaternion initialRotation;  // 最初の回転
 
     private void Awake()
     {
