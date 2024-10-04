@@ -22,8 +22,7 @@ GameObject:
   - component: {fileID: 3035326775418748945}
   - component: {fileID: -2512826391937076488}
   - component: {fileID: -1775775259081188679}
-  - component: {fileID: 1376164876829176568}
-  - component: {fileID: 5946183354187036658}
+  - component: {fileID: 3551708055473979100}
   m_Layer: 0
   m_Name: Player2D(NoState)
   m_TagString: Player
@@ -412,10 +411,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   jumpForce: 5
   fallMultiplier: 2.5
-  moveSpeed: 5
-  moveSpeedAcc: 1
-  maxSpeed: 10
-  input: {fileID: 0}
+  jump: 1
 --- !u!114 &-1775775259081188679
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -433,23 +429,7 @@ MonoBehaviour:
   flashInterval: 0.2
   damageColor: {r: 0, g: 0, b: 0, a: 0}
   isHost: 0
---- !u!114 &1376164876829176568
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3456682398586312846}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf68f6dc514ebfe4d8762fbe378070ec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  flashCount: 5
-  flashInterval: 0.2
-  damageColor: {r: 0, g: 0, b: 0, a: 0}
-  isHost: 0
---- !u!114 &5946183354187036658
+--- !u!114 &3551708055473979100
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -461,13 +441,12 @@ MonoBehaviour:
   m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SortKey: 4042269521
+  SortKey: 2077012760
   ObjectInterest: 1
-  Flags: 262145
+  Flags: 1
   NestedObjects: []
   NetworkedBehaviours:
   - {fileID: -1775775259081188679}
-  - {fileID: 1376164876829176568}
 --- !u!1001 &4476810163144067245
 PrefabInstance:
   m_ObjectHideFlags: 0
