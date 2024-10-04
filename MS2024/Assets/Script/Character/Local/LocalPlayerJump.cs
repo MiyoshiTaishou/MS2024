@@ -38,6 +38,7 @@ public class LocalPlayerJump : MonoBehaviour
         //—‰ºˆ—
         if (rb.velocity.y < 0)
         {
+            Debug.Log("ƒWƒƒƒ“ƒvI‚í‚è");
 
 
             AnimatorStateInfo animStateInfo = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
