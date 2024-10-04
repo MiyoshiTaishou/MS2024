@@ -28,7 +28,8 @@ public class ComboCountUI : MonoBehaviour
         {
             if (objs.CompareTag("Player"))
             {
-                combo = objs.transform.Find("PlayerAttackArea").GetComponent<LocalCombo>();
+                combo = objs.GetComponent<LocalCombo>();
+                break;
             }
         }
         if (combo == null)
