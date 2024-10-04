@@ -11,6 +11,14 @@ public class LocalPlayerMove : MonoBehaviour
     public void OnMove(InputAction.CallbackContext context)
     {
         vec = context.ReadValue<Vector2>();
+        if(context.ReadValue<Vector2>().x<0)
+        {
+            GetComponent<LocalPlayerAttack>().SetLeftAttack(true);
+        }
+        else 
+        {
+            GetComponent<LocalPlayerAttack>().SetLeftAttack(false);
+        }
     }
     // Start is called before the first frame update
     void Start()
