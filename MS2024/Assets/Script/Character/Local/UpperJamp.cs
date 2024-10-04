@@ -20,6 +20,13 @@ public class UpperJamp : MonoBehaviour
 
     LocalPlayerJump playerjump;
 
+
+    /// <summary>
+    /// ジャンプ可能かどうか
+    /// </summary>
+    [field: SerializeField, ReadOnly] public bool parryjump = true;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -60,9 +67,9 @@ public class UpperJamp : MonoBehaviour
                     }
                     rb.velocity += Vector3.up * Physics.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
 
-
                 }
 
+                //ステージに着地したら
                 RaycastHit hit;
                 if (Physics.Raycast(transform.position, Vector3.down, out hit, rayDistance))
                 {
@@ -72,8 +79,7 @@ public class UpperJamp : MonoBehaviour
                         if (landAnimStateInfo.IsName("APlayerJumpDown") && landAnimStateInfo.normalizedTime >= 1.0f)
                         {
                             animator.Play("APlayerIdle");
-                            Debug.Log("ジャンプ終わり");
-
+                            parryjump = false;
                         }
                     }
                 }
@@ -86,26 +92,25 @@ public class UpperJamp : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        //パリィの範囲内に入った場合
-        if(other.gameObject.name == "ParryArea")
+        if(parryjump)
         {
-            Debug.Log("パリィジャンプ");
-
-
-            parry = other.gameObject.transform.parent.GetComponent<PlayerParry>();
+            //パリィの範囲内に入った場合
+            if (other.gameObject.name == "ParryArea")
+            {
+                parry = other.gameObject.transform.parent.GetComponent<PlayerParry>();
+            }
         }
+
 
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        //Debug.Log(collision.gameObject);
-        //if (collision.gameObject.transform.parent.GetComponent<PlayerParry>() != null)
-        //{
-        //    Debug.Log("パリィジャンプ");
-        //    animator.Play("APlayerJumpUp");
-
-        //    parry = collision.gameObject.GetComponent<PlayerParry>();
-        //}
+        //地面に着地したらジャンプ可能にする
+        if (collision.gameObject.tag == groundTag)
+        {
+            parryjump = true;
+        }
     }
+
 }
