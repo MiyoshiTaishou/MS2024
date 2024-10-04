@@ -1,24 +1,18 @@
-using UnityEngine;
-using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
+using UnityEngine;
 
-public class ComboCountUI : MonoBehaviour
+public class ComboGauge : MonoBehaviour
 {
-    Text displayText;
-    LocalCombo combo = null;
-
-
+    Slider slider;
+    LocalCombo combo;
+    private float currentGauge;
+    public float maxGauge = 100f;
 
     // Start is called before the first frame update
     void Start()
     {
-
+        
     }
-
-    //void UpdateText()
-    //{
-    //    displayText.text = combo.GetCombo().ToString();
-    //}
 
     // Update is called once per frame
     void Update()
@@ -29,17 +23,14 @@ public class ComboCountUI : MonoBehaviour
             if (objs.CompareTag("Player"))
             {
                 combo = objs.transform.Find("PlayerAttackArea").GetComponent<LocalCombo>();
+                maxGauge=combo.GetMaxcombotime();
             }
         }
         if (combo == null)
         {
-            Debug.LogError("こんぼないよ");
+            Debug.LogError("����ڂȂ���");
         }
-        displayText = GetComponent<Text>();
-        if (displayText == null)
-        {
-            Debug.LogError("てきすとないよ");
-        }
-        displayText.text=combo.GetCombo().ToString();
+        currentGauge = combo.Getcombotime();
+        slider.value = currentGauge / maxGauge;
     }
 }
