@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
-using UnityEngine.Windows;
+//using UnityEngine.Windows;
 using UnityEngine.InputSystem;
 
 public class LocalPlayerJump : MonoBehaviour
@@ -20,8 +20,10 @@ public class LocalPlayerJump : MonoBehaviour
     [SerializeField, Tooltip("ジャンプ距離")] float jumpForce = 5.0f;
     [SerializeField, Tooltip("落下速度")] float fallMultiplier = 2.5f; // 落下速度の強化
 
-    [SerializeField,ReadOnly] bool jump = true;
+    [field:SerializeField,ReadOnly] public bool jump { get; private set; } = true;
     PlayerInput input;
+
+    public bool jumpnuw { get; private set; } = false;
 
 
     void Start()
@@ -29,12 +31,21 @@ public class LocalPlayerJump : MonoBehaviour
         animator = GetComponent<Animator>();
         input = GetComponent<PlayerInput>();
         rb = GetComponent<Rigidbody>();
-        rb.velocity = new Vector3(rb.velocity.x, jumpForce, rb.velocity.z);
+        jumpnuw = false;
     }
 
 
     public void Update()
     {
+        if(Input.GetKeyDown(KeyCode.I))
+        {
+            animator.Play("APlayerJumpUp");
+            rb.AddForce(new Vector3(rb.velocity.x, jumpForce, rb.velocity.z), ForceMode.Impulse);
+
+            jump = false;
+            jumpnuw = true;
+        }
+
         //落下処理
         if (rb.velocity.y < 0)
         {
@@ -61,8 +72,7 @@ public class LocalPlayerJump : MonoBehaviour
                 if (landAnimStateInfo.IsName("APlayerJumpDown") && landAnimStateInfo.normalizedTime >= 1.0f)
                 {
                     animator.Play("APlayerIdle");
-                    Debug.Log("ジャンプ終わり");
-
+                    jumpnuw = false;
                 }
             }
         }
@@ -88,12 +98,14 @@ public class LocalPlayerJump : MonoBehaviour
             rb.AddForce(new Vector3(rb.velocity.x, jumpForce, rb.velocity.z), ForceMode.Impulse);
 
             jump = false;
+            jumpnuw = true;
         }
 
     }
 
     private void OnCollisionEnter(Collision collision)
     {
+        //地面に着地したらジャンプ可能にする
         if (collision.gameObject.tag == groundTag)
         {
             jump = true;
