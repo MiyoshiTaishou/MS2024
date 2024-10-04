@@ -3,8 +3,8 @@ using UnityEngine;
 public class LocalCombo : MonoBehaviour
 {
     [ReadOnly] static int nCombo = 0;
-    [SerializeField, Tooltip("コンボ継続時間(f)")] int keepcombotime;
-    [SerializeField,ReadOnly]int count;
+    [SerializeField, Tooltip("コンボ継続時間(f)")] static int keepcombotime;
+    [SerializeField,ReadOnly]static int count;
     public int Getcombotime() { return count; }
     public int GetMaxcombotime() { return keepcombotime; }
 
