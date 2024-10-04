@@ -20,9 +20,10 @@ GameObject:
   - component: {fileID: 4814697467015857255}
   - component: {fileID: -2837087789928573241}
   - component: {fileID: 3035326775418748945}
+  - component: {fileID: -2512826391937076488}
   m_Layer: 0
   m_Name: Player2D(NoState)
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -188,9 +189,9 @@ MonoBehaviour:
     m_ActionName: UI/TrackedDeviceOrientation
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PlayerJump, Assembly-CSharp
-        m_MethodName: OnJump
+      - m_Target: {fileID: -2512826391937076488}
+        m_TargetAssemblyTypeName: LocalPlayerJump, Assembly-CSharp
+        m_MethodName: Jump
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -393,6 +394,24 @@ MonoBehaviour:
   AttackRecoveryFrame: 100
   isAttack: 0
   AttackCount: 0
+--- !u!114 &-2512826391937076488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3456682398586312846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbd128c4ecce06c49aa06801d69f681f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  jumpForce: 5
+  fallMultiplier: 2.5
+  moveSpeed: 5
+  moveSpeedAcc: 1
+  maxSpeed: 10
+  input: {fileID: 0}
 --- !u!1001 &4476810163144067245
 PrefabInstance:
   m_ObjectHideFlags: 0
