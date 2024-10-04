@@ -16,11 +16,11 @@ public class Player : NetworkBehaviour
     [Networked] public float HP { get; set; }
     [Tooltip("ダメージを受けているときの点滅回数を決めます")]
     [SerializeField]
-    private int flashCount = 3;
+    private int flashCount = 5;
     private int nowCount;   // 現在の点滅回数
     [Tooltip("ダメージを受けているときの点滅する間隔を決めます")]
     [SerializeField]
-    private float flashInterval;
+    private float flashInterval = 0.2f;
     [Tooltip("ダメージを受けているときの色を決めます")]
     [SerializeField]
     private Color damageColor;

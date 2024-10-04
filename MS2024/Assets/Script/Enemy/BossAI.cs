@@ -126,15 +126,13 @@ public class BossAI : MonoBehaviour
         }
     }
 
-    private bool IsTargetWithSkillRange(int skillNum) {
-        float direction = (transform.position - currentTarget.transform.position).magnitude;
-        // Debug.DrawLine(transform.position, currentTarget.transform.position, Color.green);
-        // Debug.LogWarning("プレイヤーとの距離："+direction);
-        // Debug.LogWarning("最低射程距離："+skills[skillNum].minAttackRange);
-        // Debug.LogWarning("最大射程距離："+skills[skillNum].maxAttackRange);
-        if (skills[skillNum].minAttackRange <= direction && skills[skillNum].maxAttackRange >= direction)
-            return true;
-        return false;
+    private void TryStartAttack() {
+        if (playerObjects == null || currentTarget == null) return;
+        skillToUse = GetAvailableSkill();
+        if (skillToUse != null) {
+            bossState = BOSS_STATE.ATTACKING;
+            skillToUse.UseSkill(transform, currentTarget.transform);        
+        }
     }
 
     private SkillBase GetAvailableSkill() { // 多分複数スキル使用可能時、ランダム選択されたスキルが射程外の場合スキルの再選択を行わず攻撃をしないという不具合起こす
@@ -156,13 +154,15 @@ public class BossAI : MonoBehaviour
         return null;
     }
 
-    private void TryStartAttack() {
-        if (playerObjects == null) return;  
-        skillToUse = GetAvailableSkill();
-        if (skillToUse != null) {
-            bossState = BOSS_STATE.ATTACKING;
-            skillToUse.UseSkill(transform, currentTarget.transform);        
-        }
+    private bool IsTargetWithSkillRange(int skillNum) {
+        float direction = (transform.position - currentTarget.transform.position).magnitude;
+        // Debug.DrawLine(transform.position, currentTarget.transform.position, Color.green);
+        // Debug.LogWarning("プレイヤーとの距離："+direction);
+        // Debug.LogWarning("最低射程距離："+skills[skillNum].minAttackRange);
+        // Debug.LogWarning("最大射程距離："+skills[skillNum].maxAttackRange);
+        if (skills[skillNum].minAttackRange <= direction && skills[skillNum].maxAttackRange >= direction)
+            return true;
+        return false;
     }
 
     private void CheckAttacking() {
