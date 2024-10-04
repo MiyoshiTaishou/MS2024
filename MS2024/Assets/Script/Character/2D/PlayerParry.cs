@@ -30,11 +30,6 @@ public class PlayerParry : MonoBehaviour
     // ノックバック
     [SerializeField, Tooltip("ノックバック力")] public float KnockbackPower = 10;
 
-    /// <summary>
-    /// 敵からの攻撃を受けたか判定
-    /// </summary>
-   // public bool DamageReceive { get; set; } = false;
-
     Camera Maincamera;
     CinemaCharCamera cinemachar;
 
@@ -56,6 +51,24 @@ public class PlayerParry : MonoBehaviour
         if (ParryArea.activeSelf)
         {
              ParrySystem();
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+
+    }
+
+    /// <summary>
+    /// パリィ状態かどうかのチェック(パリィジャンプ用)
+    /// </summary>
+    public bool ParryJumpCheck()
+    {
+        // Debug.Log("パリィ!!!");
+
+        if (ParryArea.activeSelf)
+        {
             return true;
         }
         else
@@ -93,9 +106,13 @@ public class PlayerParry : MonoBehaviour
 
         ParryArea.transform.localScale = scale;
 
-        ////パリィ発動
-        //ParryArea.SetActive(true);
-        //Parryflg = true;
+    }
+
+    public void ParryStart()
+    {
+        //animator.Play("APlayerCounter");
+        ParryArea.SetActive(true);
+        Parryflg = true;
     }
 
     /// <summary>
@@ -106,8 +123,7 @@ public class PlayerParry : MonoBehaviour
     {
         if (context.started)
         {
-            ParryArea.SetActive(true);
-            Parryflg = true;
+            ParryStart();
         }
 
     }
@@ -132,6 +148,13 @@ public class PlayerParry : MonoBehaviour
 
     void Update()
     {
+        //デバック用-----------------------
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            ParryArea.SetActive(true);
+            Parryflg = true;
+        }
+
         //デバック用
         if (ParryArea.activeSelf)
         {
@@ -140,7 +163,9 @@ public class PlayerParry : MonoBehaviour
                 ParrySystem();
             }
         }
+        //----------------------------------
 
+        //アニメーション終了
         AnimatorStateInfo landAnimStateInfo = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
         if (landAnimStateInfo.IsName("APlayerParry") && landAnimStateInfo.normalizedTime >= 1.0f)
             animator.Play("APlayerIdle");

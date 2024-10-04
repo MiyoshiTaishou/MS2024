@@ -3,9 +3,16 @@ using UnityEngine;
 public class LocalCombo : MonoBehaviour
 {
     [ReadOnly] static int nCombo = 0;
-    void AddCombo() 
+    [SerializeField, Tooltip("ƒRƒ“ƒ{Œp‘±ŽžŠÔ(f)")] static int keepcombotime;
+    [SerializeField,ReadOnly]static int count;
+    public int Getcombotime() { return count; }
+    public int GetMaxcombotime() { return keepcombotime; }
+
+    public void ResetCombo() { nCombo = 0; }
+    public void AddCombo() 
     {
-        nCombo++; 
+        nCombo++;
+        count = keepcombotime;
         Debug.Log("ƒRƒ“ƒ{‰ÁŽZ!" + nCombo);
     }
     public int GetCombo() { return nCombo; }
@@ -19,14 +26,13 @@ public class LocalCombo : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if(other.CompareTag("Enemy"))
+        if(count>0)
         {
-            AddCombo();
+            count--;
+        }
+        if(count<=0) 
+        {
+            ResetCombo();
         }
     }
 }
