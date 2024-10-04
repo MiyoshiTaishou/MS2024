@@ -17,15 +17,15 @@ GameObject:
   - component: {fileID: -8286472982996973084}
   - component: {fileID: 8098995252397189171}
   - component: {fileID: -1825052066718410784}
-  - component: {fileID: 258535163928245900}
   - component: {fileID: 1868253667153895889}
   - component: {fileID: 4610117146495008771}
   - component: {fileID: 2098017740711185546}
   - component: {fileID: -8222291783751928251}
   - component: {fileID: 8677114155475336398}
+  - component: {fileID: 4328405015949707730}
   m_Layer: 0
   m_Name: Player2D
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -235,7 +235,7 @@ MonoBehaviour:
     m_ActionName: Player/Parry
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 258535163928245900}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PlayerAttack, Assembly-CSharp
         m_MethodName: OnAttack
         m_Mode: 0
@@ -339,25 +339,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7425950512706134da9a95bee779b83d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &258535163928245900
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3456682398586312846}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 66e0417ee3323744fb95ab25bd262f4b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AttackArea: {fileID: 5593873177869133035}
-  AttackStartupFrame: 25
-  AttackActiveFrame: 50
-  AttackRecoveryFrame: 100
-  isAttack: 0
-  Count: 0
-  nMaxHit: 3
 --- !u!114 &1868253667153895889
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -378,7 +359,10 @@ MonoBehaviour:
   fallMultiplier: 2.5
   currentSpeed: 0
   initScale: {x: 0, y: 0, z: 0}
-
+  parryradius: 3
+  ParryActivetime: 30
+  HitStop: 3
+  KnockbackPower: 10
 --- !u!95 &4610117146495008771
 Animator:
   serializedVersion: 5
@@ -419,6 +403,7 @@ MonoBehaviour:
   NetworkedBehaviours:
   - {fileID: -8222291783751928251}
   - {fileID: 8677114155475336398}
+  - {fileID: 4328405015949707730}
 --- !u!114 &-8222291783751928251
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -453,6 +438,23 @@ MonoBehaviour:
   SyncSettings: 79
   StateHashes: 00000000975eca9c321a2d23d7917fcd72d598726fb37e584c037dfe
   TriggerHashes: 00000000
+--- !u!114 &4328405015949707730
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3456682398586312846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b63e3731eda70b4ba521c42e18e1b2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _HP: 20
+  flashCount: 5
+  flashInterval: 0.2
+  damageColor: {r: 1, g: 0, b: 0, a: 0}
+  isHost: 0
 --- !u!1001 &4476810163144067245
 PrefabInstance:
   m_ObjectHideFlags: 0
