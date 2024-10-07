@@ -3,19 +3,18 @@ using UnityEngine;
 
 public class SampleSkill : SkillBase
 {
-    private float nowTime;
     private Transform bossTransform;
     private Transform targetTransform;
     private Vector3 direction;
 
     public void Update() {
-        nowTime += Time.deltaTime;
+        nowPreliminaryTime += Time.deltaTime;
     }
 
     public void FixedUpdate() {
         float preliminarySpace = preliminaryTime / maxSkillCount * (maxSkillCount - nowSkillCount);
         float attaclSpace = maxAttackRange / (maxSkillCount + 1);
-        if (nowSkillCount < maxSkillCount && preliminarySpace <= nowTime){
+        if (nowSkillCount < maxSkillCount && preliminarySpace <= nowPreliminaryTime){
             // Debug.LogError("");
             // Debug.LogError("攻撃の発生までの時間："+preliminarySpace);
             // Debug.LogError("攻撃と攻撃の間の距離："+attaclSpace);
@@ -42,7 +41,7 @@ public class SampleSkill : SkillBase
     }
 
     public override bool IsSkillUsing() {
-        if (nowSkillCount >= maxSkillCount ) return false;
+        if (nowSkillCount >= maxSkillCount) return false;
         return true;
     }
 }

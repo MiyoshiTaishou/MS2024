@@ -97,6 +97,7 @@ public class BossAI : MonoBehaviour
                 break;
 
             case BOSS_STATE.ROTATION:
+                // bossState = BOSS_STATE.MOVING;
                 RotisonTowardsTarget();
                 break;
 
@@ -127,38 +128,26 @@ public class BossAI : MonoBehaviour
             PlayerSearch();
             return;
         }
-        // var t = GetEasingMethod(OutCirc);
-
-        // float elapsedTime = 0f;
-        // while (elapsedTime < rotationDuration) {
-        //     float t = elapsedTime / rotationDuration;
-        //     float easedT = EasingFunctions.EaseInOutQuad(t);
-        //     transform.rotation = Quaternion.Slerp(initialRotation, targetRotation, easedT);
-        //     elapsedTime += Time.deltaTime;
-        //     return null;
-        // }
-        // // 最終的な回転を設定
-        // transform.rotation = targetRotation;
-
-        for (int i = 0; i < playerObjects.Count; i++) {
-            Debug.DrawLine(transform.position, playerObjects[i].transform.position, Color.red);
-        }
 
         Vector3 targetPos = currentTarget.transform.position;
         Vector3 direction = targetPos - transform.position;
-        direction.y = 0; // Y 軸方向の回転を制限（地面と平行に）
-        Debug.DrawLine(targetPos, direction, Color.green);
+        direction.y = 0;
 
         if (direction != Vector3.zero) {
             // ターゲットに向かう回転を計算
             Quaternion targetRotation = Quaternion.LookRotation(direction);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
-            Debug.LogError("クオータニオン："+targetRotation);
-            Debug.LogError("トランスフォーム："+transform.rotation);
         }
-        if (direction.sqrMagnitude < 10f) {
+
+        // ある程度ターゲットの方向を向いた場合、ステートを切り替える
+        Vector3 forward = transform.forward;
+        forward.y = 0;
+        direction.Normalize();
+
+        float angleToTarget = Vector3.Angle(forward, direction);
+
+        if (angleToTarget < 10f) {
             bossState = BOSS_STATE.MOVING;
-            Debug.LogError("回転完了");
         }
     }
 
@@ -250,80 +239,3 @@ public class BossAI : MonoBehaviour
         bossState = BOSS_STATE.ROTATION;
     }
 }
-
-/*
-using UnityEngine;
-using UnityEngine.Events; // イベントを使用するために必要
-
-public class CompleteSmoothLookAt : MonoBehaviour
-{
-    [Header("ターゲット")]
-    public Transform target; // ターゲットのTransform
-
-    [Header("回転速度")]
-    [Range(1f, 10f)]
-    public float rotationSpeed = 5.0f; // 回転速度
-
-    [Header("回転軸の制限")]
-    public bool lockYAxis = true; // Y軸の回転を固定するかどうか
-
-    [Header("回転完了の許容角度")]
-    [Range(0.1f, 10f)]
-    public float angleThreshold = 1.0f; // 回転完了とみなす角度の閾値
-
-    [Header("回転完了時のイベント")]
-    public UnityEvent onRotationComplete; // 回転完了時に呼び出されるイベント
-
-    private bool rotationCompleted = false; // 回転完了フラグ
-
-    void Update()
-    {
-        if (target == null)
-        {
-            Debug.LogWarning("ターゲットが設定されていません。");
-            return;
-        }
-
-        if (rotationCompleted)
-        {
-            // 既に回転が完了している場合は何もしない
-            return;
-        }
-
-        // ターゲットへの方向ベクトルを計算
-        Vector3 direction = target.position - transform.position;
-
-        if (lockYAxis)
-        {
-            direction.y = 0; // Y軸の回転を制限
-        }
-
-        // 方向ベクトルがゼロでないことを確認
-        if (direction.sqrMagnitude > 0.001f)
-        {
-            // ターゲットに向かう回転を計算
-            Quaternion targetRotation = Quaternion.LookRotation(direction);
-
-            // 現在の回転とターゲットの回転をスムーズに補間
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
-
-            // 回転が完了しているかチェック
-            float currentAngle = Vector3.Angle(transform.forward, direction.normalized);
-            if (currentAngle <= angleThreshold)
-            {
-                rotationCompleted = true;
-                onRotationComplete.Invoke(); // イベントを呼び出す
-                Debug.Log("回転が完了しました。");
-            }
-        }
-    }
-
-    /// <summary>
-    /// 回転を再度有効にするメソッド
-    /// </summary>
-    public void ResetRotation()
-    {
-        rotationCompleted = false;
-    }
-}
-*/
