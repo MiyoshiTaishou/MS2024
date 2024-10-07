@@ -4,6 +4,7 @@ using UnityEngine;
 
 enum BOSS_STATE {
     IDLE,
+    ROTATION,
     MOVING,
     PRELIMINARY_ACTION,
     ATTACKING,
@@ -40,6 +41,9 @@ public class BossAI : MonoBehaviour
     [Tooltip("移動速度を決めます")]
     [SerializeField]
     private float moveSpeed;
+    [Tooltip("振向き速度を決めます")]
+    [SerializeField]
+    private float rotationSpeed;
     [Tooltip("ターゲットが切り替わる間隔を決めます(1秒間隔)")]
     [SerializeField]
     private float changeTargetInterval;
@@ -89,10 +93,16 @@ public class BossAI : MonoBehaviour
 
         switch (bossState) {
             case BOSS_STATE.IDLE:
-                bossState = BOSS_STATE.MOVING;
+                bossState = BOSS_STATE.ROTATION;
+                break;
+
+            case BOSS_STATE.ROTATION:
+                // bossState = BOSS_STATE.MOVING;
+                RotisonTowardsTarget();
                 break;
 
             case BOSS_STATE.MOVING:
+                RotisonTowardsTarget();
                 MoveTowardsTarget();
                 TryStartAttack();
                 break;
@@ -108,8 +118,36 @@ public class BossAI : MonoBehaviour
             
             case BOSS_STATE.DOWN:
                 if (nowTime.downTime <= 0)
-                    bossState = BOSS_STATE.MOVING;
+                    bossState = BOSS_STATE.ROTATION;
                 break;
+        }
+    }
+
+    private void RotisonTowardsTarget() {
+        if (currentTarget == null) {
+            PlayerSearch();
+            return;
+        }
+
+        Vector3 targetPos = currentTarget.transform.position;
+        Vector3 direction = targetPos - transform.position;
+        direction.y = 0;
+
+        if (direction != Vector3.zero) {
+            // ターゲットに向かう回転を計算
+            Quaternion targetRotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
+        }
+
+        // ある程度ターゲットの方向を向いた場合、ステートを切り替える
+        Vector3 forward = transform.forward;
+        forward.y = 0;
+        direction.Normalize();
+
+        float angleToTarget = Vector3.Angle(forward, direction);
+
+        if (angleToTarget < 10f) {
+            bossState = BOSS_STATE.MOVING;
         }
     }
 
@@ -198,5 +236,6 @@ public class BossAI : MonoBehaviour
             int index = Random.Range(0, playerObjects.Count);
             currentTarget = playerObjects[index];
         }
+        bossState = BOSS_STATE.ROTATION;
     }
 }

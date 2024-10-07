@@ -21,12 +21,13 @@ public abstract class SkillBase : MonoBehaviour
     // public float prepareTime;
     // [Tooltip("攻撃の持続時間を決めます")]
     // public float duration;
+    protected float nowPreliminaryTime;
     protected int nowSkillCount;
 
     private float currentCooldown = 0f;
     public float CurrentCooldown => currentCooldown;
 
-    public void Start() {
+    public void Awake() {
         nowSkillCount = maxSkillCount;
     }
 
