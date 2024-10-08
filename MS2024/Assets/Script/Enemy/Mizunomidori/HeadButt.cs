@@ -8,60 +8,67 @@ public class HeadButt : SkillBase
     // Animator Controllerで設定したハッシュコードを事前に取得
     private int attackTriggerHash = Animator.StringToHash("AttackTrigger");
     private int isAfterAttackHash = Animator.StringToHash("IsAfterAttack");
+    private int attackStateHash = Animator.StringToHash("Attack"); // アニメーションステート名
+    private int leisureStateHash = Animator.StringToHash("Leisure"); // 後隙アニメーションステート名
     private float animationSpeed;
+
+    // トリガー発火を追跡するフラグ
+    private bool isAttackTriggered = false;
 
     public void Start() {
         // Animatorコンポーネントを取得
         animator = GetComponentInParent<Animator>();
+        if (animator == null) {
+            Debug.LogError("アニメーションが取得できませんでした。");
+        }
     }
 
     public void Update() {
         nowPreliminaryTime += Time.deltaTime;
+        
     }
 
     public void FixedUpdate() {
-        // animationSpeed = Easing.Easing.InExp(animationSpeed, preliminaryTime,1 ,5);
-        // animator.speed = animationSpeed;
-        // animationSpeed += Time.deltaTime;
+        if (animator == null) return;
 
         var stateInfo = animator.GetCurrentAnimatorStateInfo(0); // 0はベースレイヤー
-        if (stateInfo.shortNameHash == attackTriggerHash && preliminaryTime >= nowPreliminaryTime) {
-            // 後隙アニメーションへ遷移するためにパラメータを設定
+        // 後隙アニメーション
+        if (stateInfo.shortNameHash == attackStateHash && nowPreliminaryTime >= preliminaryTime) {
             animator.SetBool(isAfterAttackHash, true);
         }
-        if (stateInfo.shortNameHash == isAfterAttackHash && stateInfo.normalizedTime >= 1.0f) {
-            animator.SetBool(attackTriggerHash, false);
-            animator.SetBool(isAfterAttackHash, false);
-        }
-    }
-    
-    // アニメーションイベントから呼び出されるメソッド: 攻撃アニメーション完了
-    public void OnAttackAnimationComplete() {
-        if (animator != null) {
-            animator.SetBool(isAfterAttackHash, true);
-            Debug.Log("攻撃アニメーションが完了し、IsAfterAttackがtrueに設定されました。");
-        }
-    }
 
-    // アニメーションイベントから呼び出されるメソッド: 後隙アニメーション完了
-    public void OnAfterAttackAnimationComplete() {
-        if (animator != null) {
+        // 後隙アニメーション終了
+        if (stateInfo.shortNameHash == leisureStateHash && stateInfo.normalizedTime >= 1.0f) {
             animator.SetBool(isAfterAttackHash, false);
-            Debug.Log("後隙アニメーションが完了し、IsAfterAttackがfalseに設定されました。");
+            var DA = GetComponent<DamagedArea>();
+            if(DA == null) return;
+            DA.SetDelayActive(true, preliminaryTime);
         }
     }
 
     public override void UseSkill(Transform BTF, Transform TTF){
         if (animator != null) {
-            animator.SetBool(attackTriggerHash, true);
+            var DA = GetComponent<DamagedArea>();
+            if(DA == null) return;
+            DA.SetDelayActive(true, preliminaryTime);
+            animator.SetTrigger(attackTriggerHash); // Triggerを使用
             animator.SetBool(isAfterAttackHash, false);
             nowPreliminaryTime = 0;
         }
     }
 
     public override bool IsSkillUsing() {
+        if (animator == null) return false;
+
+        // 現在のステートを取得
         var stateInfo = animator.GetCurrentAnimatorStateInfo(0); // 0はベースレイヤー
-        if (stateInfo.shortNameHash == attackTriggerHash  && stateInfo.shortNameHash == isAfterAttackHash) return false;
-        return true;
+
+        // 攻撃中または後隙中の場合
+        bool isInAttackOrAfterAttack = (stateInfo.shortNameHash == attackStateHash || stateInfo.shortNameHash == leisureStateHash);
+
+        // トリガーが発火されたが、まだAttackステートに入っていない場合
+        bool isTriggerActive = isAttackTriggered && !(stateInfo.shortNameHash == attackStateHash || stateInfo.shortNameHash == leisureStateHash);
+
+        return isInAttackOrAfterAttack || isTriggerActive;
     }
 }

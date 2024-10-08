@@ -72,10 +72,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillObj: {fileID: 6883817828070370781}
   maxSkillCount: 1
-  preliminaryTime: 3
+  preliminaryTime: 0.5
   coolDown: 5
   minAttackRange: 0
-  maxAttackRange: 10
+  maxAttackRange: 3
 --- !u!114 &624939056498936080
 MonoBehaviour:
   m_ObjectHideFlags: 0

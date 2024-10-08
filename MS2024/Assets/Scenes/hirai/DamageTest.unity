@@ -1604,30 +1604,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: Mizunomidori_test
       objectReference: {fileID: 0}
-    - target: {fileID: 4387325574906065368, guid: d7219a73810a9e74ca23d83f972feceb,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0.000000001192093
-      objectReference: {fileID: 0}
-    - target: {fileID: 4387325574906065368, guid: d7219a73810a9e74ca23d83f972feceb,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4387325574906065368, guid: d7219a73810a9e74ca23d83f972feceb,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5766049652952665513, guid: d7219a73810a9e74ca23d83f972feceb,
         type: 3}
-      propertyPath: maxSkillCount
-      value: 1
+      propertyPath: maxAttackRange
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5766049652952665513, guid: d7219a73810a9e74ca23d83f972feceb,
         type: 3}
       propertyPath: preliminaryTime
-      value: 3
+      value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
