@@ -208,7 +208,7 @@ public class BossAI : MonoBehaviour
         // クールダウン開始
         skillToUse.ResetCooldown();
         nowTime.minCooldownAfterAttack = coolTime.minCooldownAfterAttack;
-        bossState = BOSS_STATE.MOVING;
+        bossState = BOSS_STATE.ROTATION;
     }
 
     public void BossDown() {}
