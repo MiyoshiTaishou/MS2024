@@ -25,13 +25,17 @@ public class DamagedArea : MonoBehaviour
     [SerializeField]
     private int coolDown;
 
+    private float delayTime;
+    private float nowDelayTime;
+    private bool isBuffer;
+
     [Header("マルチプレイ用設定")]
     [Tooltip("各プレイヤーごとのisActive状態")]
     private Dictionary<Player, bool> playerActiveStates = new Dictionary<Player, bool>();
     [Tooltip("各プレイヤーごとのクールダウンタイマー")]
     private Dictionary<Player, float> playerCooldowns = new Dictionary<Player, float>();
 
-    void Awake(){
+    private void Awake(){
         //コライダーのisTriggerの値をtrueにする
         Collider col = GetComponent<Collider>();
         if (col != null){
@@ -39,18 +43,23 @@ public class DamagedArea : MonoBehaviour
         }
     }
 
-    void Start() {
+    private void Start() {
         isActive = false;
     }
 
-    void Update() {
+    private void Update() {
+        nowDelayTime += Time.deltaTime;
+        if (nowDelayTime >= delayTime) {
+            isActive = isBuffer;
+            if (!isSustained) ResetDamageState();
+        }
         //Debug.Log("player.HP"+player.HP);
         //Debug.Log("nowTime"+nowTime);
         //Debug.Log("playerCooldowns[player]"+playerCooldowns[player]/60);
         //Debug.Log("playerCooldowns[player]"+playerCooldowns[player]);
     }
 
-    void OnTriggerStay(Collider other){
+    private void OnTriggerStay(Collider other){
         // プレイヤーオブジェクトを取得
         Player player = other.GetComponent<Player>();
         if (player == null) return;
@@ -101,7 +110,7 @@ public class DamagedArea : MonoBehaviour
         }
     }
 
-    void OnTriggerExit(Collider other){
+    private void OnTriggerExit(Collider other){
         Player player = other.GetComponent<Player>();
         //判定から抜けたら無敵時間をリセット
         if (playerCooldowns.ContainsKey(player)){
@@ -113,13 +122,19 @@ public class DamagedArea : MonoBehaviour
         }
     }
     
-    public void SetActive(bool flag){
+    public void SetImmediateActive(bool flag){
         //ダメージを有効にするSetter
         isActive = flag;
         if (!isSustained) ResetDamageState();
     }
 
-    void ResetDamageState(){
+    public void SetDelayActive(bool flag, float delay) {
+        //ダメージを有効にするSetter
+        isBuffer = flag;
+        delayTime = delay;
+    }
+
+    private void ResetDamageState(){
         // すべてのプレイヤーのダメージ状態をリセット
         List<Player> keys = new List<Player>(playerActiveStates.Keys);
         foreach (var player in keys){
@@ -127,7 +142,7 @@ public class DamagedArea : MonoBehaviour
         }
     }
 
-    bool IsParry(Collider other) {
+    private bool IsParry(Collider other) {
         var PObj = other.GetComponent<PlayerParry>();
         if(PObj == null) return false;
         return PObj.ParryCheck();

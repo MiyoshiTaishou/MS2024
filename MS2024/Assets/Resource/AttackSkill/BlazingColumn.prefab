@@ -50,7 +50,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackCircle: {fileID: 1173501407998472199}
   attackEffect: {fileID: 4850923574998894204}
-  delayEffect: 2
+  delayEffect: 1.6666666
 --- !u!136 &5885726040112493294
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -86,7 +86,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a887307525e0ff542adf31a9d1cd09e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isActive: 1
+  isActive: 0
   isSustained: 0
   damageType: 0
   damage: 5

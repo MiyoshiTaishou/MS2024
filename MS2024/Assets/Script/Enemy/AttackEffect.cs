@@ -39,19 +39,19 @@ public class AttackEffect : MonoBehaviour
         }
     }
     
-    void PrepareAttack(){
+    private void PrepareAttack(){
         // 攻撃予告処理
         attackCircle.SetActive(true);
         attackFlag = true;
         nowTime = 0;
     }
 
-    void ExecuteAttack(){
+    private void ExecuteAttack(){
         //攻撃処理
         attackCircle.SetActive(false);
         attackEffect.Play();
         if (damagedArea != null){
-            damagedArea.SetActive(true);
+            damagedArea.SetImmediateActive(true);
         }
         else{
             Debug.LogError("DamagedArea script not found!");

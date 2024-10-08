@@ -78,7 +78,7 @@ AnimatorStateTransition:
   m_ExitTime: 0
   m_HasExitTime: 1
   m_HasFixedDuration: 1
-  m_InterruptionSource: 0
+  m_InterruptionSource: 1
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
 --- !u!1101 &-3363394857955429551
@@ -164,7 +164,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: idol
-  m_Speed: 1
+  m_Speed: 100
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -4358607599505969861}
@@ -177,7 +177,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 0}
+  m_Motion: {fileID: 7400000, guid: 0edc15e50f9d5c642b701ba9c9ccb72a, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -193,7 +193,7 @@ AnimatorController:
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: AttackTrigger
-    m_Type: 4
+    m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
