@@ -111,6 +111,7 @@ public class PlayerParry : MonoBehaviour
     public void ParryStart()
     {
         //animator.Play("APlayerCounter");
+        animator.Play("APlayerParry");
         ParryArea.SetActive(true);
         Parryflg = true;
     }
@@ -133,11 +134,12 @@ public class PlayerParry : MonoBehaviour
     /// </summary>
     public void ParrySystem()
     {
+        animator.Play("APlayerCounter");
+
         hitStop.ApplyHitStop(HitStopFrame);
         //cinemachar.CameraZoom(this.character.transform, 5,0.5f);
         back.ApplyKnockback(transform.forward, KnockbackPower);
         ParryArea.GetComponent<ParryDisplay>().Init();
-        animator.Play("APlayerParry");
     }
 
     [Rpc(RpcSources.InputAuthority, RpcTargets.All)]
@@ -151,8 +153,7 @@ public class PlayerParry : MonoBehaviour
         //デバック用-----------------------
         if (Input.GetKeyDown(KeyCode.O))
         {
-            ParryArea.SetActive(true);
-            Parryflg = true;
+            ParryStart();
         }
 
         //デバック用
@@ -170,6 +171,8 @@ public class PlayerParry : MonoBehaviour
         if (landAnimStateInfo.IsName("APlayerParry") && landAnimStateInfo.normalizedTime >= 1.0f)
             animator.Play("APlayerIdle");
 
+        if (landAnimStateInfo.IsName("APlayerCounter") && landAnimStateInfo.normalizedTime >= 1.0f)
+            animator.Play("APlayerIdle");
 
     }
 
