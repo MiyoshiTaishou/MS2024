@@ -31,7 +31,7 @@ public class HeadButt : SkillBase
     public void FixedUpdate() {
         if (animator == null) return;
 
-        var stateInfo = animator.GetCurrentAnimatorStateInfo(0); // 0はベースレイヤー
+        var stateInfo = animator.GetCurrentAnimatorStateInfo(0);
         // 後隙アニメーション
         if (stateInfo.shortNameHash == attackStateHash && nowPreliminaryTime >= preliminaryTime) {
             animator.SetBool(isAfterAttackHash, true);
@@ -48,6 +48,8 @@ public class HeadButt : SkillBase
 
     public override void UseSkill(Transform BTF, Transform TTF){
         if (animator != null) {
+            var stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+            if (stateInfo.shortNameHash == attackStateHash) return;
             var DA = GetComponent<DamagedArea>();
             if(DA == null) return;
             DA.SetDelayActive(true, preliminaryTime);
