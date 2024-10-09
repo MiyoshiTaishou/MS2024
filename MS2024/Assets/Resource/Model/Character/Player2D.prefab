@@ -356,13 +356,18 @@ MonoBehaviour:
   maxSpeed: 10
   jumpForce: 5
   fallMultiplier: 2.5
-  currentSpeed: 0
   initScale: {x: 0, y: 0, z: 0}
   parryradius: 3
   ParryActivetime: 30
   HitStop: 3
   KnockbackPower: 10
-
+  AttackStartupFrame: 25
+  AttackActiveFrame: 50
+  AttackRecoveryFrame: 100
+  isAttack: 0
+  AttackCount: 0
+  currentSpeed: 0
+  moveInput: {x: 0, y: 0}
 --- !u!95 &4610117146495008771
 Animator:
   serializedVersion: 5
@@ -420,7 +425,7 @@ MonoBehaviour:
   TotalWords: 0
   ApplyTiming: 2
   SyncSettings: 79
-  StateHashes: 00000000975eca9c321a2d23d7917fcd72d598726fb37e584c037dfe
+  StateHashes: 00000000975eca9c321a2d23d7917fcd72d598726fb37e584c037dfe77bc80c7b5ce4165e18c87b023fe461281e539dca2553a7a8ebeabd960dc63ac54fc861d968e47bf98ef63873dab8438c75eae1eda596959
   TriggerHashes: 00000000
 --- !u!114 &1460821072406619253
 MonoBehaviour:
@@ -550,7 +555,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e03cee35b1b10e49a8efeaf6594d6c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 3456682398586312846}
 --- !u!1001 &8993024079399442987
 PrefabInstance:
   m_ObjectHideFlags: 0
