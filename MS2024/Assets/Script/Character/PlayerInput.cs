@@ -24,8 +24,8 @@ public class PlayerInputNet : MonoBehaviour, INetworkRunnerCallbacks
         bool jumpInput = playerInput.actions["Jump"].WasPressedThisFrame();
 
         // NetworkInputData‚É“ü—Í‚ğİ’è
-        data.direction = moveInput;
-        data.buttons.Set(NetworkInputButtons.Jump, jumpInput);
+        data.Direction = moveInput;
+        data.Buttons.Set(NetworkInputButtons.Jump, jumpInput);
 
         Debug.Log("“ü—Í‚µ‚½ƒf[ƒ^" + data);
 
