@@ -37,10 +37,10 @@ public class PlayerMove : NetworkBehaviour
         if (GetInput(out NetworkInputData data))
         {
             // 入力方向のベクトルを正規化する
-            data.direction.Normalize();
+            data.Direction.Normalize();
 
             // 加速の計算を行う
-            Vector3 targetVelocity = data.direction * maxSpeed;
+            Vector3 targetVelocity = data.Direction * maxSpeed;
             currentVelocity = Vector3.MoveTowards(currentVelocity, targetVelocity, acceleration * Time.deltaTime);
 
             // 物理的な移動を行う
