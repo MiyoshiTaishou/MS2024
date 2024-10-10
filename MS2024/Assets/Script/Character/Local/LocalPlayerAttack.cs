@@ -15,17 +15,21 @@ public class LocalPlayerAttack : MonoBehaviour
     [SerializeField, ReadOnly] public int AttackCount = 0;
     [SerializeField, ReadOnly] bool isLeftAttack = false;
     public void SetLeftAttack(bool _isleft) { isLeftAttack = _isleft; }
+
+    bool isBuddyAttack = false;
+
     //âΩòAåÇñ⁄
     static int nHit = 0;
     //ç≈ëÂòAåÇêî
-    int nMaxHit = 2;
+    const int nMaxHit = 2;
     public int GetHit() { return nHit; }
     public void AddHit()
     {
         nHit++;
-        if (nHit > nMaxHit)
+        if (nHit > nMaxHit || isBuddyAttack )
         {
             nHit = 0;
+            isBuddyAttack= false;
         }
         Debug.Log("òAåÇêî:" + nHit);
     }
@@ -44,7 +48,7 @@ public class LocalPlayerAttack : MonoBehaviour
             Vector3 pos = AttackArea.transform.localPosition;
             float x=Mathf.Abs(pos.x);
             pos.x = isLeftAttack ? -x : x;
-            AttackArea.transform.localPosition = pos;
+            //AttackArea.transform.localPosition = pos;
             if (isAttack == false)
             {
                 //Debug.Log("çUåÇ");
@@ -52,7 +56,7 @@ public class LocalPlayerAttack : MonoBehaviour
                 state = AttackState.Startup;
                 isAttack = true;
             }
-            else if (nHit == 2)
+            else if (isBuddyAttack&& state ==AttackState.Recovery)
             {
                 Debug.Log("òAågçUåÇ");
                 AttackCount = AttackStartupFrame;
@@ -71,6 +75,10 @@ public class LocalPlayerAttack : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (nHit == nMaxHit) 
+        {
+            isBuddyAttack = true;
+        }
         switch (state)
         {
             case AttackState.None:
