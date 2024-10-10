@@ -45,6 +45,14 @@ public class LocalPlayerAttack : MonoBehaviour
 
     public void OnAttack(InputAction.CallbackContext context)
     {
+        AnimatorStateInfo landAnimStateInfo2 = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
+
+        //パリィ中は動かせないようにする
+        if (landAnimStateInfo2.IsName("APlayerParry"))
+        {
+            return;
+        }
+
         if (context.started)
         {
             if (nHit == 0)
@@ -93,6 +101,7 @@ public class LocalPlayerAttack : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+      
         if (nHit == nMaxHit) 
         {
             isBuddyAttack = true;
@@ -127,16 +136,18 @@ public class LocalPlayerAttack : MonoBehaviour
                     state = AttackState.None;
                     isAttack = false;
                     AttackCount = 0;
-                    //アニメーション終了
-                    AnimatorStateInfo landAnimStateInfo = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
-                    if (landAnimStateInfo.IsName("APlayerAtack1") && landAnimStateInfo.normalizedTime >= 1.0f)
-                        animator.Play("APlayerIdle");
-                    if (landAnimStateInfo.IsName("APlayerAtack2") && landAnimStateInfo.normalizedTime >= 1.0f)
-                        animator.Play("APlayerIdle");
-                    if (landAnimStateInfo.IsName("APlayerAtack3") && landAnimStateInfo.normalizedTime >= 1.0f)
-                        animator.Play("APlayerIdle");
+
                 }
                 break;
         }
+
+        //アニメーション終了
+        AnimatorStateInfo landAnimStateInfo = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
+        if (landAnimStateInfo.IsName("APlayerAtack1") && landAnimStateInfo.normalizedTime >= 1.0f)
+            animator.Play("APlayerIdle");
+        if (landAnimStateInfo.IsName("APlayerAtack2") && landAnimStateInfo.normalizedTime >= 1.0f)
+            animator.Play("APlayerIdle");
+        if (landAnimStateInfo.IsName("APlayerAtack3") && landAnimStateInfo.normalizedTime >= 1.0f)
+            animator.Play("APlayerIdle");
     }
 }
