@@ -391,8 +391,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d929640a5701394483751d1d079055b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AttackStartupFrame: 25
-  AttackActiveFrame: 50
+  AttackStartupFrame: 10
+  AttackActiveFrame: 5
   AttackRecoveryFrame: 100
   isAttack: 0
   AttackCount: 0
@@ -440,6 +440,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2de65e030c3b412438ebb5ea2a3daffe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  keepcombotime: 120
 --- !u!1001 &4476810163144067245
 PrefabInstance:
   m_ObjectHideFlags: 0
