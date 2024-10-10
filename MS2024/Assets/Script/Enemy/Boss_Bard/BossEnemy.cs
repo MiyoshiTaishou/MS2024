@@ -40,25 +40,12 @@ public class BossEnemy : MonoBehaviour
     {
         if (Input.GetKeyDown("down"))
         {
-            //HPから1を引く
-            Hp = Hp - 1;
 
-            //HPをSliderに反映 ※HPとvalueの最大値が一致してないとうまく減らないので注意
-            slider.value = Hp;
 
-            // パーティクルシステムのインスタンスを生成
-            ParticleSystem newParticle = Instantiate(particle);
-            // パーティクルの発生場所をこのスクリプトをアタッチしているGameObjectの場所にする
-            newParticle.transform.position = new Vector3(this.transform.position.x, this.transform.position.y + 4.5f, this.transform.position.z - 1);
-            // パーティクルを発生させる
-            newParticle.Play();
-            // インスタンス化したパーティクルシステムのGameObjectを1秒後に削除
-            Destroy(newParticle.gameObject, 1.0f);
+            ////Sound1を鳴らす
+            //audioSource.PlayOneShot(sound1);
 
-            //Sound1を鳴らす
-            audioSource.PlayOneShot(sound1);
-
-            m_Animator.SetTrigger("Hit");
+            //m_Animator.SetTrigger("Hit");
 
             //色を赤くする
             //gameObject.GetComponent<SpriteRenderer>().color = new Color32(255, 0, 0, 255);
@@ -114,11 +101,44 @@ public class BossEnemy : MonoBehaviour
         }
 
 
-        void back()
-        {
-            //色を元に戻す
-            gameObject.GetComponent<SpriteRenderer>().color = new Color32(255, 255, 255, 255);
-        }
+
+    }
+    void back()
+    {
+        //色を元に戻す
+        gameObject.GetComponent<SpriteRenderer>().color = new Color32(255, 255, 255, 255);
     }
 
+    void OnTriggerEnter(Collider collider)
+    {
+        if (collider.gameObject.name == "PlayerAttackArea")
+        {
+            //HPから1を引く
+            Hp = Hp - 1;
+
+            //HPをSliderに反映 ※HPとvalueの最大値が一致してないとうまく減らないので注意
+            slider.value = Hp;
+
+            // パーティクルシステムのインスタンスを生成
+            ParticleSystem newParticle = Instantiate(particle);
+            // パーティクルの発生場所をこのスクリプトをアタッチしているGameObjectの場所にする
+            newParticle.transform.position = new Vector3(this.transform.position.x, this.transform.position.y + 4.5f, this.transform.position.z - 1);
+            // パーティクルを発生させる
+            newParticle.Play();
+            // インスタンス化したパーティクルシステムのGameObjectを1秒後に削除
+            Destroy(newParticle.gameObject, 1.0f);
+
+            //Sound1を鳴らす
+            audioSource.PlayOneShot(sound1);
+
+            m_Animator.SetTrigger("Hit");
+        }
+
+        Debug.Log(collider.gameObject.name);
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        Debug.Log(collision.gameObject.name);
+    }
 }
