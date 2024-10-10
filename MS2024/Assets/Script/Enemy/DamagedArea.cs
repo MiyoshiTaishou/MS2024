@@ -146,7 +146,6 @@ public class DamagedArea : MonoBehaviour
             localPlayerCooldowns[localPlayer] = 0f;
         }
         if (!localPlayerActiveStates.ContainsKey(localPlayer)){
-            Debug.LogWarning("初期化" + localPlayer);
             localPlayerActiveStates[localPlayer] = isActive;
         }
         float nowTime = localPlayerCooldowns[localPlayer];
