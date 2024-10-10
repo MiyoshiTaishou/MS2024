@@ -4,6 +4,9 @@ using UnityEngine;
 public class LocalPlayerAttack : MonoBehaviour
 {
     GameObject AttackArea;
+    private Animator animator;
+    AudioSource audioSource;
+    AudioManager audioManager;
 
     //攻撃が発生するまでの時間
     [SerializeField, Tooltip("攻撃の発生フレーム")] public int AttackStartupFrame = 25;
@@ -15,17 +18,21 @@ public class LocalPlayerAttack : MonoBehaviour
     [SerializeField, ReadOnly] public int AttackCount = 0;
     [SerializeField, ReadOnly] bool isLeftAttack = false;
     public void SetLeftAttack(bool _isleft) { isLeftAttack = _isleft; }
+
+    bool isBuddyAttack = false;
+
     //何連撃目
     static int nHit = 0;
     //最大連撃数
-    int nMaxHit = 2;
+    const int nMaxHit = 2;
     public int GetHit() { return nHit; }
     public void AddHit()
     {
         nHit++;
-        if (nHit > nMaxHit)
+        if (nHit > nMaxHit || isBuddyAttack )
         {
             nHit = 0;
+            isBuddyAttack= false;
         }
         Debug.Log("連撃数:" + nHit);
     }
@@ -40,11 +47,23 @@ public class LocalPlayerAttack : MonoBehaviour
     {
         if (context.started)
         {
+            if (nHit == 0)
+            {
+                animator.Play("APlayerAtack1");
+            }
+            else if (nHit == 1)
+            {
+                animator.Play("APlayerAtack2");
+            }
+            else if(isBuddyAttack) 
+            {
+                animator.Play("APlayerAtack3");
+            }
             AttackArea = transform.Find("PlayerAttackArea").gameObject;
             Vector3 pos = AttackArea.transform.localPosition;
             float x=Mathf.Abs(pos.x);
             pos.x = isLeftAttack ? -x : x;
-            AttackArea.transform.localPosition = pos;
+            //AttackArea.transform.localPosition = pos;
             if (isAttack == false)
             {
                 //Debug.Log("攻撃");
@@ -52,7 +71,7 @@ public class LocalPlayerAttack : MonoBehaviour
                 state = AttackState.Startup;
                 isAttack = true;
             }
-            else if (nHit == 2)
+            else if (isBuddyAttack&& state ==AttackState.Recovery)
             {
                 Debug.Log("連携攻撃");
                 AttackCount = AttackStartupFrame;
@@ -66,11 +85,18 @@ public class LocalPlayerAttack : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
+        audioSource = GetComponent<AudioSource>();
+        animator = GetComponent<Animator>();//アニメーター
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (nHit == nMaxHit) 
+        {
+            isBuddyAttack = true;
+        }
         switch (state)
         {
             case AttackState.None:
@@ -82,6 +108,7 @@ public class LocalPlayerAttack : MonoBehaviour
                     state = AttackState.Active;
                     AttackArea.SetActive(true);
                     AttackCount = AttackActiveFrame;
+                    audioManager.PlaySE(audioSource, AudioManager.SESoundData.SE.Attack);
                 }
                 break;
             case AttackState.Active:
@@ -100,6 +127,14 @@ public class LocalPlayerAttack : MonoBehaviour
                     state = AttackState.None;
                     isAttack = false;
                     AttackCount = 0;
+                    //アニメーション終了
+                    AnimatorStateInfo landAnimStateInfo = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
+                    if (landAnimStateInfo.IsName("APlayerAtack1") && landAnimStateInfo.normalizedTime >= 1.0f)
+                        animator.Play("APlayerIdle");
+                    if (landAnimStateInfo.IsName("APlayerAtack2") && landAnimStateInfo.normalizedTime >= 1.0f)
+                        animator.Play("APlayerIdle");
+                    if (landAnimStateInfo.IsName("APlayerAtack3") && landAnimStateInfo.normalizedTime >= 1.0f)
+                        animator.Play("APlayerIdle");
                 }
                 break;
         }

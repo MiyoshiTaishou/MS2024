@@ -52,6 +52,13 @@ public class LocalPlayerMove : MonoBehaviour
     void Update()
     {
         AnimatorStateInfo landAnimStateInfo = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
+
+        //ƒpƒŠƒB’†‚Í“®‚©‚¹‚È‚¢‚æ‚¤‚É‚·‚é
+        if(landAnimStateInfo.IsName("APlayerParry"))
+        {
+            return;
+        }
+
         if (!landAnimStateInfo.IsName("APlayerWalk") && !landAnimStateInfo.IsName("APlayerJumpUp") && !landAnimStateInfo.IsName("APlayerJumpDown"))
             if (Input.GetAxis("Vertical") != 0 || Input.GetAxis("Horizontal") != 0)
             {
