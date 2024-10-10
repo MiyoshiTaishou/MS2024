@@ -42,14 +42,14 @@ public class HeadButt : SkillBase
             animator.SetBool(isAfterAttackHash, false);
             var DA = GetComponent<DamagedArea>();
             if(DA == null) return;
-            DA.SetDelayActive(true, preliminaryTime);
+            DA.SetImmediateActive(false);
         }
     }
 
     public override void UseSkill(Transform BTF, Transform TTF){
         if (animator != null) {
             var stateInfo = animator.GetCurrentAnimatorStateInfo(0);
-            if (stateInfo.shortNameHash == attackStateHash) return;
+            if (stateInfo.shortNameHash == attackStateHash || stateInfo.shortNameHash == leisureStateHash) return;
             var DA = GetComponent<DamagedArea>();
             if(DA == null) return;
             DA.SetDelayActive(true, preliminaryTime);
