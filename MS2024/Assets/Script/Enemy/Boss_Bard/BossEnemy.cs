@@ -38,87 +38,107 @@ public class BossEnemy : MonoBehaviour
 
     void Update()
     {
-        //if (Input.GetKeyDown("down"))
-        //{
-        //    //HPから1を引く
-        //    Hp = Hp - 1;
-
-        //    //HPをSliderに反映 ※HPとvalueの最大値が一致してないとうまく減らないので注意
-        //    slider.value = Hp;
-
-        //    // パーティクルシステムのインスタンスを生成
-        //    ParticleSystem newParticle = Instantiate(particle);
-        //    // パーティクルの発生場所をこのスクリプトをアタッチしているGameObjectの場所にする
-        //    newParticle.transform.position = new Vector3(this.transform.position.x, this.transform.position.y + 4.5f, this.transform.position.z - 1);
-        //    // パーティクルを発生させる
-        //    newParticle.Play();
-        //    // インスタンス化したパーティクルシステムのGameObjectを1秒後に削除
-        //    Destroy(newParticle.gameObject, 1.0f);
-
-        //    //Sound1を鳴らす
-        //    audioSource.PlayOneShot(sound1);
-
-        //    m_Animator.SetTrigger("Hit");
-
-        //    //色を赤くする
-        //    //gameObject.GetComponent<SpriteRenderer>().color = new Color32(255, 0, 0, 255);
-        //    //0.5秒後にvoid backを実行
-        //    //Invoke("back", 0.2f);
-
-        //}
-
-        //else if (Input.GetKeyDown("up"))
-        //{
-        //    m_Animator.SetTrigger("Attack");
-        //}
-
-        ////歩行アニメーション(後々条件とか増やして同時キー入力どうするかとか決めた方がいいと思います)
-        //if (Input.GetKey("w"))
-        //{
-        //    m_Animator.SetBool("walkForward", true);
-
-        //}
-        //else
-        //{
-        //    m_Animator.SetBool("walkForward", false);
-        //}
-
-        //if (Input.GetKey("a"))
-        //{
-        //    m_Animator.SetBool("Left", true);
-
-        //}
-        //else
-        //{
-        //    m_Animator.SetBool("Left", false);
-        //}
-
-        //if (Input.GetKey("d"))
-        //{
-        //    m_Animator.SetBool("Right", true);
-
-        //}
-        //else
-        //{
-        //    m_Animator.SetBool("Right", false);
-        //}
-
-        //if (Input.GetKey("s"))
-        //{
-        //    m_Animator.SetBool("Back", true);
-
-        //}
-        //else
-        //{
-        //    m_Animator.SetBool("Back", false);
-        //}
-
-
-        void back()
+        if (Input.GetKeyDown("down"))
         {
-            //色を元に戻す
-            gameObject.GetComponent<SpriteRenderer>().color = new Color32(255, 255, 255, 255);
+
+
+            ////Sound1を鳴らす
+            //audioSource.PlayOneShot(sound1);
+
+            //m_Animator.SetTrigger("Hit");
+
+            //色を赤くする
+            //gameObject.GetComponent<SpriteRenderer>().color = new Color32(255, 0, 0, 255);
+            //0.5秒後にvoid backを実行
+            //Invoke("back", 0.2f);
+
         }
+
+        else if (Input.GetKeyDown("up"))
+        {
+            m_Animator.SetTrigger("Attack");
+        }
+
+        //歩行アニメーション(後々条件とか増やして同時キー入力どうするかとか決めた方がいいと思います)
+        if (Input.GetKey("w"))
+        {
+            m_Animator.SetBool("walkForward", true);
+
+        }
+        else
+        {
+            m_Animator.SetBool("walkForward", false);
+        }
+
+        if (Input.GetKey("a"))
+        {
+            m_Animator.SetBool("Left", true);
+
+        }
+        else
+        {
+            m_Animator.SetBool("Left", false);
+        }
+
+        if (Input.GetKey("d"))
+        {
+            m_Animator.SetBool("Right", true);
+
+        }
+        else
+        {
+            m_Animator.SetBool("Right", false);
+        }
+
+        if (Input.GetKey("s"))
+        {
+            m_Animator.SetBool("Back", true);
+
+        }
+        else
+        {
+            m_Animator.SetBool("Back", false);
+        }
+
+
+
+    }
+    void back()
+    {
+        //色を元に戻す
+        gameObject.GetComponent<SpriteRenderer>().color = new Color32(255, 255, 255, 255);
     }
 
+    void OnTriggerEnter(Collider collider)
+    {
+        if (collider.gameObject.name == "PlayerAttackArea")
+        {
+            //HPから1を引く
+            Hp = Hp - 1;
+
+            //HPをSliderに反映 ※HPとvalueの最大値が一致してないとうまく減らないので注意
+            slider.value = Hp;
+
+            // パーティクルシステムのインスタンスを生成
+            ParticleSystem newParticle = Instantiate(particle);
+            // パーティクルの発生場所をこのスクリプトをアタッチしているGameObjectの場所にする
+            newParticle.transform.position = new Vector3(this.transform.position.x, this.transform.position.y + 4.5f, this.transform.position.z - 1);
+            // パーティクルを発生させる
+            newParticle.Play();
+            // インスタンス化したパーティクルシステムのGameObjectを1秒後に削除
+            Destroy(newParticle.gameObject, 1.0f);
+
+            //Sound1を鳴らす
+            audioSource.PlayOneShot(sound1);
+
+            m_Animator.SetTrigger("Hit");
+        }
+
+        Debug.Log(collider.gameObject.name);
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        Debug.Log(collision.gameObject.name);
+    }
 }
