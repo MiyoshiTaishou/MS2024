@@ -41,6 +41,10 @@ public class PlayerParry : MonoBehaviour
 
     private Animator animator;
 
+    AudioSource audioSource;
+
+    AudioManager audioManager;
+
     /// <summary>
     /// パリィ状態かどうかのチェック(プレイヤーがダメージを受けたときに呼ぶ)
     /// </summary>
@@ -86,12 +90,15 @@ public class PlayerParry : MonoBehaviour
 
     void Start()
     {
-        animator = GetComponent<Animator>();
-        hitStop = GetComponent<HitStop>();
-        Maincamera = Camera.main;
+        //SE読み込み
+        audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
+        audioSource = GetComponent<AudioSource>();
+        animator = GetComponent<Animator>();//アニメーター
+        hitStop = GetComponent<HitStop>();//ヒットストップ
+        Maincamera = Camera.main;//カメラ読み込み
         cinemachar = Maincamera.GetComponent<CinemaCharCamera>();
-        back = GetComponent<Knockback>();
-        Vector3 scale = new Vector3(parryradius, parryradius, parryradius);
+        back = GetComponent<Knockback>();//ノックバック
+        //子オブジェクトからパリィエリアを取得
         for (int i = 0; i < transform.childCount; i++)
         {
             if (transform.GetChild(i).gameObject.name == "ParryArea")
@@ -100,17 +107,21 @@ public class PlayerParry : MonoBehaviour
             }
         }
 
+
+
         //フレームに直す
         HitStopFrame = HitStop / 60;
         ParryActivetimeFrame = ParryActivetime / 60;
-
+        //パリィ範囲
+        Vector3 scale = new Vector3(parryradius, parryradius, parryradius);
         ParryArea.transform.localScale = scale;
 
     }
 
     public void ParryStart()
     {
-        //animator.Play("APlayerCounter");
+        audioManager.PlaySE(audioSource, AudioManager.SESoundData.SE.Parry);
+
         animator.Play("APlayerParry");
         ParryArea.SetActive(true);
         Parryflg = true;
@@ -134,6 +145,8 @@ public class PlayerParry : MonoBehaviour
     /// </summary>
     public void ParrySystem()
     {
+        audioManager.PlaySE(audioSource,AudioManager.SESoundData.SE.ParrySuccess);
+
         animator.Play("APlayerCounter");
 
         hitStop.ApplyHitStop(HitStopFrame);
