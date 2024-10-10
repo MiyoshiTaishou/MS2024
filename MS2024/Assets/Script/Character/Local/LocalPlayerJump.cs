@@ -28,12 +28,27 @@ public class LocalPlayerJump : MonoBehaviour
     /// </summary>
     public bool jumpnuw { get; private set; } = false;
 
+    /// <summary>
+    /// 左右の歩く向きによって変える
+    /// </summary>
+    private Vector3 initscale;
+
+    AudioSource audioSource;
+
+    AudioManager audioManager;
 
     void Start()
     {
+        //SE読み込み
+        audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
+        audioSource = GetComponent<AudioSource>();
+
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
         jumpnuw = false;
+
+        initscale = transform.localScale;
+
     }
 
 
@@ -60,6 +75,7 @@ public class LocalPlayerJump : MonoBehaviour
             {
                 //落下アニメーション
                 animator.Play("APlayerJumpDown");
+                audioManager.PlaySE(audioSource, AudioManager.SESoundData.SE.JumpDown);
 
             }
             rb.velocity += Vector3.up * Physics.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
@@ -102,6 +118,8 @@ public class LocalPlayerJump : MonoBehaviour
         //ジャンプ可能か
         if(jump)
         {
+            audioManager.PlaySE(audioSource, AudioManager.SESoundData.SE.JumpUp);
+
             //ジャンプ処理開始
             animator.Play("APlayerJumpUp");
             rb.AddForce(new Vector3(rb.velocity.x, jumpForce, rb.velocity.z), ForceMode.Impulse);
