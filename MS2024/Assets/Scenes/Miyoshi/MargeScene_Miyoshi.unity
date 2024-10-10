@@ -956,7 +956,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHp: 10
   slider: {fileID: 414482379}
-  particle: {fileID: 0}
+  particle: {fileID: 3277055028110002086, guid: 5731a134e439ced489baef64fce6e88d,
+    type: 3}
   sound1: {fileID: 8300000, guid: 1b591394cce1dbf41b5bf55d676ff7b0, type: 3}
 --- !u!4 &197167552 stripped
 Transform:
@@ -1218,6 +1219,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Mizunomidori_test
+      objectReference: {fileID: 0}
+    - target: {fileID: 2201019849999690166, guid: d7219a73810a9e74ca23d83f972feceb,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

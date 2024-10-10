@@ -303,7 +303,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 479ee3157c74b0f418f6c135ef3747af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speedconf: 18
+  speedconf: 90
   MaxSpeed: 7
 --- !u!114 &-2352895187213329374
 MonoBehaviour:
@@ -394,7 +394,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AttackStartupFrame: 10
   AttackActiveFrame: 5
-  AttackRecoveryFrame: 100
+  AttackRecoveryFrame: 10
   isAttack: 0
   AttackCount: 0
   isLeftAttack: 0
