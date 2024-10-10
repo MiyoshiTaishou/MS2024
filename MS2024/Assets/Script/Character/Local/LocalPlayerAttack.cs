@@ -4,6 +4,9 @@ using UnityEngine;
 public class LocalPlayerAttack : MonoBehaviour
 {
     GameObject AttackArea;
+    private Animator animator;
+    AudioSource audioSource;
+    AudioManager audioManager;
 
     //攻撃が発生するまでの時間
     [SerializeField, Tooltip("攻撃の発生フレーム")] public int AttackStartupFrame = 25;
@@ -44,6 +47,18 @@ public class LocalPlayerAttack : MonoBehaviour
     {
         if (context.started)
         {
+            if (nHit == 0)
+            {
+                animator.Play("APlayerAtack1");
+            }
+            else if (nHit == 1)
+            {
+                animator.Play("APlayerAtack2");
+            }
+            else if(isBuddyAttack) 
+            {
+                animator.Play("APlayerAtack3");
+            }
             AttackArea = transform.Find("PlayerAttackArea").gameObject;
             Vector3 pos = AttackArea.transform.localPosition;
             float x=Mathf.Abs(pos.x);
@@ -70,6 +85,9 @@ public class LocalPlayerAttack : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
+        audioSource = GetComponent<AudioSource>();
+        animator = GetComponent<Animator>();//アニメーター
     }
 
     // Update is called once per frame
@@ -90,6 +108,7 @@ public class LocalPlayerAttack : MonoBehaviour
                     state = AttackState.Active;
                     AttackArea.SetActive(true);
                     AttackCount = AttackActiveFrame;
+                    audioManager.PlaySE(audioSource, AudioManager.SESoundData.SE.Attack);
                 }
                 break;
             case AttackState.Active:
@@ -108,6 +127,14 @@ public class LocalPlayerAttack : MonoBehaviour
                     state = AttackState.None;
                     isAttack = false;
                     AttackCount = 0;
+                    //アニメーション終了
+                    AnimatorStateInfo landAnimStateInfo = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
+                    if (landAnimStateInfo.IsName("APlayerAtack1") && landAnimStateInfo.normalizedTime >= 1.0f)
+                        animator.Play("APlayerIdle");
+                    if (landAnimStateInfo.IsName("APlayerAtack2") && landAnimStateInfo.normalizedTime >= 1.0f)
+                        animator.Play("APlayerIdle");
+                    if (landAnimStateInfo.IsName("APlayerAtack3") && landAnimStateInfo.normalizedTime >= 1.0f)
+                        animator.Play("APlayerIdle");
                 }
                 break;
         }
