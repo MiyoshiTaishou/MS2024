@@ -1,13 +1,12 @@
 using Fusion;
 using UnityEngine;
 
-enum FLASH_STATE{
+enum FLASH_STATE {
 	ORIGINAL,
 	DAMAGE
 }
 
-public class Player : NetworkBehaviour
-{
+public class Player : NetworkBehaviour {
 	// [Header("プレイヤー設定")]
 
 	[Tooltip("プレイヤーの体力を決めます")]
@@ -32,8 +31,7 @@ public class Player : NetworkBehaviour
 	private NetworkCharacterController characterController;
 	private Quaternion initialRotation;  // 最初の回転
 
-	private void Awake()
-	{
+	private void Awake() {
 		characterController = GetComponent<NetworkCharacterController>();
 		initialRotation = transform.rotation;  // 初期の回転を保存
 	}
@@ -42,6 +40,7 @@ public class Player : NetworkBehaviour
 		spriteRenderer = GetComponent<SpriteRenderer>();
 		originalColor = spriteRenderer.color;
 		nowCount = flashCount;
+        // if (Runner.IsServer) isHost = true; // 暫定的に1P判定のコードを追加
 	}
 	private void Update(){
 		// 点滅処理
@@ -61,8 +60,7 @@ public class Player : NetworkBehaviour
 		nowTime += Time.deltaTime;
 	}
 
-	public override void FixedUpdateNetwork()
-	{
+	public override void FixedUpdateNetwork() {
 		//if (GetInput(out NetworkInputData data))
 		//{
 		//    // 入力方向のベクトルを正規化する

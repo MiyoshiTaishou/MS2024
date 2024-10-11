@@ -20,7 +20,7 @@ public class LocalPlayer : MonoBehaviour
 	private Color originalColor;
 	private SpriteRenderer spriteRenderer;
 	private FLASH_STATE flashState; // スプライトのカラー
-	[Tooltip("プレイヤーがホストであるかを決めます\n(現在は手動 いずれ自動で切り替わるように)")]
+	[Tooltip("プレイヤーがホストであるかを決めます\n(local用のためtrueに設定)")]
 	[SerializeField]
 	public bool isHost = true;
 	private float nowTime;

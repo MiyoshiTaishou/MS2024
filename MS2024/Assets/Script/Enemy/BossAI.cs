@@ -29,7 +29,7 @@ struct PlayerData {
 
 public class BossAI : MonoBehaviour
 {
-	[Header("ボス設定")]
+	[Header("ボス設定\n松木君作成のスクリプトに統合予定")]
 	[Tooltip("体力を決めます")]
 	[SerializeField]
 	public float HP;
@@ -71,10 +71,6 @@ public class BossAI : MonoBehaviour
 	}
 
 	private void Update() {
-		// nowTime.minCooldownAfterAttack -= Time.deltaTime;
-		// if (nowTime.minCooldownAfterAttack <= 0) {
-		//     bossState = BOSS_STATE.MOVING;
-		// }
 		UpdateCooldowns();
 	}
 
@@ -85,7 +81,6 @@ public class BossAI : MonoBehaviour
 			ChangeTargetRoutine();
 		}
 		else 
-			// Debug.LogWarning("プレイヤー発見" + playerObjects);
 		if (nowTime.changeTargetInterval <= 0) {
 			ChangeTargetRoutine();
 			nowTime.changeTargetInterval = coolTime.changeTargetInterval;
@@ -97,7 +92,6 @@ public class BossAI : MonoBehaviour
 				break;
 
 			case BOSS_STATE.ROTATION:
-				// bossState = BOSS_STATE.MOVING;
 				RotisonTowardsTarget();
 				break;
 
@@ -156,6 +150,8 @@ public class BossAI : MonoBehaviour
 			PlayerSearch();
 			return;
 		}
+		float distance = (transform.position - currentTarget.transform.position).magnitude;
+		if (distance < 2.5) return;
 
 		Vector3 direction = (currentTarget.transform.position - transform.position).normalized;
 		transform.position += direction * moveSpeed * Time.deltaTime;
@@ -181,7 +177,6 @@ public class BossAI : MonoBehaviour
 					availableSkills.Add(skill);
 				}
 			}
-			// Debug.LogWarning("使用可能スキル"+availableSkills.Count+"個");
 
 			if (availableSkills.Count == 0) return null;
 			// クールダウンが0のスキルが複数ある場合はランダムで選択
@@ -193,12 +188,8 @@ public class BossAI : MonoBehaviour
 	}
 
 	private bool IsTargetWithSkillRange(int skillNum) {
-		float direction = (transform.position - currentTarget.transform.position).magnitude;
-		// Debug.DrawLine(transform.position, currentTarget.transform.position, Color.green);
-		// Debug.LogWarning("プレイヤーとの距離："+direction);
-		// Debug.LogWarning("最低射程距離："+skills[skillNum].minAttackRange);
-		// Debug.LogWarning("最大射程距離："+skills[skillNum].maxAttackRange);
-		if (skills[skillNum].minAttackRange <= direction && skills[skillNum].maxAttackRange >= direction)
+		float distance = (transform.position - currentTarget.transform.position).magnitude;
+		if (skills[skillNum].minAttackRange <= distance && skills[skillNum].maxAttackRange >= distance)
 			return true;
 		return false;
 	}
@@ -224,7 +215,6 @@ public class BossAI : MonoBehaviour
 	}
 
 	private void PlayerSearch() {
-		// Debug.LogWarning("プレイヤーサーチ");
 		playerObjects.Clear();
 		GameObject[] allObjects = GameObject.FindGameObjectsWithTag("Player");
 		playerObjects.AddRange(allObjects);

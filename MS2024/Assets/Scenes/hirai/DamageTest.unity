@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: 85cf0b004bc4a654b9e501efcce47902, type: 2}
+  m_SkyboxMaterial: {fileID: 2100000, guid: e391f00234292cc4f935308c11cf0e54, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -467,7 +467,7 @@ PrefabInstance:
     - target: {fileID: 3456682398586312846, guid: da7ec43acb44f224a900bb67930e10e1,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: -243687123994690528, guid: da7ec43acb44f224a900bb67930e10e1, type: 3}
@@ -646,13 +646,12 @@ MonoBehaviour:
   networkRunnerPrefab: {fileID: 4900573497466851079, guid: ec7d6a101cb147a468d61d4a18aa9615,
     type: 3}
   playerAvatarPrefab:
-    RawGuidValue: da7ec43acb44f224a900bb67930e10e1
-  spawnPos: {fileID: 0}
-  bossPrefab:
+    RawGuidValue: 2eccdc0b8bca04c438199ccbac3b67c1
+  bossAvatarPrefab:
     RawGuidValue: 00000000000000000000000000000000
-  isLocal: 0
-  cameraPrefab: {fileID: 151216015}
-  charCamera: {fileID: 0}
+  roomNameInputField: {fileID: 0}
+  gameScene: 
+  numBoss: 1
 --- !u!114 &356842396
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -660,7 +659,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 356842392}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 621567455fd1c4ceb811cc8a00b6a1a5, type: 3}
   m_Name: 
