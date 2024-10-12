@@ -54,7 +54,7 @@ public class LocalPlayerMove : MonoBehaviour
         AnimatorStateInfo landAnimStateInfo = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
 
         //ƒpƒŠƒB’†‚Í“®‚©‚¹‚È‚¢‚æ‚¤‚É‚·‚é
-        if(landAnimStateInfo.IsName("APlayerParry"))
+        if(landAnimStateInfo.IsName("APlayerParry") || landAnimStateInfo.IsName("APlayerAtack1") || landAnimStateInfo.IsName("APlayerAtack2") || landAnimStateInfo.IsName("APlayerAtack3"))
         {
             return;
         }

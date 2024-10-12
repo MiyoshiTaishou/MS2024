@@ -1,159 +1,151 @@
-using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using Fusion;
-using Fusion.Sockets;
 using UnityEngine;
+using Fusion;
+using TMPro;
+using UnityEngine.SceneManagement;
+using Fusion.Sockets;
+using System;
+using UnityEngine.UI;
 
-// INetworkRunnerCallbacksを実装して、NetworkRunnerのコールバック処理を実行できるようにする
 public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 {
-    [SerializeField]
-    private NetworkRunner networkRunnerPrefab;  
+    [SerializeField] private NetworkRunner networkRunnerPrefab;
+    [SerializeField] private NetworkPrefabRef playerAvatarPrefab;
+    [SerializeField] private NetworkPrefabRef bossAvatarPrefab;
+    [SerializeField] private InputField roomNameInputField;
+    [SerializeField] private string gameScene; // SceneRef に変更
+    [SerializeField] private int numBoss = 1;
 
     private NetworkRunner networkRunner;
 
-    [SerializeField]
-    private NetworkPrefabRef playerAvatarPrefab;
-
-    [SerializeField, Header("スポーンポジション")]
-    private GameObject spawnPos;
-
-    [SerializeField] private NetworkPrefabRef bossPrefab; // ボスのプレハブ
-
-    [SerializeField, Header("オフラインにするかどうか")] private bool isLocal;
-
-    [SerializeField,Header("キャラクター追従カメラ")] private GameObject cameraPrefab; // カメラのプレハブ
-
-    [SerializeField, Header("キャラ追従カメラ")] private CinemaCharCamera charCamera;
-
-    private async void Start()
+    // ボタンを押してホストとしてゲームを開始する
+    public void StartHost()
     {
-        // PlayerPrefsからルーム名を取得
-        string roomName = PlayerPrefs.GetString("RoomName", "DefaultRoom"); // デフォルト値を指定
+        StartGame(GameMode.AutoHostOrClient, roomNameInputField.text);
+    }
 
-        Debug.Log("ルーム名" + roomName);
+    // ボタンを押してクライアントとしてゲームに参加する
+    public void StartClient()
+    {
+        StartGame(GameMode.Client, roomNameInputField.text);
+    }
 
-        networkRunner = Instantiate(networkRunnerPrefab);
-        // NetworkRunnerのコールバック対象に、このスクリプト（GameLauncher）を登録する
-        networkRunner.AddCallbacks(this);
-        if (!isLocal) // オンラインモードのとき
+    // ゲームを開始し、シーンを遷移するメソッド
+    private async void StartGame(GameMode mode, string roomName)
+    {
+        networkRunner = FindObjectOfType<NetworkRunner>();
+        if (networkRunner == null)
         {
-            var result = await networkRunner.StartGame(new StartGameArgs
-            {
-                GameMode = GameMode.AutoHostOrClient,
-                SessionName = roomName,
-                SceneManager = networkRunner.GetComponent<NetworkSceneManagerDefault>()
-            });
+            networkRunner = Instantiate(networkRunnerPrefab);
+        }
 
-            if (result.Ok)
+        // このスクリプトでコールバックを処理できるようにする
+        networkRunner.AddCallbacks(this);
+        networkRunner.ProvideInput = true;
+
+        // ゲームセッションの開始
+        var result = await networkRunner.StartGame(new StartGameArgs
+        {
+            GameMode = mode,
+            SessionName = roomName,
+            SceneManager = networkRunner.GetComponent<NetworkSceneManagerDefault>()
+        });
+
+        if (result.Ok)
+        {
+            // ホストならゲームシーンに遷移
+            if (networkRunner.IsServer)
             {
-                Debug.Log("オンラインモードでゲーム開始: " + roomName);
-            }
-            else
-            {
-                Debug.LogError("ゲーム開始に失敗: " + result.ShutdownReason);
+                var loadSceneParams = new NetworkLoadSceneParameters
+                {
+                    // 必要に応じてパラメータを設定
+                };
+
+                // SceneRef を使ってシーンをロード
+                networkRunner.LoadScene(gameScene);
             }
         }
-        else // オフラインモードのとき
+        else
         {
-            var result = await networkRunner.StartGame(new StartGameArgs
-            {
-                GameMode = GameMode.Single, // シングルプレイヤーモード
-                SessionName = "LocalTestSession",  // ローカルテスト用セッション名
-                SceneManager = networkRunner.GetComponent<NetworkSceneManagerDefault>()
-            });
-
-            if (result.Ok)
-            {
-                Debug.Log("オフラインモードでゲーム開始");
-            }
-            else
-            {
-                Debug.LogError("オフラインモード開始に失敗: " + result.ShutdownReason);
-            }
+            Debug.LogError("Failed to start game: " + result.ShutdownReason);
         }
     }
 
+    // INetworkRunnerCallbacksの実装
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
     {
-        // ホスト（サーバー兼クライアント）かどうかはIsServerで判定できる
         if (!runner.IsServer) { return; }
-        // ランダムな生成位置（半径5の円の内部）を取得する
-        var randomValue = UnityEngine.Random.insideUnitCircle * 5f;
-        var spawnPosition = new Vector3(randomValue.x, 5f, randomValue.y);
 
-        if(isLocal)
-        {
-            spawnPosition = spawnPos.transform.position;
-        }
+        var randomValue = UnityEngine.Random.insideUnitCircle * 2f;
+        var spawnPosition = new Vector3(randomValue.x, 0f, 0f);
 
-        // 参加したプレイヤーのアバターを生成する
         var avatar = runner.Spawn(playerAvatarPrefab, spawnPosition, Quaternion.identity, player);
-        // プレイヤー（PlayerRef）とアバター（NetworkObject）を関連付ける
         runner.SetPlayerObject(player, avatar);
 
-        // avatarからNetworkObjectを取得して、HasInputAuthorityを確認する
-        var networkObject = avatar.GetComponent<NetworkObject>();
-        //if (networkObject.HasInputAuthority)  // ローカルプレイヤーのみカメラを生成する
-        //{
-        //    var playerCamera = Instantiate(cameraPrefab);
-
-        //    // カメラのターゲットをプレイヤーに設定
-        //    charCamera = playerCamera.GetComponent<CinemaCharCamera>();
-        //    charCamera.SetTarget(avatar.transform);
-        //}
-
-        // 現在のプレイヤー人数を取得
-        int playerCount = runner.ActivePlayers.Count();
-
-        // プレイヤーが2人になったらボスを召喚
-        if (playerCount == 2)
+        if (runner.SessionInfo.PlayerCount == numBoss)
         {
-            Debug.Log("2 players joined. Summoning the boss!");
-
-            // ボスの生成位置（例として固定位置）
-            Vector3 bossSpawnPosition = new Vector3(0f, 5f, 0f);
-            runner.Spawn(bossPrefab, bossSpawnPosition, Quaternion.identity);                  
-        }        
+            var spawnBossPosition = new Vector3(0f, 0f, 0f);
+            runner.Spawn(bossAvatarPrefab, spawnBossPosition, Quaternion.identity, player);
+        }
     }
 
-    // セッションからプレイヤーが退出した時に呼ばれるコールバック
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
     {
         if (!runner.IsServer) { return; }
-        // 退出したプレイヤーのアバターを破棄する
         if (runner.TryGetPlayerObject(player, out var avatar))
         {
             runner.Despawn(avatar);
         }
     }
 
-    // 入力を収集する時に呼ばれるコールバック
     public void OnInput(NetworkRunner runner, NetworkInput input)
     {
         var data = new NetworkInputData();
-
-        data.direction = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
-        data.buttons.Set(NetworkInputButtons.Jump, Input.GetKey(KeyCode.Space));
-
+        data.Direction = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
+        data.Buttons.Set(NetworkInputButtons.Attack, Input.GetButton("Attack"));
+        data.Buttons.Set(NetworkInputButtons.Jump, Input.GetButton("Jump"));
+        data.Buttons.Set(NetworkInputButtons.Parry, Input.GetButton("Parry"));
         input.Set(data);
     }
 
+    // 他のコールバック（空実装）
     public void OnInputMissing(NetworkRunner runner, PlayerRef player, NetworkInput input) { }
     public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason) { }
     public void OnConnectedToServer(NetworkRunner runner) { }
-    public void OnDisconnectedFromServer(NetworkRunner runner, NetDisconnectReason reason) { }
+    public void OnDisconnectedFromServer(NetworkRunner runner) { }
     public void OnConnectRequest(NetworkRunner runner, NetworkRunnerCallbackArgs.ConnectRequest request, byte[] token) { }
     public void OnConnectFailed(NetworkRunner runner, NetAddress remoteAddress, NetConnectFailedReason reason) { }
     public void OnUserSimulationMessage(NetworkRunner runner, SimulationMessagePtr message) { }
     public void OnSessionListUpdated(NetworkRunner runner, List<SessionInfo> sessionList) { }
     public void OnCustomAuthenticationResponse(NetworkRunner runner, Dictionary<string, object> data) { }
     public void OnHostMigration(NetworkRunner runner, HostMigrationToken hostMigrationToken) { }
+    public void OnReliableDataReceived(NetworkRunner runner, PlayerRef player, ArraySegment<byte> data) { }
     public void OnSceneLoadDone(NetworkRunner runner) { }
     public void OnSceneLoadStart(NetworkRunner runner) { }
-    public void OnObjectExitAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player) { }
-    public void OnObjectEnterAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player) { }
-    public void OnReliableDataReceived(NetworkRunner runner, PlayerRef player, ReliableKey key, ArraySegment<byte> data) { }
-    public void OnReliableDataProgress(NetworkRunner runner, PlayerRef player, ReliableKey key, float progress) { }
+
+    public void OnObjectExitAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player)
+    {
+
+    }
+
+    public void OnObjectEnterAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player)
+    {
+
+    }
+
+    public void OnDisconnectedFromServer(NetworkRunner runner, NetDisconnectReason reason)
+    {
+
+    }
+
+    public void OnReliableDataReceived(NetworkRunner runner, PlayerRef player, ReliableKey key, ArraySegment<byte> data)
+    {
+
+    }
+
+    public void OnReliableDataProgress(NetworkRunner runner, PlayerRef player, ReliableKey key, float progress)
+    {
+
+    }
 }

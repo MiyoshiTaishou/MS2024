@@ -25,6 +25,7 @@ GameObject:
   - component: {fileID: 2799602403822698578}
   - component: {fileID: 5122724259397855874}
   - component: {fileID: 1536947254033955665}
+  - component: {fileID: 3716314518186643040}
   m_Layer: 0
   m_Name: Player2D(NoState)
   m_TagString: Player
@@ -304,7 +305,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 479ee3157c74b0f418f6c135ef3747af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speedconf: 18
+  speedconf: 90
   MaxSpeed: 7
 --- !u!114 &-2352895187213329374
 MonoBehaviour:
@@ -395,7 +396,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AttackStartupFrame: 10
   AttackActiveFrame: 5
-  AttackRecoveryFrame: 100
+  AttackRecoveryFrame: 10
   isAttack: 0
   AttackCount: 0
   isLeftAttack: 0
@@ -556,6 +557,20 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &3716314518186643040
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3456682398586312846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bd015d591c00b444b9bb0b5cd12b48b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaxHP: 3
+  currentHP: 0
 --- !u!1001 &4476810163144067245
 PrefabInstance:
   m_ObjectHideFlags: 0

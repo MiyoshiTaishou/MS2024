@@ -133,6 +133,14 @@ public class PlayerParry : MonoBehaviour
     /// <param name="context"></param>
     public void ParryPress(InputAction.CallbackContext context)
     {
+        AnimatorStateInfo landAnimStateInfo2 = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
+
+        //パリィ中は動かせないようにする
+        if (landAnimStateInfo2.IsName("APlayerAtack1") || landAnimStateInfo2.IsName("APlayerAtack2") || landAnimStateInfo2.IsName("APlayerAtack3"))
+        {
+            return;
+        }
+
         if (context.started)
         {
             ParryStart();
@@ -163,6 +171,8 @@ public class PlayerParry : MonoBehaviour
 
     void Update()
     {
+
+
         //デバック用-----------------------
         if (Input.GetKeyDown(KeyCode.O))
         {
