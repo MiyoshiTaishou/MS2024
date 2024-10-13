@@ -16,6 +16,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
     [SerializeField] private InputField roomNameInputField;
     [SerializeField] private string gameScene; // SceneRef に変更
     [SerializeField] private int numBoss = 1;
+    [SerializeField] Image LoadingImage;
 
     private NetworkRunner networkRunner;
 
@@ -43,6 +44,8 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
         // このスクリプトでコールバックを処理できるようにする
         networkRunner.AddCallbacks(this);
         networkRunner.ProvideInput = true;
+
+        LoadingImage.gameObject.SetActive(true);
 
         // ゲームセッションの開始
         var result = await networkRunner.StartGame(new StartGameArgs
