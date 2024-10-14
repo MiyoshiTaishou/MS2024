@@ -17,6 +17,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
     [SerializeField] private string gameScene; // SceneRef に変更
     [SerializeField] private int numBoss = 1;
     [SerializeField] Image LoadingImage;
+    [SerializeField, Header("トランジションオブジェクト")] private GameObject[] transiton;
 
     private NetworkRunner networkRunner;
 
@@ -45,7 +46,14 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
         networkRunner.AddCallbacks(this);
         networkRunner.ProvideInput = true;
 
+        //ローディングの画像を出す
         LoadingImage.gameObject.SetActive(true);
+
+        //トランジション再生開始
+        foreach (var tran in transiton)
+        {
+            tran.GetComponent<Animator>().SetTrigger("Start");
+        }
 
         // ゲームセッションの開始
         var result = await networkRunner.StartGame(new StartGameArgs
