@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 1536
     height: 772.8
   m_ShowMode: 4
-  m_Title: Game
+  m_Title: Project
   m_RootView: {fileID: 2}
   m_MinSize: {x: 875, y: 321}
   m_MaxSize: {x: 10000, y: 10000}
@@ -118,7 +118,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 1
-  controlID: 5235
+  controlID: 125
   draggingID: 0
 --- !u!114 &6
 MonoBehaviour:
@@ -144,7 +144,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 5236
+  controlID: 126
   draggingID: 0
 --- !u!114 &7
 MonoBehaviour:
@@ -170,7 +170,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 16192}
   vertical: 1
-  controlID: 5124
+  controlID: 53
   draggingID: 0
 --- !u!114 &8
 MonoBehaviour:
@@ -196,7 +196,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 50}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 5125
+  controlID: 54
   draggingID: 0
 --- !u!114 &9
 MonoBehaviour:
@@ -243,8 +243,8 @@ MonoBehaviour:
     y: 0
     width: 845.6
     height: 382.4
-  m_MinSize: {x: 202, y: 221}
-  m_MaxSize: {x: 4002, y: 4021}
+  m_MinSize: {x: 200, y: 200}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 17}
   m_Panes:
   - {fileID: 15}
@@ -380,9 +380,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 9868feff
+      m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: 8c27feff4a34feff1664feffe8b7feff62c6feffb4d6feff16f2feffbc05ffffa212ffffc81bffff2a28ffffb090ffff4297ffff4a98ffff10fbffff5071000022ca0000c6170100b22401005e270100
+      m_ExpandedIDs: 2a8fffffc69bffff8a9cffff0ca5ffff0cdbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -1154,7 +1154,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Resource/Animation/UI
+    - Assets/Scenes/Sawano
     m_Globs: []
     m_OriginalText: 
     m_ImportLogFlags: 0
@@ -1162,16 +1162,16 @@ MonoBehaviour:
   m_ViewMode: 1
   m_StartGridSize: 60
   m_LastFolders:
-  - Assets/Resource/Animation/UI
+  - Assets/Scenes/Sawano
   m_LastFoldersGridSize: 60
-  m_LastProjectPath: C:\Users\Taish\Documents\GitHub\MS2024\MS2025
+  m_LastProjectPath: C:\unity\MS\MS2024\MS2025
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 324.6}
-    m_SelectedIDs: 36790000
-    m_LastClickedID: 31030
-    m_ExpandedIDs: 0000000016770000187700001a7700001c7700001e77000020770000227700002477000026770000287700002a7700002c7700002e77000030770000327700003477000036770000387700003a7700003c7700003e77000040770000427700003479000000ca9a3b
+    scrollPos: {x: 0, y: 996.6}
+    m_SelectedIDs: 76870000
+    m_LastClickedID: 34678
+    m_ExpandedIDs: 00000000a0310000a4310000b4310000b8310000c0310000c8310000cc310000183200002032000024320000283200002c3200003432000038320000643200006c320000a0320000f83200004487000046870000488700004a8700004c8700005887000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1199,7 +1199,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 0000000016770000187700001a7700001c7700001e77000020770000227700002477000026770000287700002a7700002c7700002e77000030770000327700003477000036770000387700003a7700003c7700003e770000407700004277000000ca9a3b
+    m_ExpandedIDs: 00000000a0310000a4310000b4310000b8310000c0310000c8310000cc310000183200002032000024320000283200002c3200003432000038320000643200006c320000a0320000f83200004487000046870000488700004a8700004c870000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
