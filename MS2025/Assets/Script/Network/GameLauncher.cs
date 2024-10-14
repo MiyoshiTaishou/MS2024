@@ -89,7 +89,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
         if (!runner.IsServer) { return; }
 
         var randomValue = UnityEngine.Random.insideUnitCircle * 2f;
-        var spawnPosition = new Vector3(randomValue.x, 0f, 0f);
+        var spawnPosition = new Vector3(randomValue.x, 5f, 0f);
 
         var avatar = runner.Spawn(playerAvatarPrefab, spawnPosition, Quaternion.identity, player);
         runner.SetPlayerObject(player, avatar);
