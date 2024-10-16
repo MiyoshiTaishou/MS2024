@@ -350,7 +350,9 @@ MonoBehaviour:
     m_IsLocked: 0
   m_SequenceHierarchy: {fileID: 0}
   m_SequencePath:
-    m_SelectionRoot: 28608
+
+    m_SelectionRoot: -17806
+
     m_SubElements: []
 --- !u!114 &14
 MonoBehaviour:
@@ -489,9 +491,11 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: c06f0000
-      m_LastClickedID: 28608
-      m_ExpandedIDs: 2afbffff
+
+      m_SelectedIDs: 7a9dffff
+      m_LastClickedID: 0
+      m_ExpandedIDs: d2c6ffff2afbffff9a790000
+
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -1181,7 +1185,8 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Resource/TimeLine
+
+    - Assets/Resource/SE
     m_Globs: []
     m_OriginalText: 
     m_ImportLogFlags: 0
@@ -1189,16 +1194,20 @@ MonoBehaviour:
   m_ViewMode: 1
   m_StartGridSize: 60
   m_LastFolders:
-  - Assets/Resource/TimeLine
+
+  - Assets/Resource/SE
+
   m_LastFoldersGridSize: 60
   m_LastProjectPath: C:\Users\urufu\Documents\GitHub\MS2024\MS2025
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 516.6}
-    m_SelectedIDs: ba770000
-    m_LastClickedID: 30650
-    m_ExpandedIDs: 0000000056750000587500005a7500005c7500005e75000060750000627500006475000066750000687500006a7500006c7500006e75000070750000727500007077000000ca9a3b
+
+    scrollPos: {x: 0, y: 484.6}
+    m_SelectedIDs: e6770000
+    m_LastClickedID: 30694
+    m_ExpandedIDs: 0000000096750000987500009a7500009c7500009e750000a0750000a2750000a4750000a6750000a8750000aa750000ac750000ae750000b0750000b2750000a077000000ca9a3b
+
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1226,7 +1235,9 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 0000000056750000587500005a7500005c7500005e75000060750000627500006475000066750000687500006a7500006c7500006e7500007075000072750000
+
+    m_ExpandedIDs: 0000000096750000987500009a7500009c7500009e750000a0750000a2750000a4750000a6750000a8750000aa750000ac750000ae750000b0750000b2750000
+
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1251,9 +1262,11 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: c06f0000
-    m_LastClickedInstanceID: 28608
-    m_HadKeyboardFocusLastEvent: 1
+
+    m_SelectedInstanceIDs: 72baffff
+    m_LastClickedInstanceID: -17806
+    m_HadKeyboardFocusLastEvent: 0
+
     m_ExpandedInstanceIDs: c62300008e9400008c6500004e64000056640000686e0000ce6f000046350000a66b0000ac6a00003a3200006032000024740000c67300003870000096fa0000d06f00009c3100008e7a0000807a0000627a0000e27e0000fc780000f248010000000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -1906,7 +1919,9 @@ MonoBehaviour:
     m_OverlaysVisible: 1
   m_LockTracker:
     m_IsLocked: 0
-  m_LastSelectedObjectID: -67218
+
+  m_LastSelectedObjectID: -17806
+
 --- !u!114 &22
 MonoBehaviour:
   m_ObjectHideFlags: 52
