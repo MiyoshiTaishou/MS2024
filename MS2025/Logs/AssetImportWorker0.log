@@ -1655,3 +1655,99 @@ Start importing Assets/Prefab/PaperLantern-2steps Variant.prefab using Guid(7b09
  -> (artifact id: '6c3fa2af8b39730fdd353d2efa3db5b8') in 0.000674 seconds
 Number of updated asset objects reloaded before import = 0
 Number of asset objects unloaded after import = 0
+========================================================================
+Received Prepare
+Caller must complete domain reload
+Begin MonoManager ReloadAssembly
+Symbol file data-00000298EEC7D060 doesn't match image C:\Users\Taish\Documents\GitHub\MS2024\MS2025\Library\ScriptAssemblies\Unity.PlasticSCM.Editor.dll
+Symbol file LoadedFromMemory is not a mono symbol file
+- Loaded All Assemblies, in  0.758 seconds
+Native extension for WindowsStandalone target not found
+[Package Manager] Server::EnsureServerProcessIsRunning -- launch failed, reason: Unity was launched with the -noUpm command-line argument
+[Package Manager] UpmClient::Send -- Unable to send message (not connected to UPM process).
+[Package Manager] Cannot connect to Unity Package Manager local server
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  2.161 seconds
+Domain Reload Profiling: 2908ms
+	BeginReloadAssembly (161ms)
+		ExecutionOrderSort (0ms)
+		DisableScriptedObjects (4ms)
+		BackupInstance (0ms)
+		ReleaseScriptingObjects (0ms)
+		CreateAndSetChildDomain (41ms)
+	RebuildCommonClasses (40ms)
+	RebuildNativeTypeToScriptingClass (12ms)
+	initialDomainReloadingComplete (75ms)
+	LoadAllAssembliesAndSetupDomain (459ms)
+		LoadAssemblies (440ms)
+		RebuildTransferFunctionScriptingTraits (0ms)
+		AnalyzeDomain (98ms)
+			TypeCache.Refresh (32ms)
+				TypeCache.ScanAssembly (18ms)
+			ScanForSourceGeneratedMonoScriptInfo (30ms)
+			ResolveRequiredComponents (34ms)
+	FinalizeReload (2161ms)
+		ReleaseScriptCaches (0ms)
+		RebuildScriptCaches (0ms)
+		SetupLoadedEditorAssemblies (537ms)
+			LogAssemblyErrors (0ms)
+			InitializePlatformSupportModulesInManaged (6ms)
+			SetLoadedEditorAssemblies (5ms)
+			RefreshPlugins (0ms)
+			BeforeProcessingInitializeOnLoad (82ms)
+			ProcessInitializeOnLoadAttributes (404ms)
+			ProcessInitializeOnLoadMethodAttributes (34ms)
+			AfterProcessingInitializeOnLoad (6ms)
+			EditorAssembliesLoaded (0ms)
+		ExecutionOrderSort2 (0ms)
+		AwakeInstancesAfterBackupRestoration (14ms)
+Refreshing native plugins compatible for Editor in 9.89 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 5330 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 31 unused Assets / (320.8 KB). Loaded Objects now: 6083.
+Memory consumption went from 205.5 MB to 205.2 MB.
+Total: 3.875100 ms (FindLiveObjects: 0.428700 ms CreateObjectMapping: 0.470800 ms MarkObjects: 2.846900 ms  DeleteObjects: 0.128100 ms)
+
+
+=================================================================
+	Native Crash Reporting
+=================================================================
+Got a UNKNOWN while executing native code. This usually indicates
+a fatal error in the mono runtime or one of the native libraries 
+used by your application.
+=================================================================
+
+=================================================================
+	Managed Stacktrace:
+=================================================================
+=================================================================
+Received signal SIGSEGV
+Obtained 27 stack frames
+0x00007ff6d282e763 (Unity) keywords::KeywordRemap::Init
+0x00007ff6d283222a (Unity) ShaderLab::IntShader::CreateKeywordRemap
+0x00007ff6d2834c45 (Unity) ShaderLab::IntShader::ResolveFallback
+0x00007ff6d2802f5f (Unity) ShaderFromSerializedShaderMainThread
+0x00007ff6d42847b0 (Unity) Shader::CreateFromParsedForm
+0x00007ff6d4283610 (Unity) Shader::AwakeFromLoad
+0x00007ff6d2b391ad (Unity) AwakeFromLoadQueue::InvokePersistentManagerAwake
+0x00007ff6d2b3a181 (Unity) AwakeFromLoadQueue::PersistentManagerSingleQueueAwakeFromLoad
+0x00007ff6d2b39df0 (Unity) AwakeFromLoadQueue::PersistentManagerAwakeFromLoad_NoChecks
+0x00007ff6d2b0c1df (Unity) PersistentManager::IntegrateAllThreadedObjects
+0x00007ff6d2b0c9e0 (Unity) PersistentManager::LoadAndIntegrateAllPreallocatedObjects
+0x00007ff6d2b0d8cb (Unity) PersistentManager::LoadObjects
+0x00007ff6d3f3a350 (Unity) ReloadAssetIfLoaded
+0x00007ff6d3f01966 (Unity) ReloadUpdatedAssets
+0x00007ff6d3ef53ee (Unity) <lambda_b37b41f03089e3cb3f55061bbc93253d>::operator()
+0x00007ff6d3f30b32 (Unity) asio::detail::completion_handler<core::mutable_function<void __cdecl(void)>,asio::io_context::basic_executor_type<std::allocator<void>,0> >::do_complete
+0x00007ff6d3f1cade (Unity) asio::detail::win_iocp_io_context::do_one
+0x00007ff6d3f1e744 (Unity) asio::detail::win_iocp_io_context::run
+0x00007ff6d3f2eedc (Unity) IOService::Run
+0x00007ff6d3f0235f (Unity) AssetImportWorkerClient::Run
+0x00007ff6d3ecdcc7 (Unity) RunAssetImportWorkerClientV2
+0x00007ff6d3ecdd4b (Unity) RunAssetImporterV2
+0x00007ff6d36c7f2e (Unity) Application::InitializeProject
+0x00007ff6d3b5a705 (Unity) WinMain
+0x00007ff6d4f0c44e (Unity) __scrt_common_main_seh
+0x00007ffdb64d257d (KERNEL32) BaseThreadInitThunk
+0x00007ffdb76caf08 (ntdll) RtlUserThreadStart
+
