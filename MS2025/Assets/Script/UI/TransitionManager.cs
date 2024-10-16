@@ -22,9 +22,4 @@ public class TransitionManager : MonoBehaviour
             animator.SetTrigger("Reverse");        
         }
     }
-
-    public void StartAnimation()
-    {
-
-    }
 }
