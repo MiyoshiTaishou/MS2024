@@ -60,6 +60,7 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\2022.3.43f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Script\Camera\PixelateRenderFeature.cs" />
     <Compile Include="Assets\Script\Enemy\DamagedArea.cs" />
     <Compile Include="Assets\Script\Character\IState.cs" />
     <Compile Include="Assets\Script\Boss\BossStatus.cs" />
@@ -107,6 +108,7 @@
     <Compile Include="Assets\TutorialInfo\Scripts\Readme.cs" />
     <Compile Include="Assets\Script\Scene\SceneSelecter.cs" />
     <Compile Include="Assets\LightRays2D\Script\LightRays2DCanvas.cs" />
+    <Compile Include="Assets\Script\Camera\DotCamera.cs" />
     <Compile Include="Assets\Script\Character\2D\PlayerAnimation.cs" />
     <Compile Include="Assets\Script\Character\2D\PlayerAttack.cs" />
     <Compile Include="Assets\Script\Character\Local\LocalPlayerSPAttack.cs" />
@@ -185,6 +187,7 @@
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile.shader" />
     <None Include="Assets\Photon\Fusion\Plugins\NanoSockets\Metro\ARM\libnanosockets.dll" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Sprite.shader" />
+    <None Include="Assets\Shader\PixelateURPShader.shader" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
