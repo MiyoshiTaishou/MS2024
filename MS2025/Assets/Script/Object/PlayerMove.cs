@@ -25,23 +25,23 @@ public class PlayerMove : NetworkBehaviour
         //rb.useGravity = false; // 重力を使わない場合
     }
 
-    void Update()
-    {
-       
-    }
-
     public override void FixedUpdateNetwork()
     {
-       // Debug.Log("クララが立った！");
         // ネットワークインプットデータを受け取り計算する
         if (GetInput(out NetworkInputData data))
         {
             // 入力方向のベクトルを正規化する
             data.Direction.Normalize();
 
-            // 加速の計算を行う
-            Vector3 targetVelocity = data.Direction * maxSpeed;
-            currentVelocity = Vector3.MoveTowards(currentVelocity, targetVelocity, acceleration * Time.deltaTime);
+            // Y軸の速度は現在のRigidbodyのY軸速度を保持する
+            float currentYVelocity = rb.velocity.y;
+
+            // 加速の計算を行う（XとZ軸のみ計算）
+            Vector3 targetVelocity = new Vector3(data.Direction.x * maxSpeed, currentYVelocity, data.Direction.z * maxSpeed);
+            currentVelocity = Vector3.MoveTowards(new Vector3(rb.velocity.x, 0, rb.velocity.z), targetVelocity, acceleration * Time.deltaTime);
+
+            // Y軸速度を維持しながら、XとZ軸の移動を反映させる
+            currentVelocity.y = currentYVelocity;
 
             // 物理的な移動を行う
             rb.velocity = currentVelocity;
