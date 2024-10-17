@@ -4,6 +4,7 @@ using Fusion;
 public class PlayerMove : NetworkBehaviour
 {
     private Rigidbody rb;
+    Animator animator;
 
     [SerializeField, Header("加速度")]
     private float acceleration = 10f; // 加速度
@@ -14,6 +15,8 @@ public class PlayerMove : NetworkBehaviour
 
     private void Awake()
     {
+        animator = GetComponent<Animator>();
+
         rb = GetComponent<Rigidbody>();
         if (rb == null)
         {
@@ -45,6 +48,18 @@ public class PlayerMove : NetworkBehaviour
 
             // 物理的な移動を行う
             rb.velocity = currentVelocity;
+        }
+    }
+
+    public override void Render()
+    {
+        if(rb.velocity.x != 0.0f)
+        {
+            animator.SetBool("IsMove", true);
+        }
+        else
+        {
+            animator.SetBool("IsMove", false);
         }
     }
 }

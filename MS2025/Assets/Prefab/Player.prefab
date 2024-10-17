@@ -279,6 +279,7 @@ GameObject:
   - component: {fileID: 5276096551197689218}
   - component: {fileID: 8508605095377403547}
   - component: {fileID: 7914473237001208349}
+  - component: {fileID: 7588640461257048479}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -399,6 +400,7 @@ MonoBehaviour:
   - {fileID: 9008301308188082771}
   - {fileID: 5276096551197689218}
   - {fileID: 7914473237001208349}
+  - {fileID: 7588640461257048479}
 --- !u!54 &-316379306908820852
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -481,6 +483,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44e0e509a150a2a4282409366648f9f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _nCombo: 0
   attackSE: {fileID: 8300000, guid: 7f8551571fc385f49a953b336bb48b06, type: 3}
 --- !u!114 &5276096551197689218
 MonoBehaviour:
@@ -605,3 +608,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   acceleration: 10
   maxSpeed: 5
+--- !u!114 &7588640461257048479
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5901407417179175552}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d35cd95e0d42e9a449550b986c6e5dd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  jumpSE: {fileID: 8300000, guid: 7e0c3b9ed31f17d4cba22d1c5346e04d, type: 3}
+  jumpPower: 10
+  gravity: 9.8
