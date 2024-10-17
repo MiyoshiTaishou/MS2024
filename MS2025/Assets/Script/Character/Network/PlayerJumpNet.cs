@@ -15,12 +15,13 @@ public class PlayerJumpNet : NetworkBehaviour
     [Networked] public NetworkButtons ButtonsPrevious { get; set; }
 
     [Networked] private bool isGround { get; set; }
+    [Networked] private bool isOnce { get; set; }
 
     [SerializeField, Header("ジャンプの力")] private float jumpPower = 10.0f;
     [SerializeField, Header("重力")] private float gravity = 9.8f;
 
     private Vector3 velocity;  // プレイヤーの速度
-    private bool isJumping;    // ジャンプ中かどうか
+    private bool isJumping;    // ジャンプ中かどうか    
 
     public override void Spawned()
     {
@@ -51,7 +52,7 @@ public class PlayerJumpNet : NetworkBehaviour
             // 自作の重力計算を適用
             ApplyGravity();
         }
-    }
+    } 
 
     [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
     public void RPC_Jump()
@@ -85,6 +86,8 @@ public class PlayerJumpNet : NetworkBehaviour
             isGround = true;
             isJumping = false;  // ジャンプ終了
             velocity.y = 0;     // 垂直速度をリセット
+
+            animator.SetTrigger("JumpDown");
         }
     }
 
@@ -94,6 +97,7 @@ public class PlayerJumpNet : NetworkBehaviour
         if (collision.gameObject.CompareTag("Ground"))
         {
             isGround = false;
+            animator.SetTrigger("Jump");
         }
     }
 }
