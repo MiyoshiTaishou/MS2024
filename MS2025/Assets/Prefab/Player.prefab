@@ -150,13 +150,14 @@ GameObject:
   - component: {fileID: 8752618586766063873}
   - component: {fileID: 4148668885677114735}
   - component: {fileID: 419385390892448601}
+  - component: {fileID: 2186964364465249039}
   m_Layer: 0
   m_Name: ParryArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &753941491535179434
 Transform:
   m_ObjectHideFlags: 0
@@ -260,6 +261,18 @@ MonoBehaviour:
   Flags: 262145
   NestedObjects: []
   NetworkedBehaviours: []
+--- !u!114 &2186964364465249039
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2918473518555105603}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c799bf135c1a2a4ab1f89618cfb7a7d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5901407417179175552
 GameObject:
   m_ObjectHideFlags: 0
@@ -280,6 +293,7 @@ GameObject:
   - component: {fileID: 8508605095377403547}
   - component: {fileID: 7914473237001208349}
   - component: {fileID: 7588640461257048479}
+  - component: {fileID: 3453850585451843165}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -401,6 +415,7 @@ MonoBehaviour:
   - {fileID: 5276096551197689218}
   - {fileID: 7914473237001208349}
   - {fileID: 7588640461257048479}
+  - {fileID: 3453850585451843165}
 --- !u!54 &-316379306908820852
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -623,3 +638,20 @@ MonoBehaviour:
   jumpSE: {fileID: 8300000, guid: 7e0c3b9ed31f17d4cba22d1c5346e04d, type: 3}
   jumpPower: 10
   gravity: 9.8
+--- !u!114 &3453850585451843165
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5901407417179175552}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8113aecc8464cc5478a354cbf225121a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parryradius: 3
+  ParryActivetime: 3
+  HitStop: 30
+  KnockbackPower: 50
+  Parryflg: 0

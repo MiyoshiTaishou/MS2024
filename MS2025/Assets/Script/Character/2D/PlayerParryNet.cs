@@ -10,7 +10,12 @@ public class PlayerParryNet : NetworkBehaviour
     //パリィ範囲
     private GameObject ParryArea;
 
+    Animator animator;
+
+
     [SerializeField, Tooltip("パリィ範囲")] float parryradius = 3;
+
+    [Networked] public NetworkButtons ButtonsPrevious { get; set; }
 
     //パリィの効果時間
     [SerializeField, Tooltip("パリィ効果時間")] float ParryActivetime = 3;
@@ -31,11 +36,11 @@ public class PlayerParryNet : NetworkBehaviour
 
     [SerializeField, ReadOnly] bool Parryflg = false;
 
-    HitStop hitStop;
+    //HitStop hitStop;
 
     [Networked] private bool PressKey { get; set; } = false;
 
-    Knockback back;
+    //Knockback back;
 
     private NetworkRunner runner;
 
@@ -50,16 +55,20 @@ public class PlayerParryNet : NetworkBehaviour
         // NetworkRunnerのインスタンスを取得
         runner = FindObjectOfType<NetworkRunner>();
 
-        hitStop = GetComponent<HitStop>();
+        animator = GetComponent<Animator>();
+
+        //hitStop = GetComponent<HitStop>();
         //Maincamera = Camera.main;
         //cinemachar = Maincamera.GetComponent<CinemaCharCamera>();
-        back = GetComponent<Knockback>();
+        //back = GetComponent<Knockback>();
         Vector3 scale = new Vector3(parryradius, parryradius, parryradius);
         for (int i = 0; i < transform.childCount; i++)
         {
             if (transform.GetChild(i).gameObject.name == "ParryArea")
                 ParryArea = transform.GetChild(i).gameObject;
         }
+
+        ParryArea.gameObject.SetActive(false);
 
         //フレームに直す
         Debug.Log(Application.targetFrameRate);
@@ -99,11 +108,12 @@ public class PlayerParryNet : NetworkBehaviour
     /// </summary>
     public void ParrySystem()
     {
-        hitStop.ApplyHitStop(HitStopFrame);
+        //hitStop.ApplyHitStop(HitStopFrame);
         //cinemachar.CameraZoom(this.transform,5,0.5f);
-        back.ApplyKnockback(transform.forward, KnockbackPower);
+        //back.ApplyKnockback(transform.forward, KnockbackPower);
         ParryArea.GetComponent<ParryDisplay>().Init();
         DamageReceive = false;
+        animator.SetTrigger("Parry");
     }
 
     [Rpc(RpcSources.InputAuthority, RpcTargets.All)]
@@ -115,48 +125,59 @@ public class PlayerParryNet : NetworkBehaviour
     public override void FixedUpdateNetwork()
     {
 
-        if (runner != null)
-        {
+        //if (runner != null)
+        //{
          
-            // ホスト用の処理
-            if (runner.IsServer)
-            {
-                Debug.Log("This instance is the Host (Server).");
-                if (Object.HasInputAuthority)
-                {
-                    if (ParryArea.activeSelf)
-                    {
-                        //とりあえずキーボードで仮実装
-                        if (Input.GetKeyDown(KeyCode.L) || DamageReceive)
-                        {
-                            RPC_ParrySystem();
-                        }
-                    }
-                }
-            }
-            else if (runner.IsClient)
-            {
-                Debug.Log("This instance is a Client.");
-                // クライアント用の処理
+        //    // ホスト用の処理
+        //    if (runner.IsServer)
+        //    {
+        //        Debug.Log("This instance is the Host (Server).");
+        //        if (Object.HasInputAuthority)
+        //        {
+        //            if (ParryArea.activeSelf)
+        //            {
+        //                //とりあえずキーボードで仮実装
+        //                if (Input.GetKeyDown(KeyCode.L) || DamageReceive)
+        //                {
+        //                    RPC_ParrySystem();
+        //                }
+        //            }
+        //        }
+        //    }
+        //    else if (runner.IsClient)
+        //    {
+        //        Debug.Log("This instance is a Client.");
+        //        // クライアント用の処理
 
-                // クライアント側での入力処理
-                if (ParryArea.activeSelf)
-                {
-                    if (Input.GetKeyDown(KeyCode.L) || DamageReceive)
-                    {
-                        // RPCを通じてホストにパリィを通知
-                        RPC_ParrySystem();
-                    }
-                }
-            }
-        }
-        else
+        //        // クライアント側での入力処理
+        //        if (ParryArea.activeSelf)
+        //        {
+        //            if (Input.GetKeyDown(KeyCode.L) || DamageReceive)
+        //            {
+        //                // RPCを通じてホストにパリィを通知
+        //                RPC_ParrySystem();
+        //            }
+        //        }
+        //    }
+        //}
+        //else
+        //{
+        //    Debug.LogError("NetworkRunner not found in the scene!");
+        //}
+
+        if (Object.HasStateAuthority && GetInput(out NetworkInputData data))
         {
-            Debug.LogError("NetworkRunner not found in the scene!");
+            var pressed = data.Buttons.GetPressed(ButtonsPrevious);
+            ButtonsPrevious = data.Buttons;
+           
+            // ジャンプボタンが押され、かつ地面にいるときジャンプする
+            if (pressed.IsSet(NetworkInputButtons.Parry))
+            {
+                // RPCを通じてホストにパリィを通知
+                RPC_ParrySystem();
+                RPC_ParryArea();
+            }          
         }
 
-
-    }
-
-
+    }   
 }
