@@ -18,7 +18,10 @@ public class PlayerAttack : NetworkBehaviour
         {
             nCombo= 0;
         }
+        Debug.Log("òAåÇêî:" + nCombo);
     }
+
+    ShareNumbers sharenum;
 
     [Networked] private bool isAttack { get; set; }
     [Networked] private bool isOnce { get; set; }
@@ -33,6 +36,7 @@ public class PlayerAttack : NetworkBehaviour
         audioSource = GetComponent<AudioSource>();        
         attackArea = gameObject.transform.Find("AttackArea").gameObject;
         attackArea.SetActive(false);
+        sharenum = GameObject.Find("NetworkBox").GetComponent<ShareNumbers>();
     }
 
     public override void FixedUpdateNetwork()

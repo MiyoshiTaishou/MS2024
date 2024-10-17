@@ -7,10 +7,12 @@ public class AttackAreaDamage : NetworkBehaviour
 {
     GameObject player;
     PlayerAttack attack;
+    ShareNumbers sharenum;
     public override void Spawned()
     {
         player = transform.parent.gameObject;
         attack = player.GetComponent<PlayerAttack>();
+        sharenum = GameObject.Find("NetworkBox").GetComponent<ShareNumbers>();
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -19,7 +21,8 @@ public class AttackAreaDamage : NetworkBehaviour
             if (other.GetComponent<BossStatus>())
             {
                 other.GetComponent<BossStatus>().RPC_Damage(10);
-                attack.AddCombo();
+                sharenum.AddCombo();
+                attack.nCombo = sharenum.nCombo;
             }
         }      
     }
