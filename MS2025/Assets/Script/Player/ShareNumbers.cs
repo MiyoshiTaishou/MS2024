@@ -7,7 +7,7 @@ public class ShareNumbers : NetworkBehaviour
 {
     [Networked] public int CurrentHP { get; set; }
     [Networked] public int nCombo { get; set; }
-    [Networked] public int maxCombo { get; set; }
+    public int maxCombo { get; set; }
 
     public void AddCombo()
     {
@@ -17,6 +17,14 @@ public class ShareNumbers : NetworkBehaviour
             nCombo = 0;
         }
         Debug.Log("連撃数:" + nCombo);
+    }
+
+    public override void Spawned()
+    {
+        maxCombo= 3;
+        nCombo = 0;
+        CurrentHP=3;
+        Debug.Log("プレイヤーのHPとか初期化");
     }
 
     // Start is called before the first frame update

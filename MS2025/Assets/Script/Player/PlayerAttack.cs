@@ -9,17 +9,9 @@ public class PlayerAttack : NetworkBehaviour
     Animator animator;
     AudioSource audioSource;
     GameObject attackArea;
-    int maxCombo = 3;
-    [Networked] public int nCombo { get; set; }
-    public void AddCombo()
-    {
-        nCombo++;
-        if(nCombo>=maxCombo)
-        {
-            nCombo= 0;
-        }
-        Debug.Log("˜AŒ‚”:" + nCombo);
-    }
+    [SerializeField]
+    GameObject netobj;
+    [Networked] public int currentCombo { get; set; }
 
     ShareNumbers sharenum;
 
@@ -36,7 +28,12 @@ public class PlayerAttack : NetworkBehaviour
         audioSource = GetComponent<AudioSource>();        
         attackArea = gameObject.transform.Find("AttackArea").gameObject;
         attackArea.SetActive(false);
-        sharenum = GameObject.Find("NetworkBox").GetComponent<ShareNumbers>();
+        netobj = GameObject.Find("Networkbox");
+        if(netobj==null) 
+        {
+            Debug.LogError("‚â‚Á‚Î‚¢‚Ë");
+        }
+        sharenum = netobj.GetComponent<ShareNumbers>();
     }
 
     public override void FixedUpdateNetwork()
@@ -90,6 +87,7 @@ public class PlayerAttack : NetworkBehaviour
         isAttack = true; // UŒ‚ƒtƒ‰ƒO‚ğ—§‚Ä‚é
         isPlayingAnimation = true;
         isOnce = true;
+        currentCombo = sharenum.nCombo;
     }
 
 }
