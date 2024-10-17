@@ -13,6 +13,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
     [SerializeField] private NetworkRunner networkRunnerPrefab;
     [SerializeField] private NetworkPrefabRef playerAvatarPrefab;
     [SerializeField] private NetworkPrefabRef bossAvatarPrefab;
+    [SerializeField] private NetworkPrefabRef PlayerStatePrefab;
     [SerializeField] private InputField roomNameInputField;
     [SerializeField] private string gameScene; // SceneRef �ɕύX
     [SerializeField] private int numBoss = 1;
@@ -93,6 +94,8 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 
         var avatar = runner.Spawn(playerAvatarPrefab, spawnPosition, Quaternion.identity, player);
         runner.SetPlayerObject(player, avatar);
+
+        var avatar2 = runner.Spawn(PlayerStatePrefab, spawnPosition, Quaternion.identity, player);
 
         if (runner.SessionInfo.PlayerCount == numBoss)
         {
