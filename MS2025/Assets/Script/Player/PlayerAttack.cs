@@ -9,6 +9,16 @@ public class PlayerAttack : NetworkBehaviour
     Animator animator;
     AudioSource audioSource;
     GameObject attackArea;
+    int maxCombo = 3;
+    [Networked] public int nCombo { get; set; }
+    public void AddCombo()
+    {
+        nCombo++;
+        if(nCombo>=maxCombo)
+        {
+            nCombo= 0;
+        }
+    }
 
     [Networked] private bool isAttack { get; set; }
     [Networked] private bool isOnce { get; set; }
@@ -73,5 +83,9 @@ public class PlayerAttack : NetworkBehaviour
     public void RPC_SE()
     {       
         audioSource.PlayOneShot(attackSE);
+        isAttack = true; // UŒ‚ƒtƒ‰ƒO‚ğ—§‚Ä‚é
+        isPlayingAnimation = true;
+        isOnce = true;
     }
+
 }
