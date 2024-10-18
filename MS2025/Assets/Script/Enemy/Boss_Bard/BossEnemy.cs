@@ -130,8 +130,9 @@ public class BossEnemy : MonoBehaviour
 
             // パーティクルシステムのインスタンスを生成
             ParticleSystem newParticle = Instantiate(Damageparticle);
-            // パーティクルの発生場所をこのスクリプトをアタッチしているGameObjectの場所にする
+            // 当たったオブジェクトと最も近い位置を取得する
             Vector3 closestPoint = collider.ClosestPoint(location);
+            //最も近い場所にパーティクルを生成
             newParticle.transform.position = closestPoint;
             // パーティクルを発生させる
             newParticle.Play();
