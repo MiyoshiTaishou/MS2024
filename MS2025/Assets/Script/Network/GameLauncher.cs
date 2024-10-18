@@ -95,12 +95,12 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
         var avatar = runner.Spawn(playerAvatarPrefab, spawnPosition, Quaternion.identity, player);
         runner.SetPlayerObject(player, avatar);
 
-        var avatar2 = runner.Spawn(PlayerStatePrefab, spawnPosition, Quaternion.identity, player);
 
         if (runner.SessionInfo.PlayerCount == numBoss)
         {
             var spawnBossPosition = new Vector3(0f, 0f, 0f);
             runner.Spawn(bossAvatarPrefab, spawnBossPosition, Quaternion.identity, player);
+            var avatar2 = runner.Spawn(PlayerStatePrefab, spawnPosition, Quaternion.identity, player);
         }
     }
 
