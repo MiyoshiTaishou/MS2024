@@ -170,23 +170,33 @@ public class BossAI : NetworkBehaviour {
 		}
 	}
 
-	private SkillBase GetAvailableSkill() { // 多分複数スキル使用可能時、ランダム選択されたスキルが射程外の場合スキルの再選択を行わず攻撃をしないという不具合起こす
-		List<SkillBase> availableSkills = new List<SkillBase>();
-		foreach (var a in skills)  {
-			foreach (var skill in skills) {
-				if (skill.CurrentCooldown <= 0) {
-					availableSkills.Add(skill);
-				}
-			}
+	private SkillBase GetAvailableSkill() {
+        List<SkillBase> availableSkills = new List<SkillBase>();
 
-			if (availableSkills.Count == 0) return null;
-			// クールダウンが0のスキルが複数ある場合はランダムで選択
-			int index = Random.Range(0, availableSkills.Count);
-			if (IsTargetWithSkillRange(index))
-				return availableSkills[index];
-		}
-		return null;
-	}
+        // クールダウンが終了しているスキルをリストに追加
+        foreach (var skill in skills) {
+            if (skill.CurrentCooldown <= 0) {
+                availableSkills.Add(skill);
+            }
+        }
+
+        // 使用可能なスキルがない場合はnullを返す
+        if (availableSkills.Count == 0) return null;
+
+        // 射程内のスキルを見つけるまでループ
+        while (availableSkills.Count > 0) {
+            int index = Random.Range(0, availableSkills.Count);
+            if (IsTargetWithSkillRange(index)) {
+                return availableSkills[index];
+            } else {
+                // 射程外のスキルをリストから削除
+                availableSkills.RemoveAt(index);
+            }
+        }
+
+        // 射程内のスキルが見つからなかった場合はnullを返す
+        return null;
+    }
 
 	private bool IsTargetWithSkillRange(int skillNum) {
 		float distance = (transform.position - currentTarget.transform.position).magnitude;

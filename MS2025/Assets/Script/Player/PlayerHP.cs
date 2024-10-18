@@ -10,7 +10,13 @@ public class PlayerHP : NetworkBehaviour
     public override void Spawned()
     {
         box = GameObject.Find("Networkbox");
-    }   
+    }
+
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public void RPC_DamageAnim()
+    {
+        GetComponent<Animator>().SetTrigger("Hurt");
+    }
 
     /// <summary>
     /// ゲスト側に退出命令を送信

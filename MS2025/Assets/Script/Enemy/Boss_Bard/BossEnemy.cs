@@ -8,7 +8,7 @@ public class BossEnemy : MonoBehaviour
     [Header("HP(float)とHPバー設定")]
     //最大HPと現在のHP。
     public float maxHp = 10;
-    float Hp;
+    public float Hp;
     //Slider
     public Slider slider;
 
@@ -116,18 +116,17 @@ public class BossEnemy : MonoBehaviour
 
         if(Hp==0&&Destroyflg==false)
         {
-            // パーティクルシステムのインスタンスを生成
-            ParticleSystem newParticle = Instantiate(Destroyparticle);
-               newParticle.transform.position = new Vector3(this.transform.position.x,this.transform.position.y+1,this.transform.position.z);
             Destroyflg = true;
             Invoke(nameof(back), 0.5f);
-
         }
 
 
     }
     void back()
     {
+        // パーティクルシステムのインスタンスを生成
+        ParticleSystem newParticle = Instantiate(Destroyparticle);
+        newParticle.transform.position = new Vector3(this.transform.position.x, this.transform.position.y + 3, this.transform.position.z);
         Destroy(this.gameObject);
     }
 
@@ -165,5 +164,9 @@ public class BossEnemy : MonoBehaviour
     {
         Debug.Log(collision.gameObject.name);
 
+    }
+
+    public float CheckHPPercentage() {
+        return (Hp / maxHp) * 100;
     }
 }

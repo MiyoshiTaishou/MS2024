@@ -1222,7 +1222,7 @@ Transform:
   m_GameObject: {fileID: 762452794}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.52, y: 12.4, z: -2.85}
+  m_LocalPosition: {x: -1.55, y: 7.93, z: -2.82}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1494,6 +1494,7 @@ MonoBehaviour:
   Damageparticle: {fileID: 0}
   Destroyparticle: {fileID: 0}
   Damagesound: {fileID: 0}
+  Destroyflg: 0
 --- !u!4 &881859633
 Transform:
   m_ObjectHideFlags: 0
@@ -2017,6 +2018,7 @@ MonoBehaviour:
   Destroyparticle: {fileID: 4596544553357837919, guid: 8eb503696b886e04faff8fc0f480d473,
     type: 3}
   Damagesound: {fileID: 8300000, guid: 1b591394cce1dbf41b5bf55d676ff7b0, type: 3}
+  Destroyflg: 0
 --- !u!82 &1289482153
 AudioSource:
   m_ObjectHideFlags: 0
