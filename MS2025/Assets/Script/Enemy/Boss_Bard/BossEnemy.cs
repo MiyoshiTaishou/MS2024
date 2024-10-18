@@ -16,9 +16,12 @@ public class BossEnemy : MonoBehaviour
 
     [Header("各エフェクト")]
     //Efect
-    [SerializeField]
+  
     [Tooltip("被ダメージエフェクト")]
-    private ParticleSystem Damageparticle;
+   public ParticleSystem Damageparticle;
+
+    [Tooltip("撃破エフェクト")]
+   public ParticleSystem Destroyparticle;
 
     [Space(15)]
 
@@ -31,6 +34,7 @@ public class BossEnemy : MonoBehaviour
 
     private Animator m_Animator;
     private Vector3 location;
+    public bool Destroyflg;
 
     void Start()
     {
@@ -43,6 +47,7 @@ public class BossEnemy : MonoBehaviour
 
         m_Animator = GetComponent<Animator>();
 
+        Destroyflg = false;
     }
 
     void Update()
@@ -69,50 +74,60 @@ public class BossEnemy : MonoBehaviour
         }
 
         //歩行アニメーション(後々条件とか増やして同時キー入力どうするかとか決めた方がいいと思います)
-        if (Input.GetKey("w"))
-        {
-            m_Animator.SetBool("walkForward", true);
+        //if (Input.GetKey("w"))
+        //{
+        //    m_Animator.SetBool("walkForward", true);
 
-        }
-        else
+        //}
+        //else
+        //{
+        //    m_Animator.SetBool("walkForward", false);
+        //}
+
+        //if (Input.GetKey("a"))
+        //{
+        //    m_Animator.SetBool("Left", true);
+
+        //}
+        //else
+        //{
+        //    m_Animator.SetBool("Left", false);
+        //}
+
+        //if (Input.GetKey("d"))
+        //{
+        //    m_Animator.SetBool("Right", true);
+
+        //}
+        //else
+        //{
+        //    m_Animator.SetBool("Right", false);
+        //}
+
+        //if (Input.GetKey("s"))
+        //{
+        //    m_Animator.SetBool("Back", true);
+
+        //}
+        //else
+        //{
+        //    m_Animator.SetBool("Back", false);
+        //}
+
+        if(Hp==0&&Destroyflg==false)
         {
-            m_Animator.SetBool("walkForward", false);
+            Destroyflg = true;
+            Invoke(nameof(back), 0.5f);
         }
 
-        if (Input.GetKey("a"))
-        {
-            m_Animator.SetBool("Left", true);
 
-        }
-        else
-        {
-            m_Animator.SetBool("Left", false);
-        }
-
-        if (Input.GetKey("d"))
-        {
-            m_Animator.SetBool("Right", true);
-
-        }
-        else
-        {
-            m_Animator.SetBool("Right", false);
-        }
-
-        if (Input.GetKey("s"))
-        {
-            m_Animator.SetBool("Back", true);
-
-        }
-        else
-        {
-            m_Animator.SetBool("Back", false);
-        }
     }
     void back()
     {
-        //色を元に戻す
-        gameObject.GetComponent<SpriteRenderer>().color = new Color32(255, 255, 255, 255);
+        // パーティクルシステムのインスタンスを生成
+        ParticleSystem newParticle = Instantiate(Destroyparticle);
+        newParticle.transform.position = new Vector3(this.transform.position.x, this.transform.position.y + 3, this.transform.position.z);
+        Destroy(this.gameObject);
     }
 
     void OnTriggerEnter(Collider collider)

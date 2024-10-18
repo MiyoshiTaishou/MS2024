@@ -5,14 +5,20 @@ using UnityEngine;
 
 public class BossAttackArea : NetworkBehaviour
 {
-    private void OnTriggerEnter(Collider other)
+    GameObject box;
+
+    public override void Spawned()
     {
-        if (Object.HasStateAuthority)
+        box = GameObject.Find("Networkbox");
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {       
+        if (other.CompareTag("Player"))
         {
-            if (other.GetComponent<PlayerHP>())
-            {
-                other.GetComponent<PlayerHP>().RPC_Damage(10);
-            }
-        }
+            Debug.Log("çUåÇÉqÉbÉg");
+            box.GetComponent<ShareNumbers>().RPC_Damage();
+            other.GetComponent<PlayerHP>().RPC_DamageAnim();
+        }        
     }
 }

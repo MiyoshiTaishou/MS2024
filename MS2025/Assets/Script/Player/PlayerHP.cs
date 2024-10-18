@@ -5,27 +5,17 @@ using UnityEngine;
 
 public class PlayerHP : NetworkBehaviour
 {
-    [Networked, SerializeField]
-    private int nPlayerHP { get; set; }
+    GameObject box;
 
-    /// <summary>
-    /// ダメージ処理
-    /// </summary>
-    /// <param name="_damage"></param>
-    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
-    public void RPC_Damage(int _damage)
+    public override void Spawned()
     {
-        nPlayerHP -= _damage;
+        box = GameObject.Find("Networkbox");
+    }
 
-        // HPが0以下なら死亡処理を呼ぶ
-        if (nPlayerHP <= 0)
-        {
-            if (Object.HasStateAuthority)
-            {
-                // まずゲストに退出命令を送信する
-                RPC_ExitGameForGuests();
-            }
-        }
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public void RPC_DamageAnim()
+    {
+        GetComponent<Animator>().SetTrigger("Hurt");
     }
 
     /// <summary>
