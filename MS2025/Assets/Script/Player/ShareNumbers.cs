@@ -6,24 +6,29 @@ using UnityEngine;
 public class ShareNumbers : NetworkBehaviour
 {
     [Networked] public int CurrentHP { get; set; }
-    [Networked] public int nCombo { get; set; }
-    public int maxCombo { get; set; }
+    [Networked] public int nHitnum { get; set; }
+    public int maxHitnum { get; set; }
 
-    public void AddCombo()
+    [Networked] public int nCombo { get; set; }
+
+    public void AddHitnum()
     {
-        nCombo++;
-        if (nCombo >= maxCombo)
+        nHitnum++;
+        if (nHitnum >= maxHitnum)
         {
-            nCombo = 0;
+            nHitnum = 0;
         }
-        Debug.Log("連撃数:" + nCombo);
+        Debug.Log("連撃数:" + nHitnum);
     }
+
+
 
     public override void Spawned()
     {
-        maxCombo= 3;
+        maxHitnum = 3;
+        nHitnum = 0;
+        CurrentHP =3;
         nCombo = 0;
-        CurrentHP=3;
         Debug.Log("プレイヤーのHPとか初期化");
     }
 

@@ -27,7 +27,7 @@ public class AttackAreaDamage : NetworkBehaviour
             if (other.GetComponent<BossStatus>())
             {
                 other.GetComponent<BossStatus>().RPC_Damage(10);
-                sharenum.AddCombo();
+                sharenum.AddHitnum();
                 RPCCombo();
             }
         }      
@@ -35,6 +35,6 @@ public class AttackAreaDamage : NetworkBehaviour
     [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
     public void RPCCombo()
     {
-        attack.currentCombo = sharenum.nCombo;
+        attack.currentCombo = sharenum.nHitnum;
     }
 }
