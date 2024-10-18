@@ -17,8 +17,8 @@ public class ComboUINet : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        text.text = combo.nCombo.ToString();
-    }
+    //void Update()
+    //{
+    //    text.text = combo.nCombo.ToString();
+    //}
 }
