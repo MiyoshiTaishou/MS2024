@@ -1492,6 +1492,7 @@ MonoBehaviour:
   maxHp: 10
   slider: {fileID: 1635532595}
   Damageparticle: {fileID: 0}
+  Destroyparticle: {fileID: 0}
   Damagesound: {fileID: 0}
 --- !u!4 &881859633
 Transform:
@@ -2011,7 +2012,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHp: 10
   slider: {fileID: 1635532595}
-  Damageparticle: {fileID: 3891973445508218817, guid: e190bf97c041e58448af6b043116cba0,
+  Damageparticle: {fileID: 4642848129145531053, guid: bd868461f57eeb94ba4fecf048683a9d,
+    type: 3}
+  Destroyparticle: {fileID: 4596544553357837919, guid: 8eb503696b886e04faff8fc0f480d473,
     type: 3}
   Damagesound: {fileID: 8300000, guid: 1b591394cce1dbf41b5bf55d676ff7b0, type: 3}
 --- !u!82 &1289482153
