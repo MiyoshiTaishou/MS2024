@@ -710,6 +710,7 @@ GameObject:
   - component: {fileID: 2605294272424294486}
   - component: {fileID: 6672554692622777755}
   - component: {fileID: 8967442445611774388}
+  - component: {fileID: 921434525383203313}
   m_Layer: 5
   m_Name: ComboCount
   m_TagString: Untagged
@@ -851,6 +852,18 @@ MonoBehaviour:
   m_EffectColor: {r: 1, g: 0, b: 0, a: 1}
   m_EffectDistance: {x: 1, y: -1}
   m_UseGraphicAlpha: 1
+--- !u!114 &921434525383203313
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5699117348809432088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ba114ae183ef304a9429bbb924e2c37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6411735017946587971
 GameObject:
   m_ObjectHideFlags: 0
