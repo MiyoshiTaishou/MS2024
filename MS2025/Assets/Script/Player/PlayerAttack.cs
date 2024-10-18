@@ -106,7 +106,7 @@ public class PlayerAttack : NetworkBehaviour
         isAttack = true; // UŒ‚ƒtƒ‰ƒO‚ğ—§‚Ä‚é
         isPlayingAnimation = true;
         isOnce = true;
-        currentCombo = sharenum.nCombo;
+        currentCombo = sharenum.nHitnum;
     }
 
     void Attack()
