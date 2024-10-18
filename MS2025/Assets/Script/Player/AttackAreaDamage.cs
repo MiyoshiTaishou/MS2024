@@ -9,6 +9,7 @@ public class AttackAreaDamage : NetworkBehaviour
     [SerializeField] GameObject netobj;
     PlayerAttack attack;
     ShareNumbers sharenum;
+    ComboSystem combo;
     public override void Spawned()
     {
         player = transform.parent.gameObject;
@@ -19,6 +20,7 @@ public class AttackAreaDamage : NetworkBehaviour
             Debug.LogError("‚â‚Á‚Î‚¢‚Ë");
         }
         sharenum = netobj.GetComponent<ShareNumbers>();
+        combo = netobj.GetComponent<ComboSystem>();
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -27,7 +29,7 @@ public class AttackAreaDamage : NetworkBehaviour
             if (other.GetComponent<BossStatus>())
             {
                 other.GetComponent<BossStatus>().RPC_Damage(10);
-                sharenum.AddCombo();
+                sharenum.AddHitnum();
                 RPCCombo();
             }
         }      
@@ -35,6 +37,7 @@ public class AttackAreaDamage : NetworkBehaviour
     [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
     public void RPCCombo()
     {
-        attack.currentCombo = sharenum.nCombo;
+        attack.currentCombo = sharenum.nHitnum;
+        combo.AddCombo();
     }
 }
