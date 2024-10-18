@@ -16,9 +16,12 @@ public class BossEnemy : MonoBehaviour
 
     [Header("各エフェクト")]
     //Efect
-    [SerializeField]
+  
     [Tooltip("被ダメージエフェクト")]
-    private ParticleSystem Damageparticle;
+   public ParticleSystem Damageparticle;
+
+    [Tooltip("撃破エフェクト")]
+   public ParticleSystem Destroyparticle;
 
     [Space(15)]
 
@@ -109,6 +112,13 @@ public class BossEnemy : MonoBehaviour
             m_Animator.SetBool("Back", false);
         }
 
+        if(Hp==0)
+        {
+            // パーティクルシステムのインスタンスを生成
+            ParticleSystem newParticle = Instantiate(Destroyparticle);
+               newParticle.transform.position = new Vector3(this.transform.position.x,this.transform.position.y,this.transform.position.z);
+            Hp = -1;
+        }
 
 
     }
