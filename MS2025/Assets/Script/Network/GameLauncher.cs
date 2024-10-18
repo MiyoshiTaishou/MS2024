@@ -102,7 +102,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 
         if (runner.SessionInfo.PlayerCount == numBoss)
         {
-            var spawnBossPosition = new Vector3(0f, 0f, 0f);
+            var spawnBossPosition = new Vector3(0f, 5f, 0f);
             runner.Spawn(bossAvatarPrefab, spawnBossPosition, Quaternion.identity, player);            
         }
     }
