@@ -92,15 +92,18 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
         var randomValue = UnityEngine.Random.insideUnitCircle * 2f;
         var spawnPosition = new Vector3(randomValue.x, 5f, 0f);
 
-        var avatar = runner.Spawn(playerAvatarPrefab, spawnPosition, Quaternion.identity, player);
-        runner.SetPlayerObject(player, avatar);
+        //if (runner.SessionInfo.PlayerCount == 1)
+        //{
+        //    var avatar2 = runner.Spawn(PlayerStatePrefab, spawnPosition, Quaternion.identity, player);
+        //}
 
+        var avatar = runner.Spawn(playerAvatarPrefab, spawnPosition, Quaternion.identity, player);
+        runner.SetPlayerObject(player, avatar);      
 
         if (runner.SessionInfo.PlayerCount == numBoss)
         {
             var spawnBossPosition = new Vector3(0f, 0f, 0f);
-            runner.Spawn(bossAvatarPrefab, spawnBossPosition, Quaternion.identity, player);
-            var avatar2 = runner.Spawn(PlayerStatePrefab, spawnPosition, Quaternion.identity, player);
+            runner.Spawn(bossAvatarPrefab, spawnBossPosition, Quaternion.identity, player);            
         }
     }
 
