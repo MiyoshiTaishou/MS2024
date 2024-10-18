@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Fusion;
 
 enum BOSS_STATE {
 	IDLE,
@@ -27,8 +28,8 @@ struct PlayerData {
 	public float distance;
 }
 
-public class BossAI : MonoBehaviour
-{
+public class BossAI : NetworkBehaviour {
+
 	[Header("ボス設定\n松木君作成のスクリプトに統合予定")]
 	[Tooltip("体力を決めます")]
 	[SerializeField]
@@ -151,7 +152,7 @@ public class BossAI : MonoBehaviour
 			return;
 		}
 		float distance = (transform.position - currentTarget.transform.position).magnitude;
-		if (distance < 2.5) return;
+		if (distance < 3) return;
 
 		Vector3 direction = (currentTarget.transform.position - transform.position).normalized;
 		transform.position += direction * moveSpeed * Time.deltaTime;
