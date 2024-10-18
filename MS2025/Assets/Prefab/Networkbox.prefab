@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5668343217354290683}
   - component: {fileID: 1543679455732522373}
   - component: {fileID: 6355994842718124850}
+  - component: {fileID: 3850866010930052348}
   m_Layer: 0
   m_Name: Networkbox
   m_TagString: Untagged
@@ -46,8 +47,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _CurrentHP: 0
+  _nHitnum: 0
   _nCombo: 0
-  _maxCombo: 3
 --- !u!114 &6355994842718124850
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -66,3 +67,17 @@ MonoBehaviour:
   NestedObjects: []
   NetworkedBehaviours:
   - {fileID: 1543679455732522373}
+  - {fileID: 3850866010930052348}
+--- !u!114 &3850866010930052348
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6048116181023338960}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9202e982b32f5864ab7755b5f082eb36, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ComboKeepframe: 200000
