@@ -8,7 +8,7 @@ public class BossEnemy : MonoBehaviour
     [Header("HP(float)Ç∆HPÉoÅ[ê›íË")]
     //ç≈ëÂHPÇ∆åªç›ÇÃHPÅB
     public float maxHp = 10;
-    float Hp;
+    public float Hp;
     //Slider
     public Slider slider;
 
@@ -108,9 +108,6 @@ public class BossEnemy : MonoBehaviour
         {
             m_Animator.SetBool("Back", false);
         }
-
-
-
     }
     void back()
     {
@@ -152,5 +149,9 @@ public class BossEnemy : MonoBehaviour
     {
         Debug.Log(collision.gameObject.name);
 
+    }
+
+    public float CheckHPPercentage() {
+        return (Hp / maxHp) * 100;
     }
 }

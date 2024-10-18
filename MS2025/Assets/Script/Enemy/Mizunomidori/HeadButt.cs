@@ -42,7 +42,16 @@ public class HeadButt : SkillBase
             animator.SetBool(isAfterAttackHash, false);
             var DA = GetComponent<DamagedArea>();
             if(DA == null) return;
-            DA.SetImmediateActive(false);
+            var BE = GetComponentInParent<BossEnemy>();
+            if(BE == null) return;
+            if (BE.CheckHPPercentage() > 50) {
+                DA.SetImmediateActive(false);
+            }
+            else{
+                animator.SetTrigger(attackTriggerHash); // Triggerを使用
+                DA.SetDelayActive(true, preliminaryTime);
+                nowPreliminaryTime += preliminaryTime;
+            }
         }
     }
 
@@ -56,6 +65,7 @@ public class HeadButt : SkillBase
             animator.SetTrigger(attackTriggerHash); // Triggerを使用
             animator.SetBool(isAfterAttackHash, false);
             nowPreliminaryTime = 0;
+            // nowSkillCount++;
         }
     }
 
