@@ -4,11 +4,11 @@ using UnityEngine;
 public class WaitAction : BossActionData
 {
     public float waitDuration;
-    private float waitStartTime;
+    private float waitStartTime;   
 
     public override void InitializeAction(GameObject boss)
     {
-        waitStartTime = Time.time;
+        waitStartTime = Time.time;       
     }
 
     public override bool ExecuteAction(GameObject boss)
