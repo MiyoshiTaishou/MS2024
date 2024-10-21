@@ -5,7 +5,7 @@ using UnityEngine;
 public class BossMoveAction : BossActionData
 {
     public float moveSpeed;
-    public float stoppingDistance;
+    public float stoppingDistance;   
 
     private Transform player;
     private Rigidbody bossRigidbody;
@@ -14,7 +14,7 @@ public class BossMoveAction : BossActionData
     {
         // Rigidbody ÇÃéQè∆ÇéÊìæ
         bossRigidbody = boss.GetComponent<Rigidbody>();
-        player = GameObject.FindWithTag("Player").transform;
+        player = GameObject.FindWithTag("Player").transform;       
     }
 
     public override bool ExecuteAction(GameObject boss)
