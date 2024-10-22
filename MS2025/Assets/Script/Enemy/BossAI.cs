@@ -14,6 +14,7 @@ public class BossAI : NetworkBehaviour
     // プレイヤーターゲット用
     private List<Transform> players;
     [Networked] private int currentPlayerIndex { get; set; }
+    [Networked,SerializeField] private int maxPlayerIndex { get; set; }
 
     // アニメーション名をネットワーク同期させる
     [Networked]
@@ -27,7 +28,7 @@ public class BossAI : NetworkBehaviour
         players = new List<Transform>();
         RefreshPlayerList();
 
-        if (players.Count < 2)
+        if (players.Count < maxPlayerIndex)
         {
             Debug.Log("Waiting for more players...");
         }
@@ -40,7 +41,7 @@ public class BossAI : NetworkBehaviour
     public override void FixedUpdateNetwork()
     {
         // プレイヤーが二人以上いない場合、行動を開始せず探索を続ける
-        if (players.Count < 2)
+        if (players.Count < maxPlayerIndex)
         {
             SearchForPlayers(); // 探索中の動作をここに実装
             return;
@@ -65,7 +66,7 @@ public class BossAI : NetworkBehaviour
         // プレイヤーリストを再確認する
         RefreshPlayerList();
 
-        if (players.Count >= 2)
+        if (players.Count >= maxPlayerIndex)
         {
             Debug.Log("Players are now available. Starting actions.");
             StartNextAction(); // プレイヤーが揃ったらアクションを開始
@@ -105,7 +106,7 @@ public class BossAI : NetworkBehaviour
     void StartNextAction()
     {
         // リストが空かどうかだけチェックして、必要なら更新する
-        if (players == null || players.Count < 2)
+        if (players == null || players.Count < maxPlayerIndex)
         {
             Debug.LogError("Not enough players available!");
             return;
