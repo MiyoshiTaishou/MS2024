@@ -100,11 +100,11 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
         var avatar = runner.Spawn(playerAvatarPrefab, spawnPosition, Quaternion.identity, player);
         runner.SetPlayerObject(player, avatar);      
 
-        if (runner.SessionInfo.PlayerCount == numBoss)
-        {
-            var spawnBossPosition = new Vector3(0f, 7f, 0f);
-            runner.Spawn(bossAvatarPrefab, spawnBossPosition, Quaternion.identity, player);            
-        }
+        //if (runner.SessionInfo.PlayerCount == numBoss)
+        //{
+        //    var spawnBossPosition = new Vector3(0f, 7f, 0f);
+        //    runner.Spawn(bossAvatarPrefab, spawnBossPosition, Quaternion.identity, player);            
+        //}
     }
 
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)

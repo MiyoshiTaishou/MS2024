@@ -7,23 +7,23 @@ public class BossMoveAction : BossActionData
     public float moveSpeed;
     public float stoppingDistance;   
 
-    private Transform player;
+    private Transform attackTarget;
     private Rigidbody bossRigidbody;
 
-    public override void InitializeAction(GameObject boss)
+    public override void InitializeAction(GameObject boss, Transform player)
     {
         // Rigidbody の参照を取得
         bossRigidbody = boss.GetComponent<Rigidbody>();
-        player = GameObject.FindWithTag("Player").transform;       
+        attackTarget = player;
     }
 
     public override bool ExecuteAction(GameObject boss)
     {
-        if (player == null || bossRigidbody == null)
+        if (attackTarget == null || bossRigidbody == null)
             return false;
 
         // プレイヤーまでの距離を計算
-        Vector3 directionToPlayer = player.position - boss.transform.position;
+        Vector3 directionToPlayer = attackTarget.position - boss.transform.position;
         float distanceToPlayer = directionToPlayer.magnitude;
 
         // 指定距離まで近づいていたら、移動を終了
