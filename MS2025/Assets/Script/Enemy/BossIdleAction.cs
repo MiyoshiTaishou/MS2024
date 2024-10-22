@@ -6,7 +6,7 @@ public class WaitAction : BossActionData
     public float waitDuration;
     private float waitStartTime;   
 
-    public override void InitializeAction(GameObject boss)
+    public override void InitializeAction(GameObject boss, Transform player)
     {
         waitStartTime = Time.time;       
     }
