@@ -1,11 +1,13 @@
 using Fusion;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class ComboSystem : NetworkBehaviour
 {
-    [SerializeField, Tooltip("�R���{��������")] 
+    TextMeshProUGUI text;
+    [SerializeField, Tooltip("�R���{��������")] 
     int ComboKeepframe;
     int Count = 0;
     public int GetCount() { return Count; }
@@ -15,7 +17,8 @@ public class ComboSystem : NetworkBehaviour
         Combo++;
         sharenum.nCombo = Combo;
         Count = ComboKeepframe;
-        Debug.Log("�R���{��" + Combo+"�˂��Ƃ̕�:"+sharenum.nCombo);
+        text.text=Combo.ToString();
+        Debug.Log("�R���{��" + Combo+"�˂��Ƃ̕�:"+sharenum.nCombo);
     }
 
     ShareNumbers sharenum;
@@ -25,6 +28,28 @@ public class ComboSystem : NetworkBehaviour
         sharenum=GetComponent<ShareNumbers>();
         Combo = 0;
         Count = 0;
+
+        GameObject obj = GameObject.Find("MainGameUI");
+        if(obj == null)
+        {
+            Debug.LogError("てきすとああああないよ");
+        }
+        obj = obj.transform.Find("Combo").gameObject;
+        if (obj == null)
+        {
+            Debug.LogError("てきすといいいいないよ");
+        }
+        obj = obj.transform.Find("ComboCount").gameObject;
+        if (obj == null)
+        {
+            Debug.LogError("てきすとううううないよ");
+        }
+        text = obj.GetComponent<TextMeshProUGUI>();
+        if(!text)
+        {
+            Debug.LogError("てきすとないよ");
+        }
+        text.text = "ああああ";
     }
 
     public override void FixedUpdateNetwork()

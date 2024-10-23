@@ -295,6 +295,7 @@ GameObject:
   - component: {fileID: 7914473237001208349}
   - component: {fileID: 7588640461257048479}
   - component: {fileID: 3453850585451843165}
+  - component: {fileID: -5807025104072942480}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -417,6 +418,7 @@ MonoBehaviour:
   - {fileID: 7914473237001208349}
   - {fileID: 7588640461257048479}
   - {fileID: 3453850585451843165}
+  - {fileID: -5807025104072942480}
 --- !u!54 &-316379306908820852
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -517,7 +519,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 828e2938ddaaa124987e2cb41cf13774, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _nPlayerHP: 20
 --- !u!82 &8508605095377403547
 AudioSource:
   m_ObjectHideFlags: 0
@@ -660,3 +661,16 @@ MonoBehaviour:
   HitStop: 30
   KnockbackPower: 50
   Parryflg: 0
+--- !u!114 &-5807025104072942480
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5901407417179175552}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94aec40b389c3924da34de646216722b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _specialNum: 1

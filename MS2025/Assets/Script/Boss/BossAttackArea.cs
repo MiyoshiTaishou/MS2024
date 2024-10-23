@@ -11,7 +11,7 @@ public class BossAttackArea : NetworkBehaviour
     {
         box = GameObject.Find("Networkbox");
     }
-
+  
     private void OnTriggerEnter(Collider other)
     {       
         if (other.CompareTag("Player"))
@@ -19,6 +19,8 @@ public class BossAttackArea : NetworkBehaviour
             Debug.Log("çUåÇÉqÉbÉg");
             box.GetComponent<ShareNumbers>().RPC_Damage();
             other.GetComponent<PlayerHP>().RPC_DamageAnim();
+
+            gameObject.SetActive(false);
         }        
     }
 }

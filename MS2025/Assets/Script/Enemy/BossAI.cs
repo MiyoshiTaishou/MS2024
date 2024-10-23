@@ -3,240 +3,139 @@ using System.Collections.Generic;
 using UnityEngine;
 using Fusion;
 
-enum BOSS_STATE {
-	IDLE,
-	ROTATION,
-	MOVING,
-	PRELIMINARY_ACTION,
-	ATTACKING,
-	DOWN,
-}
+public class BossAI : NetworkBehaviour
+{
+    public BossActionSequence actionSequence;
+    private int currentActionIndex = 0;
+    private BossActionData currentAction;
+    private bool isActionInitialized = false;
+    private Animator animator;
 
-[System.Serializable]
-public struct CoolTime {
-	[Tooltip("ターゲットが切り替わる間隔を決めます")]
-	public float changeTargetInterval;
-	[Tooltip("攻撃の最低クールダウンを決めます")]
-	public float minCooldownAfterAttack;
-	[Tooltip("ボスのダウン時間を決めます")]
-	public float downTime;
-}
+    // プレイヤーターゲット用
+    private List<Transform> players;
+    [Networked] private int currentPlayerIndex { get; set; }
+    [Networked,SerializeField] private int maxPlayerIndex { get; set; }
 
-struct PlayerData {
-	public GameObject playerObj;
-	public Vector3 direction;
-	public float distance;
-}
+    // アニメーション名をネットワーク同期させる
+    [Networked]
+    private NetworkString<_16> networkedAnimationName { get; set; }
 
-public class BossAI : NetworkBehaviour {
+    public override void Spawned()
+    {
+        animator = GetComponent<Animator>(); // Animator コンポーネントを取得
 
-	[Header("ボス設定\n松木君作成のスクリプトに統合予定")]
-	[Tooltip("体力を決めます")]
-	[SerializeField]
-	public float HP;
-	[Tooltip("ダウン時間を決めます(1秒間隔)")]
-	[SerializeField]
-	public float downTime;
+        // プレイヤーオブジェクトをすべて取得してリストに保存
+        players = new List<Transform>();
+        RefreshPlayerList();
 
-	[Header("移動設定")]
-	[Tooltip("移動速度を決めます")]
-	[SerializeField]
-	private float moveSpeed;
-	[Tooltip("振向き速度を決めます")]
-	[SerializeField]
-	private float rotationSpeed;
-	[Tooltip("ターゲットが切り替わる間隔を決めます(1秒間隔)")]
-	[SerializeField]
-	private float changeTargetInterval;
-
-	[Header("攻撃設定")]
-	[Tooltip("攻撃技を決めます")]
-	[SerializeField]
-	public SkillBase[] skills;
-	[Tooltip("攻撃の最低クールダウンを決めます(1秒間隔)")]
-	[SerializeField]
-	private float minCooldownAfterAttack;
-
-	private BOSS_STATE bossState = BOSS_STATE.IDLE;
-	private List<GameObject> playerObjects = new List<GameObject>();
-	private GameObject currentTarget;
-	private SkillBase skillToUse;
-	private float cooldownTimer = 0f;
-	private CoolTime coolTime;
-	private CoolTime nowTime;
-
-	private void Start() {
-		coolTime.changeTargetInterval = changeTargetInterval;
-		coolTime.minCooldownAfterAttack = minCooldownAfterAttack;
-		coolTime.downTime = downTime;
-	}
-
-	private void Update() {
-		UpdateCooldowns();
-	}
-
-	private void FixedUpdate() {
-		// 一定時間ごとにターゲット変更
-		if (playerObjects.Count <= 0) {
-			PlayerSearch();
-			ChangeTargetRoutine();
-		}
-		else 
-		if (nowTime.changeTargetInterval <= 0) {
-			ChangeTargetRoutine();
-			nowTime.changeTargetInterval = coolTime.changeTargetInterval;
-		}
-
-		switch (bossState) {
-			case BOSS_STATE.IDLE:
-				bossState = BOSS_STATE.ROTATION;
-				break;
-
-			case BOSS_STATE.ROTATION:
-				RotisonTowardsTarget();
-				break;
-
-			case BOSS_STATE.MOVING:
-				RotisonTowardsTarget();
-				MoveTowardsTarget();
-				TryStartAttack();
-				break;
-
-			case BOSS_STATE.PRELIMINARY_ACTION:
-				break;
-
-			case BOSS_STATE.ATTACKING:
-				// 攻撃中の処理はスキル側で行う
-				CheckAttacking();
-				Debug.DrawLine(transform.position, currentTarget.transform.position, Color.red);
-				break;
-			
-			case BOSS_STATE.DOWN:
-				if (nowTime.downTime <= 0)
-					bossState = BOSS_STATE.ROTATION;
-				break;
-		}
-	}
-
-	private void RotisonTowardsTarget() {
-		if (currentTarget == null) {
-			PlayerSearch();
-			return;
-		}
-
-		Vector3 targetPos = currentTarget.transform.position;
-		Vector3 direction = targetPos - transform.position;
-		direction.y = 0;
-
-		if (direction != Vector3.zero) {
-			// ターゲットに向かう回転を計算
-			Quaternion targetRotation = Quaternion.LookRotation(direction);
-			transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
-		}
-
-		// ある程度ターゲットの方向を向いた場合、ステートを切り替える
-		Vector3 forward = transform.forward;
-		forward.y = 0;
-		direction.Normalize();
-
-		float angleToTarget = Vector3.Angle(forward, direction);
-
-		if (angleToTarget < 10f) {
-			bossState = BOSS_STATE.MOVING;
-		}
-	}
-
-	private void MoveTowardsTarget() {
-		if (currentTarget == null) {
-			PlayerSearch();
-			return;
-		}
-		float distance = (transform.position - currentTarget.transform.position).magnitude;
-		if (distance < 3) return;
-
-		Vector3 direction = (currentTarget.transform.position - transform.position).normalized;
-		transform.position += direction * moveSpeed * Time.deltaTime;
-		for (int i = 0; i < playerObjects.Count; i++) {
-			Debug.DrawLine(transform.position, playerObjects[i].transform.position, Color.red);
-		}
-	}
-
-	private void TryStartAttack() {
-		if (playerObjects == null || currentTarget == null) return;
-		skillToUse = GetAvailableSkill();
-		if (skillToUse != null) {
-			bossState = BOSS_STATE.ATTACKING;
-			skillToUse.UseSkill(transform, currentTarget.transform);        
-		}
-	}
-
-	private SkillBase GetAvailableSkill() {
-        List<SkillBase> availableSkills = new List<SkillBase>();
-
-        // クールダウンが終了しているスキルをリストに追加
-        foreach (var skill in skills) {
-            if (skill.CurrentCooldown <= 0) {
-                availableSkills.Add(skill);
-            }
+        if (players.Count < maxPlayerIndex)
+        {
+            Debug.Log("Waiting for more players...");
         }
-
-        // 使用可能なスキルがない場合はnullを返す
-        if (availableSkills.Count == 0) return null;
-
-        // 射程内のスキルを見つけるまでループ
-        while (availableSkills.Count > 0) {
-            int index = Random.Range(0, availableSkills.Count);
-            if (IsTargetWithSkillRange(index)) {
-                return availableSkills[index];
-            } else {
-                // 射程外のスキルをリストから削除
-                availableSkills.RemoveAt(index);
-            }
+        else
+        {
+            StartNextAction(); // プレイヤーが二人以上揃っていたらアクションを開始
         }
-
-        // 射程内のスキルが見つからなかった場合はnullを返す
-        return null;
     }
 
-	private bool IsTargetWithSkillRange(int skillNum) {
-		float distance = (transform.position - currentTarget.transform.position).magnitude;
-		if (skills[skillNum].minAttackRange <= distance && skills[skillNum].maxAttackRange >= distance)
-			return true;
-		return false;
-	}
+    public override void FixedUpdateNetwork()
+    {
+        // プレイヤーが二人以上いない場合、行動を開始せず探索を続ける
+        if (players.Count < maxPlayerIndex)
+        {
+            SearchForPlayers(); // 探索中の動作をここに実装
+            return;
+        }
 
-	private void CheckAttacking() {
-		if (skillToUse.IsSkillUsing()) return;
-		// クールダウン開始
-		skillToUse.ResetCooldown();
-		nowTime.minCooldownAfterAttack = coolTime.minCooldownAfterAttack;
-		bossState = BOSS_STATE.ROTATION;
-	}
+        if (currentAction == null) return;
 
-	public void BossDown() {}
+        if (!isActionInitialized)
+        {
+            RPC_InitAction();
+        }
 
-	private void UpdateCooldowns() {
-		float deltaTime = Time.deltaTime;
-		foreach (var skill in skills) {
-			skill.UpdateCooldown(deltaTime);
-		}
-		nowTime.changeTargetInterval   -= deltaTime;
-		nowTime.minCooldownAfterAttack -= deltaTime;
-		nowTime.downTime               -= deltaTime;
-	}
+        if (currentAction.ExecuteAction(gameObject))
+        {
+            StartNextAction(); // アクション完了後に次のアクションに進む
+        }
+    }
 
-	private void PlayerSearch() {
-		playerObjects.Clear();
-		GameObject[] allObjects = GameObject.FindGameObjectsWithTag("Player");
-		playerObjects.AddRange(allObjects);
-	}
+    // プレイヤーが二人以上揃うまで探索を続けるためのメソッド
+    private void SearchForPlayers()
+    {
+        // プレイヤーリストを再確認する
+        RefreshPlayerList();
 
-	private void ChangeTargetRoutine() {
-		PlayerSearch();
-		if (playerObjects.Count > 0) {
-			int index = Random.Range(0, playerObjects.Count);
-			currentTarget = playerObjects[index];
-		}
-		bossState = BOSS_STATE.ROTATION;
-	}
+        if (players.Count >= maxPlayerIndex)
+        {
+            Debug.Log("Players are now available. Starting actions.");
+            StartNextAction(); // プレイヤーが揃ったらアクションを開始
+        }
+        else
+        {
+            Debug.Log("Searching for players...");
+        }
+    }
+
+    // プレイヤーリストを更新するメソッド
+    private void RefreshPlayerList()
+    {
+        players.Clear();
+        foreach (var playerObj in GameObject.FindGameObjectsWithTag("Player"))
+        {
+            players.Add(playerObj.transform);
+        }
+    }
+
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    public void RPC_InitAction()
+    {
+        // 現在のターゲットプレイヤーの参照をアクションに設定
+        currentAction.InitializeAction(gameObject, players[currentPlayerIndex]); // ターゲットプレイヤーを渡す
+
+        // アクションに対応するアニメーションをホスト側で再生
+        if (Object.HasStateAuthority && animator != null && !string.IsNullOrEmpty(currentAction.actionName))
+        {
+            Debug.Log($"Playing animation: {currentAction.actionName}");
+            networkedAnimationName = currentAction.actionName; // ネットワーク変数にアニメーション名をセット
+        }
+
+        isActionInitialized = true;
+    }
+
+    void StartNextAction()
+    {
+        // リストが空かどうかだけチェックして、必要なら更新する
+        if (players == null || players.Count < maxPlayerIndex)
+        {
+            Debug.LogError("Not enough players available!");
+            return;
+        }
+
+        if (currentActionIndex >= actionSequence.actions.Length)
+        {
+            Debug.Log("All actions completed");
+            currentActionIndex = 0;
+        }
+
+        // 次のアクションを設定
+        currentAction = actionSequence.actions[currentActionIndex];
+        isActionInitialized = false;
+        currentActionIndex++;
+
+        Debug.Log($"Starting Action: {currentAction.name}");
+
+        // ターゲットを次のプレイヤーに変更
+        currentPlayerIndex = (currentPlayerIndex + 1) % players.Count;
+    }
+
+    public override void Render()
+    {
+        // クライアント側でもアニメーションを再生（ネットワーク変数が変わったときに実行）
+        if (animator != null && !string.IsNullOrEmpty((string)networkedAnimationName) && animator.GetCurrentAnimatorStateInfo(0).IsName((string)networkedAnimationName) == false)
+        {
+            Debug.Log($"Synchronizing animation: {networkedAnimationName}");
+            animator.Play((string)networkedAnimationName);
+        }
+    }
 }
