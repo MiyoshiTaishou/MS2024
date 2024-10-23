@@ -5,7 +5,7 @@ using Fusion;
 
 public class BossAI : NetworkBehaviour
 {
-    public BossActionSequence actionSequence;
+    public BossActionSequence[] actionSequence;
     private int currentActionIndex = 0;
     private BossActionData currentAction;
     private bool isActionInitialized = false;
@@ -14,6 +14,7 @@ public class BossAI : NetworkBehaviour
     // プレイヤーターゲット用
     private List<Transform> players;
     [Networked] private int currentPlayerIndex { get; set; }
+    [Networked] private int currentSequenceIndex { get; set; }
     [Networked,SerializeField] private int maxPlayerIndex { get; set; }
 
     // アニメーション名をネットワーク同期させる
@@ -23,6 +24,7 @@ public class BossAI : NetworkBehaviour
     public override void Spawned()
     {
         animator = GetComponent<Animator>(); // Animator コンポーネントを取得
+        currentSequenceIndex = Random.Range(0, actionSequence.Length);
 
         // プレイヤーオブジェクトをすべて取得してリストに保存
         players = new List<Transform>();
@@ -112,14 +114,15 @@ public class BossAI : NetworkBehaviour
             return;
         }
 
-        if (currentActionIndex >= actionSequence.actions.Length)
+        if (currentActionIndex >= actionSequence[currentSequenceIndex].actions.Length)
         {
             Debug.Log("All actions completed");
             currentActionIndex = 0;
+            currentSequenceIndex = Random.Range(0, actionSequence.Length);
         }
 
         // 次のアクションを設定
-        currentAction = actionSequence.actions[currentActionIndex];
+        currentAction = actionSequence[currentSequenceIndex].actions[currentActionIndex];
         isActionInitialized = false;
         currentActionIndex++;
 

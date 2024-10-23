@@ -175,8 +175,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b75be179e10814e42befb943a9ba5c07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  actionSequence: {fileID: 11400000, guid: 8aee5de206c9c8e4f893d9c9a335a215, type: 2}
-  _maxPlayerIndex: 1
+  actionSequence:
+  - {fileID: 11400000, guid: 9a4cc15da005cfc439088bef5a3b35f2, type: 2}
+  - {fileID: 11400000, guid: 8aee5de206c9c8e4f893d9c9a335a215, type: 2}
+  - {fileID: 11400000, guid: f7eceb93d7ac05645a1cf4119e7d40c6, type: 2}
+  _maxPlayerIndex: 2
 --- !u!65 &-6834287320468394907
 BoxCollider:
   m_ObjectHideFlags: 0
