@@ -1,20 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class DotCamera : MonoBehaviour
 {
-    [SerializeField] private Shader _shader;
+    public Camera targetCamera;
+    public UniversalRenderPipelineAsset urpAsset;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    // Rendererの番号を設定 (URPアセット内での順番)
+    public int rendererIndex1 = 0;
+    public int rendererIndex2 = 1;
 
-    // Update is called once per frame
     void Update()
     {
-        
+        // 例としてキー入力でRendererを切り替え
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            targetCamera.GetUniversalAdditionalCameraData().SetRenderer(rendererIndex1);
+        }
+        else if (Input.GetKeyDown(KeyCode.N))
+        {
+            targetCamera.GetUniversalAdditionalCameraData().SetRenderer(rendererIndex2);
+        }
     }
 }
