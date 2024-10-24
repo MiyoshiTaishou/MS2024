@@ -11,11 +11,14 @@ public class BossAI : NetworkBehaviour
     private bool isActionInitialized = false;
     private Animator animator;
 
+    [SerializeField, Header("ノックバックのアニメーション名")] private string animName;
+
     // プレイヤーターゲット用
     private List<Transform> players;
     [Networked] private int currentPlayerIndex { get; set; }
     [Networked] private int currentSequenceIndex { get; set; }
     [Networked,SerializeField] private int maxPlayerIndex { get; set; }
+    [Networked,SerializeField] private bool isInterrupted { get; set; }
 
     // アニメーション名をネットワーク同期させる
     [Networked]
@@ -54,6 +57,12 @@ public class BossAI : NetworkBehaviour
         if (!isActionInitialized)
         {
             RPC_InitAction();
+        }
+
+        if(isInterrupted)
+        {
+            //ここにノックバック処理を入れる
+
         }
 
         if (currentAction.ExecuteAction(gameObject))
