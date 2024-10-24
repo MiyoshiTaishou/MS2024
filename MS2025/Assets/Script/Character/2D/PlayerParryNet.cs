@@ -40,7 +40,7 @@ public class PlayerParryNet : NetworkBehaviour
     //Camera Maincamera;
     //CinemaCharCamera cinemachar;
 
-    [SerializeField, ReadOnly] bool Parryflg = false;
+    [SerializeField,Networked] bool Parryflg { get; set; } = false;
 
     HitStop hitStop;
 
@@ -195,44 +195,46 @@ public class PlayerParryNet : NetworkBehaviour
 
     public override void FixedUpdateNetwork()
     {
+        AnimatorStateInfo landAnimStateInfo = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
 
         if (Object.HasStateAuthority && GetInput(out NetworkInputData data))
         {
+            //パリィ中は動かせないようにする
+            if (landAnimStateInfo.IsName("APlayerAtack1") || landAnimStateInfo.IsName("APlayerAtack2") || landAnimStateInfo.IsName("APlayerAtack3"))
+            {
+                return;
+            }
+
             var pressed = data.Buttons.GetPressed(ButtonsPrevious);
             ButtonsPrevious = data.Buttons;
 
             // Attackボタンが押されたか、かつアニメーションが再生中でないかチェック
             if (pressed.IsSet(NetworkInputButtons.Parry) && !Parryflg)
             {
-
+                Debug.Log("パリィ開始");
                 ParryStart();
                 RPC_ParryArea();
             }
 
         }
 
-        //アニメーション終了
-        AnimatorStateInfo landAnimStateInfo = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
-        if (landAnimStateInfo.IsName("APlayerParry") && landAnimStateInfo.normalizedTime >= 1.0f)
-            animator.Play("APlayerIdle");
-
-        if (landAnimStateInfo.IsName("APlayerCounter") && landAnimStateInfo.normalizedTime >= 1.0f)
-            animator.Play("APlayerIdle");
-
-
     }
 
     public override void Render()
     {
+        if (Object.HasStateAuthority)
+        {
+            return;
+        }
+
         // クライアント側でもアニメーションを再生（ネットワーク変数が変わったときに実行）
         // 現在のアニメーションの状態を取得
         AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
-
         // 攻撃フラグが立っている場合にアニメーションをトリガー
-        if (Parryflg)
+        if (Parryflg && Animator.StringToHash("Parry") != stateInfo.shortNameHash) //パリィアニメーション中かどうか
         {
             animator.SetTrigger("Parry"); // アニメーションのトリガー
-            Parryflg = false; // フラグをリセット
+            //Parryflg = false; // フラグをリセット
         }
     }
 }
