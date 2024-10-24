@@ -34,6 +34,7 @@ public class BossEnemy : MonoBehaviour
 
     private Animator m_Animator;
     private Vector3 location;
+    private bool DamageCoolTime = false;
     public bool Destroyflg;
 
     void Start()
@@ -130,9 +131,14 @@ public class BossEnemy : MonoBehaviour
         Destroy(this.gameObject);
     }
 
+    void CoolTime()
+    {
+        DamageCoolTime = false;
+    }
+
     void OnTriggerEnter(Collider collider)
     {
-        if (collider.gameObject.name == "PlayerAttackArea")
+        if (collider.gameObject.name == "PlayerAttackArea"&&DamageCoolTime==false)
         {
             //HPから1を引く
             Hp = Hp - 1;
@@ -150,6 +156,10 @@ public class BossEnemy : MonoBehaviour
             newParticle.Play();
             // インスタンス化したパーティクルシステムのGameObjectを1秒後に削除
             Destroy(newParticle.gameObject, 1.0f);
+
+            DamageCoolTime=true;
+
+            Invoke(nameof(CoolTime), 0.5f);
 
             //Sound1を鳴らす
             audioSource.PlayOneShot(Damagesound);
