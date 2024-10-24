@@ -39,7 +39,7 @@ public class PlayerJumpNet : NetworkBehaviour
             var pressed = data.Buttons.GetPressed(ButtonsPrevious);
             ButtonsPrevious = data.Buttons;
 
-            Debug.Log("地面に着いているか: " + isGround);
+            //Debug.Log("地面に着いているか: " + isGround);
 
             // ジャンプボタンが押され、かつ地面にいるときジャンプする
             if (pressed.IsSet(NetworkInputButtons.Jump) && isGround && !isJumping)

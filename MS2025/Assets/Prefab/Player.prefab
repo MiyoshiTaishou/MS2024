@@ -151,7 +151,7 @@ GameObject:
   - component: {fileID: 8752618586766063873}
   - component: {fileID: 4148668885677114735}
   - component: {fileID: 419385390892448601}
-  - component: {fileID: 2186964364465249039}
+  - component: {fileID: 1463146197632594216}
   m_Layer: 0
   m_Name: ParryArea
   m_TagString: Untagged
@@ -239,7 +239,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -261,19 +261,21 @@ MonoBehaviour:
   ObjectInterest: 1
   Flags: 262145
   NestedObjects: []
-  NetworkedBehaviours: []
---- !u!114 &2186964364465249039
+  NetworkedBehaviours:
+  - {fileID: 1463146197632594216}
+--- !u!114 &1463146197632594216
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2918473518555105603}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c799bf135c1a2a4ab1f89618cfb7a7d, type: 3}
+  m_Script: {fileID: 11500000, guid: 98e771789392c9f43a2d0fc4525f3c77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 3453850585451843165}
 --- !u!1 &5901407417179175552
 GameObject:
   m_ObjectHideFlags: 0
@@ -656,6 +658,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8113aecc8464cc5478a354cbf225121a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ParrySE: {fileID: 8300000, guid: c56a6cc1ce5043445ab5b1d663a8fe3f, type: 3}
+  ParrySuccessSE: {fileID: 8300000, guid: 76679888a166a874ea5b576cedbb74cd, type: 3}
   parryradius: 3
   ParryActivetime: 3
   HitStop: 30

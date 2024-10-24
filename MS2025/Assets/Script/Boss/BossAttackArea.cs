@@ -6,10 +6,12 @@ using UnityEngine;
 public class BossAttackArea : NetworkBehaviour
 {
     GameObject box;
+    GameObject parent;
 
     public override void Spawned()
     {
         box = GameObject.Find("Networkbox");
+        parent = transform.parent.gameObject;
     }
   
     private void OnTriggerEnter(Collider other)
@@ -19,6 +21,7 @@ public class BossAttackArea : NetworkBehaviour
             Debug.Log("çUåÇÉqÉbÉg");
             box.GetComponent<ShareNumbers>().RPC_Damage();
             other.GetComponent<PlayerHP>().RPC_DamageAnim();
+            parent.GetComponent<BossAI>().RPC_AnimName();
 
             gameObject.SetActive(false);
         }        

@@ -5,16 +5,21 @@ using Fusion;
 
 public class BossAI : NetworkBehaviour
 {
-    public BossActionSequence actionSequence;
+    public BossActionSequence[] actionSequence;
     private int currentActionIndex = 0;
     private BossActionData currentAction;
     private bool isActionInitialized = false;
     private Animator animator;
 
+    [SerializeField, Header("ノックバックのアニメーション名")]
+    private string animName;
+
     // プレイヤーターゲット用
     private List<Transform> players;
     [Networked] private int currentPlayerIndex { get; set; }
-    [Networked,SerializeField] private int maxPlayerIndex { get; set; }
+    [Networked] private int currentSequenceIndex { get; set; }
+    [Networked, SerializeField] private int maxPlayerIndex { get; set; }
+    [Networked, SerializeField] public bool isInterrupted { get; set; }
 
     // アニメーション名をネットワーク同期させる
     [Networked]
@@ -23,6 +28,7 @@ public class BossAI : NetworkBehaviour
     public override void Spawned()
     {
         animator = GetComponent<Animator>(); // Animator コンポーネントを取得
+        currentSequenceIndex = Random.Range(0, actionSequence.Length);
 
         // プレイヤーオブジェクトをすべて取得してリストに保存
         players = new List<Transform>();
@@ -47,6 +53,12 @@ public class BossAI : NetworkBehaviour
             return;
         }
 
+        if (isInterrupted)
+        {
+            HandleInterruption();
+            return;
+        }
+
         if (currentAction == null) return;
 
         if (!isActionInitialized)
@@ -58,6 +70,32 @@ public class BossAI : NetworkBehaviour
         {
             StartNextAction(); // アクション完了後に次のアクションに進む
         }
+    }
+
+    private void HandleInterruption()
+    {
+        // ノックバック処理
+        networkedAnimationName = animName;
+
+        // アニメーション再生中なら、まだ中断状態を解除しない
+        Debug.Log(networkedAnimationName + "ノックバック");
+
+        // アニメーションが再生されている間は中断状態を維持
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName(animName))
+        {
+            Debug.Log(networkedAnimationName + "再生中");
+            return;
+        }
+
+        // アニメーションが終了したらフラグをリセットし、次のアクションを開始
+        StartCoroutine(WaitAndStartNextAction(1f)); // 1秒待ってから次のアクションへ
+    }
+
+    private IEnumerator WaitAndStartNextAction(float waitTime)
+    {
+        yield return new WaitForSeconds(waitTime);
+        isInterrupted = false;
+        StartNextAction();
     }
 
     // プレイヤーが二人以上揃うまで探索を続けるためのメソッド
@@ -112,14 +150,15 @@ public class BossAI : NetworkBehaviour
             return;
         }
 
-        if (currentActionIndex >= actionSequence.actions.Length)
+        if (currentActionIndex >= actionSequence[currentSequenceIndex].actions.Length)
         {
             Debug.Log("All actions completed");
             currentActionIndex = 0;
+            currentSequenceIndex = Random.Range(0, actionSequence.Length);
         }
 
         // 次のアクションを設定
-        currentAction = actionSequence.actions[currentActionIndex];
+        currentAction = actionSequence[currentSequenceIndex].actions[currentActionIndex];
         isActionInitialized = false;
         currentActionIndex++;
 
@@ -137,5 +176,11 @@ public class BossAI : NetworkBehaviour
             Debug.Log($"Synchronizing animation: {networkedAnimationName}");
             animator.Play((string)networkedAnimationName);
         }
+    }
+
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    public void RPC_AnimName()
+    {
+        isInterrupted = true;
     }
 }

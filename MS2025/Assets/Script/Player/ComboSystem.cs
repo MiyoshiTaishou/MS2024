@@ -56,6 +56,9 @@ public class ComboSystem : NetworkBehaviour
     {
         Combo = sharenum.nCombo;
         Count--;
+
+        text.alpha = Count / ComboKeepframe;
+
         if(Count <= 0) 
         {
             Combo = 0;
