@@ -13,7 +13,7 @@ public class PlayerParry : MonoBehaviour
     [SerializeField, ReadOnly] private GameObject ParryArea;
 
     ////パリィの効果時間
-    private float ParryActivetimeFrame = 0; //フレームに変換する
+     private float ParryActivetimeFrame = 0; //フレームに変換する
 
     ////ヒットストップ時間
     private float HitStopFrame = 0; //フレームに変換する
@@ -122,7 +122,7 @@ public class PlayerParry : MonoBehaviour
     {
         audioManager.PlaySE(audioSource, AudioManager.SESoundData.SE.Parry);
 
-        animator.Play("APlayerParry");
+        //animator.Play("APlayerParry");
         ParryArea.SetActive(true);
         Parryflg = true;
     }
