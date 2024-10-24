@@ -5,6 +5,7 @@ public class AttackAction : BossActionData
 {
     public float attackRange;
     public float attackDuration;  // 攻撃を行うまでの待機時間
+    public float attackAnimSpeed;  // アニメーションの速度
 
     public string attackAreaName; // 攻撃エリアの名前（ボスの子オブジェクトの名前）
     private GameObject attackArea; // 既存の攻撃エリアの参照
@@ -23,7 +24,8 @@ public class AttackAction : BossActionData
         Debug.Log(player);
 
         // ボスの子オブジェクトから攻撃エリアを取得
-        attackArea = boss.transform.Find(attackAreaName)?.gameObject;      
+        attackArea = boss.transform.Find(attackAreaName)?.gameObject;
+        boss.GetComponent<Animator>().speed = attackAnimSpeed;
     }
 
     public override bool ExecuteAction(GameObject boss)
@@ -54,7 +56,9 @@ public class AttackAction : BossActionData
         {
             boss.GetComponent<AudioSource>().clip = attackClip;
             boss.GetComponent<AudioSource>().Play();
-        }       
+        }
+
+        boss.GetComponent<Animator>().speed = 1;
 
         return true; // アクション完了
     }
