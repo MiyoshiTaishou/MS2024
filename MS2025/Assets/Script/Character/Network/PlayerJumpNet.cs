@@ -10,25 +10,25 @@ public class PlayerJumpNet : NetworkBehaviour
     Animator animator;
     AudioSource audioSource;
 
-    [Header("ƒWƒƒƒ“ƒvSE"), SerializeField] private AudioClip jumpSE;
+    [Header("ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½vSE"), SerializeField] private AudioClip jumpSE;
 
     [Networked] public NetworkButtons ButtonsPrevious { get; set; }
 
     [Networked] private bool isGround { get; set; }
     [Networked] private bool isOnce { get; set; }
 
-    [SerializeField, Header("ƒWƒƒƒ“ƒv‚Ì—Í")] private float jumpPower = 10.0f;
-    [SerializeField, Header("d—Í")] private float gravity = 9.8f;
+    [SerializeField, Header("ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½vï¿½Ì—ï¿½")] private float jumpPower = 10.0f;
+    [SerializeField, Header("ï¿½dï¿½ï¿½")] private float gravity = 9.8f;
 
-    private Vector3 velocity;  // ƒvƒŒƒCƒ„[‚Ì‘¬“x
-    private bool isJumping;    // ƒWƒƒƒ“ƒv’†‚©‚Ç‚¤‚©    
+    private Vector3 velocity;  // ï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½Ì‘ï¿½ï¿½x
+    private bool isJumping;    // ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½Ç‚ï¿½ï¿½ï¿½    
 
     public override void Spawned()
     {
         animator = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
 
-        // Unity‚Ì©“®d—Í‚ÍƒIƒt‚É‚µ‚Ä‚¨‚­
+        // Unityï¿½Ìï¿½ï¿½ï¿½ï¿½dï¿½Í‚ÍƒIï¿½tï¿½É‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½
         GetComponent<NetworkRigidbody3D>().Rigidbody.useGravity = false;
     }
 
@@ -39,17 +39,17 @@ public class PlayerJumpNet : NetworkBehaviour
             var pressed = data.Buttons.GetPressed(ButtonsPrevious);
             ButtonsPrevious = data.Buttons;
 
-            //Debug.Log("’n–Ê‚É’…‚¢‚Ä‚¢‚é‚©: " + isGround);
+            //Debug.Log("ï¿½nï¿½Ê‚É’ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½é‚©: " + isGround);
 
-            // ƒWƒƒƒ“ƒvƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚êA‚©‚Â’n–Ê‚É‚¢‚é‚Æ‚«ƒWƒƒƒ“ƒv‚·‚é
+            // ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½vï¿½{ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½Â’nï¿½Ê‚É‚ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½vï¿½ï¿½ï¿½ï¿½
             if (pressed.IsSet(NetworkInputButtons.Jump) && isGround && !isJumping)
             {
                 RPC_Jump();
-                isJumping = true;  // ƒWƒƒƒ“ƒv’†‚Éİ’è
-                Debug.Log("ƒWƒƒƒ“ƒv‚µ‚Ü‚·");
+                isJumping = true;  // ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½vï¿½ï¿½ï¿½Éİ’ï¿½
+                Debug.Log("ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½vï¿½ï¿½ï¿½Ü‚ï¿½");
             }
 
-            // ©ì‚Ìd—ÍŒvZ‚ğ“K—p
+            // ï¿½ï¿½ï¿½ï¿½Ìdï¿½ÍŒvï¿½Zï¿½ï¿½Kï¿½p
             ApplyGravity();
         }
     } 
@@ -59,20 +59,20 @@ public class PlayerJumpNet : NetworkBehaviour
     {
         audioSource.PlayOneShot(jumpSE);
 
-        // ƒWƒƒƒ“ƒv‚Ì‰‘¬“x‚ğİ’è
+        // ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½vï¿½Ìï¿½ï¿½ï¿½ï¿½xï¿½ï¿½İ’ï¿½
         velocity.y = jumpPower;
-        isGround = false;  // ƒWƒƒƒ“ƒv‚µ‚½‚Ì‚Å’n–Ê‚É‚¢‚È‚¢ó‘Ô‚Éİ’è
+        isGround = false;  // ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½Ì‚Å’nï¿½Ê‚É‚ï¿½ï¿½È‚ï¿½ï¿½ï¿½Ô‚Éİ’ï¿½
     }
 
-    // d—Í‚ğè“®‚ÅŒvZ‚µ‚Ä“K—p‚·‚éƒƒ\ƒbƒh
+    // ï¿½dï¿½Í‚ï¿½ï¿½è“®ï¿½ÅŒvï¿½Zï¿½ï¿½ï¿½Ä“Kï¿½pï¿½ï¿½ï¿½éƒï¿½\ï¿½bï¿½h
     private void ApplyGravity()
     {
-        if (!isGround)  // ‹ó’†‚É‚¢‚éê‡‚É‚Ì‚İd—Í‚ğ“K—p
+        if (!isGround)  // ï¿½ó’†‚É‚ï¿½ï¿½ï¿½ê‡ï¿½É‚Ì‚İdï¿½Í‚ï¿½Kï¿½p
         {
-            // d—Í‰Á‘¬“x‚ğ‘¬“x‚É‰Á‚¦‚é
+            // ï¿½dï¿½Í‰ï¿½ï¿½ï¿½ï¿½xï¿½ğ‘¬“xï¿½É‰ï¿½ï¿½ï¿½ï¿½ï¿½
             velocity.y -= gravity * Runner.DeltaTime;
 
-            // ŒvZ‚µ‚½‘¬“x‚ğRigidbody‚É“K—p
+            // ï¿½vï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½xï¿½ï¿½Rigidbodyï¿½É“Kï¿½p
             Vector3 currentVelocity = GetComponent<NetworkRigidbody3D>().Rigidbody.velocity;
             GetComponent<NetworkRigidbody3D>().Rigidbody.velocity = new Vector3(currentVelocity.x, velocity.y, currentVelocity.z);
         }
@@ -80,12 +80,12 @@ public class PlayerJumpNet : NetworkBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        // ’n–Ê‚É’…’n‚µ‚½ê‡‚Ìˆ—
+        // ï¿½nï¿½Ê‚É’ï¿½ï¿½nï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Ìï¿½ï¿½ï¿½
         if (collision.gameObject.CompareTag("Ground"))
         {
             isGround = true;
-            isJumping = false;  // ƒWƒƒƒ“ƒvI—¹
-            velocity.y = 0;     // ‚’¼‘¬“x‚ğƒŠƒZƒbƒg
+            isJumping = false;  // ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½vï¿½Iï¿½ï¿½
+            velocity.y = 0;     // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½xï¿½ï¿½ï¿½ï¿½ï¿½Zï¿½bï¿½g
 
             animator.SetTrigger("JumpDown");
         }
@@ -93,7 +93,7 @@ public class PlayerJumpNet : NetworkBehaviour
 
     private void OnCollisionExit(Collision collision)
     {
-        // ’n–Ê‚©‚ç—£‚ê‚½ê‡‚Ìˆ—
+        // ï¿½nï¿½Ê‚ï¿½ï¿½ç—£ï¿½ê‚½ï¿½ê‡ï¿½Ìï¿½ï¿½ï¿½
         if (collision.gameObject.CompareTag("Ground"))
         {
             isGround = false;
