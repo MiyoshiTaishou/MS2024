@@ -36,7 +36,7 @@ public class ParryDisplayNet : NetworkBehaviour
         if (timer >= player.GetParryActiveTime())
         {
             timer = 0.0f;
-            //player.SetParryflg(false);
+            player.SetParryflg(false);
             gameObject.SetActive(false);
            
         }
