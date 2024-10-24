@@ -21,6 +21,7 @@ public class BossAttackArea : NetworkBehaviour
             Debug.Log("UŒ‚ƒqƒbƒg");
             box.GetComponent<ShareNumbers>().RPC_Damage();
             other.GetComponent<PlayerHP>().RPC_DamageAnim();
+            parent.GetComponent<BossAI>().RPC_AnimName();
 
             gameObject.SetActive(false);
         }        

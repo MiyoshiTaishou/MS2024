@@ -27,7 +27,7 @@ public class AttackAction : BossActionData
     }
 
     public override bool ExecuteAction(GameObject boss)
-    {
+    {       
         // UŒ‚ŠJn‚Ü‚Å‚ÌŠÔ‚ğ‘Ò‹@
         if (Time.time - attackStartTime < attackDuration)
         {
