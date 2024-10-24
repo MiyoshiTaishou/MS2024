@@ -6,10 +6,12 @@ using UnityEngine;
 public class BossAttackArea : NetworkBehaviour
 {
     GameObject box;
+    GameObject parent;
 
     public override void Spawned()
     {
         box = GameObject.Find("Networkbox");
+        parent = transform.parent.gameObject;
     }
   
     private void OnTriggerEnter(Collider other)

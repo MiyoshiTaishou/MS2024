@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 788142181416184284}
   - component: {fileID: 682116665772291497}
   - component: {fileID: 3719288773215115062}
+  - component: {fileID: 728711347568068367}
   m_Layer: 0
   m_Name: Boss2D
   m_TagString: Enemy
@@ -114,6 +115,7 @@ MonoBehaviour:
   - {fileID: 1948731134670389233}
   - {fileID: 9057512719745946127}
   - {fileID: 3719288773215115062}
+  - {fileID: 728711347568068367}
 --- !u!54 &6753317924662398587
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -179,7 +181,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9a4cc15da005cfc439088bef5a3b35f2, type: 2}
   - {fileID: 11400000, guid: 8aee5de206c9c8e4f893d9c9a335a215, type: 2}
   - {fileID: 11400000, guid: f7eceb93d7ac05645a1cf4119e7d40c6, type: 2}
+  animName: 
   _maxPlayerIndex: 2
+  _isInterrupted: 0
 --- !u!65 &-6834287320468394907
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -336,6 +340,19 @@ MonoBehaviour:
   SyncSettings: 79
   StateHashes: 000000004cf1e72e1eab98070d286c404e865f43cc60bdd948436b3669aa59422a046a41d3fb50db905563d8958341e27e40c91f
   TriggerHashes: 00000000b745de7f
+--- !u!114 &728711347568068367
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1249093349898992325}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95edc3367bb7a3f4a92c8fbdb2008766, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _nBossHP: 100
 --- !u!1001 &1111860687885315067
 PrefabInstance:
   m_ObjectHideFlags: 0
