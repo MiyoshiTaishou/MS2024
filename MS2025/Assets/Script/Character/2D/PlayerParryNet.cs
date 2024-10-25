@@ -1,9 +1,11 @@
 using Fusion;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
 public class PlayerParryNet : NetworkBehaviour
 {
@@ -40,21 +42,35 @@ public class PlayerParryNet : NetworkBehaviour
     //Camera Maincamera;
     //CinemaCharCamera cinemachar;
 
-    [SerializeField,Networked] bool Parryflg { get; set; } = false;
+    /// <summary>
+    /// パリィ状態かどうか
+    /// </summary>
+    [SerializeField,Networked] public bool isParry { get; private set; } = false;
+
+    /// <summary>
+    /// パリィ状態かどうか
+    /// </summary>
+    [SerializeField,Networked] bool isParrySuccess { get; set; } = false;
+
+    [SerializeField,Networked] bool isParryAnimation { get; set; } = false;
 
     HitStop hitStop;
-
-    [Networked] private bool PressKey { get; set; } = false;
 
     Knockback back;
 
     private NetworkRunner runner;
+    private NetworkObject networkobject;
+
+    [SerializeField,Networked] bool isHost { get; set; } = false;
+    //[SerializeField,ReadOnly] private bool _isHost => isHost;
+
+    private GameObject playerhost;
 
     //表示時間のゲッター
     public float GetParryActiveTime() { return ParryActivetimeFrame; }
 
     //パリィ状態かどうか
-    public void SetParryflg(bool flg) { Parryflg = flg; }
+    public void SetParryflg(bool flg) { isParry = flg; }
 
     // アニメーション名をネットワーク同期させる
     [Networked]
@@ -65,11 +81,10 @@ public class PlayerParryNet : NetworkBehaviour
     /// </summary>
     public bool ParryCheck()
     {
-        // Debug.Log("パリィ!!!");
+        //Debug.Log("パリィ!!!");
 
-        if (ParryArea.activeSelf)
+        if (isParry)
         {
-            ParrySystem();
             return true;
         }
         else
@@ -78,6 +93,15 @@ public class PlayerParryNet : NetworkBehaviour
         }
 
     }
+    public void Counter()
+    {
+
+        if (ParryArea.GetComponent<ParryDisplayNet>().Hit)
+        {
+            RPC_ParrySystem();
+        }
+    }
+
 
     /// <summary>
     /// パリィ状態かどうかのチェック(パリィジャンプ用)
@@ -120,19 +144,41 @@ public class PlayerParryNet : NetworkBehaviour
         ParryArea.gameObject.SetActive(false);
 
         //フレームに直す
-        //Debug.Log(Application.targetFrameRate);
         HitStopFrame = HitStop / 60;
         ParryActivetimeFrame = ParryActivetime / 60;
 
         ParryArea.transform.localScale = scale;
+        networkobject = FindObjectOfType<NetworkObject>();
+
+        if (Object.HasStateAuthority)
+        {
+            Debug.Log("ホストです");
+           isHost= true;
+        }
 
 
+        // "Player(Clone)"という名前のオブジェクトを全て取得
+        GameObject[] players = FindObjectsOfType<GameObject>();
+
+        foreach (GameObject player in players)
+        {
+            if (player.name == "Player(Clone)")
+            {
+
+               if( player.GetComponent<PlayerParryNet>().isHost)
+                {
+                    playerhost = player;
+                }
+            }
+        }
     }
 
     public void Area()
     {
         ParryArea.SetActive(true);
-        Parryflg = true;
+        isParry = true;
+        isParryAnimation = true;
+
     }
 
     [Rpc(RpcSources.All, RpcTargets.All)]
@@ -167,29 +213,35 @@ public class PlayerParryNet : NetworkBehaviour
     /// </summary>
     public void ParrySystem()
     {
+
+        Debug.Log("パリィシステム");
         audioSource.PlayOneShot(ParrySuccessSE);
 
         animator.Play("APlayerCounter");
+       // animator.SetTrigger("ParrySuccess"); // アニメーションのトリガー
 
-        hitStop.ApplyHitStop(HitStopFrame);
+        //hitStop.ApplyHitStop(HitStopFrame);
         //cinemachar.CameraZoom(this.character.transform, 5,0.5f);
-        back.ApplyKnockback(transform.forward, KnockbackPower);
+       // back.ApplyKnockback(transform.forward, KnockbackPower);
         ParryArea.GetComponent<ParryDisplayNet>().Init();
+
+        isParrySuccess = true;
     }
 
     [Rpc(RpcSources.All, RpcTargets.All)]
     public void RPC_ParrySystem()
     {
-        ParrySystem();
+        if (ParryArea.GetComponent<ParryDisplayNet>().Hit)
+            ParrySystem();
     }
 
     public void ParryStart()
     {
         audioSource.PlayOneShot(ParrySE);
+       // animator.SetTrigger("Parry"); // アニメーションのトリガー
 
         animator.Play("APlayerParry");
         ParryArea.SetActive(true);
-        Parryflg = true;
     }
 
 
@@ -209,9 +261,9 @@ public class PlayerParryNet : NetworkBehaviour
             ButtonsPrevious = data.Buttons;
 
             // Attackボタンが押されたか、かつアニメーションが再生中でないかチェック
-            if (pressed.IsSet(NetworkInputButtons.Parry) && !Parryflg)
+            if (pressed.IsSet(NetworkInputButtons.Parry) && !isParry)
             {
-                Debug.Log("パリィ開始");
+                
                 ParryStart();
                 RPC_ParryArea();
             }
@@ -222,6 +274,7 @@ public class PlayerParryNet : NetworkBehaviour
 
     public override void Render()
     {
+
         if (Object.HasStateAuthority)
         {
             return;
@@ -231,10 +284,39 @@ public class PlayerParryNet : NetworkBehaviour
         // 現在のアニメーションの状態を取得
         AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
         // 攻撃フラグが立っている場合にアニメーションをトリガー
-        if (Parryflg && Animator.StringToHash("Parry") != stateInfo.shortNameHash) //パリィアニメーション中かどうか
+
+        if(playerhost)
         {
+            // "Player(Clone)"という名前のオブジェクトを全て取得
+            GameObject[] players = FindObjectsOfType<GameObject>();
+
+            foreach (GameObject player in players)
+            {
+                if (player.name == "Player(Clone)")
+                {
+
+                    if (player.GetComponent<PlayerParryNet>().isHost)
+                    {
+                        playerhost = player;
+                    }
+                }
+            }
+
+        }
+
+        if (playerhost.GetComponent<PlayerParryNet>().isParrySuccess ) //パリィアニメーション中かどうか
+        {
+            Debug.Log("パリィカウンター");
+            animator.Play("APlayerCounter");
+            playerhost.GetComponent<PlayerParryNet>().isParrySuccess = false;
+        }
+        
+        else if (isParry && isParryAnimation) //パリィアニメーション中かどうか
+        {
+            Debug.Log("パリィ");
+
             animator.SetTrigger("Parry"); // アニメーションのトリガー
-            //Parryflg = false; // フラグをリセット
+            isParryAnimation = false; // フラグをリセット
         }
     }
 }
