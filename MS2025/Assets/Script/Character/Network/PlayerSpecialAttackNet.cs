@@ -8,9 +8,12 @@ public class PlayerSpecialAttackNet : NetworkBehaviour
 {
     [Networked] public NetworkButtons ButtonsPrevious { get; set; }
     [Networked] public int specialNum { get; set; }
+    [Networked] public int specialDamage { get; set; }
    
     GameObject director;
     GameObject comboCountObject;
+
+    int magnification = 2;
 
     public override void Spawned()
     {
@@ -29,6 +32,9 @@ public class PlayerSpecialAttackNet : NetworkBehaviour
             //攻撃ボタンを押したときにコンボカウントが指定の数を超えてる場合再生
             if (pressed.IsSet(NetworkInputButtons.Attack) && comboCountObject.GetComponent<ShareNumbers>().nCombo == specialNum)
             {
+                //倍率計算式
+                magnification = (comboCountObject.GetComponent<ShareNumbers>().nCombo - 10) / 5 * 2 + 2;
+
                 RPC_SpecialAttack();
             }
 
