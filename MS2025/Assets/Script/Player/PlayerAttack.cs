@@ -81,11 +81,28 @@ public class PlayerAttack : NetworkBehaviour
         AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
 
         // 攻撃フラグが立っている場合にアニメーションをトリガー
-        if (isOnce)
+        if (isOnce&& currentCombo==0)
         {
-            animator.SetTrigger("Attack"); // アニメーションのトリガー
+            Debug.LogError("壱の秘剣");
+            //animator.SetTrigger("Attack"); // アニメーションのトリガー
+            animator.Play("APlayerAttack");
             isOnce = false; // フラグをリセット
         }
+        else if (isOnce&& currentCombo==1)
+        {
+            //Debug.LogError("弐の秘剣");
+            //animator.SetTrigger("Attack2"); // アニメーションのトリガー
+            animator.Play("APlayerAttack2");
+            isOnce = false; // フラグをリセット
+        }
+        else if (isOnce&& currentCombo>=2)
+        {
+            //Debug.LogError("終の秘剣");
+            //animator.SetTrigger("Attack3"); // アニメーションのトリガー
+            animator.Play("APlayerAttack3");
+            isOnce = false; // フラグをリセット
+        }
+
 
         //// アニメーションが再生中である場合の処理
         //if (stateInfo.IsName("APlayerAttack"))
