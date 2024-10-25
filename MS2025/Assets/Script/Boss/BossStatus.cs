@@ -30,6 +30,8 @@ public class BossStatus : NetworkBehaviour
     {
         nBossHP -= _damage;
 
+        slider.value = nBossHP;
+
         // HP‚ª0ˆÈ‰º‚È‚çíœˆ—‚ğŒÄ‚Ô
         if (nBossHP <= 0)
         {
@@ -56,8 +58,6 @@ public class BossStatus : NetworkBehaviour
 
     public override void FixedUpdateNetwork()
     {
-
-        slider.value = nBossHP;
 
         // HP‚ª0ˆÈ‰º‚Ìê‡‚Éíœˆ—‚ğÀs
         if (nBossHP <= 0 && Object.HasStateAuthority)
