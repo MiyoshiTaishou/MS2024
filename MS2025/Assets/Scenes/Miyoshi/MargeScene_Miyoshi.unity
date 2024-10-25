@@ -1280,6 +1280,16 @@ PrefabInstance:
       propertyPath: m_Size.x
       value: 0.62
       objectReference: {fileID: 0}
+    - target: {fileID: 728711347568068367, guid: 745fd90e17809384d980f68c8c476341,
+        type: 3}
+      propertyPath: slider
+      value: 
+      objectReference: {fileID: 1169585701}
+    - target: {fileID: 728711347568068367, guid: 745fd90e17809384d980f68c8c476341,
+        type: 3}
+      propertyPath: Damageparticle
+      value: 
+      objectReference: {fileID: 1221183373}
     - target: {fileID: 1249093349898992325, guid: 745fd90e17809384d980f68c8c476341,
         type: 3}
       propertyPath: m_Name
@@ -1360,6 +1370,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 745fd90e17809384d980f68c8c476341, type: 3}
+--- !u!1 &243610435 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1249093349898992325, guid: 745fd90e17809384d980f68c8c476341,
+    type: 3}
+  m_PrefabInstance: {fileID: 243610434}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &263754799
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1908,6 +1924,8 @@ PlayableDirector:
     value: {fileID: 486166641}
   - key: {fileID: 5507217895212690959, guid: bf99dbd0da35510408fa06f10c3ddf77, type: 2}
     value: {fileID: 1256850504}
+  - key: {fileID: 8010758993068304949, guid: bf99dbd0da35510408fa06f10c3ddf77, type: 2}
+    value: {fileID: 1361234503}
   m_ExposedReferences:
     m_References: []
 --- !u!4 &349188487
@@ -5459,7 +5477,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 243610434}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 243610435}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b75be179e10814e42befb943a9ba5c07, type: 3}
@@ -5811,6 +5829,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 75272d9e04545f442ba51314bef17477, type: 3}
+--- !u!114 &1169585701 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 45328939054490748, guid: 75272d9e04545f442ba51314bef17477,
+    type: 3}
+  m_PrefabInstance: {fileID: 1169585700}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1174248795
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11281,6 +11311,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1543679455732522373, guid: 2d5a6b03460814e4d8ec665c744611bb,
+        type: 3}
+      propertyPath: Boss
+      value: 
+      objectReference: {fileID: 243610435}
     - target: {fileID: 5668343217354290683, guid: 2d5a6b03460814e4d8ec665c744611bb,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -11344,8 +11379,60 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6048116181023338960, guid: 2d5a6b03460814e4d8ec665c744611bb,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1361234503}
   m_SourcePrefab: {fileID: 100100000, guid: 2d5a6b03460814e4d8ec665c744611bb, type: 3}
+--- !u!1 &1361234501 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6048116181023338960, guid: 2d5a6b03460814e4d8ec665c744611bb,
+    type: 3}
+  m_PrefabInstance: {fileID: 1361234500}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1361234502 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1543679455732522373, guid: 2d5a6b03460814e4d8ec665c744611bb,
+    type: 3}
+  m_PrefabInstance: {fileID: 1361234500}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1361234501}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 181b379ce76c6e246bf1241580d0f61f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1361234503
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1361234501}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e52de21a22b6dd44c9cc19f810c65059, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Events:
+    m_Signals:
+    - {fileID: 11400000, guid: 3d1ba2a1d1be3a64086c271bdd09e6f5, type: 2}
+    m_Events:
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1361234502}
+          m_TargetAssemblyTypeName: ShareNumbers, Assembly-CSharp
+          m_MethodName: BossDamage
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!4 &1370369429 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5434024900227097190, guid: 8df6f17ff94a6f6499ffbbcbecb5e5d5,
