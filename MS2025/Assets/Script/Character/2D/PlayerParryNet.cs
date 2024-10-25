@@ -150,7 +150,7 @@ public class PlayerParryNet : NetworkBehaviour
         ParryArea.transform.localScale = scale;
         networkobject = FindObjectOfType<NetworkObject>();
 
-        if (Object.HasStateAuthority)
+        if (Object.HasInputAuthority)
         {
             Debug.Log("ホストです");
            isHost= true;
@@ -210,6 +210,7 @@ public class PlayerParryNet : NetworkBehaviour
         ParryArea.GetComponent<ParryDisplayNet>().Init();
 
         isParrySuccess = true;
+        isParry = false;
     }
 
     [Rpc(RpcSources.All, RpcTargets.All)]
@@ -233,7 +234,7 @@ public class PlayerParryNet : NetworkBehaviour
     {
         AnimatorStateInfo landAnimStateInfo = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
 
-        if (Object.HasStateAuthority && GetInput(out NetworkInputData data))
+        if (GetInput(out NetworkInputData data))
         {
             //パリィ中は動かせないようにする
             if (landAnimStateInfo.IsName("APlayerAtack1") || landAnimStateInfo.IsName("APlayerAtack2") || landAnimStateInfo.IsName("APlayerAtack3"))
@@ -259,7 +260,7 @@ public class PlayerParryNet : NetworkBehaviour
     public override void Render()
     {
 
-        if (Object.HasStateAuthority)
+        if (Object.HasInputAuthority)
         {
             return;
         }
@@ -269,7 +270,7 @@ public class PlayerParryNet : NetworkBehaviour
         AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
         // 攻撃フラグが立っている場合にアニメーションをトリガー
 
-        if(playerhost)
+        if(!playerhost)
         {
             // "Player(Clone)"という名前のオブジェクトを全て取得
             GameObject[] players = FindObjectsOfType<GameObject>();
@@ -278,7 +279,6 @@ public class PlayerParryNet : NetworkBehaviour
             {
                 if (player.name == "Player(Clone)")
                 {
-
                     if (player.GetComponent<PlayerParryNet>().isHost)
                     {
                         playerhost = player;
@@ -288,6 +288,17 @@ public class PlayerParryNet : NetworkBehaviour
 
         }
 
+        //Debug.Log("パリィ"+ playerhost.GetComponent<PlayerParryNet>().isParrySuccess);
+
+        if (playerhost.GetComponent<PlayerParryNet>().isParry && playerhost.GetComponent<PlayerParryNet>().isParryAnimation) //パリィアニメーション中かどうか
+        {
+            Debug.Log("パリィ");
+
+            animator.SetTrigger("Parry"); // アニメーションのトリガー
+            playerhost.GetComponent<PlayerParryNet>().isParryAnimation = false; // フラグをリセット
+            //playerhost.GetComponent<PlayerParryNet>().isParry = false;
+        }
+
         if (playerhost.GetComponent<PlayerParryNet>().isParrySuccess ) //パリィアニメーション中かどうか
         {
             Debug.Log("パリィカウンター");
@@ -295,12 +306,6 @@ public class PlayerParryNet : NetworkBehaviour
             playerhost.GetComponent<PlayerParryNet>().isParrySuccess = false;
         }
         
-        else if (isParry && isParryAnimation) //パリィアニメーション中かどうか
-        {
-            Debug.Log("パリィ");
 
-            animator.SetTrigger("Parry"); // アニメーションのトリガー
-            isParryAnimation = false; // フラグをリセット
-        }
     }
 }
