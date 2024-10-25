@@ -2,16 +2,23 @@ using Fusion;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BossStatus : NetworkBehaviour
 {
     [Networked,SerializeField]
     private int nBossHP { get; set; }
 
+    //Slider
+    public Slider slider;
+
     public override void Spawned()
     {
         nBossHP = 100;
+
     }
+
+
 
     /// <summary>
     /// ここのソースをしっかり設定しないと動作しない
@@ -22,6 +29,8 @@ public class BossStatus : NetworkBehaviour
     public void RPC_Damage(int _damage)
     {
         nBossHP -= _damage;
+
+        slider.value = nBossHP;
 
         // HPが0以下なら削除処理を呼ぶ
         if (nBossHP <= 0)
@@ -49,6 +58,7 @@ public class BossStatus : NetworkBehaviour
 
     public override void FixedUpdateNetwork()
     {
+
         // HPが0以下の場合に削除処理を実行
         if (nBossHP <= 0 && Object.HasStateAuthority)
         {
