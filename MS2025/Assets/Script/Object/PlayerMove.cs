@@ -1,5 +1,7 @@
 using UnityEngine;
 using Fusion;
+using Unity.VisualScripting;
+using UnityEngine.UIElements;
 
 public class PlayerMove : NetworkBehaviour
 {
@@ -12,6 +14,11 @@ public class PlayerMove : NetworkBehaviour
     private float maxSpeed = 5f; // 最大速度
 
     private Vector3 currentVelocity;
+
+    private Vector3 scale;
+
+    bool isReflection = false;
+
 
     private void Awake()
     {
@@ -26,6 +33,7 @@ public class PlayerMove : NetworkBehaviour
         // Rigidbodyの設定
         rb.constraints = RigidbodyConstraints.FreezeRotation; // 回転を固定
         //rb.useGravity = false; // 重力を使わない場合
+        scale = transform.localScale;
     }
 
     public override void FixedUpdateNetwork()
@@ -46,16 +54,49 @@ public class PlayerMove : NetworkBehaviour
             // Y軸速度を維持しながら、XとZ軸の移動を反映させる
             currentVelocity.y = currentYVelocity;
 
+            Vector3 nomaldata = Vector3.Normalize(data.Direction);
+            Vector3 nomalvel = Vector3.Normalize(currentVelocity);
+            float speed = Vector3.Magnitude(currentVelocity);
+            currentVelocity.x = nomaldata.x*speed;
+            currentVelocity.z = nomaldata.z*speed;
+
+
+            if ((data.Direction.x > 0.0f && currentVelocity.x < 0.0f)|| (data.Direction.x < 0.0f && currentVelocity.x > 0.0f))
+            {
+                currentVelocity.x = -currentVelocity.x;
+            }
+            if ((data.Direction.z > 0.0f && currentVelocity.z < 0.0f) || (data.Direction.z < 0.0f && currentVelocity.z > 0.0f))
+            {
+                currentVelocity.z = -currentVelocity.z;
+            }
+
             // 物理的な移動を行う
             rb.velocity = currentVelocity;
+            if (data.Direction.x > 0.0f)
+            {
+                isReflection = false;
+            }
+            else if(data.Direction.x < 0.0f)
+            {
+                isReflection = true;
+            }
         }
     }
 
     public override void Render()
     {
-        if(rb.velocity.x != 0.0f)
+        if (isReflection ==false)
         {
             animator.SetBool("IsMove", true);
+            transform.localScale = scale;
+        }
+        else if(isReflection == true)
+        {
+            animator.SetBool("IsMove", true);
+
+            Vector3 temp = scale;
+            temp.x = -scale.x;
+            transform.localScale = temp;
         }
         else
         {

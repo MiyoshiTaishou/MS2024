@@ -629,7 +629,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d47f8f1480f49ed44b8df07745059b57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  acceleration: 10
+  acceleration: 20
   maxSpeed: 5
 --- !u!114 &7588640461257048479
 MonoBehaviour:
@@ -664,7 +664,7 @@ MonoBehaviour:
   ParryActivetime: 3
   HitStop: 30
   KnockbackPower: 50
-  Parryflg: 0
+  _Parryflg: 0
 --- !u!114 &-5807025104072942480
 MonoBehaviour:
   m_ObjectHideFlags: 0
