@@ -70,7 +70,6 @@ public class PlayerAttack : NetworkBehaviour
                 //全プレイヤーにSEを再生する
                 RPC_SE();
             }
-
         }
         Attack();
     }
@@ -83,7 +82,7 @@ public class PlayerAttack : NetworkBehaviour
         // 攻撃フラグが立っている場合にアニメーションをトリガー
         if (isOnce&& currentCombo==0)
         {
-            Debug.LogError("壱の秘剣");
+            //Debug.LogError("壱の秘剣");
             //animator.SetTrigger("Attack"); // アニメーションのトリガー
             animator.Play("APlayerAttack");
             isOnce = false; // フラグをリセット

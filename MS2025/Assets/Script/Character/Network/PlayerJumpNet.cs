@@ -15,6 +15,7 @@ public class PlayerJumpNet : NetworkBehaviour
     [Networked] public NetworkButtons ButtonsPrevious { get; set; }
 
     [Networked] private bool isGround { get; set; }
+    public bool GetisGround() { return isGround; }
     [Networked] private bool isOnce { get; set; }
 
     [SerializeField, Header("�W�����v�̗�")] private float jumpPower = 10.0f;
