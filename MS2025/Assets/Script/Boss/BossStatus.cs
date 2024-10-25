@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 public class BossStatus : NetworkBehaviour
 {
@@ -11,15 +12,22 @@ public class BossStatus : NetworkBehaviour
     private int nBossHP { get; set; }
 
     //Slider
-    public Slider slider;
+    public UnityEngine.UI.Slider slider;
+    [Networked] private float sliderValue { get; set; }
 
     [Tooltip("被ダメージエフェクト")]
+
     public ParticleSystem Damageparticle;
+
+    private void Start()
+    {
+        slider.onValueChanged.AddListener(OnSliderValueChanged);
+    }
 
     public override void Spawned()
     {
         nBossHP = 100;
-
+        slider.value = sliderValue;
     }
 
 
@@ -69,10 +77,23 @@ public class BossStatus : NetworkBehaviour
         }
     }
 
+    private void OnSliderValueChanged(float value)
+    {
+        if (Object.HasInputAuthority)
+        {
+            // 入力権限を持つプレイヤーがスライダーを変更した場合、Networked Propertyに値を反映
+            sliderValue = value;
+        }
+    }
+
     public override void FixedUpdateNetwork()
     {
 
-        slider.value = nBossHP;
+        // Networked Propertyが変更された場合、UIに反映させる
+        if (!Object.HasInputAuthority)
+        {
+            slider.value = sliderValue;
+        }
 
         // HPが0以下の場合に削除処理を実行
         if (nBossHP <= 0 && Object.HasStateAuthority)
