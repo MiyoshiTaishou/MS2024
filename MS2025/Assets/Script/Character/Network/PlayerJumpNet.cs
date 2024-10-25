@@ -15,7 +15,6 @@ public class PlayerJumpNet : NetworkBehaviour
     [Networked] public NetworkButtons ButtonsPrevious { get; set; }
 
     [Networked] private bool isGround { get; set; }
-    public bool GetisGround() { return isGround; }
     [Networked] private bool isOnce { get; set; }
 
     [SerializeField, Header("�W�����v�̗�")] private float jumpPower = 10.0f;
@@ -23,7 +22,7 @@ public class PlayerJumpNet : NetworkBehaviour
 
     private Vector3 velocity;  // �v���C���[�̑��x
     private bool isJumping;    // �W�����v�����ǂ���    
-
+    public bool GetisJumping() { return isJumping; }
     public override void Spawned()
     {
         animator = GetComponent<Animator>();
