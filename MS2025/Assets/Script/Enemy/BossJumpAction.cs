@@ -60,8 +60,19 @@ public class BossJumpAction : BossActionData
                 rb.useGravity = true; // 重力を有効にして再び落下
                 isJumping = false;    // ジャンプ終了
             }
-        }
 
-        return !isJumping; // ジャンプが終了したら true を返す
+            return false;
+        }
+        else
+        {
+            if(rb.velocity.y == 0.0f)
+            {
+                return true; // ジャンプが終了したら true を返す
+            }
+            else
+            {
+                return false;
+            }
+        }       
     }
 }
