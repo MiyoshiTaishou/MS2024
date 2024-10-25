@@ -1,6 +1,7 @@
 using Fusion;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,6 +12,9 @@ public class BossStatus : NetworkBehaviour
 
     //Slider
     public Slider slider;
+
+    [Tooltip("被ダメージエフェクト")]
+    public ParticleSystem Damageparticle;
 
     public override void Spawned()
     {
@@ -31,6 +35,15 @@ public class BossStatus : NetworkBehaviour
         nBossHP -= _damage;
 
         slider.value = nBossHP;
+
+        // パーティクルシステムのインスタンスを生成
+        ParticleSystem newParticle = Instantiate(Damageparticle);
+        //最も近い場所にパーティクルを生成
+        newParticle.transform.position= new Vector3(this.transform.position.x,this.transform.position.y,this.transform.position.z);
+        // パーティクルを発生させる
+        newParticle.Play();
+        // インスタンス化したパーティクルシステムのGameObjectを1秒後に削除
+        Destroy(newParticle.gameObject, 1.0f);
 
         // HPが0以下なら削除処理を呼ぶ
         if (nBossHP <= 0)
