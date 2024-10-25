@@ -30,8 +30,6 @@ public class BossStatus : NetworkBehaviour
     {
         nBossHP -= _damage;
 
-   
-
         // HP‚ª0ˆÈ‰º‚È‚çíœˆ—‚ğŒÄ‚Ô
         if (nBossHP <= 0)
         {
