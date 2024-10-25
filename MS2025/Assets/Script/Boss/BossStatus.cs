@@ -2,16 +2,23 @@ using Fusion;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BossStatus : NetworkBehaviour
 {
     [Networked,SerializeField]
     private int nBossHP { get; set; }
 
+    //Slider
+    public Slider slider;
+
     public override void Spawned()
     {
         nBossHP = 100;
+        slider.value = nBossHP;
     }
+
+
 
     /// <summary>
     /// ‚±‚±‚Ìƒ\[ƒX‚ğ‚µ‚Á‚©‚èİ’è‚µ‚È‚¢‚Æ“®ì‚µ‚È‚¢
@@ -22,6 +29,8 @@ public class BossStatus : NetworkBehaviour
     public void RPC_Damage(int _damage)
     {
         nBossHP -= _damage;
+
+        slider.value = nBossHP;
 
         // HP‚ª0ˆÈ‰º‚È‚çíœˆ—‚ğŒÄ‚Ô
         if (nBossHP <= 0)
