@@ -11,9 +11,14 @@ public class ShareNumbers : NetworkBehaviour
 
     [Networked] public int nCombo { get; set; }
 
+    public GameObject Boss;
+
     [SerializeField] private GameObject[] HPUI;
 
     private bool isOnce = false;
+
+    int magnification = 2;
+    [SerializeField] int damage = 10;
 
     public void AddHitnum()
     {
@@ -74,6 +79,19 @@ public class ShareNumbers : NetworkBehaviour
         CurrentHP--;
 
         HPUI[CurrentHP].SetActive(false);
+    }
+    
+    public void BossDamage()
+    {        
+        //î{ó¶åvéZéÆ
+        magnification = (nCombo - 1) / 5 * 2 + 2;
+        int totalDamage = magnification * damage;
+
+        Debug.Log("ïKéEãZÉ_ÉÅÅ[ÉW" + totalDamage);
+
+        Boss.GetComponent<BossStatus>().RPC_Damage(totalDamage);
+
+        nCombo = 0;
     }
 
     public override void Spawned()
