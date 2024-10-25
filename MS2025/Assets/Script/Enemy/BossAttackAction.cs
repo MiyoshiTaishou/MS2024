@@ -6,6 +6,7 @@ public class AttackAction : BossActionData
     public float attackRange;
     public float attackDuration;  // 攻撃を行うまでの待機時間
     public float attackAnimSpeed;  // アニメーションの速度
+    public Vector3 attackScale;
 
     public string attackAreaName; // 攻撃エリアの名前（ボスの子オブジェクトの名前）
     private GameObject attackArea; // 既存の攻撃エリアの参照
@@ -25,6 +26,7 @@ public class AttackAction : BossActionData
 
         // ボスの子オブジェクトから攻撃エリアを取得
         attackArea = boss.transform.Find(attackAreaName)?.gameObject;
+        attackArea.transform.localScale = attackScale;
         boss.GetComponent<Animator>().speed = attackAnimSpeed;
     }
 
