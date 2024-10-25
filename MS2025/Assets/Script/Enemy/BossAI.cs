@@ -10,6 +10,7 @@ public class BossAI : NetworkBehaviour
     private BossActionData currentAction;
     private bool isActionInitialized = false;
     private Animator animator;
+    private bool isOnce = false;
 
     [SerializeField, Header("ノックバックのアニメーション名")]
     private string animName;
@@ -20,6 +21,9 @@ public class BossAI : NetworkBehaviour
     [Networked] private int currentSequenceIndex { get; set; }
     [Networked, SerializeField] private int maxPlayerIndex { get; set; }
     [Networked, SerializeField] public bool isInterrupted { get; set; }
+    [Networked, SerializeField] public bool isDown { get; set; }
+
+    public BossActionData downAction;
 
     // アニメーション名をネットワーク同期させる
     [Networked]
@@ -59,6 +63,17 @@ public class BossAI : NetworkBehaviour
             return;
         }
 
+        if (isDown && !isOnce)
+        {
+            Debug.Log("ダウン");
+            currentAction = downAction;
+            currentActionIndex = 0;
+            isActionInitialized = false;
+            isOnce = true;
+
+            return;
+        }
+
         if (currentAction == null) return;
 
         if (!isActionInitialized)
@@ -69,7 +84,7 @@ public class BossAI : NetworkBehaviour
         if (currentAction.ExecuteAction(gameObject))
         {
             StartNextAction(); // アクション完了後に次のアクションに進む
-        }
+        }      
     }
 
     private void HandleInterruption()
@@ -143,13 +158,28 @@ public class BossAI : NetworkBehaviour
 
     void StartNextAction()
     {
-        // リストが空かどうかだけチェックして、必要なら更新する
         if (players == null || players.Count < maxPlayerIndex)
         {
             Debug.LogError("Not enough players available!");
             return;
         }
 
+        if (isDown)
+        {
+            Debug.Log("ダウン完了");
+            currentActionIndex = 0;
+            currentSequenceIndex = Random.Range(0, actionSequence.Length);
+
+            currentAction = downAction; // ダウンアクションを設定
+            isActionInitialized = false;
+
+            isDown = false; // ダウン状態を解除
+            isOnce = false; // フラグをリセット
+
+            return;
+        }
+
+        // 通常のアクションシーケンスの処理
         if (currentActionIndex >= actionSequence[currentSequenceIndex].actions.Length)
         {
             Debug.Log("All actions completed");
@@ -157,16 +187,14 @@ public class BossAI : NetworkBehaviour
             currentSequenceIndex = Random.Range(0, actionSequence.Length);
         }
 
-        // 次のアクションを設定
         currentAction = actionSequence[currentSequenceIndex].actions[currentActionIndex];
         isActionInitialized = false;
         currentActionIndex++;
 
         Debug.Log($"Starting Action: {currentAction.name}");
-
-        // ターゲットを次のプレイヤーに変更
         currentPlayerIndex = (currentPlayerIndex + 1) % players.Count;
     }
+
 
     public override void Render()
     {
