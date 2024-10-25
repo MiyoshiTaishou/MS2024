@@ -179,12 +179,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   actionSequence:
   - {fileID: 11400000, guid: 8270a123ca69dbe42a168434b5d8d841, type: 2}
-  - {fileID: 11400000, guid: 9a4cc15da005cfc439088bef5a3b35f2, type: 2}
-  - {fileID: 11400000, guid: 8aee5de206c9c8e4f893d9c9a335a215, type: 2}
-  - {fileID: 11400000, guid: f7eceb93d7ac05645a1cf4119e7d40c6, type: 2}
+  - {fileID: 11400000, guid: 8270a123ca69dbe42a168434b5d8d841, type: 2}
+  - {fileID: 11400000, guid: 8270a123ca69dbe42a168434b5d8d841, type: 2}
+  - {fileID: 11400000, guid: 8270a123ca69dbe42a168434b5d8d841, type: 2}
   animName: Leisure
   _maxPlayerIndex: 1
   _isInterrupted: 0
+  _isDown: 0
+  downAction: {fileID: 11400000, guid: 1041b2b8e439b384d80347ea7b971b0b, type: 2}
 --- !u!65 &-6834287320468394907
 BoxCollider:
   m_ObjectHideFlags: 0
