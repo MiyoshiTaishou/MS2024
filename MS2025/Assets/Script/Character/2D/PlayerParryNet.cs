@@ -155,22 +155,6 @@ public class PlayerParryNet : NetworkBehaviour
             Debug.Log("ホストです");
            isHost= true;
         }
-
-
-        // "Player(Clone)"という名前のオブジェクトを全て取得
-        GameObject[] players = FindObjectsOfType<GameObject>();
-
-        foreach (GameObject player in players)
-        {
-            if (player.name == "Player(Clone)")
-            {
-
-               if( player.GetComponent<PlayerParryNet>().isHost)
-                {
-                    playerhost = player;
-                }
-            }
-        }
     }
 
     public void Area()
@@ -196,7 +180,7 @@ public class PlayerParryNet : NetworkBehaviour
         AnimatorStateInfo landAnimStateInfo2 = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
 
         //パリィ中は動かせないようにする
-        if (landAnimStateInfo2.IsName("APlayerAttack") || landAnimStateInfo2.IsName("APlayerAttack2") || landAnimStateInfo2.IsName("APlayerAttack3"))
+        if (landAnimStateInfo2.IsName("APlayerAtack1") || landAnimStateInfo2.IsName("APlayerAtack2") || landAnimStateInfo2.IsName("APlayerAtack3"))
         {
             return;
         }
@@ -252,7 +236,7 @@ public class PlayerParryNet : NetworkBehaviour
         if (Object.HasStateAuthority && GetInput(out NetworkInputData data))
         {
             //パリィ中は動かせないようにする
-            if (landAnimStateInfo.IsName("APlayerAttack") || landAnimStateInfo.IsName("APlayerAttack2") || landAnimStateInfo.IsName("APlayerAttack3"))
+            if (landAnimStateInfo.IsName("APlayerAtack1") || landAnimStateInfo.IsName("APlayerAtack2") || landAnimStateInfo.IsName("APlayerAtack3"))
             {
                 return;
             }
