@@ -10,14 +10,16 @@ public class AttackAreaDamage : NetworkBehaviour
     PlayerAttack attack;
     ShareNumbers sharenum;
     ComboSystem combo;
+    PlayerRaise raise;
     public override void Spawned()
     {
         player = transform.parent.gameObject;
         attack = player.GetComponent<PlayerAttack>();
+        raise = player.GetComponent<PlayerRaise>();
         netobj = GameObject.Find("Networkbox");
         if (netobj == null)
         {
-            Debug.LogError("‚â‚Á‚Î‚¢‚Ë");
+            Debug.LogError("ƒlƒbƒg‚Ì” ‚ª–³‚¢‚æ");
         }
         sharenum = netobj.GetComponent<ShareNumbers>();
         combo = netobj.GetComponent<ComboSystem>();
@@ -31,6 +33,10 @@ public class AttackAreaDamage : NetworkBehaviour
                 other.GetComponent<BossStatus>().RPC_Damage(10);
                 sharenum.AddHitnum();
                 RPCCombo();
+                if(raise.GetisRaise())
+                {
+                    Debug.Log("—´’Ä‘M");
+                }
             }
         }      
     }
