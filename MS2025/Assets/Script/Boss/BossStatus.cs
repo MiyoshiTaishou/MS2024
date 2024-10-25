@@ -13,6 +13,8 @@ public class BossStatus : NetworkBehaviour
         nBossHP = 100;
     }
 
+
+
     /// <summary>
     /// ここのソースをしっかり設定しないと動作しない
     /// このオブジェクトがどの権限を持っているか考えてやること
