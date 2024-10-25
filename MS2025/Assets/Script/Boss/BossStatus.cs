@@ -9,13 +9,16 @@ public class BossStatus : NetworkBehaviour
     [Networked,SerializeField]
     private int nBossHP { get; set; }
 
+    //Slider
+    public Slider slider;
+
     public override void Spawned()
     {
         nBossHP = 100;
+        slider.value = nBossHP;
     }
 
-    //Slider
-    public Slider slider;
+
 
     /// <summary>
     /// ‚±‚±‚Ìƒ\[ƒX‚ğ‚µ‚Á‚©‚èİ’è‚µ‚È‚¢‚Æ“®ì‚µ‚È‚¢
@@ -26,6 +29,8 @@ public class BossStatus : NetworkBehaviour
     public void RPC_Damage(int _damage)
     {
         nBossHP -= _damage;
+
+        slider.value = nBossHP;
 
         // HP‚ª0ˆÈ‰º‚È‚çíœˆ—‚ğŒÄ‚Ô
         if (nBossHP <= 0)
