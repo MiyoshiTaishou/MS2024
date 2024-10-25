@@ -8,7 +8,7 @@ using UnityEngine.UIElements;
 
 public class BossStatus : NetworkBehaviour
 {
-    [Networked,SerializeField]
+    [Networked, SerializeField]
     private int nBossHP { get; set; }
 
     //Slider
@@ -27,7 +27,8 @@ public class BossStatus : NetworkBehaviour
     public override void Spawned()
     {
         nBossHP = 100;
-        slider.value = sliderValue;
+        slider.value = nBossHP;
+        sliderValue = nBossHP; // 初期値としてnBossHPをsliderValueに設定
     }
 
 
@@ -42,7 +43,10 @@ public class BossStatus : NetworkBehaviour
     {
         nBossHP -= _damage;
 
-        slider.value = nBossHP;
+        sliderValue = nBossHP; // スライダー値を更新
+
+        // スライダーの値も同期させる
+        slider.value = sliderValue;
 
         // パーティクルシステムのインスタンスを生成
         ParticleSystem newParticle = Instantiate(Damageparticle);
@@ -92,7 +96,7 @@ public class BossStatus : NetworkBehaviour
         // Networked Propertyが変更された場合、UIに反映させる
         if (!Object.HasInputAuthority)
         {
-            slider.value = sliderValue;
+            slider.value = sliderValue; // sliderValueをクライアントに反映
         }
 
         // HPが0以下の場合に削除処理を実行
