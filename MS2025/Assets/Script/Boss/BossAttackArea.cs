@@ -18,6 +18,15 @@ public class BossAttackArea : NetworkBehaviour
     {       
         if (other.CompareTag("Player"))
         {
+            if (other.GetComponent<PlayerParryNet>().ParryCheck())
+            {
+                Debug.Log("パリィ成功");
+                other.GetComponent<PlayerParryNet>().RPC_ParrySystem();
+                gameObject.SetActive(false);
+
+                return;
+            }
+
             Debug.Log("攻撃ヒット");
             box.GetComponent<ShareNumbers>().RPC_Damage();
             other.GetComponent<PlayerHP>().RPC_DamageAnim();

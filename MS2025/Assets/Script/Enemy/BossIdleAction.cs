@@ -8,11 +8,14 @@ public class WaitAction : BossActionData
 
     public override void InitializeAction(GameObject boss, Transform player)
     {
-        waitStartTime = Time.time;       
+        waitStartTime = Time.time;     
+        boss.GetComponent<Rigidbody>().useGravity = true;
     }
 
     public override bool ExecuteAction(GameObject boss)
     {
+        boss.GetComponent<Rigidbody>().useGravity = true;
+
         if (Time.time - waitStartTime >= waitDuration)
         {
             return true; // ƒAƒNƒVƒ‡ƒ“Š®—¹

@@ -11,7 +11,7 @@ public class ParryDisplayNet : NetworkBehaviour
 
     [SerializeField] PlayerParryNet player;
 
-    public bool Hit {  get; private set; } =false;
+    [Networked] public bool Hit {  get; private set; } =false;
 
     public override void Spawned()
     {
