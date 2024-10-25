@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerRaise : NetworkBehaviour
 {
-    private float jumpPower = 10.0f;
+    private float jumpPower = 500.0f;
     PlayerJumpNet jump;
 
     [Networked] private bool isRaise { get; set; }
@@ -16,22 +16,17 @@ public class PlayerRaise : NetworkBehaviour
 
     public override void Spawned()
     {
-        isRaise = true;
+        isRaise = false;
+        jump= GetComponent<PlayerJumpNet>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     private void OnTriggerEnter(UnityEngine.Collider other)
     {
-        if (jump.GetisGround() && other.GetComponent<ParryDisplayNet>()&&other.transform.parent!=this)
+        if (jump.GetisJumping() && other.GetComponent<ParryDisplayNet>()&&other.transform.parent!=this)
         {
-            Vector3 vel =  GetComponent<NetworkRigidbody3D>().Rigidbody.velocity;
-            vel.y = jumpPower;
-            GetComponent<NetworkRigidbody3D>().Rigidbody.velocity = vel;
+            GetComponent<NetworkRigidbody3D>().Rigidbody.AddForce(new Vector3(0.0f,jumpPower,0.0f),ForceMode.Impulse);
+            Debug.LogError("‚Æ‚ñ‚Å‚é‚æ‚§‚§‚§");
         }
     }
 }
