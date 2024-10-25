@@ -13,7 +13,8 @@ public class BossStatus : NetworkBehaviour
         nBossHP = 100;
     }
 
-
+    //Slider
+    public Slider slider;
 
     /// <summary>
     /// ‚±‚±‚Ìƒ\[ƒX‚ğ‚µ‚Á‚©‚èİ’è‚µ‚È‚¢‚Æ“®ì‚µ‚È‚¢
