@@ -9,8 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd033dd57bc167b4f9ea45baa925a3f5, type: 3}
-  m_Name: WaitAction
+  m_Script: {fileID: 11500000, guid: 29429c0f62db2354f954e021ed15468f, type: 3}
+  m_Name: TestActionSequence
   m_EditorClassIdentifier: 
-  actionName: Idol
-  waitDuration: 3
+  actions:
+  - {fileID: 11400000, guid: 95d52130467f7e9409dda4b2d290d9ac, type: 2}
+  - {fileID: 11400000, guid: f184126ce97c97342bbe1839d0c57f63, type: 2}
