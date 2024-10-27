@@ -6,6 +6,7 @@ public class BossJumpAction : BossActionData
     public float jumpDuration;  // 空中で留まる時間
     public float jumpPower;     // ジャンプ力
     public float jumpHeight;    // ジャンプの高さ制限
+    public AudioClip attackClip;
 
     private float jumpStartTime;
     private bool isJumping;     // ジャンプ中かどうか
@@ -29,6 +30,9 @@ public class BossJumpAction : BossActionData
 
         // 開始地点の記録
         startPos = boss.transform.position;
+
+        boss.GetComponent<AudioSource>().clip = attackClip;
+        boss.GetComponent<AudioSource>().Play();
     }
 
     public override bool ExecuteAction(GameObject boss)
