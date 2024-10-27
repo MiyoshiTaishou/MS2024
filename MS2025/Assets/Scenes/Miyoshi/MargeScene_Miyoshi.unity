@@ -5808,6 +5808,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: MainGameUI
       objectReference: {fileID: 0}
+    - target: {fileID: 6496054810915026121, guid: 75272d9e04545f442ba51314bef17477,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6672554692622777755, guid: 75272d9e04545f442ba51314bef17477,
         type: 3}
       propertyPath: m_fontAsset
@@ -5817,12 +5822,17 @@ PrefabInstance:
     - target: {fileID: 6672554692622777755, guid: 75272d9e04545f442ba51314bef17477,
         type: 3}
       propertyPath: m_hasFontAssetChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7191365256196692971, guid: 75272d9e04545f442ba51314bef17477,
         type: 3}
       propertyPath: m_TagString
       value: Untagged
+      objectReference: {fileID: 0}
+    - target: {fileID: 8216073909790480347, guid: 75272d9e04545f442ba51314bef17477,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5831,7 +5841,7 @@ PrefabInstance:
   m_SourcePrefab: {fileID: 100100000, guid: 75272d9e04545f442ba51314bef17477, type: 3}
 --- !u!114 &1169585701 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 45328939054490748, guid: 75272d9e04545f442ba51314bef17477,
+  m_CorrespondingSourceObject: {fileID: 2180834813807901401, guid: 75272d9e04545f442ba51314bef17477,
     type: 3}
   m_PrefabInstance: {fileID: 1169585700}
   m_PrefabAsset: {fileID: 0}
