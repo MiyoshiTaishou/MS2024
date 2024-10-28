@@ -19,8 +19,12 @@ public class PlayerMove : NetworkBehaviour
 
     bool isReflection = false;
 
+    GameObject comboCountObject;
 
-    private void Awake()
+    [Networked]
+    public bool isMove { get; set; }
+
+    public override void Spawned()
     {
         animator = GetComponent<Animator>();
 
@@ -34,10 +38,18 @@ public class PlayerMove : NetworkBehaviour
         rb.constraints = RigidbodyConstraints.FreezeRotation; // 回転を固定
         //rb.useGravity = false; // 重力を使わない場合
         scale = transform.localScale;
-    }
 
+        comboCountObject = GameObject.Find("Networkbox");
+    }
+  
     public override void FixedUpdateNetwork()
     {
+        
+        if(comboCountObject.GetComponent<ShareNumbers>().isSpecial)
+        {
+            return;
+        }
+
         // ネットワークインプットデータを受け取り計算する
         if (GetInput(out NetworkInputData data))
         {
