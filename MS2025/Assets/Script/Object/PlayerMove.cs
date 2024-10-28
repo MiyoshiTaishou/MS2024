@@ -49,6 +49,14 @@ public class PlayerMove : NetworkBehaviour
         {
             return;
         }
+        AnimatorStateInfo landAnimStateInfo = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
+
+        //パリィ中は動かせないようにする
+        if (landAnimStateInfo.IsName("APlayerParry") || landAnimStateInfo.IsName("APlayerCounter") )
+        {
+            rb.velocity = new Vector3(0, 0, 0);
+            return;
+        }
 
         // ネットワークインプットデータを受け取り計算する
         if (GetInput(out NetworkInputData data))
