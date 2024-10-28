@@ -33,6 +33,7 @@ public class BossJumpAction : BossActionData
 
         boss.GetComponent<AudioSource>().clip = attackClip;
         boss.GetComponent<AudioSource>().Play();
+        boss.GetComponent<BossAI>().isAir = true;
     }
 
     public override bool ExecuteAction(GameObject boss)
@@ -71,6 +72,7 @@ public class BossJumpAction : BossActionData
         {
             if(rb.velocity.y == 0.0f)
             {
+                boss.GetComponent<BossAI>().isAir = false;
                 return true; // ƒWƒƒƒ“ƒv‚ªI—¹‚µ‚½‚ç true ‚ğ•Ô‚·
             }
             else
