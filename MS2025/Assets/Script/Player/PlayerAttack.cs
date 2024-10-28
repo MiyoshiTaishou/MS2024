@@ -20,7 +20,8 @@ public class PlayerAttack : NetworkBehaviour
     [Networked] private bool isPlayingAnimation { get; set; }
     [Networked] public NetworkButtons ButtonsPrevious { get; set; }
 
-    [Header("çUåÇSE"), SerializeField] private AudioClip attackSE;
+    [Header("çUåÇSE"), SerializeField] private AudioClip[] attackSE;
+
 
     [SerializeField, Tooltip("î≠ê∂f")]
     int Startup;
@@ -117,8 +118,22 @@ public class PlayerAttack : NetworkBehaviour
 
     [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
     public void RPC_SE()
-    {       
-        audioSource.PlayOneShot(attackSE);
+    {
+        switch (currentCombo) 
+        {
+            case 0:
+                audioSource.PlayOneShot(attackSE[0]);
+                break;
+            case 1:
+                audioSource.PlayOneShot(attackSE[1]);
+                break;
+            case 2:
+                audioSource.PlayOneShot(attackSE[2]);
+                break;
+            default: 
+                break;
+        }
+        audioSource.PlayOneShot(attackSE[0]);
         isAttack = true; // çUåÇÉtÉâÉOÇóßÇƒÇÈ
         isPlayingAnimation = true;
         isOnce = true;
