@@ -510,7 +510,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   netobj: {fileID: 6048116181023338960, guid: 2d5a6b03460814e4d8ec665c744611bb, type: 3}
   _currentCombo: 0
-  attackSE: {fileID: 8300000, guid: 7f8551571fc385f49a953b336bb48b06, type: 3}
+  attackSE:
+  - {fileID: 8300000, guid: b281b9192f65f4c48996b8acc78e3ed9, type: 3}
+  - {fileID: 8300000, guid: e321da4a14b2787498ea392863a83a76, type: 3}
+  - {fileID: 8300000, guid: 1da7497ed5fe7704bb8dc7f629c54e17, type: 3}
   Startup: 5
   Active: 5
   Recovery: 10
