@@ -11,6 +11,8 @@ public class ShareNumbers : NetworkBehaviour
 
     [Networked] public int nCombo { get; set; }
 
+    [Networked] public bool isSpecial { get; set; }
+
     public GameObject Boss;
 
     [SerializeField] private GameObject[] HPUI;
@@ -92,6 +94,13 @@ public class ShareNumbers : NetworkBehaviour
         Boss.GetComponent<BossStatus>().RPC_Damage(totalDamage);
 
         nCombo = 0;
+
+        isSpecial = false;
+    }
+
+    public void SpecialStart()
+    {
+        isSpecial = true;
     }
 
     public override void Spawned()

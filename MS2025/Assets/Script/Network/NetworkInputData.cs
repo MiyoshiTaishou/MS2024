@@ -13,4 +13,5 @@ public enum NetworkInputButtons
     Jump,
     Attack,
     Parry,
+    Special,
 }

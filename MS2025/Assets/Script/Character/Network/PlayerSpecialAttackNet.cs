@@ -11,7 +11,10 @@ public class PlayerSpecialAttackNet : NetworkBehaviour
     [Networked] public int specialDamage { get; set; }
    
     GameObject director;
-    GameObject comboCountObject;   
+    GameObject comboCountObject;
+
+    private float SpecialTime = 0.0f;
+    private float SpecialTime2 = 0.0f;
 
     public override void Spawned()
     {
@@ -27,12 +30,35 @@ public class PlayerSpecialAttackNet : NetworkBehaviour
             var pressed = data.Buttons.GetPressed(ButtonsPrevious);
             ButtonsPrevious = data.Buttons;
 
-            //攻撃ボタンを押したときにコンボカウントが指定の数を超えてる場合再生
-            if (pressed.IsSet(NetworkInputButtons.Attack) && comboCountObject.GetComponent<ShareNumbers>().nCombo == specialNum)
-            {               
-                RPC_SpecialAttack();
+            if(pressed.IsSet(NetworkInputButtons.Special))
+            {
+                SpecialTime = 5.0f;
+            }
+            
+            if(pressed.IsSet(NetworkInputButtons.Attack))
+            {
+                SpecialTime2 = 5.0f;
             }
 
+            //攻撃ボタンを押したときにコンボカウントが指定の数を超えてる場合再生
+            if (SpecialTime > 0.0f && SpecialTime2 > 0.0f && comboCountObject.GetComponent<ShareNumbers>().nCombo >= specialNum)
+            {               
+                RPC_SpecialAttack();
+                SpecialTime = 0.0f;
+                SpecialTime2 = 0.0f;
+                GetComponent<PlayerMove>().isMove = false;
+            }
+
+
+            if(SpecialTime > 0.0f)
+            {
+                SpecialTime -= Time.deltaTime;
+            }
+
+            if (SpecialTime2 > 0.0f)
+            {
+                SpecialTime2 -= Time.deltaTime;
+            }
         }
     }
 
