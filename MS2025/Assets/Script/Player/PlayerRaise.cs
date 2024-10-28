@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerRaise : NetworkBehaviour
 {
-    private float jumpPower = 500.0f;
+    [SerializeField,Tooltip("‚©‚¿‚ ‚°—Í")] float jumpPower = 500.0f;
     PlayerJumpNet jump;
 
     [Networked] private bool isRaise { get; set; }
