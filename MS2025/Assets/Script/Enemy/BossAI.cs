@@ -104,7 +104,7 @@ public class BossAI : NetworkBehaviour
         }
 
         // アニメーションが終了したらフラグをリセットし、次のアクションを開始
-        StartCoroutine(WaitAndStartNextAction(1f)); // 1秒待ってから次のアクションへ
+        StartCoroutine(WaitAndStartNextAction(10f)); // 1秒待ってから次のアクションへ
     }
 
     private IEnumerator WaitAndStartNextAction(float waitTime)
