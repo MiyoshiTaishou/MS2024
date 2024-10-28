@@ -38,7 +38,7 @@ public class PlayerRaiseAttack : NetworkBehaviour
         {
             var pressed = data.Buttons.GetPressed(ButtonsPrevious);
             ButtonsPrevious = data.Buttons;
-            if (pressed.IsSet(NetworkInputButtons.Attack) && !isAttack) 
+            if (pressed.IsSet(NetworkInputButtons.Attack) && !isAttack&&raise.GetisRaise()) 
             {
                 Attack();
                 RPC_SE();
