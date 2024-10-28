@@ -10,6 +10,8 @@ public class BossStatus : NetworkBehaviour
     [Networked,SerializeField]
     private int nBossHP { get; set; }
 
+    int InitHP;
+
     //Slider
     public Slider slider;
 
@@ -19,7 +21,7 @@ public class BossStatus : NetworkBehaviour
     public override void Spawned()
     {
         nBossHP = 100;
-
+        InitHP = 100;
     }
 
 
@@ -71,8 +73,8 @@ public class BossStatus : NetworkBehaviour
 
     public override void FixedUpdateNetwork()
     {
-
-        slider.value = nBossHP;
+       
+        slider.value = 1 - (float)nBossHP / (float)InitHP;
 
         // HP‚ª0ˆÈ‰º‚Ìê‡‚Éíœˆ—‚ğÀs
         if (nBossHP <= 0 && Object.HasStateAuthority)
