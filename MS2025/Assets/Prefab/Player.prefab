@@ -301,6 +301,7 @@ GameObject:
   - component: {fileID: -5807025104072942480}
   - component: {fileID: 5507341137057323025}
   - component: {fileID: 2067936154868451922}
+  - component: {fileID: -2248587033403794355}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -426,6 +427,7 @@ MonoBehaviour:
   - {fileID: -5807025104072942480}
   - {fileID: 5507341137057323025}
   - {fileID: 2067936154868451922}
+  - {fileID: -2248587033403794355}
 --- !u!54 &-316379306908820852
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -639,6 +641,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   acceleration: 20
   maxSpeed: 5
+  _isMove: 0
 --- !u!114 &7588640461257048479
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -671,7 +674,7 @@ MonoBehaviour:
   parryradius: 3
   ParryActivetime: 39
   HitStop: 30
-  KnockbackPower: 50
+  KnockbackPower: 45
   _isParry: 0
   _isParrySuccess: 0
   _isParryAnimation: 0
@@ -720,3 +723,15 @@ MonoBehaviour:
   Startup: 5
   Active: 60
   Recovery: 100
+--- !u!114 &-2248587033403794355
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5901407417179175552}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7425950512706134da9a95bee779b83d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
