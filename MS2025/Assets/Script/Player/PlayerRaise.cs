@@ -7,6 +7,9 @@ public class PlayerRaise : NetworkBehaviour
     [SerializeField,Tooltip("‚©‚¿‚ ‚°—Í")] float jumpPower = 500.0f;
     PlayerJumpNet jump;
 
+    [SerializeField, Tooltip("‚©‚¿‚ ‚°Žž‚ÌSE")] AudioClip jumpSE;
+    AudioSource audioSource;
+
     [Networked] private bool isRaise { get; set; }
     public bool GetisRaise() { return isRaise; }
     // Start is called before the first frame update
@@ -18,6 +21,7 @@ public class PlayerRaise : NetworkBehaviour
     {
         isRaise = false;
         jump= GetComponent<PlayerJumpNet>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     public override void FixedUpdateNetwork()
@@ -32,6 +36,7 @@ public class PlayerRaise : NetworkBehaviour
     {
         if (jump.GetisJumping() && other.GetComponent<ParryDisplayNet>()&&other.transform.parent!=this)
         {
+            audioSource.PlayOneShot(jumpSE);
             GetComponent<NetworkRigidbody3D>().Rigidbody.AddForce(new Vector3(0.0f,jumpPower,0.0f),ForceMode.Impulse);
             isRaise = true;
             Debug.LogError("‚Æ‚ñ‚Å‚é‚æ‚§‚§‚§");

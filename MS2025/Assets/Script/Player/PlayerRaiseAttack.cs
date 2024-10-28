@@ -5,9 +5,13 @@ public class PlayerRaiseAttack : NetworkBehaviour
 {
     PlayerRaise raise;
     ShareNumbers share;
+    AudioSource audioSource;
     GameObject netobj;
     GameObject attackArea;
     [Networked] public NetworkButtons ButtonsPrevious { get; set; }
+
+    [SerializeField, Tooltip("Ç©ÇøÇ†Ç∞çUåÇÇÃSE")]
+    AudioClip raiseAttackSE;
 
     bool isAttack = false;
 
@@ -23,6 +27,7 @@ public class PlayerRaiseAttack : NetworkBehaviour
     // Start is called before the first frame update
     public override void Spawned()
     {
+        audioSource = GetComponent<AudioSource>();
         raise = GetComponent<PlayerRaise>();
         attackArea = gameObject.transform.Find("AttackArea").gameObject;
         netobj = GameObject.Find("Networkbox");
@@ -36,6 +41,7 @@ public class PlayerRaiseAttack : NetworkBehaviour
             if (pressed.IsSet(NetworkInputButtons.Attack) && !isAttack) 
             {
                 Attack();
+                RPC_SE();
             }
         }
     }
@@ -66,5 +72,10 @@ public class PlayerRaiseAttack : NetworkBehaviour
             Count = 0;
             isAttack = false;
         }
+    }
+    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
+    public void RPC_SE() 
+    {
+        audioSource.PlayOneShot(raiseAttackSE);
     }
 }

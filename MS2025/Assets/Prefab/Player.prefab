@@ -703,6 +703,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jumpPower: 250
+  jumpSE: {fileID: 8300000, guid: 5464c3d20971c3349aeb02ef2adb190d, type: 3}
 --- !u!114 &2067936154868451922
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -715,6 +716,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02159768e16da564898defd864b00c8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  raiseAttackSE: {fileID: 8300000, guid: fd90353f8fe297041b130e49807fdd13, type: 3}
   Startup: 5
   Active: 60
   Recovery: 100
