@@ -32,6 +32,9 @@ public class PlayerAttack : NetworkBehaviour
 
     int Count;
 
+    [SerializeField, Tooltip("エフェクト")]
+    GameObject effect;
+    ParticleSystem particle;
 
     public override void Spawned()
     {
@@ -45,6 +48,8 @@ public class PlayerAttack : NetworkBehaviour
             Debug.LogError("ネットオブジェクトないよ");
         }
         sharenum = netobj.GetComponent<ShareNumbers>();
+
+        particle = effect.GetComponent<ParticleSystem>();
     }
 
     public override void FixedUpdateNetwork()
@@ -62,6 +67,7 @@ public class PlayerAttack : NetworkBehaviour
                 isOnce = true;
                 //全プレイヤーにSEを再生する
                 RPC_SE();
+                particle.Play();
             }
             else if(pressed.IsSet(NetworkInputButtons.Attack) && currentCombo >= 2)
             {
@@ -70,6 +76,8 @@ public class PlayerAttack : NetworkBehaviour
                 isOnce = true;
                 //全プレイヤーにSEを再生する
                 RPC_SE();
+                particle.Play();
+
             }
         }
         Attack();
