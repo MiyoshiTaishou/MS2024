@@ -6,6 +6,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
+using static UnityEngine.ParticleSystem;
 
 public class PlayerParryNet : NetworkBehaviour
 {
@@ -65,6 +66,16 @@ public class PlayerParryNet : NetworkBehaviour
     //[SerializeField,ReadOnly] private bool _isHost => isHost;
 
     private GameObject playerhost;
+
+    [SerializeField, Tooltip("エフェクトオブジェクト")]
+    GameObject Parryeffect;
+
+    ParticleSystem particle;
+
+    [SerializeField, Tooltip("エフェクトオブジェクト")]
+    GameObject Countereffect;
+
+    ParticleSystem counterparticle;
 
     //表示時間のゲッター
     public float GetParryActiveTime() { return ParryActivetimeFrame; }
@@ -154,6 +165,11 @@ public class PlayerParryNet : NetworkBehaviour
         {
            isHost= true;
         }
+
+            particle = Parryeffect.GetComponent<ParticleSystem>();
+
+            counterparticle = Countereffect.GetComponent<ParticleSystem>();
+
     }
 
     public void Area()
@@ -178,7 +194,7 @@ public class PlayerParryNet : NetworkBehaviour
 
         Debug.Log("パリィシステム");
         audioSource.PlayOneShot(ParrySuccessSE);
-
+        counterparticle.Play();
         animator.Play("APlayerCounter");
        // animator.SetTrigger("ParrySuccess"); // アニメーションのトリガー
 
@@ -201,8 +217,8 @@ public class PlayerParryNet : NetworkBehaviour
     public void ParryStart()
     {
         audioSource.PlayOneShot(ParrySE);
-       // animator.SetTrigger("Parry"); // アニメーションのトリガー
-
+        // animator.SetTrigger("Parry"); // アニメーションのトリガー
+        particle.Play();
         animator.Play("APlayerParry");
         ParryArea.SetActive(true);
     }

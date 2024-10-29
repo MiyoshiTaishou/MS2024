@@ -5305,7 +5305,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 4bab0f95134663b4c9c3dd73939c0ff1, type: 2}
+  - {fileID: 2100000, guid: 48c12feeb614f8d439f1f0c476f145c8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5378,6 +5378,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3453850585451843165, guid: f0bb5cfe23f104049b72aaf9d49a9d2c,
+        type: 3}
+      propertyPath: Countereffect
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 4637297524645636213, guid: f0bb5cfe23f104049b72aaf9d49a9d2c,
         type: 3}
       propertyPath: SortKey
@@ -5442,6 +5447,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9008301308188082771, guid: f0bb5cfe23f104049b72aaf9d49a9d2c,
+        type: 3}
+      propertyPath: effect
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
