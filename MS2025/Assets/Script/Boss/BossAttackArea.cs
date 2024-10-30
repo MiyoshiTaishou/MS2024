@@ -22,6 +22,7 @@ public class BossAttackArea : NetworkBehaviour
             {
                 Debug.Log("ƒpƒŠƒB¬Œ÷");
                 other.GetComponent<PlayerParryNet>().RPC_ParrySystem();
+                parent.GetComponent<BossAI>().RPC_AnimName();
                 gameObject.SetActive(false);
 
                 return;

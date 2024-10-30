@@ -11,6 +11,8 @@ public class BossStatus : NetworkBehaviour
     [Networked, SerializeField]
     private int nBossHP { get; set; }
 
+    int InitHP;
+
     //Slider
     public UnityEngine.UI.Slider slider;
     [Networked] private float sliderValue { get; set; }
@@ -27,8 +29,12 @@ public class BossStatus : NetworkBehaviour
     public override void Spawned()
     {
         nBossHP = 100;
+<<<<<<< HEAD
         slider.value = nBossHP;
         sliderValue = nBossHP; // 初期値としてnBossHPをsliderValueに設定
+=======
+        InitHP = 100;
+>>>>>>> main
     }
 
 
@@ -92,12 +98,17 @@ public class BossStatus : NetworkBehaviour
 
     public override void FixedUpdateNetwork()
     {
+<<<<<<< HEAD
 
         // Networked Propertyが変更された場合、UIに反映させる
         if (!Object.HasInputAuthority)
         {
             slider.value = sliderValue; // sliderValueをクライアントに反映
         }
+=======
+       
+        slider.value = 1 - (float)nBossHP / (float)InitHP;
+>>>>>>> main
 
         // HPが0以下の場合に削除処理を実行
         if (nBossHP <= 0 && Object.HasStateAuthority)

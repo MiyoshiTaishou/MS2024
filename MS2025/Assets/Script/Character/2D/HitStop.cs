@@ -1,7 +1,8 @@
+using Fusion;
 using System.Collections;
 using UnityEngine;
 
-public class HitStop : MonoBehaviour
+public class HitStop : NetworkBehaviour
 {
     // ヒットストップを発動するメソッド
     public void ApplyHitStop(float hitStopDuration)

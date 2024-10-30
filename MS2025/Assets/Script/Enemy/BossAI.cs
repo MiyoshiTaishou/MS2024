@@ -22,6 +22,7 @@ public class BossAI : NetworkBehaviour
     [Networked, SerializeField] private int maxPlayerIndex { get; set; }
     [Networked, SerializeField] public bool isInterrupted { get; set; }
     [Networked, SerializeField] public bool isDown { get; set; }
+    [Networked, SerializeField] public bool isAir { get; set; }
 
     public BossActionData downAction;
 
@@ -103,7 +104,7 @@ public class BossAI : NetworkBehaviour
         }
 
         // アニメーションが終了したらフラグをリセットし、次のアクションを開始
-        StartCoroutine(WaitAndStartNextAction(1f)); // 1秒待ってから次のアクションへ
+        StartCoroutine(WaitAndStartNextAction(10f)); // 1秒待ってから次のアクションへ
     }
 
     private IEnumerator WaitAndStartNextAction(float waitTime)

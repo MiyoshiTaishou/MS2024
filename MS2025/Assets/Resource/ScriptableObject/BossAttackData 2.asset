@@ -14,8 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   actionName: Attack
   attackRange: 10
-  attackDuration: 0.7
-  attackAnimSpeed: 2
+  attackDuration: 0.46
+  attackAnimSpeed: 3
   attackScale: {x: 100, y: 1, z: 100}
+  isCameraShake: 1
+  cameraDuration: 1
+  magnitude: 3
   attackAreaName: BossAttackArea
   attackClip: {fileID: 8300000, guid: 1b591394cce1dbf41b5bf55d676ff7b0, type: 3}

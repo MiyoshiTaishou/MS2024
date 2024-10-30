@@ -13,7 +13,8 @@ public class PlayerSpecialAttackNet : NetworkBehaviour
     GameObject director;
     GameObject comboCountObject;
 
-    int magnification = 2;
+    private float SpecialTime = 0.0f;
+    private float SpecialTime2 = 0.0f;
 
     public override void Spawned()
     {
@@ -29,22 +30,41 @@ public class PlayerSpecialAttackNet : NetworkBehaviour
             var pressed = data.Buttons.GetPressed(ButtonsPrevious);
             ButtonsPrevious = data.Buttons;
 
-            //攻撃ボタンを押したときにコンボカウントが指定の数を超えてる場合再生
-            if (pressed.IsSet(NetworkInputButtons.Attack) && comboCountObject.GetComponent<ShareNumbers>().nCombo == specialNum)
+            if(pressed.IsSet(NetworkInputButtons.Special))
             {
-                //倍率計算式
-                magnification = (comboCountObject.GetComponent<ShareNumbers>().nCombo - 10) / 5 * 2 + 2;
-
-                RPC_SpecialAttack();
+                SpecialTime = 5.0f;
+            }
+            
+            if(pressed.IsSet(NetworkInputButtons.Attack))
+            {
+                SpecialTime2 = 5.0f;
             }
 
+            //攻撃ボタンを押したときにコンボカウントが指定の数を超えてる場合再生
+            if (SpecialTime > 0.0f && SpecialTime2 > 0.0f && comboCountObject.GetComponent<ShareNumbers>().nCombo >= specialNum)
+            {               
+                RPC_SpecialAttack();
+                SpecialTime = 0.0f;
+                SpecialTime2 = 0.0f;
+                GetComponent<PlayerMove>().isMove = false;
+            }
+
+
+            if(SpecialTime > 0.0f)
+            {
+                SpecialTime -= Time.deltaTime;
+            }
+
+            if (SpecialTime2 > 0.0f)
+            {
+                SpecialTime2 -= Time.deltaTime;
+            }
         }
     }
 
     [Rpc(RpcSources.All, RpcTargets.All)]
     public void RPC_SpecialAttack()
     {
-        director.GetComponent<PlayableDirector>().Play();
-        comboCountObject.GetComponent<ShareNumbers>().nCombo = 0;
+        director.GetComponent<PlayableDirector>().Play();       
     }
 }

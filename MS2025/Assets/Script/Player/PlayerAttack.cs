@@ -20,7 +20,8 @@ public class PlayerAttack : NetworkBehaviour
     [Networked] private bool isPlayingAnimation { get; set; }
     [Networked] public NetworkButtons ButtonsPrevious { get; set; }
 
-    [Header("攻撃SE"), SerializeField] private AudioClip attackSE;
+    [Header("攻撃SE"), SerializeField] private AudioClip[] attackSE;
+
 
     [SerializeField, Tooltip("発生f")]
     int Startup;
@@ -31,6 +32,9 @@ public class PlayerAttack : NetworkBehaviour
 
     int Count;
 
+    [SerializeField, Tooltip("エフェクト")]
+    GameObject effect;
+    ParticleSystem particle;
 
     public override void Spawned()
     {
@@ -44,6 +48,8 @@ public class PlayerAttack : NetworkBehaviour
             Debug.LogError("ネットオブジェクトないよ");
         }
         sharenum = netobj.GetComponent<ShareNumbers>();
+
+        particle = effect.GetComponent<ParticleSystem>();
     }
 
     public override void FixedUpdateNetwork()
@@ -61,6 +67,7 @@ public class PlayerAttack : NetworkBehaviour
                 isOnce = true;
                 //全プレイヤーにSEを再生する
                 RPC_SE();
+                particle.Play();
             }
             else if(pressed.IsSet(NetworkInputButtons.Attack) && currentCombo >= 2)
             {
@@ -69,6 +76,8 @@ public class PlayerAttack : NetworkBehaviour
                 isOnce = true;
                 //全プレイヤーにSEを再生する
                 RPC_SE();
+                particle.Play();
+
             }
         }
         Attack();
@@ -117,8 +126,22 @@ public class PlayerAttack : NetworkBehaviour
 
     [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
     public void RPC_SE()
-    {       
-        audioSource.PlayOneShot(attackSE);
+    {
+        switch (currentCombo) 
+        {
+            case 0:
+                audioSource.PlayOneShot(attackSE[0]);
+                break;
+            case 1:
+                audioSource.PlayOneShot(attackSE[1]);
+                break;
+            case 2:
+                audioSource.PlayOneShot(attackSE[2]);
+                break;
+            default: 
+                break;
+        }
+        audioSource.PlayOneShot(attackSE[0]);
         isAttack = true; // 攻撃フラグを立てる
         isPlayingAnimation = true;
         isOnce = true;

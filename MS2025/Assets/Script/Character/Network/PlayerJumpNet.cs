@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEngine.ParticleSystem;
 
 public class PlayerJumpNet : NetworkBehaviour
 {
@@ -15,10 +16,17 @@ public class PlayerJumpNet : NetworkBehaviour
     [Networked] public NetworkButtons ButtonsPrevious { get; set; }
 
     [Networked] private bool isGround { get; set; }
+    public bool GetisGround(){return isGround; }
     [Networked] private bool isOnce { get; set; }
 
     [SerializeField, Header("�W�����v�̗�")] private float jumpPower = 10.0f;
     [SerializeField, Header("�d��")] private float gravity = 9.8f;
+
+    [SerializeField, Tooltip("エフェクトオブジェクト")]
+    GameObject effect;
+
+    [SerializeField, Tooltip("エフェクト")]
+    ParticleSystem particle;
 
     private Vector3 velocity;  // �v���C���[�̑��x
     private bool isJumping;    // �W�����v�����ǂ���    
@@ -30,6 +38,9 @@ public class PlayerJumpNet : NetworkBehaviour
 
         // Unity�̎����d�͂̓I�t�ɂ��Ă���
         GetComponent<NetworkRigidbody3D>().Rigidbody.useGravity = false;
+
+        if(!particle)
+            particle = effect.GetComponent<ParticleSystem>();
     }
 
     public override void FixedUpdateNetwork()
@@ -44,6 +55,7 @@ public class PlayerJumpNet : NetworkBehaviour
             // �W�����v�{�^����������A���n�ʂɂ���Ƃ��W�����v����
             if (pressed.IsSet(NetworkInputButtons.Jump) && isGround && !isJumping)
             {
+                particle.Play();
                 RPC_Jump();
                 isJumping = true;  // �W�����v���ɐݒ�
                 Debug.Log("�W�����v���܂�");
