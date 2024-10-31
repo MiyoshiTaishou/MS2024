@@ -523,7 +523,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: e321da4a14b2787498ea392863a83a76, type: 3}
   - {fileID: 8300000, guid: 1da7497ed5fe7704bb8dc7f629c54e17, type: 3}
   Startup: 5
-  Active: 5
+  Active: 10
   Recovery: 10
   effect: {fileID: 780394350727776501}
 --- !u!114 &5276096551197689218
@@ -732,8 +732,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   raiseAttackSE: {fileID: 8300000, guid: fd90353f8fe297041b130e49807fdd13, type: 3}
   Startup: 5
-  Active: 60
-  Recovery: 100
+  Active: 5
+  Recovery: 5
 --- !u!114 &-2248587033403794355
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -758,6 +758,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cd2b2a8a97c04c42a299d9607bbca2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  particleSystems: []
+  stopFrame: 0
 --- !u!1 &9212943197853552477
 GameObject:
   m_ObjectHideFlags: 0

@@ -16,6 +16,8 @@ public class PlayerHP : NetworkBehaviour
     public void RPC_DamageAnim()
     {
         GetComponent<Animator>().SetTrigger("Hurt");
+
+        GetComponent<PlayerDamageReceived>().DamageReceived();
     }
 
     /// <summary>

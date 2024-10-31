@@ -87,6 +87,8 @@ public class PlayerParryNet : NetworkBehaviour
     [Networked]
     private NetworkString<_16> networkedAnimationName { get; set; }
 
+    private bool isGround = false;
+
     /// <summary>
     /// パリィ状態かどうかのチェック(プレイヤーがダメージを受けたときに呼ぶ)
     /// </summary>
@@ -240,7 +242,7 @@ public class PlayerParryNet : NetworkBehaviour
             ButtonsPrevious = data.Buttons;
 
             // Attackボタンが押されたか、かつアニメーションが再生中でないかチェック
-            if (pressed.IsSet(NetworkInputButtons.Parry) && !isParry)
+            if (pressed.IsSet(NetworkInputButtons.Parry) && !isParry && isGround /*地上にいるかの判定*/)
             {
                 
                 ParryStart();
@@ -249,6 +251,23 @@ public class PlayerParryNet : NetworkBehaviour
 
         }
 
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        // 地上にいるか
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            isGround = true;
+        }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            isGround = false;
+        }
     }
 
     public override void Render()
