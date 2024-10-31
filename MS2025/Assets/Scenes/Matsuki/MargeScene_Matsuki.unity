@@ -1364,7 +1364,7 @@ PrefabInstance:
         type: 3}
       propertyPath: slider
       value: 
-      objectReference: {fileID: 1291638342}
+      objectReference: {fileID: 0}
     - target: {fileID: 728711347568068367, guid: 745fd90e17809384d980f68c8c476341,
         type: 3}
       propertyPath: Damageparticle
@@ -1434,23 +1434,40 @@ PrefabInstance:
     - target: {fileID: 6831667486188821985, guid: 745fd90e17809384d980f68c8c476341,
         type: 3}
       propertyPath: NetworkedBehaviours.Array.size
-      value: 4
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6831667486188821985, guid: 745fd90e17809384d980f68c8c476341,
         type: 3}
       propertyPath: NetworkedBehaviours.Array.data[1]
       value: 
-      objectReference: {fileID: 1154351070}
+      objectReference: {fileID: 243610435}
     - target: {fileID: 7837555946122299140, guid: 745fd90e17809384d980f68c8c476341,
         type: 3}
       propertyPath: SortKey
       value: 2606941888
+      objectReference: {fileID: 0}
+    - target: {fileID: 7837555946122299140, guid: 745fd90e17809384d980f68c8c476341,
+        type: 3}
+      propertyPath: NetworkedBehaviours.Array.size
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 745fd90e17809384d980f68c8c476341, type: 3}
+--- !u!114 &243610435 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3719288773215115062, guid: 745fd90e17809384d980f68c8c476341,
+    type: 3}
+  m_PrefabInstance: {fileID: 243610434}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 506319458, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &263754799
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6050,18 +6067,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8df6f17ff94a6f6499ffbbcbecb5e5d5, type: 3}
---- !u!114 &1154351070 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 9057512719745946127, guid: 745fd90e17809384d980f68c8c476341,
-    type: 3}
-  m_PrefabInstance: {fileID: 243610434}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b75be179e10814e42befb943a9ba5c07, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1158536228
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6459,7 +6464,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 688909995669749123, guid: 75272d9e04545f442ba51314bef17477,
+    - targetCorrespondingSourceObject: {fileID: 1886851243003225516, guid: 75272d9e04545f442ba51314bef17477,
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 429278246}
@@ -6467,7 +6472,7 @@ PrefabInstance:
   m_SourcePrefab: {fileID: 100100000, guid: 75272d9e04545f442ba51314bef17477, type: 3}
 --- !u!224 &1169585701 stripped
 RectTransform:
-  m_CorrespondingSourceObject: {fileID: 688909995669749123, guid: 75272d9e04545f442ba51314bef17477,
+  m_CorrespondingSourceObject: {fileID: 1886851243003225516, guid: 75272d9e04545f442ba51314bef17477,
     type: 3}
   m_PrefabInstance: {fileID: 1169585700}
   m_PrefabAsset: {fileID: 0}
@@ -11696,18 +11701,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1280726239}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1291638342 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 45328939054490748, guid: 75272d9e04545f442ba51314bef17477,
-    type: 3}
-  m_PrefabInstance: {fileID: 1169585700}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1298919337
 GameObject:
   m_ObjectHideFlags: 0
@@ -12173,6 +12166,11 @@ PrefabInstance:
         type: 3}
       propertyPath: SortKey
       value: 2350671557
+      objectReference: {fileID: 0}
+    - target: {fileID: 6355994842718124850, guid: 2d5a6b03460814e4d8ec665c744611bb,
+        type: 3}
+      propertyPath: NetworkedBehaviours.Array.size
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
