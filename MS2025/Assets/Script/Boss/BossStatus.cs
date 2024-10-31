@@ -21,6 +21,15 @@ public class BossStatus : NetworkBehaviour
 
     public ParticleSystem Damageparticle;
 
+    [Tooltip("ダウン時エフェクト")]
+
+    public ParticleSystem Dawnparticle;
+
+
+    [Tooltip("死亡時エフェクト")]
+
+    public ParticleSystem Deathparticle;
+
     private void Start()
     {
         slider.onValueChanged.AddListener(OnSliderValueChanged);
@@ -75,6 +84,16 @@ public class BossStatus : NetworkBehaviour
     /// </summary>
     private void HandleBossDeath()
     {
+
+        // パーティクルシステムのインスタンスを生成
+        ParticleSystem newParticle = Instantiate(Deathparticle);
+        //最も近い場所にパーティクルを生成
+        newParticle.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z);
+        // パーティクルを発生させる
+        newParticle.Play();
+        // インスタンス化したパーティクルシステムのGameObjectを1秒後に削除
+        Destroy(newParticle.gameObject, 1.0f);
+
         // プレイヤーオブジェクトを削除する（StateAuthorityのみが行う）
         if (Object.HasStateAuthority)
         {
