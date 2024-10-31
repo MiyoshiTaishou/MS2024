@@ -5,14 +5,19 @@ using UnityEngine;
 public class HitStop : NetworkBehaviour
 {
     private Animator animator;
-    [SerializeField, Tooltip("停止するパーティクル")] ParticleSystem[] particleSystems;
+    [SerializeField, Tooltip("停止するパーティクルのオブジェクト")] GameObject[] particleSystems;
     [SerializeField, Tooltip("停止時間(f)")] int stopFrame;
+
+
     public override void Spawned()
     {
         animator = GetComponent<Animator>();
     }
 
-    // ヒットストップを発動するメソッド
+    /*
+     * ヒットストップを発動するメソッド
+     * @param hitStopDuration ヒットストップの時間(f)
+     */
     public void ApplyHitStop(float hitStopDuration)
     {
         StartCoroutine(DoHitStop(hitStopDuration));
@@ -29,7 +34,7 @@ public class HitStop : NetworkBehaviour
         {
             foreach (var particleSystem in particleSystems)
             {
-                particleSystem.Stop();
+                particleSystem.GetComponent<ParticleSystem>().Stop();
             }
         }
         // hitStopDuration秒待機 (実際の時間での待機)
@@ -42,7 +47,7 @@ public class HitStop : NetworkBehaviour
         {
             foreach (var particleSystem in particleSystems)
             {
-                particleSystem.Play();
+                particleSystem.GetComponent<ParticleSystem>().Play();
             }
         }
         //Debug.Log("再開");

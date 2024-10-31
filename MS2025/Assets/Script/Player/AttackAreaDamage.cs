@@ -1,6 +1,4 @@
 using Fusion;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class AttackAreaDamage : NetworkBehaviour
@@ -37,6 +35,7 @@ public class AttackAreaDamage : NetworkBehaviour
                 {
                     Debug.Log("—´’Ä‘M");
                 }
+                player.GetComponent<HitStop>().ApplyHitStop(60);
             }
         }      
     }
