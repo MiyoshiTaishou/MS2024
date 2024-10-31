@@ -186,6 +186,7 @@ MonoBehaviour:
   _maxPlayerIndex: 1
   _isInterrupted: 0
   _isDown: 0
+  _isAir: 0
   downAction: {fileID: 11400000, guid: 1041b2b8e439b384d80347ea7b971b0b, type: 2}
 --- !u!65 &-6834287320468394907
 BoxCollider:
@@ -355,7 +356,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95edc3367bb7a3f4a92c8fbdb2008766, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _nBossHP: 100
+  _nBossHP: 1000
+  slider: {fileID: 0}
+  Damageparticle: {fileID: 0}
 --- !u!1001 &1111860687885315067
 PrefabInstance:
   m_ObjectHideFlags: 0
