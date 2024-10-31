@@ -25,7 +25,6 @@ public class PlayerJumpNet : NetworkBehaviour
     [SerializeField, Tooltip("エフェクトオブジェクト")]
     GameObject effect;
 
-    [SerializeField, Tooltip("エフェクト")]
     ParticleSystem particle;
 
     private Vector3 velocity;  // �v���C���[�̑��x
