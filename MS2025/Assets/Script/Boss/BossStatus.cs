@@ -28,12 +28,11 @@ public class BossStatus : NetworkBehaviour
 
     public override void Spawned()
     {
-        nBossHP = 100;
 
         slider.value = nBossHP;
         sliderValue = nBossHP; // ‰Šú’l‚Æ‚µ‚ÄnBossHP‚ğsliderValue‚Éİ’è
 
-        InitHP = 100;
+        InitHP = nBossHP;
 
     }
 
