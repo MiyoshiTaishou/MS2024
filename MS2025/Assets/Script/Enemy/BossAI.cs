@@ -15,6 +15,10 @@ public class BossAI : NetworkBehaviour
     [SerializeField, Header("ノックバックのアニメーション名")]
     private string animName;
 
+    [Tooltip("ダウン時エフェクト")]
+
+    public ParticleSystem Dawnparticle;
+
     // プレイヤーターゲット用
     private List<Transform> players;
     [Networked] private int currentPlayerIndex { get; set; }
@@ -71,7 +75,6 @@ public class BossAI : NetworkBehaviour
             currentActionIndex = 0;
             isActionInitialized = false;
             isOnce = true;
-
             return;
         }
 
@@ -170,6 +173,17 @@ public class BossAI : NetworkBehaviour
             Debug.Log("ダウン完了");
             currentActionIndex = 0;
             currentSequenceIndex = Random.Range(0, actionSequence.Length);
+
+            //パーティクル生成
+            // パーティクルシステムのインスタンスを生成
+            ParticleSystem newParticle = Instantiate(Dawnparticle);
+            //最も近い場所にパーティクルを生成
+            newParticle.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z);
+            // パーティクルを発生させる
+            newParticle.Play();
+            // インスタンス化したパーティクルシステムのGameObjectを1秒後に削除
+            Destroy(newParticle.gameObject, 1.0f);
+
 
             currentAction = downAction; // ダウンアクションを設定
             isActionInitialized = false;
