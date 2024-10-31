@@ -21,11 +21,6 @@ public class BossStatus : NetworkBehaviour
 
     public ParticleSystem Damageparticle;
 
-    [Tooltip("ダウン時エフェクト")]
-
-    public ParticleSystem Dawnparticle;
-
-
     [Tooltip("死亡時エフェクト")]
 
     public ParticleSystem Deathparticle;
