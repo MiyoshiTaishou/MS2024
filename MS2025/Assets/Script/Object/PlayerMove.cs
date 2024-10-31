@@ -78,8 +78,16 @@ public class PlayerMove : NetworkBehaviour
             Vector3 nomalvel = Vector3.Normalize(currentVelocity);
             float speed = Vector3.Magnitude(currentVelocity);
             currentVelocity.x = nomaldata.x*speed;
-            currentVelocity.z = nomaldata.z*speed;
-
+            currentVelocity.z = nomaldata.z * speed;
+            
+            if(Mathf.Abs(currentVelocity.x) > maxSpeed)
+            {
+                currentVelocity.x = (currentVelocity.x>0)?maxSpeed:-maxSpeed;
+            }
+            if(Mathf.Abs(currentVelocity.z) > maxSpeed)
+            {
+                currentVelocity.z = (currentVelocity.z > 0) ? maxSpeed : -maxSpeed;
+            }
 
             if ((data.Direction.x > 0.0f && currentVelocity.x < 0.0f)|| (data.Direction.x < 0.0f && currentVelocity.x > 0.0f))
             {
