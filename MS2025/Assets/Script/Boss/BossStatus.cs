@@ -42,6 +42,8 @@ public class BossStatus : NetworkBehaviour
 
         InitHP = nBossHP;
 
+        sliderValue = nBossHP; // スライダー値を更新
+
     }
 
 
@@ -93,7 +95,7 @@ public class BossStatus : NetworkBehaviour
             // パーティクルシステムのインスタンスを生成
             ParticleSystem DameParticle = Instantiate(Damageparticle);
             //最も近い場所にパーティクルを生成
-            DameParticle.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z+0.1f);
+            DameParticle.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z+1);
             // パーティクルを発生させる
             DameParticle.Play();
             // インスタンス化したパーティクルシステムのGameObjectを1秒後に削除
@@ -117,7 +119,7 @@ public class BossStatus : NetworkBehaviour
             isDeathEffect = false;
         }
 
-        sliderValue = nBossHP; // スライダー値を更新
+        
 
         // スライダーの値も同期させる
         slider.value = sliderValue;
