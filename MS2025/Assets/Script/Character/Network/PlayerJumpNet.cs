@@ -2,6 +2,7 @@ using Fusion;
 using Fusion.Addons.Physics;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using Unity.VisualScripting;
 using UnityEngine;
 using static UnityEngine.ParticleSystem;
@@ -27,7 +28,12 @@ public class PlayerJumpNet : NetworkBehaviour
 
     ParticleSystem particle;
 
-    private Vector3 velocity;  // �v���C���[�̑��x
+    [Networked] public bool isEffect { get; set; } = false;
+
+    [SerializeField, Networked] bool jumpstart { get; set; } = false;
+
+
+    [Networked]  Vector3 velocity { get; set; }  // �v���C���[�̑��x
     private bool isJumping;    // �W�����v�����ǂ���    
     public bool GetisJumping() { return isJumping; }
     public override void Spawned()
@@ -70,7 +76,30 @@ public class PlayerJumpNet : NetworkBehaviour
             // ����̏d�͌v�Z��K�p
             ApplyGravity();
         }
-    } 
+    }
+    public override void Render()
+    {
+        AnimatorStateInfo landAnimStateInfo = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
+
+        if (jumpstart)//ジャンプの上りアニメーション再生
+        {
+            animator.Play("APlayerJumpUp");
+
+            isEffect = true;
+            jumpstart = false;
+        }
+
+        if (velocity.y < 0 && !landAnimStateInfo.IsName("APlayerJumpDown") && !isGround)//ジャンプの降りアニメーション再生
+        {
+            animator.Play("APlayerJumpDown");
+        }
+
+        if (isEffect)
+        {
+            Instantiate(particle, this.gameObject.transform.position, Quaternion.identity);
+            isEffect = false;
+        }
+    }
 
     [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
     public void RPC_Jump()
@@ -78,7 +107,7 @@ public class PlayerJumpNet : NetworkBehaviour
         audioSource.PlayOneShot(jumpSE);
 
         // �W�����v�̏����x��ݒ�
-        velocity.y = jumpPower;
+        velocity = new Vector3(velocity.x,jumpPower, velocity.z);
         isGround = false;  // �W�����v�����̂Œn�ʂɂ��Ȃ���Ԃɐݒ�
 
         Instantiate(particle, this.gameObject.transform.position, Quaternion.identity);
@@ -90,7 +119,9 @@ public class PlayerJumpNet : NetworkBehaviour
         if (!isGround)  // �󒆂ɂ���ꍇ�ɂ̂ݏd�͂�K�p
         {
             // �d�͉����x�𑬓x�ɉ�����
-            velocity.y -= gravity * Runner.DeltaTime;
+            float vel = velocity.y;
+            vel -= gravity * Runner.DeltaTime;
+            velocity = new Vector3(velocity.x, vel, velocity.z);
 
             // �v�Z�������x��Rigidbody�ɓK�p
             Vector3 currentVelocity = GetComponent<NetworkRigidbody3D>().Rigidbody.velocity;
@@ -114,6 +145,7 @@ public class PlayerJumpNet : NetworkBehaviour
         {
             isGround = false;
             animator.Play("APlayerJumpUp");
+            jumpstart = true;
         }
     }
 }
