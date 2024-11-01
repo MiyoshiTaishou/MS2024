@@ -80,6 +80,8 @@ public class PlayerJumpNet : NetworkBehaviour
         // �W�����v�̏����x��ݒ�
         velocity.y = jumpPower;
         isGround = false;  // �W�����v�����̂Œn�ʂɂ��Ȃ���Ԃɐݒ�
+
+        Instantiate(particle, this.gameObject.transform.position, Quaternion.identity);
     }
 
     // �d�͂��蓮�Ōv�Z���ēK�p���郁�\�b�h
