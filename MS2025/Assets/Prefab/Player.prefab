@@ -304,6 +304,7 @@ GameObject:
   - component: {fileID: 2067936154868451922}
   - component: {fileID: -2248587033403794355}
   - component: {fileID: -7031601796799468005}
+  - component: {fileID: 5591909908197937288}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -436,6 +437,7 @@ MonoBehaviour:
   - {fileID: 2067936154868451922}
   - {fileID: -2248587033403794355}
   - {fileID: -7031601796799468005}
+  - {fileID: 5591909908197937288}
 --- !u!54 &-316379306908820852
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -686,11 +688,11 @@ MonoBehaviour:
   HitStop: 30
   KnockbackPower: 100
   _isParry: 0
-  _isParrySuccess: 0
-  _isParryAnimation: 0
   _isHost: 0
   Parryeffect: {fileID: 3924670616950389268}
   Countereffect: {fileID: 5564641895426053759}
+  _NetParryeffect: 0
+  _NetCountereffect: 0
 --- !u!114 &-5807025104072942480
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -765,6 +767,20 @@ MonoBehaviour:
   - {fileID: 3924670616950389268}
   - {fileID: 5564641895426053759}
   stopFrame: 0
+--- !u!114 &5591909908197937288
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5901407417179175552}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 858b3e0c54ef0df4c8cc26a14bba7d57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effect: {fileID: 7902367504984516323}
+  _isEffect: 0
 --- !u!1 &9212943197853552477
 GameObject:
   m_ObjectHideFlags: 0
