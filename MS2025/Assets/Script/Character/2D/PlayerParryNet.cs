@@ -203,7 +203,7 @@ public class PlayerParryNet : NetworkBehaviour
         animator.Play("APlayerCounter");
         // animator.SetTrigger("ParrySuccess"); // アニメーションのトリガー
         NetCountereffect = true;
-        //hitStop.ApplyHitStop(HitStopFrame);
+        hitStop.ApplyHitStop(HitStopFrame);
         //cinemachar.CameraZoom(this.character.transform, 5,0.5f);
         back.ApplyKnockback(transform.forward, KnockbackPower);
         ParryArea.GetComponent<ParryDisplayNet>().Init();
