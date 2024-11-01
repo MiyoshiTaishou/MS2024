@@ -80,6 +80,9 @@ public class BossAI : NetworkBehaviour
 
         if (currentAction == null) return;
 
+        //押されても動かないようにする為の処理
+        GetComponent<Rigidbody>().velocity = new Vector3(0, GetComponent<Rigidbody>().velocity.y, 0);
+
         if (!isActionInitialized)
         {
             RPC_InitAction();
