@@ -44,6 +44,12 @@ public class PlayerJumpNet : NetworkBehaviour
 
     public override void FixedUpdateNetwork()
     {
+        AnimatorStateInfo landAnimStateInfo = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
+
+        if (velocity.y<0&& !landAnimStateInfo.IsName("APlayerJumpDown"))
+        {
+            animator.Play("APlayerJumpDown");
+        }
         if (Object.HasStateAuthority && GetInput(out NetworkInputData data))
         {
             var pressed = data.Buttons.GetPressed(ButtonsPrevious);
@@ -99,7 +105,7 @@ public class PlayerJumpNet : NetworkBehaviour
             isJumping = false;  // �W�����v�I��
             velocity.y = 0;     // �������x�����Z�b�g
 
-            animator.SetTrigger("JumpDown");
+            animator.Play("APlayerJumpDown");
         }
     }
 
@@ -109,7 +115,7 @@ public class PlayerJumpNet : NetworkBehaviour
         if (collision.gameObject.CompareTag("Ground"))
         {
             isGround = false;
-            animator.SetTrigger("Jump");
+            animator.Play("APlayerJumpUp");
         }
     }
 }

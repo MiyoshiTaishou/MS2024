@@ -56,6 +56,12 @@ public class PlayerAttack : NetworkBehaviour
     {
         if (Object.HasStateAuthority && GetInput(out NetworkInputData data))
         {
+            AnimatorStateInfo landAnimStateInfo = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
+            if(landAnimStateInfo.IsName("APlayerParry")||//パリィ時は攻撃しない
+                landAnimStateInfo.IsName("APlayerJumpUp")|| landAnimStateInfo.IsName("APlayerJumpDown"))//ジャンプ中は攻撃しない
+            {
+                return;
+            }
             var pressed = data.Buttons.GetPressed(ButtonsPrevious);
             ButtonsPrevious = data.Buttons;
 
