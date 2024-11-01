@@ -36,7 +36,11 @@ public class BossAI : NetworkBehaviour
     [Networked, SerializeField] public bool isDown { get; set; }
     [Networked, SerializeField] public bool isAir { get; set; }
 
+    [SerializeField,Header("ダウン時の行動データ")]
     public BossActionData downAction;
+
+    [SerializeField, Header("のけぞり時の行動データ")]
+    public BossActionData parryction;
 
     // アニメーション名をネットワーク同期させる
     [Networked]
@@ -104,11 +108,11 @@ public class BossAI : NetworkBehaviour
         }      
 
         //向き変更処理
-        if(GetComponent<Rigidbody>().velocity.x < 0)
+        if(GetComponent<Rigidbody>().velocity.x < -0.5)
         {
             transform.localScale = scale;
         }
-        else
+        else if (GetComponent<Rigidbody>().velocity.x > 0.5)
         {
             Vector3 temp = scale;
             temp.x = -scale.x;
@@ -127,21 +131,10 @@ public class BossAI : NetworkBehaviour
 
     private void HandleInterruption()
     {
-        // ノックバック処理
-        networkedAnimationName = animName;
-
-        // アニメーション再生中なら、まだ中断状態を解除しない
-        Debug.Log(networkedAnimationName + "ノックバック");
-
-        // アニメーションが再生されている間は中断状態を維持
-        if (animator.GetCurrentAnimatorStateInfo(0).IsName(animName))
-        {
-            Debug.Log(networkedAnimationName + "再生中");
-            return;
-        }
-
-        // アニメーションが終了したらフラグをリセットし、次のアクションを開始
-        StartCoroutine(WaitAndStartNextAction(10f)); // 1秒待ってから次のアクションへ
+        currentAction = parryction;
+        currentActionIndex = 0;
+        isActionInitialized = false;
+        isInterrupted = false;
     }
 
     private IEnumerator WaitAndStartNextAction(float waitTime)
