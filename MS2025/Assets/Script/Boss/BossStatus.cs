@@ -25,6 +25,10 @@ public class BossStatus : NetworkBehaviour
 
     public ParticleSystem Deathparticle;
 
+    [Networked] private bool isDamageEffect { get; set; }
+
+    [Networked] private bool isDeathEffect { get; set; }
+
     private void Start()
     {
         slider.onValueChanged.AddListener(OnSliderValueChanged);
@@ -52,19 +56,7 @@ public class BossStatus : NetworkBehaviour
     {
         nBossHP -= _damage;
 
-        sliderValue = nBossHP; // スライダー値を更新
-
-        // スライダーの値も同期させる
-        slider.value = sliderValue;
-
-        // パーティクルシステムのインスタンスを生成
-        ParticleSystem newParticle = Instantiate(Damageparticle);
-        //最も近い場所にパーティクルを生成
-        newParticle.transform.position= new Vector3(this.transform.position.x,this.transform.position.y,this.transform.position.z);
-        // パーティクルを発生させる
-        newParticle.Play();
-        // インスタンス化したパーティクルシステムのGameObjectを1秒後に削除
-        Destroy(newParticle.gameObject, 1.0f);
+        isDamageEffect = true;
 
         // HPが0以下なら削除処理を呼ぶ
         if (nBossHP <= 0)
@@ -79,14 +71,7 @@ public class BossStatus : NetworkBehaviour
     private void HandleBossDeath()
     {
 
-        // パーティクルシステムのインスタンスを生成
-        ParticleSystem newParticle = Instantiate(Deathparticle);
-        //最も近い場所にパーティクルを生成
-        newParticle.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z);
-        // パーティクルを発生させる
-        newParticle.Play();
-        // インスタンス化したパーティクルシステムのGameObjectを1秒後に削除
-        Destroy(newParticle.gameObject, 1.0f);
+        isDeathEffect = true;
 
         // プレイヤーオブジェクトを削除する（StateAuthorityのみが行う）
         if (Object.HasStateAuthority)
@@ -100,7 +85,46 @@ public class BossStatus : NetworkBehaviour
         }
     }
 
-    private void OnSliderValueChanged(float value)
+    public override void Render()
+    {
+        //被弾エフェクト再生
+        if(isDamageEffect==true)
+        {
+            // パーティクルシステムのインスタンスを生成
+            ParticleSystem DameParticle = Instantiate(Damageparticle);
+            //最も近い場所にパーティクルを生成
+            DameParticle.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z+0.1f);
+            // パーティクルを発生させる
+            DameParticle.Play();
+            // インスタンス化したパーティクルシステムのGameObjectを1秒後に削除
+            Destroy(DameParticle.gameObject, 1.0f);
+
+            isDamageEffect = false;
+        }
+
+        //死亡時エフェクト再生
+        if(isDeathEffect==true)
+        {
+            // パーティクルシステムのインスタンスを生成
+            ParticleSystem newParticle = Instantiate(Deathparticle);
+            //最も近い場所にパーティクルを生成
+            newParticle.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z);
+            // パーティクルを発生させる
+            newParticle.Play();
+            // インスタンス化したパーティクルシステムのGameObjectを1秒後に削除
+            Destroy(newParticle.gameObject, 1.0f);
+
+            isDeathEffect = false;
+        }
+
+        sliderValue = nBossHP; // スライダー値を更新
+
+        // スライダーの値も同期させる
+        slider.value = sliderValue;
+
+    }
+
+        private void OnSliderValueChanged(float value)
     {
         if (Object.HasInputAuthority)
         {
