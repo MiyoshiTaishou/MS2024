@@ -46,7 +46,7 @@ public class PlayerJumpNet : NetworkBehaviour
     {
         AnimatorStateInfo landAnimStateInfo = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
 
-        if (velocity.y<0&& !landAnimStateInfo.IsName("APlayerJumpDown"))
+        if (velocity.y<0 && !landAnimStateInfo.IsName("APlayerJumpDown")&&!isGround)//ジャンプの降りアニメーション再生
         {
             animator.Play("APlayerJumpDown");
         }
@@ -98,14 +98,10 @@ public class PlayerJumpNet : NetworkBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        // �n�ʂɒ��n�����ꍇ�̏���
         if (collision.gameObject.CompareTag("Ground"))
         {
             isGround = true;
-            isJumping = false;  // �W�����v�I��
-            velocity.y = 0;     // �������x�����Z�b�g
-
-            animator.Play("APlayerJumpDown");
+            isJumping = false;
         }
     }
 
