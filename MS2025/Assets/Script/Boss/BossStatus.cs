@@ -9,9 +9,9 @@ using UnityEngine.UIElements;
 public class BossStatus : NetworkBehaviour
 {
     [Networked, SerializeField]
-    private int nBossHP { get; set; }
+    public int nBossHP { get; set; }
 
-    int InitHP;
+    public int InitHP;
 
     //Slider
     public UnityEngine.UI.Slider slider;
