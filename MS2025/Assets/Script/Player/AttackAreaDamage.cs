@@ -36,6 +36,11 @@ public class AttackAreaDamage : NetworkBehaviour
                 if(raise.GetisRaise())
                 {
                     Debug.Log("—´’Ä‘M");
+
+                    if(other.GetComponent<BossAI>().isAir)
+                    {
+                        other.GetComponent<BossAI>().isDown = true;
+                    }
                 }
                 player.GetComponent<HitStop>().ApplyHitStop(stopFrame);
             }
