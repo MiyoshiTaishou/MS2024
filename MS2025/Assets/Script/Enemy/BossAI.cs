@@ -6,12 +6,18 @@ using UnityEngine.UIElements;
 
 public class BossAI : NetworkBehaviour
 {
+    [Header("通常行動")]
     public BossActionSequence[] actionSequence;
+
+    [Header("50%以下の行動")]
+    public BossActionSequence[] actionSequenceHalf;
+
     private int currentActionIndex = 0;
     private BossActionData currentAction;
     private bool isActionInitialized = false;
     private Animator animator;
     private bool isOnce = false;
+    private bool isHalf = false;
     private Vector3 scale;
 
     [SerializeField, Header("ノックバックのアニメーション名")]
@@ -97,6 +103,7 @@ public class BossAI : NetworkBehaviour
             StartNextAction(); // アクション完了後に次のアクションに進む
         }      
 
+        //向き変更処理
         if(GetComponent<Rigidbody>().velocity.x < 0)
         {
             transform.localScale = scale;
@@ -106,6 +113,15 @@ public class BossAI : NetworkBehaviour
             Vector3 temp = scale;
             temp.x = -scale.x;
             transform.localScale = temp;
+        }
+        
+        //50%以下で行動変更
+        if (!isHalf && GetComponent<BossStatus>().nBossHP < GetComponent<BossStatus>().InitHP / 2)
+        {
+            isHalf = true;
+            actionSequence = actionSequenceHalf;
+            currentActionIndex = 0;
+            StartNextAction(); // プレイヤーが二人以上揃っていたらアクションを開始            
         }
     }
 
