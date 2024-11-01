@@ -36,6 +36,9 @@ public class PlayerAttack : NetworkBehaviour
     GameObject effect;
     ParticleSystem particle;
 
+    [Networked] private bool isEffect { get; set; }
+
+
     public override void Spawned()
     {
         animator = GetComponent<Animator>();
@@ -82,7 +85,7 @@ public class PlayerAttack : NetworkBehaviour
                 isOnce = true;
                 //全プレイヤーにSEを再生する
                 RPC_SE();
-                particle.Play();
+                isEffect= true;
 
             }
         }
@@ -101,6 +104,7 @@ public class PlayerAttack : NetworkBehaviour
             //animator.SetTrigger("Attack"); // アニメーションのトリガー
             animator.Play("APlayerAttack");
             isOnce = false; // フラグをリセット
+            isEffect = true;
         }
         else if (isOnce&& currentCombo==1)
         {
@@ -108,6 +112,8 @@ public class PlayerAttack : NetworkBehaviour
             //animator.SetTrigger("Attack2"); // アニメーションのトリガー
             animator.Play("APlayerAttack2");
             isOnce = false; // フラグをリセット
+            isEffect = true;
+
         }
         else if (isOnce&& currentCombo>=2)
         {
@@ -115,6 +121,13 @@ public class PlayerAttack : NetworkBehaviour
             //animator.SetTrigger("Attack3"); // アニメーションのトリガー
             animator.Play("APlayerAttack3");
             isOnce = false; // フラグをリセット
+            isEffect = true;
+        }
+
+        if (isEffect)
+        {
+            particle.Play();
+            isEffect = false;
         }
 
 
@@ -152,6 +165,7 @@ public class PlayerAttack : NetworkBehaviour
         isPlayingAnimation = true;
         isOnce = true;
         currentCombo = sharenum.nHitnum;
+
     }
 
     void Attack()
