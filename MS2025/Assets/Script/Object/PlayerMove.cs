@@ -119,14 +119,15 @@ public class PlayerMove : NetworkBehaviour
     {
         
         AnimatorStateInfo landAnimStateInfo = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
-        if (landAnimStateInfo.IsName("APlayerJumpUp") ||landAnimStateInfo.IsName("APlayerJumpDown"))
+        if (landAnimStateInfo.IsName("APlayerJumpUp") || landAnimStateInfo.IsName("APlayerJumpDown") ||
+            landAnimStateInfo.IsName("APlayerParry")||landAnimStateInfo.IsName("APlayerCounter")||
+            landAnimStateInfo.IsName("APlayerAttack")|| landAnimStateInfo.IsName("APlayerAttack2")|| landAnimStateInfo.IsName("APlayerAttack3"))
         {
             return;
         }
         if (dir.magnitude == 0 && !landAnimStateInfo.IsName("APlayerIdle"))
         {
             animator.Play("APlayerIdle");
-            Debug.Log("‚Æ‚Ü‚”‚”‚”‚”‚”‚”‚”‚”‚”‚”‚”‚”‚”‚”‚”‚”‚”‚”‚”‚”‚”‚”‚”‚”‚”‚”‚”‚”‚”‚”‚”");
         }
         else if(dir.magnitude!=0)
         {
