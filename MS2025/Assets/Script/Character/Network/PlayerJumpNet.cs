@@ -25,7 +25,6 @@ public class PlayerJumpNet : NetworkBehaviour
     [SerializeField, Tooltip("エフェクトオブジェクト")]
     GameObject effect;
 
-    [SerializeField, Tooltip("エフェクト")]
     ParticleSystem particle;
 
     private Vector3 velocity;  // �v���C���[�̑��x
@@ -55,7 +54,8 @@ public class PlayerJumpNet : NetworkBehaviour
             // �W�����v�{�^����������A���n�ʂɂ���Ƃ��W�����v����
             if (pressed.IsSet(NetworkInputButtons.Jump) && isGround && !isJumping)
             {
-                particle.Play();
+                Instantiate(particle, this.gameObject.transform.position, Quaternion.identity);
+                //particle.Play();
                 RPC_Jump();
                 isJumping = true;  // �W�����v���ɐݒ�
                 Debug.Log("�W�����v���܂�");

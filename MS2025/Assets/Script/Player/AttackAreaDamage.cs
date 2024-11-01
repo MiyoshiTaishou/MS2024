@@ -1,6 +1,4 @@
 using Fusion;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class AttackAreaDamage : NetworkBehaviour
@@ -11,6 +9,8 @@ public class AttackAreaDamage : NetworkBehaviour
     ShareNumbers sharenum;
     ComboSystem combo;
     PlayerRaise raise;
+    [SerializeField, Tooltip("ヒットストップ時間(f)")] int stopFrame;
+
     public override void Spawned()
     {
         player = transform.parent.gameObject;
@@ -37,6 +37,7 @@ public class AttackAreaDamage : NetworkBehaviour
                 {
                     Debug.Log("龍墜閃");
                 }
+                player.GetComponent<HitStop>().ApplyHitStop(stopFrame);
             }
         }      
     }
