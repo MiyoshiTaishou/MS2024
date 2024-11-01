@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Fusion;
+using UnityEngine.UIElements;
 
 public class BossAI : NetworkBehaviour
 {
@@ -11,6 +12,7 @@ public class BossAI : NetworkBehaviour
     private bool isActionInitialized = false;
     private Animator animator;
     private bool isOnce = false;
+    private Vector3 scale;
 
     [SerializeField, Header("ノックバックのアニメーション名")]
     private string animName;
@@ -42,6 +44,8 @@ public class BossAI : NetworkBehaviour
         // プレイヤーオブジェクトをすべて取得してリストに保存
         players = new List<Transform>();
         RefreshPlayerList();
+
+        scale = transform.localScale;
 
         if (players.Count < maxPlayerIndex)
         {
@@ -92,6 +96,17 @@ public class BossAI : NetworkBehaviour
         {
             StartNextAction(); // アクション完了後に次のアクションに進む
         }      
+
+        if(GetComponent<Rigidbody>().velocity.x < 0)
+        {
+            transform.localScale = scale;
+        }
+        else
+        {
+            Vector3 temp = scale;
+            temp.x = -scale.x;
+            transform.localScale = temp;
+        }
     }
 
     private void HandleInterruption()
