@@ -38,8 +38,8 @@ public class PlayerRaise : NetworkBehaviour
         {
             audioSource.PlayOneShot(jumpSE);
             GetComponent<NetworkRigidbody3D>().Rigidbody.AddForce(new Vector3(0.0f,jumpPower,0.0f),ForceMode.Impulse);
-            isRaise = true;
-            Debug.LogError("‚Æ‚ñ‚Å‚é‚æ‚§‚§‚§");
+            other.transform.parent.GetComponent<PlayerRaise>().isRaise = true;
+            //Debug.LogError("‚Æ‚ñ‚Å‚é‚æ‚§‚§‚§");
         }
     }
 }
