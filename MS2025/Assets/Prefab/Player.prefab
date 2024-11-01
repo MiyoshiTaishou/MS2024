@@ -668,6 +668,8 @@ MonoBehaviour:
   jumpPower: 10
   gravity: 9.8
   effect: {fileID: 6574216082050649755, guid: abed7fcf5665eef4ab4326f47c503b02, type: 3}
+  _isEffect: 0
+  _jumpstart: 0
 --- !u!114 &3453850585451843165
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -878,14 +880,29 @@ PrefabInstance:
       propertyPath: looping
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3252750448196879515, guid: ca6705a3f9070d14d819d179493bcfa0,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7254896691764107534, guid: ca6705a3f9070d14d819d179493bcfa0,
+        type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7254896691764107534, guid: ca6705a3f9070d14d819d179493bcfa0,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8434025205239694364, guid: ca6705a3f9070d14d819d179493bcfa0,
         type: 3}
       propertyPath: looping
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8434025205239694364, guid: ca6705a3f9070d14d819d179493bcfa0,
         type: 3}
-      propertyPath: looping
+      propertyPath: playOnAwake
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -1386,14 +1403,29 @@ PrefabInstance:
       propertyPath: looping
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4090720259843648864, guid: 9b21333b068a5084ba09535839bee3c8,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8164935075519820021, guid: 9b21333b068a5084ba09535839bee3c8,
+        type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8164935075519820021, guid: 9b21333b068a5084ba09535839bee3c8,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8892985425029079655, guid: 9b21333b068a5084ba09535839bee3c8,
         type: 3}
       propertyPath: looping
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8892985425029079655, guid: 9b21333b068a5084ba09535839bee3c8,
         type: 3}
-      propertyPath: looping
+      propertyPath: playOnAwake
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
