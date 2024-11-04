@@ -34,7 +34,7 @@ public class PlayerRaise : NetworkBehaviour
 
     private void OnTriggerEnter(UnityEngine.Collider other)
     {
-        if (jump.GetisJumping() && other.GetComponent<ParryDisplayNet>())
+        if (jump.GetisJumping() && other.GetComponent<ParryDisplayNet>()&&!isRaise)
         {
             audioSource.PlayOneShot(jumpSE);
             GetComponent<NetworkRigidbody3D>().Rigidbody.AddForce(new Vector3(0.0f,jumpPower,0.0f),ForceMode.Impulse);

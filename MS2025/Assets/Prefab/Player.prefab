@@ -688,12 +688,9 @@ MonoBehaviour:
   ParryActivetime: 39
   HitStop: 30
   KnockbackPower: 100
-  _isParry: 0
   _isHost: 0
   Parryeffect: {fileID: 3924670616950389268}
   Countereffect: {fileID: 5564641895426053759}
-  _NetParryeffect: 0
-  _NetCountereffect: 0
 --- !u!114 &-5807025104072942480
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -734,10 +731,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02159768e16da564898defd864b00c8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  effect: {fileID: 780394350727776501}
   raiseAttackSE: {fileID: 8300000, guid: fd90353f8fe297041b130e49807fdd13, type: 3}
   Startup: 5
   Active: 5
-  Recovery: 5
+  Recovery: 74
 --- !u!114 &-2248587033403794355
 MonoBehaviour:
   m_ObjectHideFlags: 0
