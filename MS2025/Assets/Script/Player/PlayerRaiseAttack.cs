@@ -1,5 +1,8 @@
 using Fusion;
+using System.Reflection;
+using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEngine.ParticleSystem;
 
 public class PlayerRaiseAttack : NetworkBehaviour
 {
@@ -9,6 +12,9 @@ public class PlayerRaiseAttack : NetworkBehaviour
     GameObject netobj;
     GameObject attackArea;
     [Networked] public NetworkButtons ButtonsPrevious { get; set; }
+    [SerializeField,Tooltip("エフェクト")] 
+    GameObject effect;
+    ParticleSystem particle;
 
     [SerializeField, Tooltip("かちあげ攻撃のSE")]
     AudioClip raiseAttackSE;
@@ -24,6 +30,9 @@ public class PlayerRaiseAttack : NetworkBehaviour
 
     int Count;
 
+    bool isOnce = false;
+    bool isEffect = false;
+
     // Start is called before the first frame update
     public override void Spawned()
     {
@@ -31,15 +40,24 @@ public class PlayerRaiseAttack : NetworkBehaviour
         raise = GetComponent<PlayerRaise>();
         attackArea = gameObject.transform.Find("AttackArea").gameObject;
         netobj = GameObject.Find("Networkbox");
+        particle = effect.GetComponent<ParticleSystem>();
     }
     public override void FixedUpdateNetwork()
     {
+        if(!raise.GetisRaise())
+        {
+            Count = 0;
+            isAttack = false;
+            return;
+        }
+
         if (Object.HasStateAuthority && GetInput(out NetworkInputData data))
         {
             var pressed = data.Buttons.GetPressed(ButtonsPrevious);
             ButtonsPrevious = data.Buttons;
-            if (pressed.IsSet(NetworkInputButtons.Attack) && !isAttack&&raise.GetisRaise()) 
+            if (pressed.IsSet(NetworkInputButtons.Attack) && !isAttack) 
             {
+                isOnce = true;
                 isAttack = true;
                 RPC_SE();
             }
@@ -79,4 +97,26 @@ public class PlayerRaiseAttack : NetworkBehaviour
     {
         audioSource.PlayOneShot(raiseAttackSE);
     }
+    public override void Render()
+    {
+        // 現在のアニメーションの状態を取得
+        Animator animator = GetComponent<Animator>();
+        AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+
+        // 攻撃フラグが立っている場合にアニメーションをトリガー
+        if (isOnce)
+        {
+            animator.Play("APlayerAttack");
+            isOnce = false; // フラグをリセット
+            isEffect = true;
+        }
+
+        if (isEffect)
+        {
+            particle.Play();
+            isEffect = false;
+        }
+
+    }
+
 }
