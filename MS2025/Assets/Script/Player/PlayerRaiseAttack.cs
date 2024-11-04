@@ -40,15 +40,16 @@ public class PlayerRaiseAttack : NetworkBehaviour
             ButtonsPrevious = data.Buttons;
             if (pressed.IsSet(NetworkInputButtons.Attack) && !isAttack&&raise.GetisRaise()) 
             {
-                Attack();
+                isAttack = true;
                 RPC_SE();
             }
+                Attack();
         }
     }
 
     void Attack()
     {
-        if (isAttack == false)
+        if (isAttack==false)
         {
             return;
         }
