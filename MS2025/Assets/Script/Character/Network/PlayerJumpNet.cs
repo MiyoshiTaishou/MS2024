@@ -70,6 +70,8 @@ public class PlayerJumpNet : NetworkBehaviour
                 //particle.Play();
                 RPC_Jump();
                 isJumping = true;  // �W�����v���ɐݒ�
+                jumpstart = true;
+
                 Debug.Log("�W�����v���܂�");
             }
 
@@ -81,12 +83,11 @@ public class PlayerJumpNet : NetworkBehaviour
     {
         AnimatorStateInfo landAnimStateInfo = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
 
-        if (jumpstart)//ジャンプの上りアニメーション再生
+        if (jumpstart && !landAnimStateInfo.IsName("APlayerJumpUp") && !landAnimStateInfo.IsName("APlayerJumpDown"))//ジャンプの上りアニメーション再生
         {
             animator.Play("APlayerJumpUp");
 
             isEffect = true;
-            jumpstart = false;
         }
 
         if (velocity.y < 0 && !landAnimStateInfo.IsName("APlayerJumpDown") && !isGround)//ジャンプの降りアニメーション再生
@@ -135,6 +136,8 @@ public class PlayerJumpNet : NetworkBehaviour
         {
             isGround = true;
             isJumping = false;
+            jumpstart = false;
+
         }
     }
 
@@ -145,7 +148,6 @@ public class PlayerJumpNet : NetworkBehaviour
         {
             isGround = false;
             animator.Play("APlayerJumpUp");
-            jumpstart = true;
         }
     }
 }

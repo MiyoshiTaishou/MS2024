@@ -40,13 +40,10 @@ public class PlayerParryNet : NetworkBehaviour
     //敵からの攻撃を受けたか判定
     public bool DamageReceive { get; set; } = false;
 
-    //Camera Maincamera;
-    //CinemaCharCamera cinemachar;
-
     /// <summary>
     /// パリィ状態かどうか
     /// </summary>
-    [Networked] public bool isParry { get; private set; } = false;
+    [Networked] bool isParry { get; set; } = false;
 
     /// <summary>
     /// パリィ状態かどうか
@@ -67,12 +64,12 @@ public class PlayerParryNet : NetworkBehaviour
 
     private GameObject playerhost;
 
-    [SerializeField, Tooltip("エフェクトオブジェクト")]
+    [SerializeField, Tooltip("エフェクトパリィ")]
     GameObject Parryeffect;
 
     ParticleSystem particle;
 
-    [SerializeField, Tooltip("エフェクトオブジェクト")]
+    [SerializeField, Tooltip("エフェクトカウンター")]
     GameObject Countereffect;
 
     ParticleSystem counterparticle;
@@ -89,9 +86,9 @@ public class PlayerParryNet : NetworkBehaviour
 
     private bool isGround = false;
 
-    [Networked] public bool NetParryeffect { get; set; } = false;
+    [Networked] bool NetParryeffect { get; set; } = false;
 
-    [Networked] public bool NetCountereffect { get; set; } = false;
+    [Networked] bool NetCountereffect { get; set; } = false;
 
     /// <summary>
     /// パリィ状態かどうかのチェック(プレイヤーがダメージを受けたときに呼ぶ)
@@ -148,8 +145,6 @@ public class PlayerParryNet : NetworkBehaviour
         audioSource = GetComponent<AudioSource>();
         animator = GetComponent<Animator>();//アニメーター
         hitStop = GetComponent<HitStop>();
-        //Maincamera = Camera.main;
-        //cinemachar = Maincamera.GetComponent<CinemaCharCamera>();
         back = GetComponent<Knockback>();
         Vector3 scale = new Vector3(parryradius, parryradius, parryradius);
         for (int i = 0; i < transform.childCount; i++)
@@ -172,9 +167,9 @@ public class PlayerParryNet : NetworkBehaviour
            isHost= true;
         }
 
-            particle = Parryeffect.GetComponent<ParticleSystem>();
+        particle = Parryeffect.GetComponent<ParticleSystem>();
 
-            counterparticle = Countereffect.GetComponent<ParticleSystem>();
+        counterparticle = Countereffect.GetComponent<ParticleSystem>();
 
     }
 
