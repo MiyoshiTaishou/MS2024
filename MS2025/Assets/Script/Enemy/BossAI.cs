@@ -18,14 +18,13 @@ public class BossAI : NetworkBehaviour
     private Animator animator;
     private bool isOnce = false;
     private bool isHalf = false;
+    private bool isParticle = false;
     private Vector3 scale;
 
     [SerializeField, Header("ノックバックのアニメーション名")]
     private string animName;
 
-    [Tooltip("ダウン時エフェクト")]
 
-    public ParticleSystem Dawnparticle;
 
     // プレイヤーターゲット用
     private List<Transform> players;
@@ -41,6 +40,9 @@ public class BossAI : NetworkBehaviour
 
     [SerializeField, Header("のけぞり時の行動データ")]
     public BossActionData parryction;
+    [Tooltip("ダウン時エフェクト")]
+
+    public ParticleSystem Dawnparticle;
 
     // アニメーション名をネットワーク同期させる
     [Networked]
@@ -89,6 +91,7 @@ public class BossAI : NetworkBehaviour
             currentActionIndex = 0;
             isActionInitialized = false;
             isOnce = true;
+            isParticle = true;
             return;
         }
 
@@ -200,23 +203,12 @@ public class BossAI : NetworkBehaviour
             Debug.Log("ダウン完了");
             currentActionIndex = 0;
             currentSequenceIndex = Random.Range(0, actionSequence.Length);
-
-            //パーティクル生成
-            // パーティクルシステムのインスタンスを生成
-            ParticleSystem newParticle = Instantiate(Dawnparticle);
-            //最も近い場所にパーティクルを生成
-            newParticle.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z);
-            // パーティクルを発生させる
-            newParticle.Play();
-            // インスタンス化したパーティクルシステムのGameObjectを1秒後に削除
-            Destroy(newParticle.gameObject, 1.0f);
-
-
             currentAction = downAction; // ダウンアクションを設定
             isActionInitialized = false;
 
             isDown = false; // ダウン状態を解除
             isOnce = false; // フラグをリセット
+        
 
             return;
         }
@@ -245,7 +237,27 @@ public class BossAI : NetworkBehaviour
         {
             Debug.Log($"Synchronizing animation: {networkedAnimationName}");
             animator.Play((string)networkedAnimationName);
+               
         }
+        
+        if(isParticle)
+        {
+            // パーティクルシステムのインスタンスを生成
+            ParticleSystem newParticle = Instantiate(Dawnparticle);
+
+            //パーティクルを生成
+            newParticle.transform.position = this.transform.position;
+            // パーティクルを発生させる
+            newParticle.Play();
+          
+            if(isDown==false)
+            {
+                // インスタンス化したパーティクルシステムのGameObjectを削除
+                Destroy(newParticle.gameObject, 0.01f);
+                isParticle = false;
+            }
+        }
+
     }
 
     [Rpc(RpcSources.All, RpcTargets.All)]

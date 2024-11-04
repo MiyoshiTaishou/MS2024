@@ -119,10 +119,8 @@ public class BossStatus : NetworkBehaviour
             isDeathEffect = false;
         }
 
-        
-
         // スライダーの値も同期させる
-        slider.value = sliderValue;
+        slider.value = nBossHP;
 
     }
 
