@@ -4353,6 +4353,7 @@ GameObject:
   - component: {fileID: 748652478}
   - component: {fileID: 748652477}
   - component: {fileID: 748652476}
+  - component: {fileID: 748652479}
   m_Layer: 0
   m_Name: Escape
   m_TagString: Untagged
@@ -4376,7 +4377,8 @@ MonoBehaviour:
   ObjectInterest: 1
   Flags: 262145
   NestedObjects: []
-  NetworkedBehaviours: []
+  NetworkedBehaviours:
+  - {fileID: 748652479}
 --- !u!65 &748652477
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4415,6 +4417,20 @@ Transform:
   - {fileID: 1657926090}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &748652479
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 748652475}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f22b8bb4cc9906d4b804d6a50e852717, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxNum: 2
+  nextSceneName: MargeScene_Build
 --- !u!1001 &779820068
 PrefabInstance:
   m_ObjectHideFlags: 0
