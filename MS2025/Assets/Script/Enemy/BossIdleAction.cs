@@ -4,7 +4,8 @@ using UnityEngine;
 public class WaitAction : BossActionData
 {
     public float waitDuration;
-    private float waitStartTime;   
+    private float waitStartTime;
+ 
 
     public override void InitializeAction(GameObject boss, Transform player)
     {
@@ -16,10 +17,14 @@ public class WaitAction : BossActionData
     {
         boss.GetComponent<Rigidbody>().useGravity = true;
 
+       
         if (Time.time - waitStartTime >= waitDuration)
         {
+           
             return true; // アクション完了
         }
+
         return false; // まだ実行中
     }
-}
+ 
+    }
