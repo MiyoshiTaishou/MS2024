@@ -18,7 +18,7 @@ public class BossAI : NetworkBehaviour
     private Animator animator;
     private bool isOnce = false;
     private bool isHalf = false;
-    private bool isParticle = false;
+    private int isParticle = 1;
     private Vector3 scale;
 
     [SerializeField, Header("ノックバックのアニメーション名")]
@@ -43,6 +43,8 @@ public class BossAI : NetworkBehaviour
     [Tooltip("ダウン時エフェクト")]
 
     public ParticleSystem Dawnparticle;
+
+    private ParticleSystem newParticle;
 
     // アニメーション名をネットワーク同期させる
     [Networked]
@@ -91,7 +93,7 @@ public class BossAI : NetworkBehaviour
             currentActionIndex = 0;
             isActionInitialized = false;
             isOnce = true;
-            isParticle = true;
+            isParticle = 2;
             return;
         }
 
@@ -240,21 +242,26 @@ public class BossAI : NetworkBehaviour
                
         }
         
-        if(isParticle)
+        if(isParticle==2||isParticle==3)
         {
-            // パーティクルシステムのインスタンスを生成
-            ParticleSystem newParticle = Instantiate(Dawnparticle);
+            if(isParticle==2)
+            {
+                // パーティクルシステムのインスタンスを生成
+                newParticle = Instantiate(Dawnparticle);
 
-            //パーティクルを生成
-            newParticle.transform.position = this.transform.position;
-            // パーティクルを発生させる
-            newParticle.Play();
-          
-            if(isDown==false)
+                //パーティクルを生成
+                newParticle.transform.position = this.transform.position;
+                // パーティクルを発生させる
+                newParticle.Play();
+                isParticle = 3;
+            }
+            
+            if (isDown==false)
             {
                 // インスタンス化したパーティクルシステムのGameObjectを削除
                 Destroy(newParticle.gameObject, 0.01f);
-                isParticle = false;
+
+                isParticle = 1;
             }
         }
 
