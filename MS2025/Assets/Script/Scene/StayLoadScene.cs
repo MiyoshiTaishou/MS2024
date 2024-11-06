@@ -14,6 +14,9 @@ public class StayLoadScene : NetworkBehaviour
     [SerializeField]
     private string nextSceneName; // 遷移先のシーン名
 
+    [SerializeField]
+    private TransitionManager transitionManager;
+
     private NetworkRunner networkRunner;
 
     private bool isOnce = false;
@@ -56,8 +59,18 @@ public class StayLoadScene : NetworkBehaviour
         {
             // シーン遷移の処理
             Debug.Log("All players are in. Loading next scene.");
-            networkRunner.LoadScene(nextSceneName);
+
+            transitionManager.TransitionStart();
+
+            StartCoroutine(Load());
+            
             isOnce = true;
         }
+    }
+
+    private IEnumerator Load()
+    {
+        yield return new WaitForSeconds(2f);
+        networkRunner.LoadScene(nextSceneName);
     }
 }
