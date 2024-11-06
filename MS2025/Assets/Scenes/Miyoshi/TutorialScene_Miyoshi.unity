@@ -475,7 +475,7 @@ PrefabInstance:
     - target: {fileID: 4698745772974053362, guid: c71161469b6c102429892c1cead900b0,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4772675901213302235, guid: c71161469b6c102429892c1cead900b0,
         type: 3}
@@ -3050,6 +3050,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 500232965}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &503018391 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1436457012745054779, guid: c71161469b6c102429892c1cead900b0,
+    type: 3}
+  m_PrefabInstance: {fileID: 60648029}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a57000e6ac72bf469086802ec7fd5cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &517683183
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4429,8 +4441,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f22b8bb4cc9906d4b804d6a50e852717, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxNum: 2
+  maxNum: 1
   nextSceneName: MargeScene_Build
+  transitionManager: {fileID: 503018391}
 --- !u!1001 &779820068
 PrefabInstance:
   m_ObjectHideFlags: 0
