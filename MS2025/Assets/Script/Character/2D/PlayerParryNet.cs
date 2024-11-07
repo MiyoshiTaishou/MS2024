@@ -31,8 +31,7 @@ public class PlayerParryNet : NetworkBehaviour
     [Networked] private float ParryActivetimeFrame { get; set; } = 0; //フレームに変換する
 
     //ヒットストップ時間
-    [SerializeField, Tooltip("ヒットストップ時間")] private int HitStop = 30;
-    private float HitStopFrame = 0; //フレームに変換する
+    [SerializeField, Tooltip("ヒットストップ時間")] float HitStopFrame; //フレームに変換する
 
     //ノックバック
     [SerializeField, Tooltip("ノックバック力")] float KnockbackPower = 50;
@@ -89,7 +88,8 @@ public class PlayerParryNet : NetworkBehaviour
     [Networked] bool NetParryeffect { get; set; } = false;
 
     [Networked] bool NetCountereffect { get; set; } = false;
-
+    [Networked] bool NetCountereffect2 { get; set; } = false;
+    int COunt = 5;
     /// <summary>
     /// パリィ状態かどうかのチェック(プレイヤーがダメージを受けたときに呼ぶ)
     /// </summary>
@@ -155,8 +155,6 @@ public class PlayerParryNet : NetworkBehaviour
 
         ParryArea.gameObject.SetActive(false);
 
-        //フレームに直す
-        HitStopFrame = HitStop / 60;
         ParryActivetimeFrame = ParryActivetime / 60;
 
         ParryArea.transform.localScale = scale;
@@ -198,7 +196,6 @@ public class PlayerParryNet : NetworkBehaviour
         animator.Play("APlayerCounter");
         // animator.SetTrigger("ParrySuccess"); // アニメーションのトリガー
         NetCountereffect = true;
-        hitStop.ApplyHitStop(HitStopFrame);
         //cinemachar.CameraZoom(this.character.transform, 5,0.5f);
         back.ApplyKnockback(transform.forward, KnockbackPower);
         ParryArea.GetComponent<ParryDisplayNet>().Init();
@@ -243,15 +240,10 @@ public class PlayerParryNet : NetworkBehaviour
             // Attackボタンが押されたか、かつアニメーションが再生中でないかチェック
             if (pressed.IsSet(NetworkInputButtons.Parry) && !isParry && isGround /*地上にいるかの判定*/)
             {
-                
                 ParryStart();
                 RPC_ParryArea();
             }
-
         }
-
-
-
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -299,6 +291,21 @@ public class PlayerParryNet : NetworkBehaviour
         {
             counterparticle.Play();
             NetCountereffect = false;
+            NetCountereffect2 = true;
+        }
+
+        if(NetCountereffect2)
+        {
+            if(COunt>0)
+            {
+                COunt--;
+            }
+            else if (COunt == 0) 
+            {
+                hitStop.ApplyHitStop(HitStopFrame);
+                NetCountereffect2 = false;
+                COunt = 5;
+            }
         }
 
         //ホストなら終了

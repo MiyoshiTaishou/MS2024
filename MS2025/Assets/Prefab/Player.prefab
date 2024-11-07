@@ -138,7 +138,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   netobj: {fileID: 6048116181023338960, guid: 2d5a6b03460814e4d8ec665c744611bb, type: 3}
-  stopFrame: 0
+  stopFrame: 60
 --- !u!1 &2918473518555105603
 GameObject:
   m_ObjectHideFlags: 0
@@ -686,7 +686,7 @@ MonoBehaviour:
   ParrySuccessSE: {fileID: 8300000, guid: 76679888a166a874ea5b576cedbb74cd, type: 3}
   parryradius: 3
   ParryActivetime: 39
-  HitStop: 30
+  HitStopFrame: 120
   KnockbackPower: 100
   _isHost: 0
   Parryeffect: {fileID: 3924670616950389268}
@@ -765,7 +765,6 @@ MonoBehaviour:
   - {fileID: 7902367504984516323}
   - {fileID: 3924670616950389268}
   - {fileID: 5564641895426053759}
-  stopFrame: 0
 --- !u!114 &5591909908197937288
 MonoBehaviour:
   m_ObjectHideFlags: 0
