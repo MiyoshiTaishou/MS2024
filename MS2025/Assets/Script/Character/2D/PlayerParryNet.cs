@@ -250,8 +250,6 @@ public class PlayerParryNet : NetworkBehaviour
 
         }
 
-
-
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -291,8 +289,11 @@ public class PlayerParryNet : NetworkBehaviour
 
         if (NetParryeffect)
         {
+            Vector3 pos = transform.position;
+            pos.y -= this.gameObject.transform.localScale.y / 2;//直打ちだけどプレイヤーの足元まで下げる
+            pos.y += 0.5f;//地面と重ならないように少し浮かす
+            Instantiate(particle,pos, Quaternion.identity);
             NetParryeffect = false;
-            particle.Play();
         }
 
         if (NetCountereffect)
