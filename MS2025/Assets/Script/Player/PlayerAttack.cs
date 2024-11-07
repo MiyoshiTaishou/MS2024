@@ -33,7 +33,7 @@ public class PlayerAttack : NetworkBehaviour
     int Count;
 
     [SerializeField, Tooltip("エフェクト")]
-    GameObject effect;
+    List<GameObject> effectList;
     ParticleSystem particle;
 
     [Networked] private bool isEffect { get; set; }
@@ -52,7 +52,7 @@ public class PlayerAttack : NetworkBehaviour
         }
         sharenum = netobj.GetComponent<ShareNumbers>();
 
-        particle = effect.GetComponent<ParticleSystem>();
+        particle = effectList[0].GetComponent<ParticleSystem>();
     }
 
     public override void FixedUpdateNetwork()
@@ -103,6 +103,7 @@ public class PlayerAttack : NetworkBehaviour
             //Debug.LogError("壱の秘剣");
             //animator.SetTrigger("Attack"); // アニメーションのトリガー
             animator.Play("APlayerAttack");
+            particle = effectList[currentCombo].GetComponent<ParticleSystem>();
             isOnce = false; // フラグをリセット
             isEffect = true;
         }
@@ -111,6 +112,7 @@ public class PlayerAttack : NetworkBehaviour
             //Debug.LogError("弐の秘剣");
             //animator.SetTrigger("Attack2"); // アニメーションのトリガー
             animator.Play("APlayerAttack2");
+            particle = effectList[currentCombo].GetComponent<ParticleSystem>();
             isOnce = false; // フラグをリセット
             isEffect = true;
 
@@ -120,6 +122,7 @@ public class PlayerAttack : NetworkBehaviour
             //Debug.LogError("終の秘剣");
             //animator.SetTrigger("Attack3"); // アニメーションのトリガー
             animator.Play("APlayerAttack3");
+            particle = effectList[currentCombo].GetComponent<ParticleSystem>();
             isOnce = false; // フラグをリセット
             isEffect = true;
         }
