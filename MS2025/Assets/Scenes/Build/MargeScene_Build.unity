@@ -5700,9 +5700,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 728711347568068367, guid: 745fd90e17809384d980f68c8c476341,
         type: 3}
+      propertyPath: Deathparticle
+      value: 
+      objectReference: {fileID: 2121593439}
+    - target: {fileID: 728711347568068367, guid: 745fd90e17809384d980f68c8c476341,
+        type: 3}
       propertyPath: Damageparticle
       value: 
       objectReference: {fileID: 2121593439}
+    - target: {fileID: 728711347568068367, guid: 745fd90e17809384d980f68c8c476341,
+        type: 3}
+      propertyPath: ResultSceneName
+      value: Title_Network_Build
+      objectReference: {fileID: 0}
     - target: {fileID: 1249093349898992325, guid: 745fd90e17809384d980f68c8c476341,
         type: 3}
       propertyPath: m_Name
@@ -5771,7 +5781,7 @@ PrefabInstance:
     - target: {fileID: 6831667486188821985, guid: 745fd90e17809384d980f68c8c476341,
         type: 3}
       propertyPath: NetworkedBehaviours.Array.size
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6831667486188821985, guid: 745fd90e17809384d980f68c8c476341,
         type: 3}
@@ -5783,6 +5793,17 @@ PrefabInstance:
       propertyPath: SortKey
       value: 1926975669
       objectReference: {fileID: 0}
+    - target: {fileID: 9057512719745946127, guid: 745fd90e17809384d980f68c8c476341,
+        type: 3}
+      propertyPath: parryction
+      value: 
+      objectReference: {fileID: 11400000, guid: 864c1550d593e4d4691e8c47cc651178,
+        type: 2}
+    - target: {fileID: 9057512719745946127, guid: 745fd90e17809384d980f68c8c476341,
+        type: 3}
+      propertyPath: Dawnparticle
+      value: 
+      objectReference: {fileID: 2121593439}
     - target: {fileID: 9057512719745946127, guid: 745fd90e17809384d980f68c8c476341,
         type: 3}
       propertyPath: actionSequence.Array.size
@@ -5805,6 +5826,29 @@ PrefabInstance:
       propertyPath: actionSequence.Array.data[2]
       value: 
       objectReference: {fileID: 11400000, guid: c664d0aeada23f9429b847eb86ab1df7,
+        type: 2}
+    - target: {fileID: 9057512719745946127, guid: 745fd90e17809384d980f68c8c476341,
+        type: 3}
+      propertyPath: actionSequenceHalf.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 9057512719745946127, guid: 745fd90e17809384d980f68c8c476341,
+        type: 3}
+      propertyPath: actionSequenceHalf.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: ac9eb4b37b4adc048a5be3a0e53d19cc,
+        type: 2}
+    - target: {fileID: 9057512719745946127, guid: 745fd90e17809384d980f68c8c476341,
+        type: 3}
+      propertyPath: actionSequenceHalf.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: ac9eb4b37b4adc048a5be3a0e53d19cc,
+        type: 2}
+    - target: {fileID: 9057512719745946127, guid: 745fd90e17809384d980f68c8c476341,
+        type: 3}
+      propertyPath: actionSequenceHalf.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: ac9eb4b37b4adc048a5be3a0e53d19cc,
         type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
