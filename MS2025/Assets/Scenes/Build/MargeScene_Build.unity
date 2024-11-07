@@ -5702,12 +5702,14 @@ PrefabInstance:
         type: 3}
       propertyPath: Deathparticle
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 4596544553357837919, guid: 8eb503696b886e04faff8fc0f480d473,
+        type: 3}
     - target: {fileID: 728711347568068367, guid: 745fd90e17809384d980f68c8c476341,
         type: 3}
       propertyPath: Damageparticle
       value: 
-      objectReference: {fileID: 2121593439}
+      objectReference: {fileID: 4642848129145531053, guid: bd868461f57eeb94ba4fecf048683a9d,
+        type: 3}
     - target: {fileID: 1249093349898992325, guid: 745fd90e17809384d980f68c8c476341,
         type: 3}
       propertyPath: m_Name
@@ -5772,7 +5774,8 @@ PrefabInstance:
         type: 3}
       propertyPath: AttackParticle
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 5473588508934549075, guid: 035ce8c9cfc34104991ce416daf8aebe,
+        type: 3}
     - target: {fileID: 6831667486188821985, guid: 745fd90e17809384d980f68c8c476341,
         type: 3}
       propertyPath: SortKey
@@ -5797,7 +5800,8 @@ PrefabInstance:
         type: 3}
       propertyPath: Dawnparticle
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 7551388611195229131, guid: a58aa9a78f2b45b45bb0f3e2e1e3ad3c,
+        type: 3}
     - target: {fileID: 9057512719745946127, guid: 745fd90e17809384d980f68c8c476341,
         type: 3}
       propertyPath: actionSequence.Array.size
