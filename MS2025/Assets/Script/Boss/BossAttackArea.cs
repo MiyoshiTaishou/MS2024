@@ -19,7 +19,7 @@ public class BossAttackArea : NetworkBehaviour
         box = GameObject.Find("Networkbox");
         parent = transform.parent.gameObject;
         timer = deactivateTime;
-        isAttack = true;
+       
     }
 
     private void OnTriggerEnter(Collider other)
@@ -39,7 +39,7 @@ public class BossAttackArea : NetworkBehaviour
             Debug.Log("攻撃ヒット");
             box.GetComponent<ShareNumbers>().RPC_Damage();
             other.GetComponent<PlayerHP>().RPC_DamageAnim();
-           
+            isAttack = true;
             PlayerPos = other.transform.position;
             gameObject.SetActive(false);
         }
@@ -47,6 +47,8 @@ public class BossAttackArea : NetworkBehaviour
 
     public override void Render()
     {
+     
+
         if(isAttack)
         {
             // パーティクルシステムのインスタンスを生成
@@ -56,7 +58,7 @@ public class BossAttackArea : NetworkBehaviour
             // パーティクルを発生させる
             newParticle.Play();
             // インスタンス化したパーティクルシステムのGameObjectを1秒後に削除
-            Destroy(newParticle.gameObject, 1.0f);
+            Destroy(newParticle.gameObject, 0.4f);
             isAttack = false;
         }
     }
