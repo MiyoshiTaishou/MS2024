@@ -10,7 +10,7 @@ using static UnityEngine.ParticleSystem;
 
 public class PlayerParryNet : NetworkBehaviour
 {
-    //ƒpƒŠƒB”ÍˆÍ
+    //ãƒ‘ãƒªã‚£ç¯„å›²
     private GameObject ParryArea;
 
     private Animator animator;
@@ -19,34 +19,33 @@ public class PlayerParryNet : NetworkBehaviour
 
     AudioManager audioManager;
 
-    [Header("ƒpƒŠƒBSE"), SerializeField] private AudioClip ParrySE;
-    [Header("ƒpƒŠƒB¬Œ÷SE"), SerializeField] private AudioClip ParrySuccessSE;
+    [Header("ãƒ‘ãƒªã‚£SE"), SerializeField] private AudioClip ParrySE;
+    [Header("ãƒ‘ãƒªã‚£æˆåŠŸSE"), SerializeField] private AudioClip ParrySuccessSE;
 
-    [SerializeField, Tooltip("ƒpƒŠƒB”ÍˆÍ")] float parryradius = 3;
+    [SerializeField, Tooltip("ãƒ‘ãƒªã‚£ç¯„å›²")] float parryradius = 3;
 
     [Networked] public NetworkButtons ButtonsPrevious { get; set; }
 
-    //ƒpƒŠƒB‚ÌŒø‰ÊŠÔ
-    [SerializeField, Tooltip("ƒpƒŠƒBŒø‰ÊŠÔ")] float ParryActivetime = 3;
-    [Networked] private float ParryActivetimeFrame { get; set; } = 0; //ƒtƒŒ[ƒ€‚É•ÏŠ·‚·‚é
+    //ãƒ‘ãƒªã‚£ã®åŠ¹æœæ™‚é–“
+    [SerializeField, Tooltip("ãƒ‘ãƒªã‚£åŠ¹æœæ™‚é–“")] float ParryActivetime = 3;
+    [Networked] private float ParryActivetimeFrame { get; set; } = 0; //ãƒ•ãƒ¬ãƒ¼ãƒ ã«å¤‰æ›ã™ã‚‹
 
-    //ƒqƒbƒgƒXƒgƒbƒvŠÔ
-    [SerializeField, Tooltip("ƒqƒbƒgƒXƒgƒbƒvŠÔ")] private int HitStop = 30;
-    private float HitStopFrame = 0; //ƒtƒŒ[ƒ€‚É•ÏŠ·‚·‚é
+    //ãƒ’ãƒƒãƒˆã‚¹ãƒˆãƒƒãƒ—æ™‚é–“
+    [SerializeField, Tooltip("ãƒ’ãƒƒãƒˆã‚¹ãƒˆãƒƒãƒ—æ™‚é–“")] float HitStopFrame; //ãƒ•ãƒ¬ãƒ¼ãƒ ã«å¤‰æ›ã™ã‚‹
 
-    //ƒmƒbƒNƒoƒbƒN
-    [SerializeField, Tooltip("ƒmƒbƒNƒoƒbƒN—Í")] float KnockbackPower = 50;
+    //ãƒãƒƒã‚¯ãƒãƒƒã‚¯
+    [SerializeField, Tooltip("ãƒãƒƒã‚¯ãƒãƒƒã‚¯åŠ›")] float KnockbackPower = 50;
 
-    //“G‚©‚ç‚ÌUŒ‚‚ğó‚¯‚½‚©”»’è
+    //æ•µã‹ã‚‰ã®æ”»æ’ƒã‚’å—ã‘ãŸã‹åˆ¤å®š
     public bool DamageReceive { get; set; } = false;
 
     /// <summary>
-    /// ƒpƒŠƒBó‘Ô‚©‚Ç‚¤‚©
+    /// ãƒ‘ãƒªã‚£çŠ¶æ…‹ã‹ã©ã†ã‹
     /// </summary>
     [Networked] bool isParry { get; set; } = false;
 
     /// <summary>
-    /// ƒpƒŠƒBó‘Ô‚©‚Ç‚¤‚©
+    /// ãƒ‘ãƒªã‚£çŠ¶æ…‹ã‹ã©ã†ã‹
     /// </summary>
     [Networked] bool isParrySuccess { get; set; } = false;
 
@@ -64,23 +63,23 @@ public class PlayerParryNet : NetworkBehaviour
 
     private GameObject playerhost;
 
-    [SerializeField, Tooltip("ƒGƒtƒFƒNƒgƒpƒŠƒB")]
+    [SerializeField, Tooltip("ã‚¨ãƒ•ã‚§ã‚¯ãƒˆãƒ‘ãƒªã‚£")]
     GameObject Parryeffect;
 
     ParticleSystem particle;
 
-    [SerializeField, Tooltip("ƒGƒtƒFƒNƒgƒJƒEƒ“ƒ^[")]
+    [SerializeField, Tooltip("ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã‚«ã‚¦ãƒ³ã‚¿ãƒ¼")]
     GameObject Countereffect;
 
     ParticleSystem counterparticle;
 
-    //•\¦ŠÔ‚ÌƒQƒbƒ^[
+    //è¡¨ç¤ºæ™‚é–“ã®ã‚²ãƒƒã‚¿ãƒ¼
     public float GetParryActiveTime() { return ParryActivetimeFrame; }
 
-    //ƒpƒŠƒBó‘Ô‚©‚Ç‚¤‚©
+    //ãƒ‘ãƒªã‚£çŠ¶æ…‹ã‹ã©ã†ã‹
     public void SetParryflg(bool flg) { isParry = flg; }
 
-    // ƒAƒjƒ[ƒVƒ‡ƒ“–¼‚ğƒlƒbƒgƒ[ƒN“¯Šú‚³‚¹‚é
+    // ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³åã‚’ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯åŒæœŸã•ã›ã‚‹
     [Networked]
     private NetworkString<_16> networkedAnimationName { get; set; }
 
@@ -89,13 +88,14 @@ public class PlayerParryNet : NetworkBehaviour
     [Networked] bool NetParryeffect { get; set; } = false;
 
     [Networked] bool NetCountereffect { get; set; } = false;
-
+    [Networked] bool NetCountereffect2 { get; set; } = false;
+    int COunt = 5;
     /// <summary>
-    /// ƒpƒŠƒBó‘Ô‚©‚Ç‚¤‚©‚Ìƒ`ƒFƒbƒN(ƒvƒŒƒCƒ„[‚ªƒ_ƒ[ƒW‚ğó‚¯‚½‚Æ‚«‚ÉŒÄ‚Ô)
+    /// ãƒ‘ãƒªã‚£çŠ¶æ…‹ã‹ã©ã†ã‹ã®ãƒã‚§ãƒƒã‚¯(ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒãƒ€ãƒ¡ãƒ¼ã‚¸ã‚’å—ã‘ãŸã¨ãã«å‘¼ã¶)
     /// </summary>
     public bool ParryCheck()
     {
-        //Debug.Log("ƒpƒŠƒB!!!");
+        //Debug.Log("ãƒ‘ãƒªã‚£!!!");
 
         if (isParry)
         {
@@ -118,11 +118,11 @@ public class PlayerParryNet : NetworkBehaviour
 
 
     /// <summary>
-    /// ƒpƒŠƒBó‘Ô‚©‚Ç‚¤‚©‚Ìƒ`ƒFƒbƒN(ƒpƒŠƒBƒWƒƒƒ“ƒv—p)
+    /// ãƒ‘ãƒªã‚£çŠ¶æ…‹ã‹ã©ã†ã‹ã®ãƒã‚§ãƒƒã‚¯(ãƒ‘ãƒªã‚£ã‚¸ãƒ£ãƒ³ãƒ—ç”¨)
     /// </summary>
     public bool ParryJumpCheck()
     {
-        // Debug.Log("ƒpƒŠƒB!!!");
+        // Debug.Log("ãƒ‘ãƒªã‚£!!!");
 
         if (ParryArea.activeSelf)
         {
@@ -137,13 +137,13 @@ public class PlayerParryNet : NetworkBehaviour
 
     public override void Spawned()
     {
-        // NetworkRunner‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğæ“¾
+        // NetworkRunnerã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’å–å¾—
         runner = FindObjectOfType<NetworkRunner>();
 
-        //SE“Ç‚İ‚İ
+        //SEèª­ã¿è¾¼ã¿
         //audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
         audioSource = GetComponent<AudioSource>();
-        animator = GetComponent<Animator>();//ƒAƒjƒ[ƒ^[
+        animator = GetComponent<Animator>();//ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚¿ãƒ¼
         hitStop = GetComponent<HitStop>();
         back = GetComponent<Knockback>();
         Vector3 scale = new Vector3(parryradius, parryradius, parryradius);
@@ -155,8 +155,6 @@ public class PlayerParryNet : NetworkBehaviour
 
         ParryArea.gameObject.SetActive(false);
 
-        //ƒtƒŒ[ƒ€‚É’¼‚·
-        HitStopFrame = HitStop / 60;
         ParryActivetimeFrame = ParryActivetime / 60;
 
         ParryArea.transform.localScale = scale;
@@ -188,17 +186,16 @@ public class PlayerParryNet : NetworkBehaviour
     }
 
     /// <summary>
-    /// ƒpƒŠƒB¬Œ÷‚Ìˆ—
+    /// ãƒ‘ãƒªã‚£æˆåŠŸæ™‚ã®å‡¦ç†
     /// </summary>
     public void ParrySystem()
     {
 
-        Debug.Log("ƒpƒŠƒBƒVƒXƒeƒ€");
+        Debug.Log("ãƒ‘ãƒªã‚£ã‚·ã‚¹ãƒ†ãƒ ");
         audioSource.PlayOneShot(ParrySuccessSE);
         animator.Play("APlayerCounter");
-        // animator.SetTrigger("ParrySuccess"); // ƒAƒjƒ[ƒVƒ‡ƒ“‚ÌƒgƒŠƒK[
+        // animator.SetTrigger("ParrySuccess"); // ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã®ãƒˆãƒªã‚¬ãƒ¼
         NetCountereffect = true;
-        hitStop.ApplyHitStop(HitStopFrame);
         //cinemachar.CameraZoom(this.character.transform, 5,0.5f);
         back.ApplyKnockback(transform.forward, KnockbackPower);
         ParryArea.GetComponent<ParryDisplayNet>().Init();
@@ -217,7 +214,7 @@ public class PlayerParryNet : NetworkBehaviour
     public void ParryStart()
     {
         audioSource.PlayOneShot(ParrySE);
-        // animator.SetTrigger("Parry"); // ƒAƒjƒ[ƒVƒ‡ƒ“‚ÌƒgƒŠƒK[
+        // animator.SetTrigger("Parry"); // ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã®ãƒˆãƒªã‚¬ãƒ¼
        
         animator.Play("APlayerParry");
         ParryArea.SetActive(true);
@@ -231,7 +228,7 @@ public class PlayerParryNet : NetworkBehaviour
 
         if (GetInput(out NetworkInputData data))
         {
-            //ƒpƒŠƒB’†‚Í“®‚©‚¹‚È‚¢‚æ‚¤‚É‚·‚é
+            //ãƒ‘ãƒªã‚£ä¸­ã¯å‹•ã‹ã›ãªã„ã‚ˆã†ã«ã™ã‚‹
             if (landAnimStateInfo.IsName("APlayerAtack1") || landAnimStateInfo.IsName("APlayerAtack2") || landAnimStateInfo.IsName("APlayerAtack3"))
             {
                 return;
@@ -240,21 +237,18 @@ public class PlayerParryNet : NetworkBehaviour
             var pressed = data.Buttons.GetPressed(ButtonsPrevious);
             ButtonsPrevious = data.Buttons;
 
-            // Attackƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚½‚©A‚©‚ÂƒAƒjƒ[ƒVƒ‡ƒ“‚ªÄ¶’†‚Å‚È‚¢‚©ƒ`ƒFƒbƒN
-            if (pressed.IsSet(NetworkInputButtons.Parry) && !isParry && isGround /*’nã‚É‚¢‚é‚©‚Ì”»’è*/)
+            // Attackãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚ŒãŸã‹ã€ã‹ã¤ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ãŒå†ç”Ÿä¸­ã§ãªã„ã‹ãƒã‚§ãƒƒã‚¯
+            if (pressed.IsSet(NetworkInputButtons.Parry) && !isParry && isGround /*åœ°ä¸Šã«ã„ã‚‹ã‹ã®åˆ¤å®š*/)
             {
-                
                 ParryStart();
                 RPC_ParryArea();
             }
-
         }
-
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        // ’nã‚É‚¢‚é‚©
+        // åœ°ä¸Šã«ã„ã‚‹ã‹
         if (collision.gameObject.CompareTag("Ground"))
         {
             isGround = true;
@@ -271,17 +265,17 @@ public class PlayerParryNet : NetworkBehaviour
 
     public override void Render()
     {
-        if (isParry && isParryAnimation) //ƒpƒŠƒBƒAƒjƒ[ƒVƒ‡ƒ“’†‚©‚Ç‚¤‚©
+        if (isParry && isParryAnimation) //ãƒ‘ãƒªã‚£ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ä¸­ã‹ã©ã†ã‹
         {
-            Debug.Log("ƒpƒŠƒBƒNƒ‰ƒCƒAƒ“ƒg");
+            Debug.Log("ãƒ‘ãƒªã‚£ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆ");
             NetParryeffect = true;
             animator.Play("APlayerParry");
-            isParryAnimation = false; // ƒtƒ‰ƒO‚ğƒŠƒZƒbƒg
+            isParryAnimation = false; // ãƒ•ãƒ©ã‚°ã‚’ãƒªã‚»ãƒƒãƒˆ
         }
 
-        if (isParrySuccess) //ƒpƒŠƒBƒAƒjƒ[ƒVƒ‡ƒ“’†‚©‚Ç‚¤‚©
+        if (isParrySuccess) //ãƒ‘ãƒªã‚£ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ä¸­ã‹ã©ã†ã‹
         {
-            Debug.Log("ƒpƒŠƒBƒJƒEƒ“ƒ^[ƒNƒ‰ƒCƒAƒ“ƒg");
+            Debug.Log("ãƒ‘ãƒªã‚£ã‚«ã‚¦ãƒ³ã‚¿ãƒ¼ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆ");
             NetCountereffect = true;
             animator.Play("APlayerCounter");
             isParrySuccess = false;
@@ -290,8 +284,8 @@ public class PlayerParryNet : NetworkBehaviour
         if (NetParryeffect)
         {
             Vector3 pos = transform.position;
-            pos.y -= this.gameObject.transform.localScale.y / 2;//’¼‘Å‚¿‚¾‚¯‚ÇƒvƒŒƒCƒ„[‚Ì‘«Œ³‚Ü‚Å‰º‚°‚é
-            pos.y += 0.5f;//’n–Ê‚Æd‚È‚ç‚È‚¢‚æ‚¤‚É­‚µ•‚‚©‚·
+            pos.y -= this.gameObject.transform.localScale.y / 2;//ç›´æ‰“ã¡ã ã‘ã©ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®è¶³å…ƒã¾ã§ä¸‹ã’ã‚‹
+            pos.y += 0.5f;//åœ°é¢ã¨é‡ãªã‚‰ãªã„ã‚ˆã†ã«å°‘ã—æµ®ã‹ã™
             Instantiate(particle,pos, Quaternion.identity);
             NetParryeffect = false;
         }
@@ -300,9 +294,24 @@ public class PlayerParryNet : NetworkBehaviour
         {
             counterparticle.Play();
             NetCountereffect = false;
+            NetCountereffect2 = true;
         }
 
-        //ƒzƒXƒg‚È‚çI—¹
+        if(NetCountereffect2)
+        {
+            if(COunt>0)
+            {
+                COunt--;
+            }
+            else if (COunt == 0) 
+            {
+                hitStop.ApplyHitStop(HitStopFrame);
+                NetCountereffect2 = false;
+                COunt = 5;
+            }
+        }
+
+        //ãƒ›ã‚¹ãƒˆãªã‚‰çµ‚äº†
         //if (Object.HasInputAuthority)
         //{
         //    return;

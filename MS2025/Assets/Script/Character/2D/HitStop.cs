@@ -8,8 +8,6 @@ public class HitStop : NetworkBehaviour
 {
     private Animator animator;
     [SerializeField, Tooltip("停止するパーティクルのオブジェクト")] GameObject[] particleSystems;
-    [SerializeField, Tooltip("停止時間(f)")] int stopFrame;
-
 
     public override void Spawned()
     {
@@ -22,6 +20,7 @@ public class HitStop : NetworkBehaviour
      */
     public void ApplyHitStop(float hitStopDuration)
     {
+        Debug.Log("とまれええええええええ");
         StartCoroutine(DoHitStop(hitStopDuration));
     }
 
@@ -39,8 +38,9 @@ public class HitStop : NetworkBehaviour
             {
                 if (particleSystem.GetComponent<ParticleSystem>().isPlaying)
                 {
-                    time.Add(particleSystem.GetComponent<ParticleSystem>().time);
+                    time.Add(0.5f);
                     particleSystem.GetComponent<ParticleSystem>().Pause();
+                    Debug.Log("とマップ"+particleSystem.name);
                 }
                 else
                 {
@@ -48,8 +48,10 @@ public class HitStop : NetworkBehaviour
                 }
             }
         }
+
         // hitStopDuration秒待機 (実際の時間での待機)
         yield return new WaitForSecondsRealtime(hitStopDuration/60.0f);
+
         if (animator != null)
         {
             animator.speed = 1;
@@ -58,8 +60,10 @@ public class HitStop : NetworkBehaviour
         {
             for (int i=0;i<particleSystems.Length;i++)
             {
+                Debug.Log("あああああああああああああ" + time[i]);
                 if (time[i] != 0)
                 {
+                    Debug.Log("とまああぷ" + particleSystems[i].name);
                     particleSystems[i].GetComponent<ParticleSystem>().Play();
                 }
             }
