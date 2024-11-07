@@ -10,7 +10,8 @@ public class BossAttackArea : NetworkBehaviour
     private float deactivateTime = 0.5f; // 攻撃エリアの非表示にするまでの時間
     private float timer;
     private Vector3 PlayerPos;
-    private bool isAttack=false;
+    public bool isAttack=false;
+    private ParticleSystem newParticle;
     [Tooltip("攻撃エフェクト")]
     public ParticleSystem AttackParticle;
 
@@ -19,7 +20,7 @@ public class BossAttackArea : NetworkBehaviour
         box = GameObject.Find("Networkbox");
         parent = transform.parent.gameObject;
         timer = deactivateTime;
-       
+       isAttack = true;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -50,8 +51,9 @@ public class BossAttackArea : NetworkBehaviour
 
         if(isAttack)
         {
+            Debug.Log("攻撃エフェクト生成");
             // パーティクルシステムのインスタンスを生成
-            ParticleSystem newParticle = Instantiate(AttackParticle);
+            newParticle = Instantiate(AttackParticle);
             //パーティクルを生成
             newParticle.transform.position = this.transform.position;
             // パーティクルを発生させる
