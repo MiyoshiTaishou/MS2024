@@ -1,4 +1,5 @@
 using Fusion;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -28,6 +29,9 @@ public class BossStatus : NetworkBehaviour
     [Networked] private bool isDamageEffect { get; set; }
 
     [Networked] private bool isDeathEffect { get; set; }
+
+    [Header("リザルトシーン名"), SerializeField]
+    private String ResultSceneName;
 
     private void Start()
     {
@@ -83,7 +87,7 @@ public class BossStatus : NetworkBehaviour
             Runner.Shutdown();
 
             // メインメニューシーンに戻る (シーン名 "MainMenu" を実際のシーン名に置き換えてください)
-            UnityEngine.SceneManagement.SceneManager.LoadScene("MenuScene");
+            UnityEngine.SceneManagement.SceneManager.LoadScene(ResultSceneName);
         }
     }
 
