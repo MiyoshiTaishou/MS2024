@@ -6386,9 +6386,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 728711347568068367, guid: 745fd90e17809384d980f68c8c476341,
         type: 3}
+      propertyPath: Deathparticle
+      value: 
+      objectReference: {fileID: 1721637353}
+    - target: {fileID: 728711347568068367, guid: 745fd90e17809384d980f68c8c476341,
+        type: 3}
       propertyPath: Damageparticle
       value: 
       objectReference: {fileID: 1721637353}
+    - target: {fileID: 728711347568068367, guid: 745fd90e17809384d980f68c8c476341,
+        type: 3}
+      propertyPath: ResultSceneName
+      value: Title_Network
+      objectReference: {fileID: 0}
     - target: {fileID: 1249093349898992325, guid: 745fd90e17809384d980f68c8c476341,
         type: 3}
       propertyPath: m_Name
@@ -6457,7 +6467,7 @@ PrefabInstance:
     - target: {fileID: 6831667486188821985, guid: 745fd90e17809384d980f68c8c476341,
         type: 3}
       propertyPath: NetworkedBehaviours.Array.size
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6831667486188821985, guid: 745fd90e17809384d980f68c8c476341,
         type: 3}
@@ -6477,6 +6487,11 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 9057512719745946127, guid: 745fd90e17809384d980f68c8c476341,
         type: 3}
+      propertyPath: Dawnparticle
+      value: 
+      objectReference: {fileID: 1721637353}
+    - target: {fileID: 9057512719745946127, guid: 745fd90e17809384d980f68c8c476341,
+        type: 3}
       propertyPath: actionSequence.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -6484,7 +6499,7 @@ PrefabInstance:
         type: 3}
       propertyPath: actionSequence.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: 8adab2bcc19753c41a9d1881e876837b,
+      objectReference: {fileID: 11400000, guid: ac06875c484b24243929c87072a84e65,
         type: 2}
     - target: {fileID: 9057512719745946127, guid: 745fd90e17809384d980f68c8c476341,
         type: 3}
@@ -6497,6 +6512,17 @@ PrefabInstance:
       propertyPath: actionSequence.Array.data[2]
       value: 
       objectReference: {fileID: 11400000, guid: c664d0aeada23f9429b847eb86ab1df7,
+        type: 2}
+    - target: {fileID: 9057512719745946127, guid: 745fd90e17809384d980f68c8c476341,
+        type: 3}
+      propertyPath: actionSequenceHalf.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9057512719745946127, guid: 745fd90e17809384d980f68c8c476341,
+        type: 3}
+      propertyPath: actionSequenceHalf.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: ac9eb4b37b4adc048a5be3a0e53d19cc,
         type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
