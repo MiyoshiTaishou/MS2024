@@ -87,6 +87,7 @@ public class BossStatus : NetworkBehaviour
     private IEnumerator HostSceneTransition()
     {
         yield return new WaitForSeconds(2); // クライアント側がシーン遷移するまでの時間を調整
+        Runner.Shutdown();
         UnityEngine.SceneManagement.SceneManager.LoadScene(ResultSceneName);
     }
 
