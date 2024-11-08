@@ -76,7 +76,7 @@ public class PlayerAttack : NetworkBehaviour
                 isOnce = true;
                 //全プレイヤーにSEを再生する
                 RPC_SE();
-                particle.Play();
+                //particle.Play();
             }
             else if(pressed.IsSet(NetworkInputButtons.Attack) && currentCombo >= 2)
             {
@@ -85,7 +85,7 @@ public class PlayerAttack : NetworkBehaviour
                 isOnce = true;
                 //全プレイヤーにSEを再生する
                 RPC_SE();
-                isEffect= true;
+                //isEffect= true;
 
             }
         }
