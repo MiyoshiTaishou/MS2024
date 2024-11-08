@@ -19,6 +19,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
     [SerializeField] private int numBoss = 1;
     [SerializeField] Image LoadingImage;
     [SerializeField, Header("トランジションオブジェクト")] private GameObject[] transiton;
+    [SerializeField, Header("プレイヤーを生成しないシーンリスト")] private string[] skipScenes;
 
     private NetworkRunner networkRunner;
 
@@ -145,6 +146,16 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
     public void OnReliableDataReceived(NetworkRunner runner, PlayerRef player, ArraySegment<byte> data) { }
     public void OnSceneLoadDone(NetworkRunner runner)
     {
+        // 現在のシーン名を取得
+        string currentSceneName = SceneManager.GetActiveScene().name;
+
+        // シーンがスキップ対象の場合はプレイヤー生成処理を行わない
+        if (Array.Exists<string>(skipScenes, scene => currentSceneName.Contains(scene)))
+        {
+            Debug.Log($"Skipping player spawn for scene: {currentSceneName}");
+            return;
+        }
+
         if (runner.IsServer)
         {
             // 必要に応じてプレイヤーオブジェクトを再生成
