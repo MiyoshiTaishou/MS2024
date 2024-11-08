@@ -17,9 +17,11 @@ public class BossAI : NetworkBehaviour
 
     //パリィ可能な状態か
     [Networked] public bool isParry { get; set; }
-
+    [Networked] public int Nokezori { get; set; }
+    [SerializeField, Tooltip("パリィ連携攻撃でのけぞる回数")] public int NokezoriLimit;
     private int currentActionIndex = 0;
     private BossActionData currentAction;
+    public BossActionData GetCurrentAction() { return currentAction; }
     private bool isActionInitialized = false;
     private Animator animator;
     private bool isOnce = false;
@@ -61,6 +63,7 @@ public class BossAI : NetworkBehaviour
         animator = GetComponent<Animator>(); // Animator コンポーネントを取得
         currentSequenceIndex = Random.Range(0, actionSequence.Length);
 
+        Nokezori = NokezoriLimit;
         // プレイヤーオブジェクトをすべて取得してリストに保存
         players = new List<Transform>();
         RefreshPlayerList();
@@ -142,6 +145,7 @@ public class BossAI : NetworkBehaviour
 
     private void HandleInterruption()
     {
+        Debug.Log("ぱられたあああああああ");
         currentAction = parryction;
         currentActionIndex = 0;
         isActionInitialized = false;
@@ -276,6 +280,7 @@ public class BossAI : NetworkBehaviour
     [Rpc(RpcSources.All, RpcTargets.All)]
     public void RPC_AnimName()
     {
+        Nokezori = NokezoriLimit;
         isInterrupted = true;
     }
 }
