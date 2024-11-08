@@ -7,7 +7,7 @@ using UnityEngine;
 public class MenuLoad : NetworkBehaviour
 {
     [Header("メニューシーン名"), SerializeField]
-    private String ResultSceneName;
+    private string ResultSceneName;
 
     public void LoadMenu()
     {
