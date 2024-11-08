@@ -16,6 +16,9 @@ public class BossStatus : NetworkBehaviour
 
     //Slider
     public UnityEngine.UI.Slider slider;
+
+    public UnityEngine.UI.Slider Backslider;
+
     [Networked] private float sliderValue { get; set; }
 
     [Tooltip("被ダメージエフェクト")]
@@ -39,6 +42,7 @@ public class BossStatus : NetworkBehaviour
     public override void Spawned()
     {
         slider.value = nBossHP;
+        Backslider.value = nBossHP;
         sliderValue = nBossHP; // 初期値としてnBossHPをsliderValueに設定
 
         InitHP = nBossHP;
@@ -112,6 +116,12 @@ public class BossStatus : NetworkBehaviour
         }
 
         slider.value = nBossHP;
+
+        if(Backslider.value>nBossHP)
+        {
+            Backslider.value -= 0.5f;
+        }
+
     }
 
     private void OnSliderValueChanged(float value)
@@ -129,7 +139,6 @@ public class BossStatus : NetworkBehaviour
             slider.value = sliderValue; // sliderValueをクライアントに反映
         }
 
-        slider.value = 1 - (float)nBossHP / (float)InitHP;
 
         if (nBossHP <= 0 && Object.HasStateAuthority)
         {
