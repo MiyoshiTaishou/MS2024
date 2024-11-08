@@ -7,63 +7,103 @@ public class BossAttackArea : NetworkBehaviour
 {
     GameObject box;
     GameObject parent;
-    private float deactivateTime = 0.5f; // UŒ‚ƒGƒŠƒA‚Ì”ñ•\¦‚É‚·‚é‚Ü‚Å‚ÌŠÔ
+    private float deactivateTime = 0.5f; // æ”»æ’ƒã‚¨ãƒªã‚¢ã®éè¡¨ç¤ºã«ã™ã‚‹ã¾ã§ã®æ™‚é–“
     private float timer;
-    private Vector3 PlayerPos;
-    private bool isAttack=false;
-    [Tooltip("UŒ‚ƒGƒtƒFƒNƒg")]
+    public bool isAttack=false;
+    private ParticleSystem newParticle;
+    [Tooltip("æ”»æ’ƒã‚¨ãƒ•ã‚§ã‚¯ãƒˆ")]
     public ParticleSystem AttackParticle;
+
+    private GameObject Pare;
 
     public override void Spawned()
     {
+        
         box = GameObject.Find("Networkbox");
         parent = transform.parent.gameObject;
         timer = deactivateTime;
+        Pare = transform.parent.gameObject;
+    }
+
+    //SetActive(true)ã®ãŸã³ã«å‘¼ã³å‡ºã™
+    public void OnEnable()
+    {
+        Debug.Log("æ”»æ’ƒã‚¨ãƒ•ã‚§ã‚¯ãƒˆç”Ÿæˆ");
         isAttack = true;
+    }
+
+    public override void Render()
+    {
+
+        if (isAttack)
+        {
+            if (Pare.transform.localScale.x >= 0)
+            {
+                // ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«ã‚·ã‚¹ãƒ†ãƒ ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ç”Ÿæˆ
+                newParticle = Instantiate(AttackParticle);
+                //ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«ã‚’ç”Ÿæˆ
+                newParticle.transform.position = new Vector3(this.transform.position.x - 4.0f, this.transform.position.y - 2.0f, this.transform.position.z);
+                // ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«ã‚’ç™ºç”Ÿã•ã›ã‚‹
+                newParticle.Play();
+                // ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹åŒ–ã—ãŸãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«ã‚·ã‚¹ãƒ†ãƒ ã®GameObjectã‚’1ç§’å¾Œã«å‰Šé™¤
+                Destroy(newParticle.gameObject, 1f);
+                isAttack = false;
+            }
+            else
+            {
+                // ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«ã‚·ã‚¹ãƒ†ãƒ ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ç”Ÿæˆ
+                newParticle = Instantiate(AttackParticle);
+                //ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«ã‚’ç”Ÿæˆ
+                newParticle.transform.position = new Vector3(this.transform.position.x + 4.0f, this.transform.position.y - 2.0f, this.transform.position.z);
+                // ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«ã‚’ç™ºç”Ÿã•ã›ã‚‹
+                newParticle.Play();
+                // ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹åŒ–ã—ãŸãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«ã‚·ã‚¹ãƒ†ãƒ ã®GameObjectã‚’1ç§’å¾Œã«å‰Šé™¤
+                Destroy(newParticle.gameObject, 1f);
+                isAttack = false;
+            }
+
+        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            if (other.GetComponent<PlayerParryNet>().ParryCheck())
+            //ãƒ‘ãƒªã‚£ä¸å¯æ”»æ’ƒã‹ã©ã†ã‹
+            if (!parent.GetComponent<BossAI>().isParry)
             {
-                Debug.Log("ƒpƒŠƒB¬Œ÷");
-                other.GetComponent<PlayerParryNet>().RPC_ParrySystem();
-                parent.GetComponent<BossAI>().RPC_AnimName();
-                gameObject.SetActive(false);
 
-                return;
+                if (other.GetComponent<PlayerParryNet>().ParryCheck())
+                {
+                    Debug.Log("ãƒ‘ãƒªã‚£æˆåŠŸ");
+                    other.GetComponent<PlayerParryNet>().RPC_ParrySystem();
+
+                    //ãƒãƒƒã‚¯ãƒãƒƒã‚¯å¯èƒ½ã‹ã©ã†ã‹
+                    if (parent.GetComponent<BossAI>().isKnockBack)
+                    {
+                        parent.GetComponent<BossAI>().RPC_AnimName();
+                    }
+
+                    gameObject.SetActive(false);
+
+                    return;
+                }
+
             }
 
-            Debug.Log("UŒ‚ƒqƒbƒg");
+            Debug.Log("æ”»æ’ƒãƒ’ãƒƒãƒˆ");
             box.GetComponent<ShareNumbers>().RPC_Damage();
             other.GetComponent<PlayerHP>().RPC_DamageAnim();
-           
-            PlayerPos = other.transform.position;
+            Render();
             gameObject.SetActive(false);
         }
     }
 
-    public override void Render()
-    {
-        if(isAttack)
-        {
-            // ƒp[ƒeƒBƒNƒ‹ƒVƒXƒeƒ€‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğ¶¬
-            ParticleSystem newParticle = Instantiate(AttackParticle);
-            //ƒp[ƒeƒBƒNƒ‹‚ğ¶¬
-            newParticle.transform.position = (this.transform.position + PlayerPos)/2;
-            // ƒp[ƒeƒBƒNƒ‹‚ğ”­¶‚³‚¹‚é
-            newParticle.Play();
-            // ƒCƒ“ƒXƒ^ƒ“ƒX‰»‚µ‚½ƒp[ƒeƒBƒNƒ‹ƒVƒXƒeƒ€‚ÌGameObject‚ğ1•bŒã‚Éíœ
-            Destroy(newParticle.gameObject, 1.0f);
-            isAttack = false;
-        }
-    }
+    
 
     public override void FixedUpdateNetwork()
     {
-        // ƒ^ƒCƒ}[‚ğŒ¸‚ç‚µAˆê’èŠÔŒã‚É”ñ•\¦‚É‚·‚é
+        // ã‚¿ã‚¤ãƒãƒ¼ã‚’æ¸›ã‚‰ã—ã€ä¸€å®šæ™‚é–“å¾Œã«éè¡¨ç¤ºã«ã™ã‚‹
         if (timer > 0)
         {
             timer -= Runner.DeltaTime;

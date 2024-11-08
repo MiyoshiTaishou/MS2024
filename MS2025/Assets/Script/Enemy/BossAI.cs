@@ -12,6 +12,12 @@ public class BossAI : NetworkBehaviour
     [Header("50%以下の行動")]
     public BossActionSequence[] actionSequenceHalf;
 
+    //ノックバックする状態か
+    [Networked] public bool isKnockBack { get; set; }
+
+    //パリィ可能な状態か
+    [Networked] public bool isParry { get; set; }
+
     private int currentActionIndex = 0;
     private BossActionData currentAction;
     private bool isActionInitialized = false;
