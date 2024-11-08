@@ -1,7 +1,9 @@
 using Fusion;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
+using static UnityEngine.ParticleSystem;
 
 public class ShareNumbers : NetworkBehaviour
 {
@@ -21,6 +23,14 @@ public class ShareNumbers : NetworkBehaviour
 
     int magnification = 2;
     [SerializeField] int damage = 10;
+
+    public override void FixedUpdateNetwork()
+    {
+        if(nCombo == 0)
+        {
+            nHitnum = 0;
+        }
+    }
 
     public void AddHitnum()
     {
