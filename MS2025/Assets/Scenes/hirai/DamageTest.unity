@@ -96,7 +96,8 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000000, guid: 879fc66aa77602f44aba0ee1153b2a5e,
+    type: 2}
   m_LightingSettings: {fileID: 0}
 --- !u!196 &4
 NavMeshSettings:
@@ -253,7 +254,7 @@ Transform:
   m_GameObject: {fileID: 151216015}
   serializedVersion: 2
   m_LocalRotation: {x: 0.2087255, y: -0, z: -0, w: 0.97797436}
-  m_LocalPosition: {x: -0.42608696, y: 4.17, z: -10}
+  m_LocalPosition: {x: 5.78, y: 4.17, z: -25.46}
   m_LocalScale: {x: 0.2898551, y: 0.28985506, z: 0.28985506}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -277,7 +278,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &152441278
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -531,7 +532,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &356842394
 Transform:
   m_ObjectHideFlags: 0
@@ -620,7 +621,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &568827856
 Transform:
   m_ObjectHideFlags: 0
@@ -676,7 +677,7 @@ PrefabInstance:
     - target: {fileID: 2512026340432391716, guid: f0bb5cfe23f104049b72aaf9d49a9d2c,
         type: 3}
       propertyPath: NetworkedBehaviours.Array.size
-      value: 7
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 2512026340432391716, guid: f0bb5cfe23f104049b72aaf9d49a9d2c,
         type: 3}
@@ -686,6 +687,11 @@ PrefabInstance:
     - target: {fileID: 2512026340432391716, guid: f0bb5cfe23f104049b72aaf9d49a9d2c,
         type: 3}
       propertyPath: NetworkedBehaviours.Array.data[6]
+      value: 
+      objectReference: {fileID: 808408164}
+    - target: {fileID: 2512026340432391716, guid: f0bb5cfe23f104049b72aaf9d49a9d2c,
+        type: 3}
+      propertyPath: NetworkedBehaviours.Array.data[12]
       value: 
       objectReference: {fileID: 911678726}
     - target: {fileID: 4637297524645636213, guid: f0bb5cfe23f104049b72aaf9d49a9d2c,
@@ -701,7 +707,7 @@ PrefabInstance:
     - target: {fileID: 5901407417179175552, guid: f0bb5cfe23f104049b72aaf9d49a9d2c,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6711700141398747843, guid: f0bb5cfe23f104049b72aaf9d49a9d2c,
         type: 3}
@@ -774,6 +780,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d35cd95e0d42e9a449550b986c6e5dd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &808408164 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: -5807025104072942480, guid: f0bb5cfe23f104049b72aaf9d49a9d2c,
+    type: 3}
+  m_PrefabInstance: {fileID: 808408162}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 911678725}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94aec40b389c3924da34de646216722b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &827631783
 GameObject:
   m_ObjectHideFlags: 0
@@ -794,7 +812,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &827631784
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -807,14 +825,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b75be179e10814e42befb943a9ba5c07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HP: 100
-  downTime: 5
-  moveSpeed: 0
-  rotationSpeed: 0
-  changeTargetInterval: 30
-  skills:
-  - {fileID: 568827857}
-  minCooldownAfterAttack: 10
+  actionSequence: []
+  actionSequenceHalf: []
+  animName: 
+  _maxPlayerIndex: 0
+  _isInterrupted: 0
+  _isDown: 0
+  _isAir: 0
+  downAction: {fileID: 0}
+  parryction: {fileID: 0}
+  Dawnparticle: {fileID: 0}
 --- !u!54 &827631785
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1501,7 +1521,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1914488420
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1617,6 +1637,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BlazingColumn
+      objectReference: {fileID: 0}
+    - target: {fileID: 5344151745997573498, guid: 169befb56d321fa439803a7f294a65d5,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6437953425493230279, guid: 169befb56d321fa439803a7f294a65d5,
         type: 3}
@@ -1741,11 +1766,89 @@ PrefabInstance:
       propertyPath: m_Name
       value: Mizunomidori_test
       objectReference: {fileID: 0}
+    - target: {fileID: 2201019849999690166, guid: d7219a73810a9e74ca23d83f972feceb,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d7219a73810a9e74ca23d83f972feceb, type: 3}
+--- !u!1001 &8124333236694014489
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5167542489752586569, guid: 0f5d5a83c685931428e660589c978251,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 5.4209538
+      objectReference: {fileID: 0}
+    - target: {fileID: 5167542489752586569, guid: 0f5d5a83c685931428e660589c978251,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 3.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5167542489752586569, guid: 0f5d5a83c685931428e660589c978251,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -21.979412
+      objectReference: {fileID: 0}
+    - target: {fileID: 5167542489752586569, guid: 0f5d5a83c685931428e660589c978251,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071067
+      objectReference: {fileID: 0}
+    - target: {fileID: 5167542489752586569, guid: 0f5d5a83c685931428e660589c978251,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 5167542489752586569, guid: 0f5d5a83c685931428e660589c978251,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5167542489752586569, guid: 0f5d5a83c685931428e660589c978251,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5167542489752586569, guid: 0f5d5a83c685931428e660589c978251,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5167542489752586569, guid: 0f5d5a83c685931428e660589c978251,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5167542489752586569, guid: 0f5d5a83c685931428e660589c978251,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5547621305886479347, guid: 0f5d5a83c685931428e660589c978251,
+        type: 3}
+      propertyPath: m_Name
+      value: Shockwave
+      objectReference: {fileID: 0}
+    - target: {fileID: 6340470550433837606, guid: 0f5d5a83c685931428e660589c978251,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 54d620de14ec681438f948cb90dc7a95, type: 2}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 0f5d5a83c685931428e660589c978251, type: 3}
 --- !u!1001 &8490966721841264175
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1758,6 +1861,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Mizunomidori2D
+      objectReference: {fileID: 0}
+    - target: {fileID: 5028595837425667202, guid: dcc58d8cb4a247d4ea5b63eac95a1a72,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5028595837425667202, guid: dcc58d8cb4a247d4ea5b63eac95a1a72,
         type: 3}
@@ -1850,7 +1958,9 @@ MonoBehaviour:
   Hp: 0
   slider: {fileID: 0}
   Damageparticle: {fileID: 0}
+  Destroyparticle: {fileID: 0}
   Damagesound: {fileID: 0}
+  Destroyflg: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -1867,3 +1977,4 @@ SceneRoots:
   - {fileID: 5067063386756815795}
   - {fileID: 808408162}
   - {fileID: 8490966721841264175}
+  - {fileID: 8124333236694014489}
