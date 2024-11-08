@@ -1224,7 +1224,7 @@ PrefabInstance:
     - target: {fileID: 6831667486188821985, guid: 745fd90e17809384d980f68c8c476341,
         type: 3}
       propertyPath: NetworkedBehaviours.Array.size
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6831667486188821985, guid: 745fd90e17809384d980f68c8c476341,
         type: 3}
@@ -1238,10 +1238,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9057512719745946127, guid: 745fd90e17809384d980f68c8c476341,
         type: 3}
+      propertyPath: _Nokezori
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 9057512719745946127, guid: 745fd90e17809384d980f68c8c476341,
+        type: 3}
       propertyPath: parryction
       value: 
-      objectReference: {fileID: 11400000, guid: 864c1550d593e4d4691e8c47cc651178,
+      objectReference: {fileID: 11400000, guid: 90b568cc0d23f1f4b9873c9a8d9e7864,
         type: 2}
+    - target: {fileID: 9057512719745946127, guid: 745fd90e17809384d980f68c8c476341,
+        type: 3}
+      propertyPath: NokezoriLimit
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 9057512719745946127, guid: 745fd90e17809384d980f68c8c476341,
         type: 3}
       propertyPath: actionSequence.Array.size
@@ -1251,7 +1261,7 @@ PrefabInstance:
         type: 3}
       propertyPath: actionSequence.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: ac06875c484b24243929c87072a84e65,
+      objectReference: {fileID: 11400000, guid: 735741681e4999b40973f0d4ce61c33b,
         type: 2}
     - target: {fileID: 9057512719745946127, guid: 745fd90e17809384d980f68c8c476341,
         type: 3}
