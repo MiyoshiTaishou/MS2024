@@ -229,7 +229,7 @@ public class PlayerParryNet : NetworkBehaviour
         if (GetInput(out NetworkInputData data))
         {
             //パリィ中は動かせないようにする
-            if (landAnimStateInfo.IsName("APlayerAtack1") || landAnimStateInfo.IsName("APlayerAtack2") || landAnimStateInfo.IsName("APlayerAtack3"))
+            if (landAnimStateInfo.IsName("APlayerAttack1") || landAnimStateInfo.IsName("APlayerAttack2") || landAnimStateInfo.IsName("APlayerAttack3"))
             {
                 return;
             }
