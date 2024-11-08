@@ -24,6 +24,12 @@ public class AttackAction : BossActionData
     [SerializeField, Header("揺れの強さ")]
     private float magnitude;
 
+    [SerializeField, Header("パリィ不可能な攻撃かどうか")]
+    private bool canParry;
+
+    [SerializeField, Header("ノックバック可能な攻撃かどうか")]
+    private bool canKnockBack;
+
     public string attackAreaName; // 攻撃エリアの名前（ボスの子オブジェクトの名前）
     private GameObject attackArea; // 既存の攻撃エリアの参照
 
@@ -43,7 +49,11 @@ public class AttackAction : BossActionData
         // ボスの子オブジェクトから攻撃エリアを取得
         attackArea = boss.transform.Find(attackAreaName)?.gameObject;
         attackArea.transform.localScale = attackScale;
-        boss.GetComponent<Animator>().speed = attackAnimSpeed;        
+        boss.GetComponent<Animator>().speed = attackAnimSpeed;     
+        
+        //攻撃の判定の強さを決める
+        boss.GetComponent<BossAI>().isKnockBack = canKnockBack;
+        boss.GetComponent<BossAI>().isParry = canParry;
     }
 
     public override bool ExecuteAction(GameObject boss)
@@ -83,7 +93,7 @@ public class AttackAction : BossActionData
             Camera.main.GetComponent<CameraShake>().RPC_CameraShake(cameraDuration, magnitude);           
         }
 
-        boss.GetComponent<Animator>().speed = 1;
+        boss.GetComponent<Animator>().speed = 1;            
 
         return true; // アクション完了
     }
