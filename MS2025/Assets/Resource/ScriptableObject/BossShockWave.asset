@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6ee30865c1070cd4d8e5eae20ade98c8, type: 3}
-  m_Name: BossAttackData 2
+  m_Name: BossShockWave
   m_EditorClassIdentifier: 
   actionName: Attack
   attackRange: 10
-  attackDuration: 0.46
-  attackAnimSpeed: 3
+  attackDuration: 1.4
+  attackAnimSpeed: 1.5
   attackScale: {x: 100, y: 1, z: 100}
   isCameraShake: 1
   cameraDuration: 1

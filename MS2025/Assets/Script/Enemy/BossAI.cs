@@ -2,18 +2,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Fusion;
+using UnityEngine.UIElements;
 
 public class BossAI : NetworkBehaviour
 {
+    [Header("通常行動")]
     public BossActionSequence[] actionSequence;
+
+    [Header("50%以下の行動")]
+    public BossActionSequence[] actionSequenceHalf;
+
     private int currentActionIndex = 0;
     private BossActionData currentAction;
     private bool isActionInitialized = false;
     private Animator animator;
     private bool isOnce = false;
+    private bool isHalf = false;
+    private int isParticle = 1;
+    private Vector3 scale;
 
     [SerializeField, Header("ノックバックのアニメーション名")]
     private string animName;
+
+
 
     // プレイヤーターゲット用
     private List<Transform> players;
@@ -24,7 +35,16 @@ public class BossAI : NetworkBehaviour
     [Networked, SerializeField] public bool isDown { get; set; }
     [Networked, SerializeField] public bool isAir { get; set; }
 
+    [SerializeField,Header("ダウン時の行動データ")]
     public BossActionData downAction;
+
+    [SerializeField, Header("のけぞり時の行動データ")]
+    public BossActionData parryction;
+    [Tooltip("ダウン時エフェクト")]
+
+    public ParticleSystem Dawnparticle;
+
+    private ParticleSystem newParticle;
 
     // アニメーション名をネットワーク同期させる
     [Networked]
@@ -38,6 +58,8 @@ public class BossAI : NetworkBehaviour
         // プレイヤーオブジェクトをすべて取得してリストに保存
         players = new List<Transform>();
         RefreshPlayerList();
+
+        scale = transform.localScale;
 
         if (players.Count < maxPlayerIndex)
         {
@@ -71,11 +93,14 @@ public class BossAI : NetworkBehaviour
             currentActionIndex = 0;
             isActionInitialized = false;
             isOnce = true;
-
+            isParticle = 2;
             return;
         }
 
         if (currentAction == null) return;
+
+        //押されても動かないようにする為の処理
+        GetComponent<Rigidbody>().velocity = new Vector3(0, GetComponent<Rigidbody>().velocity.y, 0);
 
         if (!isActionInitialized)
         {
@@ -86,25 +111,35 @@ public class BossAI : NetworkBehaviour
         {
             StartNextAction(); // アクション完了後に次のアクションに進む
         }      
+
+        //向き変更処理
+        if(GetComponent<Rigidbody>().velocity.x < -0.5)
+        {
+            transform.localScale = scale;
+        }
+        else if (GetComponent<Rigidbody>().velocity.x > 0.5)
+        {
+            Vector3 temp = scale;
+            temp.x = -scale.x;
+            transform.localScale = temp;
+        }
+        
+        //50%以下で行動変更
+        if (!isHalf && GetComponent<BossStatus>().nBossHP < GetComponent<BossStatus>().InitHP / 2)
+        {
+            isHalf = true;
+            actionSequence = actionSequenceHalf;
+            currentActionIndex = 0;
+            StartNextAction(); // プレイヤーが二人以上揃っていたらアクションを開始            
+        }
     }
 
     private void HandleInterruption()
     {
-        // ノックバック処理
-        networkedAnimationName = animName;
-
-        // アニメーション再生中なら、まだ中断状態を解除しない
-        Debug.Log(networkedAnimationName + "ノックバック");
-
-        // アニメーションが再生されている間は中断状態を維持
-        if (animator.GetCurrentAnimatorStateInfo(0).IsName(animName))
-        {
-            Debug.Log(networkedAnimationName + "再生中");
-            return;
-        }
-
-        // アニメーションが終了したらフラグをリセットし、次のアクションを開始
-        StartCoroutine(WaitAndStartNextAction(10f)); // 1秒待ってから次のアクションへ
+        currentAction = parryction;
+        currentActionIndex = 0;
+        isActionInitialized = false;
+        isInterrupted = false;
     }
 
     private IEnumerator WaitAndStartNextAction(float waitTime)
@@ -170,12 +205,12 @@ public class BossAI : NetworkBehaviour
             Debug.Log("ダウン完了");
             currentActionIndex = 0;
             currentSequenceIndex = Random.Range(0, actionSequence.Length);
-
             currentAction = downAction; // ダウンアクションを設定
             isActionInitialized = false;
 
             isDown = false; // ダウン状態を解除
             isOnce = false; // フラグをリセット
+        
 
             return;
         }
@@ -204,7 +239,32 @@ public class BossAI : NetworkBehaviour
         {
             Debug.Log($"Synchronizing animation: {networkedAnimationName}");
             animator.Play((string)networkedAnimationName);
+               
         }
+        
+        if(isParticle==2||isParticle==3)
+        {
+            if(isParticle==2)
+            {
+                // パーティクルシステムのインスタンスを生成
+                newParticle = Instantiate(Dawnparticle);
+
+                //パーティクルを生成
+                newParticle.transform.position = this.transform.position;
+                // パーティクルを発生させる
+                newParticle.Play();
+                isParticle = 3;
+            }
+            
+            if (isDown==false)
+            {
+                // インスタンス化したパーティクルシステムのGameObjectを削除
+                Destroy(newParticle.gameObject, 0.01f);
+
+                isParticle = 1;
+            }
+        }
+
     }
 
     [Rpc(RpcSources.All, RpcTargets.All)]

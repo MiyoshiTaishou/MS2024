@@ -89,16 +89,19 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
     {
         if (!runner.IsServer) { return; }
 
-        var randomValue = UnityEngine.Random.insideUnitCircle * 2f;
-        var spawnPosition = new Vector3(randomValue.x, 5f, 0f);
+        if (runner.SessionInfo.PlayerCount == 2)
+        {
+            var randomValue = UnityEngine.Random.insideUnitCircle * 2f;
+            var spawnPosition = new Vector3(randomValue.x, 5f, 0f);
+
+            var avatar = runner.Spawn(playerAvatarPrefab, spawnPosition, Quaternion.identity, player);
+            runner.SetPlayerObject(player, avatar);
+        }
 
         //if (runner.SessionInfo.PlayerCount == 1)
         //{
         //    var avatar2 = runner.Spawn(PlayerStatePrefab, spawnPosition, Quaternion.identity, player);
-        //}
-
-        var avatar = runner.Spawn(playerAvatarPrefab, spawnPosition, Quaternion.identity, player);
-        runner.SetPlayerObject(player, avatar);      
+        //}     
 
         //if (runner.SessionInfo.PlayerCount == numBoss)
         //{
@@ -139,7 +142,23 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
     public void OnCustomAuthenticationResponse(NetworkRunner runner, Dictionary<string, object> data) { }
     public void OnHostMigration(NetworkRunner runner, HostMigrationToken hostMigrationToken) { }
     public void OnReliableDataReceived(NetworkRunner runner, PlayerRef player, ArraySegment<byte> data) { }
-    public void OnSceneLoadDone(NetworkRunner runner) { }
+    public void OnSceneLoadDone(NetworkRunner runner)
+    {
+        if (runner.IsServer)
+        {
+            // 必要に応じてプレイヤーオブジェクトを再生成
+            foreach (var player in runner.ActivePlayers)
+            {
+                if (!runner.TryGetPlayerObject(player, out _))
+                {
+                    var randomValue = UnityEngine.Random.insideUnitCircle * 2f;
+                    var spawnPosition = new Vector3(randomValue.x, 5f, 0f);
+                    var playerObject = runner.Spawn(playerAvatarPrefab, spawnPosition, Quaternion.identity, player);
+                    runner.SetPlayerObject(player, playerObject);
+                }
+            }
+        }
+    }
     public void OnSceneLoadStart(NetworkRunner runner) { }
 
     public void OnObjectExitAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player)

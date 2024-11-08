@@ -17,9 +17,11 @@ public class PlayerMove : NetworkBehaviour
 
     private Vector3 scale;
 
-    bool isReflection = false;
+    [Networked] bool isReflection { get; set; } = false;
 
     GameObject comboCountObject;
+
+    [Networked] Vector3 dir { get; set; }
 
     [Networked]
     public bool isMove { get; set; }
@@ -52,7 +54,8 @@ public class PlayerMove : NetworkBehaviour
         AnimatorStateInfo landAnimStateInfo = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
 
         //パリィ中は動かせないようにする
-        if (landAnimStateInfo.IsName("APlayerParry") || landAnimStateInfo.IsName("APlayerCounter") )
+        if (landAnimStateInfo.IsName("APlayerParry") || landAnimStateInfo.IsName("APlayerCounter") || landAnimStateInfo.IsName("APlayerAttack")
+            || landAnimStateInfo.IsName("APlayerAttack2")|| landAnimStateInfo.IsName("APlayerAttack3"))
         {
             rb.velocity = new Vector3(0, rb.velocity.y, 0);
             return;
@@ -61,6 +64,7 @@ public class PlayerMove : NetworkBehaviour
         // ネットワークインプットデータを受け取り計算する
         if (GetInput(out NetworkInputData data))
         {
+            dir = data.Direction;
             // 入力方向のベクトルを正規化する
             data.Direction.Normalize();
 
@@ -77,9 +81,17 @@ public class PlayerMove : NetworkBehaviour
             Vector3 nomaldata = Vector3.Normalize(data.Direction);
             Vector3 nomalvel = Vector3.Normalize(currentVelocity);
             float speed = Vector3.Magnitude(currentVelocity);
-            currentVelocity.x = nomaldata.x*speed;
-            currentVelocity.z = nomaldata.z*speed;
-
+            currentVelocity.x = nomaldata.x * speed;
+            currentVelocity.z = nomaldata.z * speed;
+            
+            if(Mathf.Abs(currentVelocity.x) > maxSpeed)
+            {
+                currentVelocity.x = (currentVelocity.x>0)?maxSpeed:-maxSpeed;
+            }
+            if(Mathf.Abs(currentVelocity.z) > maxSpeed)
+            {
+                currentVelocity.z = (currentVelocity.z > 0) ? maxSpeed : -maxSpeed;
+            }
 
             if ((data.Direction.x > 0.0f && currentVelocity.x < 0.0f)|| (data.Direction.x < 0.0f && currentVelocity.x > 0.0f))
             {
@@ -105,22 +117,39 @@ public class PlayerMove : NetworkBehaviour
 
     public override void Render()
     {
-        if (isReflection ==false)
+        
+        AnimatorStateInfo landAnimStateInfo = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
+        if (landAnimStateInfo.IsName("APlayerJumpUp") || landAnimStateInfo.IsName("APlayerJumpDown") ||
+            landAnimStateInfo.IsName("APlayerParry")||landAnimStateInfo.IsName("APlayerCounter")||
+            landAnimStateInfo.IsName("APlayerAttack")|| landAnimStateInfo.IsName("APlayerAttack2")|| landAnimStateInfo.IsName("APlayerAttack3"))
         {
-            animator.SetBool("IsMove", true);
-            transform.localScale = scale;
+            return;
         }
-        else if(isReflection == true)
+        if (dir.magnitude == 0 && !landAnimStateInfo.IsName("APlayerIdle"))
         {
-            animator.SetBool("IsMove", true);
+            animator.Play("APlayerIdle");
+        }
+        else if(dir.magnitude!=0)
+        {
+            if (isReflection == false)
+            {
+                animator.Play("APlayerWalk");
+                transform.localScale = scale;
+            }
+            else if (isReflection == true)
+            {
+                animator.Play("APlayerWalk");
+        
+                Vector3 temp = scale;
+                temp.x = -scale.x;
+                transform.localScale = temp;
+            }
+            else
+            {
+                animator.Play("APlayerWalk");
+            }
+        }
+        
 
-            Vector3 temp = scale;
-            temp.x = -scale.x;
-            transform.localScale = temp;
-        }
-        else
-        {
-            animator.SetBool("IsMove", false);
-        }
     }
 }
