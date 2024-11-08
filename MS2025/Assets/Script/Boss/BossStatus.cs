@@ -31,9 +31,15 @@ public class BossStatus : NetworkBehaviour
     [Header("リザルトシーン名"), SerializeField]
     private String ResultSceneName;
 
+    private NetworkRunner networkRunner;
+
+    [SerializeField]
+    private TransitionManager transitionManager;
+
     private void Start()
     {
         slider.onValueChanged.AddListener(OnSliderValueChanged);
+        networkRunner = FindObjectOfType<NetworkRunner>();
     }
 
     public override void Spawned()
@@ -62,11 +68,15 @@ public class BossStatus : NetworkBehaviour
     {
         isDeathEffect = true;
 
-        if (Object.HasStateAuthority)
-        {
-            // クライアントに先にシーン遷移を指示
-            RPC_ClientSceneTransition();
-        }
+        transitionManager.TransitionStart();
+
+        StartCoroutine(Load());
+
+        //if (Object.HasStateAuthority)
+        //{            
+        //    // クライアントに先にシーン遷移を指示
+        //    //RPC_ClientSceneTransition();
+        //}
     }
 
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
@@ -135,5 +145,11 @@ public class BossStatus : NetworkBehaviour
         {
             HandleBossDeath();
         }
+    }
+
+    private IEnumerator Load()
+    {
+        yield return new WaitForSeconds(2f);
+        networkRunner.LoadScene(ResultSceneName);
     }
 }

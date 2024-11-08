@@ -100,7 +100,7 @@ public class PlayerAttack : NetworkBehaviour
         // 攻撃フラグが立っている場合にアニメーションをトリガー
         if (isOnce&& currentCombo==0)
         {
-            Debug.LogError("壱の秘剣");
+            //Debug.LogError("壱の秘剣");
             //animator.SetTrigger("Attack"); // アニメーションのトリガー
             animator.Play("APlayerAttack");
             effectList[0].GetComponent<ParticleSystem>().Play();
@@ -109,7 +109,7 @@ public class PlayerAttack : NetworkBehaviour
         }
         else if (isOnce&& currentCombo==1)
         {
-            Debug.LogError("弐の秘剣");
+            //Debug.LogError("弐の秘剣");
             //animator.SetTrigger("Attack2"); // アニメーションのトリガー
             animator.Play("APlayerAttack2");
             effectList[1].GetComponent<ParticleSystem>().Play();
@@ -119,7 +119,7 @@ public class PlayerAttack : NetworkBehaviour
         }
         else if (isOnce&& currentCombo>=2)
         {
-            Debug.LogError("終の秘剣");
+            //Debug.LogError("終の秘剣");
             //animator.SetTrigger("Attack3"); // アニメーションのトリガー
             animator.Play("APlayerAttack3");
             effectList[2].GetComponent<ParticleSystem>().Play();
