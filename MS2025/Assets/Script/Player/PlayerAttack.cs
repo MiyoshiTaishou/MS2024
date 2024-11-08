@@ -39,6 +39,7 @@ public class PlayerAttack : NetworkBehaviour
     [Networked] private bool isEffect { get; set; }
 
     HitStop hitStop;
+    GameObject BossObj = null;
 
     public override void Spawned()
     {
@@ -55,6 +56,11 @@ public class PlayerAttack : NetworkBehaviour
 
         particle = effectList[0].GetComponent<ParticleSystem>();
         hitStop = GetComponent<HitStop>();
+        BossObj = GameObject.Find("Boss2D");
+        if(BossObj==null)
+        {
+            Debug.LogError("ぼすないよ");
+        }
     }
 
     public override void FixedUpdateNetwork()
@@ -99,8 +105,14 @@ public class PlayerAttack : NetworkBehaviour
         // 現在のアニメーションの状態を取得
         AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
 
+
         // 攻撃フラグが立っている場合にアニメーションをトリガー
-        if (isOnce&& currentCombo==0)
+        if(isOnce&&BossObj.GetComponent<BossAI>().GetCurrentAction().actionName=="Idol")
+        {
+            Debug.Log("連携攻撃いいいい");
+            isOnce = false; // フラグをリセット
+        }
+        else if (isOnce&& currentCombo==0)
         {
             Debug.LogError("壱の秘剣");
             //animator.SetTrigger("Attack"); // アニメーションのトリガー
