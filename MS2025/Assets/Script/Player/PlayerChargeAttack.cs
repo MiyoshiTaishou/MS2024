@@ -26,6 +26,19 @@ public class PlayerChargeAttack : NetworkBehaviour
     int maxCharge;
     int Count;
     int chargeCount;
+
+    [SerializeField, Tooltip("溜めエフェクト")]
+    GameObject chargeeffect;
+
+    [SerializeField, Tooltip("溜め攻撃エフェクト")]
+    GameObject attackeffect;
+
+    ParticleSystem chargeparticle;
+    ParticleSystem attackparticle;
+
+    [Networked] private bool isEffect { get; set; }
+    [Networked] private bool isAttackEffect { get; set; }
+
     // Start is called before the first frame update
     public override void Spawned()
     {
@@ -37,6 +50,9 @@ public class PlayerChargeAttack : NetworkBehaviour
             Debug.LogError("ネットオブジェクトないよ");
         }
         sharenum = netobj.GetComponent<ShareNumbers>();
+        chargeparticle = chargeeffect.GetComponent<ParticleSystem>();
+        attackparticle = attackeffect.GetComponent<ParticleSystem>();
+
     }
     public override void FixedUpdateNetwork()
     {
@@ -59,17 +75,37 @@ public class PlayerChargeAttack : NetworkBehaviour
                 isCharge = true;
                 chargeCount++;
                 Count++;
+                isEffect = true;
             }
             else if (released.IsSet(NetworkInputButtons.ChargeAttack))
             {
                 attackArea.SetActive(true);
                 chargeCount = 0;
                 isCharge = false;
+                isAttackEffect = true;
             }
             //if(released.IsSet(chargeCount)&&chargeCount>maxCharge)
             //{
             //    Debug.Log("溜め攻撃ﾅｱｱｱｱｱｱﾝ");
             //}
+        }
+
+
+
+    }
+
+    public override void Render()
+    {
+
+        if (isEffect)
+        {
+            chargeparticle.Play();
+            isEffect = false;
+        }
+        if (isAttackEffect)
+        {
+            attackparticle.Play();
+            isEffect = false;
         }
     }
 }
