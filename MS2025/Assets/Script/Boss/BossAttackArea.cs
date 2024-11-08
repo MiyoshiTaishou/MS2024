@@ -22,21 +22,21 @@ public class BossAttackArea : NetworkBehaviour
         box = GameObject.Find("Networkbox");
         parent = transform.parent.gameObject;
         timer = deactivateTime;
-      
+        Pare = transform.parent.gameObject;
     }
 
     //SetActive(true)のたびに呼び出す
     public void OnEnable()
     {
-  
+        Debug.Log("攻撃エフェクト生成");
+        isAttack = true;
+     
     }
 
     public override void Render()
     {
 
-        Debug.Log("攻撃エフェクト生成");
-        isAttack = true;
-        Pare = transform.parent.gameObject;
+     
 
         if (isAttack)
         {
