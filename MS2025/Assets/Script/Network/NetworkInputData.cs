@@ -14,4 +14,5 @@ public enum NetworkInputButtons
     Attack,
     Parry,
     Special,
+    ChargeAttack
 }

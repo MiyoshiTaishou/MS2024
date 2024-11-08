@@ -127,6 +127,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
         data.Buttons.Set(NetworkInputButtons.Jump, Input.GetButton("Jump"));
         data.Buttons.Set(NetworkInputButtons.Parry, Input.GetButton("Parry"));
         data.Buttons.Set(NetworkInputButtons.Special, Input.GetButton("SpecialAttack"));
+        data.Buttons.Set(NetworkInputButtons.ChargeAttack, Input.GetButton("ChargeAttack"));
         input.Set(data);
     }
 
