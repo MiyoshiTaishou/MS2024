@@ -58,12 +58,12 @@ public class PlayerChargeAttack : NetworkBehaviour
     {
         if (Object.HasStateAuthority && GetInput(out NetworkInputData data))
         {
-            AnimatorStateInfo landAnimStateInfo = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
-            if (landAnimStateInfo.IsName("APlayerParry") ||//パリィ時は攻撃しない
-                landAnimStateInfo.IsName("APlayerJumpUp") || landAnimStateInfo.IsName("APlayerJumpDown"))//ジャンプ中は攻撃しない
-            {
-                return;
-            }
+            //AnimatorStateInfo landAnimStateInfo = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
+            //if (landAnimStateInfo.IsName("APlayerParry") ||//パリィ時は攻撃しない
+            //    landAnimStateInfo.IsName("APlayerJumpUp") || landAnimStateInfo.IsName("APlayerJumpDown"))//ジャンプ中は攻撃しない
+            //{
+            //    return;
+            //}
 
             var released = data.Buttons.GetReleased(ButtonsPrevious);
             ButtonsPrevious = data.Buttons;
@@ -71,7 +71,7 @@ public class PlayerChargeAttack : NetworkBehaviour
             // Attackボタンが押されたか、かつアニメーションが再生中でないかチェック
             if (data.Buttons.IsSet(NetworkInputButtons.ChargeAttack))
             {
-                Debug.Log("溜め攻撃カウント" + chargeCount);
+                Debug.Log("ああああああああああああああああ" + chargeCount);
                 isCharge = true;
                 chargeCount++;
                 Count++;
@@ -79,7 +79,6 @@ public class PlayerChargeAttack : NetworkBehaviour
             }
             else if (released.IsSet(NetworkInputButtons.ChargeAttack))
             {
-                Debug.Log("溜め攻撃ﾅｱｱｱｱｱｱﾝ");
                 attackArea.SetActive(true);
                 chargeCount = 0;
                 isCharge = false;
