@@ -16,6 +16,7 @@ public class PlayerChargeAttack : NetworkBehaviour
     ShareNumbers sharenum;
 
     bool isCharge=false;//チャージ中か否か
+
     [SerializeField, Tooltip("発生f")]
     int Startup;
     [SerializeField, Tooltip("持続f")]
@@ -68,17 +69,18 @@ public class PlayerChargeAttack : NetworkBehaviour
             var released = data.Buttons.GetReleased(ButtonsPrevious);
             ButtonsPrevious = data.Buttons;
 
+
             // Attackボタンが押されたか、かつアニメーションが再生中でないかチェック
-            if (data.Buttons.IsSet(NetworkInputButtons.ChargeAttack))
+            if (data.Buttons.IsSet(NetworkInputButtons.ChargeAttack) && !isCharge)
             {
-                Debug.Log("ああああああああああああああああ" + chargeCount);
                 isCharge = true;
                 chargeCount++;
                 Count++;
                 isEffect = true;
             }
-            else if (released.IsSet(NetworkInputButtons.ChargeAttack))
+            else if (released.IsSet(NetworkInputButtons.ChargeAttack) && isCharge)
             {
+                chargeparticle.Stop();
                 attackArea.SetActive(true);
                 chargeCount = 0;
                 isCharge = false;
@@ -105,7 +107,7 @@ public class PlayerChargeAttack : NetworkBehaviour
         if (isAttackEffect)
         {
             attackparticle.Play();
-            isEffect = false;
+            isAttackEffect = false;
         }
     }
 }
