@@ -16,7 +16,8 @@ public class BossStatus : NetworkBehaviour
 
     //Slider
     public UnityEngine.UI.Slider slider;
-    [Networked] private float sliderValue { get; set; }
+
+    public UnityEngine.UI.Slider Backslider;
 
     [Tooltip("被ダメージエフェクト")]
     public ParticleSystem Damageparticle;
@@ -28,37 +29,30 @@ public class BossStatus : NetworkBehaviour
 
     [Networked] private bool isDeathEffect { get; set; }
 
+
     [Header("リザルトシーン名"), SerializeField]
     private String ResultSceneName;
 
-    private NetworkRunner networkRunner;
-
-    [SerializeField]
-    private TransitionManager transitionManager;
-
-    // シーン遷移が一度だけ実行されるようにするためのフラグ
-    private bool hasTransitioned = false;
-
+    //HPの減少が止まったら赤ゲージを減らすためのカウント
+    [Networked] private int HPCount  { get; set; }
 
     private void Start()
     {
-        slider.onValueChanged.AddListener(OnSliderValueChanged);
-        networkRunner = FindObjectOfType<NetworkRunner>();
+      
     }
 
     public override void Spawned()
     {
         slider.value = nBossHP;
-        sliderValue = nBossHP; // 初期値としてnBossHPをsliderValueに設定
-
+        Backslider.value = nBossHP;
         InitHP = nBossHP;
-        sliderValue = nBossHP; // スライダー値を更新
     }
 
     [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
     public void RPC_Damage(int _damage)
     {
         nBossHP -= _damage;
+        HPCount = 0;
         isDamageEffect = true;
 
         // HPが0以下なら削除処理を呼ぶ
@@ -70,14 +64,13 @@ public class BossStatus : NetworkBehaviour
 
     private void HandleBossDeath()
     {
-        // シーン遷移が一度だけ行われるようにチェック
-        if (hasTransitioned) return;
-
         isDeathEffect = true;
-        transitionManager.TransitionStart();
-        hasTransitioned = true; // シーン遷移フラグを設定
 
-        StartCoroutine(Load());
+        if (Object.HasStateAuthority)
+        {
+            // クライアントに先にシーン遷移を指示
+            RPC_ClientSceneTransition();
+        }
     }
 
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
@@ -109,7 +102,7 @@ public class BossStatus : NetworkBehaviour
             ParticleSystem DameParticle = Instantiate(Damageparticle);
             DameParticle.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z + 1);
             DameParticle.Play();
-            Destroy(DameParticle.gameObject, 1.0f);
+            Destroy(DameParticle.gameObject, 0.5f);
             isDamageEffect = false;
         }
 
@@ -123,34 +116,28 @@ public class BossStatus : NetworkBehaviour
         }
 
         slider.value = nBossHP;
-    }
 
-    private void OnSliderValueChanged(float value)
-    {
-        if (Object.HasInputAuthority)
+        HPCount++;
+
+        if (Backslider.value > nBossHP && HPCount > 50)
         {
-            sliderValue = value;
+            Backslider.value -= 1f;
         }
+        else if (Backslider.value == nBossHP)
+        {
+            HPCount = 0;
+        }
+
+       
+
     }
 
     public override void FixedUpdateNetwork()
     {
-        if (!Object.HasInputAuthority)
-        {
-            slider.value = sliderValue; // sliderValueをクライアントに反映
-        }
-
-        slider.value = 1 - (float)nBossHP / (float)InitHP;
 
         if (nBossHP <= 0 && Object.HasStateAuthority)
         {
             HandleBossDeath();
         }
-    }
-
-    private IEnumerator Load()
-    {
-        yield return new WaitForSeconds(2f);
-        networkRunner.LoadScene(ResultSceneName);
     }
 }
