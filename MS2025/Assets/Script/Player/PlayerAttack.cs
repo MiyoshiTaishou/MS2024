@@ -32,8 +32,11 @@ public class PlayerAttack : NetworkBehaviour
 
     int Count;
 
-    [SerializeField, Tooltip("エフェクト")]
+    [SerializeField, Tooltip("攻撃三種のエフェクト")]
     List<GameObject> effectList;
+
+    [SerializeField, Tooltip("攻撃三種のエフェクト")]
+    GameObject effectobj;
     ParticleSystem particle;
 
     [Networked] private bool isEffect { get; set; }
@@ -54,7 +57,7 @@ public class PlayerAttack : NetworkBehaviour
         }
         sharenum = netobj.GetComponent<ShareNumbers>();
 
-        particle = effectList[0].GetComponent<ParticleSystem>();
+        particle = effectobj.GetComponent<ParticleSystem>();
         hitStop = GetComponent<HitStop>();
         BossObj = GameObject.Find("Boss2D");
         if(BossObj==null)
@@ -109,43 +112,42 @@ public class PlayerAttack : NetworkBehaviour
         // 攻撃フラグが立っている場合にアニメーションをトリガー
         if(isOnce&&BossObj.GetComponent<BossAI>().GetCurrentAction().actionName=="Idol")
         {
-            Debug.Log("連携攻撃いいいい");
+            //Debug.Log("連携攻撃いいいい");
+            isEffect = true;
             isOnce = false; // フラグをリセット
         }
         else if (isOnce&& currentCombo==0)
         {
-            Debug.LogError("壱の秘剣");
+            //Debug.LogError("壱の秘剣");
             //animator.SetTrigger("Attack"); // アニメーションのトリガー
             animator.Play("APlayerAttack");
             effectList[0].GetComponent<ParticleSystem>().Play();
             isOnce = false; // フラグをリセット
-            isEffect = true;
         }
         else if (isOnce&& currentCombo==1)
         {
-            Debug.LogError("弐の秘剣");
+            //Debug.LogError("弐の秘剣");
             //animator.SetTrigger("Attack2"); // アニメーションのトリガー
             animator.Play("APlayerAttack2");
             effectList[1].GetComponent<ParticleSystem>().Play();
             isOnce = false; // フラグをリセット
-            isEffect = true;
 
         }
         else if (isOnce&& currentCombo>=2)
         {
-            Debug.LogError("終の秘剣");
+            //Debug.LogError("終の秘剣");
             //animator.SetTrigger("Attack3"); // アニメーションのトリガー
             animator.Play("APlayerAttack3");
             effectList[2].GetComponent<ParticleSystem>().Play();
             isOnce = false; // フラグをリセット
-            isEffect = true;
+           
         }
 
-        //if (isEffect)
-        //{
-        //    particle.Play();
-        //    isEffect = false;
-        //}
+        if (isEffect)
+        {
+            particle.Play();
+            isEffect = false;
+        }
 
 
         //// アニメーションが再生中である場合の処理
