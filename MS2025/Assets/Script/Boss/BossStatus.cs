@@ -36,6 +36,10 @@ public class BossStatus : NetworkBehaviour
     [SerializeField]
     private TransitionManager transitionManager;
 
+    // シーン遷移が一度だけ実行されるようにするためのフラグ
+    private bool hasTransitioned = false;
+
+
     private void Start()
     {
         slider.onValueChanged.AddListener(OnSliderValueChanged);
@@ -66,17 +70,14 @@ public class BossStatus : NetworkBehaviour
 
     private void HandleBossDeath()
     {
-        isDeathEffect = true;
+        // シーン遷移が一度だけ行われるようにチェック
+        if (hasTransitioned) return;
 
+        isDeathEffect = true;
         transitionManager.TransitionStart();
+        hasTransitioned = true; // シーン遷移フラグを設定
 
         StartCoroutine(Load());
-
-        //if (Object.HasStateAuthority)
-        //{            
-        //    // クライアントに先にシーン遷移を指示
-        //    //RPC_ClientSceneTransition();
-        //}
     }
 
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
