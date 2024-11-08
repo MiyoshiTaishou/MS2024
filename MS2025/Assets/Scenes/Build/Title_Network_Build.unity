@@ -13740,6 +13740,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6862905053322490403, guid: 2b84b475479e98c4b8d0352ae4e1ccdd,
         type: 3}
+      propertyPath: skipScenes.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6862905053322490403, guid: 2b84b475479e98c4b8d0352ae4e1ccdd,
+        type: 3}
       propertyPath: transiton.Array.data[0]
       value: 
       objectReference: {fileID: 1454413746}
@@ -13748,6 +13753,11 @@ PrefabInstance:
       propertyPath: transiton.Array.data[1]
       value: 
       objectReference: {fileID: 934165297}
+    - target: {fileID: 6862905053322490403, guid: 2b84b475479e98c4b8d0352ae4e1ccdd,
+        type: 3}
+      propertyPath: skipScenes.Array.data[0]
+      value: ResultScene_Miyoshi
+      objectReference: {fileID: 0}
     - target: {fileID: 6862905053322490403, guid: 2b84b475479e98c4b8d0352ae4e1ccdd,
         type: 3}
       propertyPath: bossAvatarPrefab.RawGuidValue.Array.data[0]
