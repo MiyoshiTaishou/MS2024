@@ -38,6 +38,7 @@ public class PlayerAttack : NetworkBehaviour
 
     [Networked] private bool isEffect { get; set; }
 
+    HitStop hitStop;
 
     public override void Spawned()
     {
@@ -53,11 +54,12 @@ public class PlayerAttack : NetworkBehaviour
         sharenum = netobj.GetComponent<ShareNumbers>();
 
         particle = effectList[0].GetComponent<ParticleSystem>();
+        hitStop = GetComponent<HitStop>();
     }
 
     public override void FixedUpdateNetwork()
     {
-        if (Object.HasStateAuthority && GetInput(out NetworkInputData data))
+        if (Object.HasStateAuthority && GetInput(out NetworkInputData data) && !hitStop.IsHitStopActive)
         {
             AnimatorStateInfo landAnimStateInfo = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
             if(landAnimStateInfo.IsName("APlayerParry")||//パリィ時は攻撃しない
@@ -76,7 +78,7 @@ public class PlayerAttack : NetworkBehaviour
                 isOnce = true;
                 //全プレイヤーにSEを再生する
                 RPC_SE();
-                particle.Play();
+                //particle.Play();
             }
             else if(pressed.IsSet(NetworkInputButtons.Attack) && currentCombo >= 2)
             {
@@ -85,7 +87,7 @@ public class PlayerAttack : NetworkBehaviour
                 isOnce = true;
                 //全プレイヤーにSEを再生する
                 RPC_SE();
-                isEffect= true;
+                //isEffect= true;
 
             }
         }
