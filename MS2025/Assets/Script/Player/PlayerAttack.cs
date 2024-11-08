@@ -38,6 +38,7 @@ public class PlayerAttack : NetworkBehaviour
 
     [Networked] private bool isEffect { get; set; }
 
+    HitStop hitStop;
 
     public override void Spawned()
     {
@@ -53,11 +54,12 @@ public class PlayerAttack : NetworkBehaviour
         sharenum = netobj.GetComponent<ShareNumbers>();
 
         particle = effectList[0].GetComponent<ParticleSystem>();
+        hitStop = GetComponent<HitStop>();
     }
 
     public override void FixedUpdateNetwork()
     {
-        if (Object.HasStateAuthority && GetInput(out NetworkInputData data))
+        if (Object.HasStateAuthority && GetInput(out NetworkInputData data) && !hitStop.IsHitStopActive)
         {
             AnimatorStateInfo landAnimStateInfo = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
             if(landAnimStateInfo.IsName("APlayerParry")||//パリィ時は攻撃しない
@@ -100,7 +102,7 @@ public class PlayerAttack : NetworkBehaviour
         // 攻撃フラグが立っている場合にアニメーションをトリガー
         if (isOnce&& currentCombo==0)
         {
-            //Debug.LogError("壱の秘剣");
+            Debug.LogError("壱の秘剣");
             //animator.SetTrigger("Attack"); // アニメーションのトリガー
             animator.Play("APlayerAttack");
             effectList[0].GetComponent<ParticleSystem>().Play();
@@ -109,7 +111,7 @@ public class PlayerAttack : NetworkBehaviour
         }
         else if (isOnce&& currentCombo==1)
         {
-            //Debug.LogError("弐の秘剣");
+            Debug.LogError("弐の秘剣");
             //animator.SetTrigger("Attack2"); // アニメーションのトリガー
             animator.Play("APlayerAttack2");
             effectList[1].GetComponent<ParticleSystem>().Play();
@@ -119,7 +121,7 @@ public class PlayerAttack : NetworkBehaviour
         }
         else if (isOnce&& currentCombo>=2)
         {
-            //Debug.LogError("終の秘剣");
+            Debug.LogError("終の秘剣");
             //animator.SetTrigger("Attack3"); // アニメーションのトリガー
             animator.Play("APlayerAttack3");
             effectList[2].GetComponent<ParticleSystem>().Play();

@@ -9,9 +9,16 @@ public class HitStop : NetworkBehaviour
     private Animator animator;
     [SerializeField, Tooltip("停止するパーティクルのオブジェクト")] GameObject[] particleSystems;
 
+    private Coroutine hitStopCoroutine; // ヒットストップコルーチンのインスタンスを保持
+
     public override void Spawned()
     {
         animator = GetComponent<Animator>();
+    }
+
+    public bool IsHitStopActive
+    {
+        get { return hitStopCoroutine != null; } // コルーチンが実行中ならヒットストップ中
     }
 
     /*
@@ -20,27 +27,32 @@ public class HitStop : NetworkBehaviour
      */
     public void ApplyHitStop(float hitStopDuration)
     {
-        Debug.Log("とまれええええええええ");
-        StartCoroutine(DoHitStop(hitStopDuration));
+        if (hitStopCoroutine == null) // すでにヒットストップが実行中でない場合のみ発動
+        {
+            Debug.Log("ヒットストップを発動");
+            hitStopCoroutine = StartCoroutine(DoHitStop(hitStopDuration));
+        }
     }
 
     private IEnumerator DoHitStop(float hitStopDuration)
     {
-        List<float> time=new List<float>();
-        // Debug.Log("ストップ");
+        List<float> time = new List<float>();
+
         if (animator != null)
         {
             animator.speed = 0;
         }
+
         if (particleSystems != null)
         {
             foreach (var particleSystem in particleSystems)
             {
-                if (particleSystem.GetComponent<ParticleSystem>().isPlaying)
+                var ps = particleSystem.GetComponent<ParticleSystem>();
+                if (ps.isPlaying)
                 {
                     time.Add(0.5f);
-                    particleSystem.GetComponent<ParticleSystem>().Pause();
-                    Debug.Log("とマップ"+particleSystem.name);
+                    ps.Pause();
+                    Debug.Log("とマップ " + particleSystem.name);
                 }
                 else
                 {
@@ -50,24 +62,25 @@ public class HitStop : NetworkBehaviour
         }
 
         // hitStopDuration秒待機 (実際の時間での待機)
-        yield return new WaitForSecondsRealtime(hitStopDuration/60.0f);
+        yield return new WaitForSecondsRealtime(hitStopDuration / 60.0f);
 
         if (animator != null)
         {
             animator.speed = 1;
         }
+
         if (particleSystems != null)
         {
-            for (int i=0;i<particleSystems.Length;i++)
+            for (int i = 0; i < particleSystems.Length; i++)
             {
-                Debug.Log("あああああああああああああ" + time[i]);
                 if (time[i] != 0)
                 {
-                    Debug.Log("とまああぷ" + particleSystems[i].name);
                     particleSystems[i].GetComponent<ParticleSystem>().Play();
                 }
             }
         }
-        //Debug.Log("再開");
+
+        hitStopCoroutine = null; // ヒットストップ終了したのでコルーチンインスタンスをリセット
+        //Debug.Log("ヒットストップ終了");
     }
 }
