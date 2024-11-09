@@ -30,6 +30,16 @@ public class AttackAreaDamage : NetworkBehaviour
         {
             if (other.GetComponent<BossStatus>())
             {
+                Debug.Log("‚Ì‚¯‚¼‚Á‚Ä‚é‚È‚¤" + other.GetComponent<BossAI>().GetCurrentAction().actionName);
+
+                if (other.GetComponent<BossAI>().GetCurrentAction().actionName=="Idol"
+                    && other.GetComponent<BossAI>().Nokezori>0)
+                {               
+                    other.GetComponent<BossAI>().Nokezori--;
+                    other.GetComponent<BossAI>().isInterrupted = true;
+                    other.GetComponent<BossStatus>().RPC_Damage(40);
+                    Debug.Log("‚Ì‚¯‚¼‚Á‚Ä‚é‚È‚¤" + other.GetComponent<BossAI>().Nokezori);
+                }
                 other.GetComponent<BossStatus>().RPC_Damage(10);
                 sharenum.AddHitnum();
                 RPCCombo();

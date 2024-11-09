@@ -32,12 +32,17 @@ public class PlayerAttack : NetworkBehaviour
 
     int Count;
 
-    [SerializeField, Tooltip("エフェクト")]
+    [SerializeField, Tooltip("攻撃三種のエフェクト")]
     List<GameObject> effectList;
+
+    [SerializeField, Tooltip("攻撃三種のエフェクト")]
+    GameObject effectobj;
     ParticleSystem particle;
 
     [Networked] private bool isEffect { get; set; }
 
+    HitStop hitStop;
+    GameObject BossObj = null;
 
     public override void Spawned()
     {
@@ -52,12 +57,18 @@ public class PlayerAttack : NetworkBehaviour
         }
         sharenum = netobj.GetComponent<ShareNumbers>();
 
-        particle = effectList[0].GetComponent<ParticleSystem>();
+        particle = effectobj.GetComponent<ParticleSystem>();
+        hitStop = GetComponent<HitStop>();
+        BossObj = GameObject.Find("Boss2D");
+        if(BossObj==null)
+        {
+            Debug.LogError("ぼすないよ");
+        }
     }
 
     public override void FixedUpdateNetwork()
     {
-        if (Object.HasStateAuthority && GetInput(out NetworkInputData data))
+        if (Object.HasStateAuthority && GetInput(out NetworkInputData data) && !hitStop.IsHitStopActive)
         {
             AnimatorStateInfo landAnimStateInfo = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
             if(landAnimStateInfo.IsName("APlayerParry")||//パリィ時は攻撃しない
@@ -97,15 +108,21 @@ public class PlayerAttack : NetworkBehaviour
         // 現在のアニメーションの状態を取得
         AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
 
+
         // 攻撃フラグが立っている場合にアニメーションをトリガー
-        if (isOnce&& currentCombo==0)
+        if(isOnce&&BossObj.GetComponent<BossAI>().GetCurrentAction().actionName=="Idol")
+        {
+            //Debug.Log("連携攻撃いいいい");
+            isEffect = true;
+            isOnce = false; // フラグをリセット
+        }
+        else if (isOnce&& currentCombo==0)
         {
             //Debug.LogError("壱の秘剣");
             //animator.SetTrigger("Attack"); // アニメーションのトリガー
             animator.Play("APlayerAttack");
             effectList[0].GetComponent<ParticleSystem>().Play();
             isOnce = false; // フラグをリセット
-            isEffect = true;
         }
         else if (isOnce&& currentCombo==1)
         {
@@ -114,7 +131,6 @@ public class PlayerAttack : NetworkBehaviour
             animator.Play("APlayerAttack2");
             effectList[1].GetComponent<ParticleSystem>().Play();
             isOnce = false; // フラグをリセット
-            isEffect = true;
 
         }
         else if (isOnce&& currentCombo>=2)
@@ -124,14 +140,14 @@ public class PlayerAttack : NetworkBehaviour
             animator.Play("APlayerAttack3");
             effectList[2].GetComponent<ParticleSystem>().Play();
             isOnce = false; // フラグをリセット
-            isEffect = true;
+           
         }
 
-        //if (isEffect)
-        //{
-        //    particle.Play();
-        //    isEffect = false;
-        //}
+        if (isEffect)
+        {
+            particle.Play();
+            isEffect = false;
+        }
 
 
         //// アニメーションが再生中である場合の処理
