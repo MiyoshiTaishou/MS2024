@@ -1,0 +1,40 @@
+name: Issue Notification
+
+on:
+  schedule:
+    - cron: '0 9 * * *'  # 毎日午前9時にチェック
+  issues:
+    types: [opened, edited]
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check if Issue has start and end dates
+        run: |
+          issue_start_date=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.issue.number }}" \
+            | jq -r '.created_at')
+          issue_end_date=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.issue.number }}" \
+            | jq -r '.labels[] | select(.name == "end_date") | .value')
+          
+          if [ -z "$issue_end_date" ]; then
+            echo "End date not found for issue #${{ github.event.issue.number }}"
+            exit 1
+          fi
+
+      - name: Send progress check notification to Discord
+        run: |
+          curl -X POST -H "Content-Type: application/json" \
+          -d '{
+            "content": "進捗状況を確認してください: Issue #${{ github.event.issue.number }} - ${issue_start_date}から${issue_end_date}までの進捗状況を更新してください"
+          }' ${{ secrets.DISCORD_WEBHOOK_URL }}
+
+      - name: Post progress comment to issue
+        run: |
+          curl -X POST -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+          -d '{
+            "body": "進捗状況: [進捗内容] - 終了予定日を確認しましたか？"
+          }' \
+          "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.issue.number }}/comments"
