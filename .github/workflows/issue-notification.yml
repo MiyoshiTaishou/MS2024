@@ -5,36 +5,34 @@ on:
     - cron: '0 9 * * *'  # 毎日午前9時にチェック
   issues:
     types: [opened, edited]
-  workflow_dispatch:  # 追加: 手動トリガー
-    inputs:
-      issue_number:
-        description: 'Issue Number'
-        required: true
-        default: '1'
+  workflow_dispatch:  # 手動トリガー
 
 jobs:
   notify:
     runs-on: ubuntu-latest
     steps:
-      - name: Check if Issue has start and end dates
+      - name: Get Project Card Information
         run: |
-          issue_start_date=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-            "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.issue.number }}" \
-            | jq -r '.created_at')
-          issue_end_date=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-            "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.issue.number }}" \
-            | jq -r '.labels[] | select(.name == "end_date") | .value')
+          # Project IDを設定
+          project_id="YOUR_PROJECT_ID"
           
-          if [ -z "$issue_end_date" ]; then
-            echo "End date not found for issue #${{ github.event.issue.number }}"
-            exit 1
-          fi
+          # プロジェクトカードの取得
+          card_details=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            "https://api.github.com/projects/columns/cards?project_id=$project_id")
+
+          # 必要な開始日と終了日の抽出
+          start_date=$(echo "$card_details" | jq -r '.[0].created_at')  # ここで開始日を取得
+          end_date=$(echo "$card_details" | jq -r '.[0].due_date')  # 終了日をカスタムフィールドとして取得
+          
+          # 取得した開始日と終了日を表示
+          echo "Start date: $start_date"
+          echo "End date: $end_date"
 
       - name: Send progress check notification to Discord
         run: |
           curl -X POST -H "Content-Type: application/json" \
           -d '{
-            "content": "進捗状況を確認してください: Issue #${{ github.event.issue.number }} - ${issue_start_date}から${issue_end_date}までの進捗状況を更新してください"
+            "content": "進捗状況を確認してください: Project Card - 開始日: $start_date, 終了日: $end_date"
           }' ${{ secrets.DISCORD_WEBHOOK_URL }}
 
       - name: Post progress comment to issue
