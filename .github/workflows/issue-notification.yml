@@ -5,6 +5,12 @@ on:
     - cron: '0 9 * * *'  # 毎日午前9時にチェック
   issues:
     types: [opened, edited]
+  workflow_dispatch:  # 追加: 手動トリガー
+    inputs:
+      issue_number:
+        description: 'Issue Number'
+        required: true
+        default: '1'
 
 jobs:
   notify:
