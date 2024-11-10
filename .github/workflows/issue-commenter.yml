@@ -73,10 +73,14 @@ if response.status_code == 200:
 
             # カスタムフィールドから開始日と終了日を取得
             for field_value in issue['projectItems'][0]['fieldValues']['nodes']:
-                if field_value['field']['name'] == '開始日':
-                    start_date = field_value['value']
-                elif field_value['field']['name'] == '終了日':
-                    end_date = field_value['value']
+                field_name = field_value['field']['name']
+                field_value_data = field_value['value']
+
+                # '開始日'と'終了日'のフィールドを確認
+                if field_name == '開始日' and field_value_data:
+                    start_date = field_value_data
+                elif field_name == '終了日' and field_value_data:
+                    end_date = field_value_data
 
             # 現在の日付を取得
             today = datetime.now().date()
