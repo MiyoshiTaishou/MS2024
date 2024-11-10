@@ -1,0 +1,123 @@
+name: Issue Commenter
+
+on:
+  schedule:
+    - cron: '0 9 * * *'  # 毎日9時に実行（必要に応じて変更）
+
+jobs:
+  comment_on_issues:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: |
+          pip install requests
+
+      - name: Fetch Issues and Post Comments
+        run: |
+          import os
+          import requests
+          from datetime import datetime
+
+          # GitHubトークンを環境変数から取得
+          token = os.getenv('GITHUB_TOKEN')
+          headers = {'Authorization': f'token {token}'}
+
+          # プロジェクトIDを設定（GitHubのProjectを取得）
+          project_id = 'your_project_id_here'  # ここにプロジェクトIDを設定
+
+          # GitHubのGraphQL APIを使ってプロジェクトのIssueを取得
+          query = """
+          {
+            repository(owner: "your_repo_owner", name: "your_repo_name") {
+              projectV2(id: "%s") {
+                items(first: 100) {
+                  nodes {
+                    id
+                    content {
+                      ... on Issue {
+                        id
+                        title
+                        createdAt
+                        updatedAt
+                        number
+                        state
+                        comments(first: 10) {
+                          nodes {
+                            body
+                          }
+                        }
+                        projectItems {
+                          fieldValues(first: 10) {
+                            nodes {
+                              field {
+                                name
+                              }
+                              value
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+          """ % project_id
+
+          url = 'https://api.github.com/graphql'
+          response = requests.post(url, json={'query': query}, headers=headers)
+          issues = response.json()['data']['repository']['projectV2']['items']['nodes']
+
+          # Issueごとに処理
+          for issue_node in issues:
+              issue = issue_node['content']
+              issue_number = issue['number']
+              start_date = None
+              end_date = None
+
+              # カスタムフィールドから開始日と終了日を取得
+              for field_value in issue['projectItems'][0]['fieldValues']['nodes']:
+                  if field_value['field']['name'] == '開始日':
+                      start_date = field_value['value']
+                  elif field_value['field']['name'] == '終了日':
+                      end_date = field_value['value']
+
+              # 現在の日付を取得
+              today = datetime.now().date()
+
+              # 開始日と終了日を処理
+              if start_date and datetime.strptime(start_date, '%Y-%m-%d').date() == today:
+                  comment = "作業が開始されました。Issueの状態を「作業中」に変更してください。"
+                  requests.post(
+                      f'https://api.github.com/repos/your_repo_owner/your_repo_name/issues/{issue_number}/comments',
+                      headers=headers,
+                      json={'body': comment}
+                  )
+
+              if end_date and datetime.strptime(end_date, '%Y-%m-%d').date() == today:
+                  comment = "作業が終了しましたか？完了報告をしてください。"
+                  requests.post(
+                      f'https://api.github.com/repos/your_repo_owner/your_repo_name/issues/{issue_number}/comments',
+                      headers=headers,
+                      json={'body': comment}
+                  )
+
+              # 開始日と終了日の日付の間に進捗を報告
+              if start_date and end_date and \
+                     datetime.strptime(start_date, '%Y-%m-%d').date() < today < datetime.strptime(end_date, '%Y-%m-%d').date():
+                  comment = "進捗状況を確認してください。作業は順調ですか？"
+                  requests.post(
+                      f'https://api.github.com/repos/your_repo_owner/your_repo_name/issues/{issue_number}/comments',
+                      headers=headers,
+                      json={'body': comment}
+                  )
