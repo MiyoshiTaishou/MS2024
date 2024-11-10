@@ -25,51 +25,66 @@ jobs:
 
           echo "$ISSUES" > issues.json
 
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests
+
       - name: Comment on Progress
         run: |
-          import json
-          from datetime import datetime
-          import requests
-          import os
+          # Pythonスクリプトをファイルに保存
+          echo "
+import json
+import requests
+from datetime import datetime
+import os
 
-          # GitHub Issueデータを読み込む
-          with open('issues.json', 'r') as f:
-              issues = json.load(f)
+# GitHub Issueデータを読み込む
+with open('issues.json', 'r') as f:
+    issues = json.load(f)
 
-          token = os.getenv('GITHUB_TOKEN')
-          headers = {
-              'Authorization': f'token {token}',
-              'Accept': 'application/vnd.github.v3+json'
-          }
+token = os.getenv('GITHUB_TOKEN')
+headers = {
+    'Authorization': f'token {token}',
+    'Accept': 'application/vnd.github.v3+json'
+}
 
-          now = datetime.now().date()
-          comment_message = "📌 進捗確認のお願いです。\n進行状況を共有してください。"
+now = datetime.now().date()
+comment_message = \"📌 進捗確認のお願いです。\\n進行状況を共有してください。\"
 
-          for issue in issues:
-              # 各Issueの詳細
-              issue_number = issue['number']
-              issue_title = issue['title']
-              issue_url = issue['html_url']
-              milestone = issue.get('milestone', {})
+for issue in issues:
+    # 各Issueの詳細
+    issue_number = issue['number']
+    issue_title = issue['title']
+    issue_url = issue['html_url']
+    milestone = issue.get('milestone', {})
 
-              if milestone:
-                  # 開始日・終了日を取得
-                  start_date = milestone.get('start_date')
-                  due_date = milestone.get('due_on')
+    if milestone:
+        # 開始日・終了日を取得
+        start_date = milestone.get('start_date')
+        due_date = milestone.get('due_on')
 
-                  if start_date and due_date:
-                      start_date_dt = datetime.strptime(start_date, '%Y-%m-%d').date()
-                      due_date_dt = datetime.strptime(due_date, '%Y-%m-%d').date()
+        if start_date and due_date:
+            start_date_dt = datetime.strptime(start_date, '%Y-%m-%d').date()
+            due_date_dt = datetime.strptime(due_date, '%Y-%m-%d').date()
 
-                      # 開始日と終了日の間であればコメント投稿
-                      if start_date_dt <= now <= due_date_dt:
-                          comment_url = f"https://api.github.com/repos/{os.getenv('GITHUB_REPOSITORY')}/issues/{issue_number}/comments"
-                          comment_payload = {
-                              "body": f"{comment_message}\n**Issue**: [{issue_title}]({issue_url})"
-                          }
-                          response = requests.post(comment_url, headers=headers, json=comment_payload)
+            # 開始日と終了日の間であればコメント投稿
+            if start_date_dt <= now <= due_date_dt:
+                comment_url = f\"https://api.github.com/repos/{os.getenv('GITHUB_REPOSITORY')}/issues/{issue_number}/comments\"
+                comment_payload = {
+                    \"body\": f\"{comment_message}\\n**Issue**: [{issue_title}]({issue_url})\"
+                }
+                response = requests.post(comment_url, headers=headers, json=comment_payload)
 
-                          if response.status_code == 201:
-                              print(f"Issue #{issue_number} に進捗確認コメントを投稿しました。")
-                          else:
-                              print(f"Issue #{issue_number} のコメント投稿に失敗しました。")
+                if response.status_code == 201:
+                    print(f\"Issue #{issue_number} に進捗確認コメントを投稿しました。\")
+                else:
+                    print(f\"Issue #{issue_number} のコメント投稿に失敗しました。\")" > comment_on_progress.py
+
+          # Pythonスクリプトを実行
+          python3 comment_on_progress.py
