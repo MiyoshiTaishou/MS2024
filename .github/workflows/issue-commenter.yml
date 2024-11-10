@@ -1,8 +1,20 @@
 name: Issue Commenter
 
 on:
-  schedule:
-    - cron: '0 9 * * *'  # 毎日9時に実行（必要に応じて変更）
+  workflow_dispatch:   # ここで手動トリガーを設定
+    inputs:
+      project_id:
+        description: 'GitHub Project ID'
+        required: true
+        default: 'your_project_id_here'  # 初期値として適当なプロジェクトIDを設定
+      repo_owner:
+        description: 'Repository Owner'
+        required: true
+        default: 'your_repo_owner'  # 初期値として適当なリポジトリオーナーを設定
+      repo_name:
+        description: 'Repository Name'
+        required: true
+        default: 'your_repo_name'  # 初期値として適当なリポジトリ名を設定
 
 jobs:
   comment_on_issues:
@@ -31,13 +43,15 @@ jobs:
           token = os.getenv('GITHUB_TOKEN')
           headers = {'Authorization': f'token {token}'}
 
-          # プロジェクトIDを設定（GitHubのProjectを取得）
-          project_id = 'your_project_id_here'  # ここにプロジェクトIDを設定
+          # 手動入力のパラメータを取得
+          project_id = '${{ github.event.inputs.project_id }}'
+          repo_owner = '${{ github.event.inputs.repo_owner }}'
+          repo_name = '${{ github.event.inputs.repo_name }}'
 
           # GitHubのGraphQL APIを使ってプロジェクトのIssueを取得
           query = """
           {
-            repository(owner: "your_repo_owner", name: "your_repo_name") {
+            repository(owner: "%s", name: "%s") {
               projectV2(id: "%s") {
                 items(first: 100) {
                   nodes {
@@ -72,7 +86,7 @@ jobs:
               }
             }
           }
-          """ % project_id
+          """ % (repo_owner, repo_name, project_id)
 
           url = 'https://api.github.com/graphql'
           response = requests.post(url, json={'query': query}, headers=headers)
@@ -99,7 +113,7 @@ jobs:
               if start_date and datetime.strptime(start_date, '%Y-%m-%d').date() == today:
                   comment = "作業が開始されました。Issueの状態を「作業中」に変更してください。"
                   requests.post(
-                      f'https://api.github.com/repos/your_repo_owner/your_repo_name/issues/{issue_number}/comments',
+                      f'https://api.github.com/repos/{repo_owner}/{repo_name}/issues/{issue_number}/comments',
                       headers=headers,
                       json={'body': comment}
                   )
@@ -107,7 +121,7 @@ jobs:
               if end_date and datetime.strptime(end_date, '%Y-%m-%d').date() == today:
                   comment = "作業が終了しましたか？完了報告をしてください。"
                   requests.post(
-                      f'https://api.github.com/repos/your_repo_owner/your_repo_name/issues/{issue_number}/comments',
+                      f'https://api.github.com/repos/{repo_owner}/{repo_name}/issues/{issue_number}/comments',
                       headers=headers,
                       json={'body': comment}
                   )
@@ -117,7 +131,7 @@ jobs:
                      datetime.strptime(start_date, '%Y-%m-%d').date() < today < datetime.strptime(end_date, '%Y-%m-%d').date():
                   comment = "進捗状況を確認してください。作業は順調ですか？"
                   requests.post(
-                      f'https://api.github.com/repos/your_repo_owner/your_repo_name/issues/{issue_number}/comments',
+                      f'https://api.github.com/repos/{repo_owner}/{repo_name}/issues/{issue_number}/comments',
                       headers=headers,
                       json={'body': comment}
                   )
