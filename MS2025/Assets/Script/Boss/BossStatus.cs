@@ -50,7 +50,9 @@ public class BossStatus : NetworkBehaviour
     public override void Spawned()
     {
         networkRunner = FindObjectOfType<NetworkRunner>();
+        slider.maxValue = nBossHP;
         slider.value = nBossHP;
+        Backslider.maxValue = nBossHP;
         Backslider.value = nBossHP;
         InitHP = nBossHP;
     }
