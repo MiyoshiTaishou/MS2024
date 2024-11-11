@@ -9,7 +9,8 @@ public class PlayerChargeAttack : NetworkBehaviour
     GameObject netobj;
     ShareNumbers sharenum;
 
-    bool isCharge=false;//チャージ中か否か
+    public bool isCharge=false;//チャージ中か否か
+    bool isAttack = false;
 
     [SerializeField, Tooltip("発生f")]
     int Startup;
@@ -53,12 +54,12 @@ public class PlayerChargeAttack : NetworkBehaviour
     {
         if (Object.HasStateAuthority && GetInput(out NetworkInputData data))
         {
-            //AnimatorStateInfo landAnimStateInfo = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
-            //if (landAnimStateInfo.IsName("APlayerParry") ||//パリィ時は攻撃しない
-            //    landAnimStateInfo.IsName("APlayerJumpUp") || landAnimStateInfo.IsName("APlayerJumpDown"))//ジャンプ中は攻撃しない
-            //{
-            //    return;
-            //}
+            AnimatorStateInfo landAnimStateInfo = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
+            if (landAnimStateInfo.IsName("APlayerParry") ||//パリィ時は攻撃しない
+                landAnimStateInfo.IsName("APlayerJumpUp") || landAnimStateInfo.IsName("APlayerJumpDown"))//ジャンプ中は攻撃しない
+            {
+                return;
+            }
 
             var released = data.Buttons.GetReleased(ButtonsPrevious);
             ButtonsPrevious = data.Buttons;
@@ -72,14 +73,16 @@ public class PlayerChargeAttack : NetworkBehaviour
                 Count++;
                 isEffect = true;
             }
-            else if (released.IsSet(NetworkInputButtons.ChargeAttack) && isCharge)
+            else if (released.IsSet(NetworkInputButtons.ChargeAttack) && isCharge&&chargeCount>maxCharge)
             {
                 chargeparticle.Stop();
                 attackArea.SetActive(true);
                 chargeCount = 0;
                 isCharge = false;
                 isAttackEffect = true;
+                isAttack = true;
             }
+            Attack();
             //if(released.IsSet(chargeCount)&&chargeCount>maxCharge)
             //{
             //    Debug.Log("溜め攻撃ﾅｱｱｱｱｱｱﾝ");
@@ -102,6 +105,34 @@ public class PlayerChargeAttack : NetworkBehaviour
         {
             attackparticle.Play();
             isAttackEffect = false;
+        }
+    }
+
+    void Attack()
+    {
+        if (isAttack == false)
+        {
+            return;
+        }
+
+        if (Count < Startup)
+        {
+            Count++;
+        }
+        else if (Count < Startup + Active)
+        {
+            Count++;
+            attackArea.SetActive(true);
+        }
+        else if (Count < Startup + Active + Recovery)
+        {
+            Count++;
+            attackArea.SetActive(false);
+        }
+        else if (Count >= Startup + Active + Recovery)
+        {
+            Count = 0;
+            isAttack = false;
         }
     }
 }
