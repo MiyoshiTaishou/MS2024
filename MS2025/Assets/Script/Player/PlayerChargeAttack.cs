@@ -66,8 +66,9 @@ public class PlayerChargeAttack : NetworkBehaviour
 
 
             // Attackボタンが押されたか、かつアニメーションが再生中でないかチェック
-            if (data.Buttons.IsSet(NetworkInputButtons.ChargeAttack) && !isCharge)
+            if (data.Buttons.IsSet(NetworkInputButtons.ChargeAttack))
             {
+                Debug.Log("溜めてます" + chargeCount);
                 isCharge = true;
                 chargeCount++;
                 Count++;

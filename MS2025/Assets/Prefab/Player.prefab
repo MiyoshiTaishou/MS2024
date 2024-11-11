@@ -5693,10 +5693,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   netobj: {fileID: 6048116181023338960, guid: 2d5a6b03460814e4d8ec665c744611bb, type: 3}
+  isCharge: 0
   Startup: 0
   Active: 0
   Recovery: 0
-  maxCharge: 274
+  maxCharge: 120
   chargeeffect: {fileID: 5693439958738491114}
   attackeffect: {fileID: 4684355246126431642}
 --- !u!1 &7422427471204139998
