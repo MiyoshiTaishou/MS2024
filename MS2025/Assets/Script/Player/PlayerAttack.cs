@@ -29,6 +29,12 @@ public class PlayerAttack : NetworkBehaviour
     int Active;
     [SerializeField, Tooltip("硬直f")]
     int Recovery;
+    [SerializeField, Tooltip("連携フィニッシュ発生f")]
+    int buddyStartup;
+    [SerializeField, Tooltip("連携フィニッシュ持続f")]
+    int buddyActive;
+    [SerializeField, Tooltip("連携フィニッシュ硬直f")]
+    int buddyRecovery;
 
     int Count;
 
@@ -191,6 +197,30 @@ public class PlayerAttack : NetworkBehaviour
     {
         if(isAttack==false)
         {
+            return;
+        }
+
+        if(BossObj.GetComponent<BossAI>().Nokezori==1)
+        {
+            if (Count < buddyStartup)
+            {
+                Count++;
+            }
+            else if (Count < buddyStartup + buddyActive)
+            {
+                Count++;
+                attackArea.SetActive(true);
+            }
+            else if (Count < buddyStartup + buddyActive + buddyRecovery)
+            {
+                Count++;
+                attackArea.SetActive(false);
+            }
+            else if (Count >= buddyStartup + buddyActive + buddyRecovery)
+            {
+                Count = 0;
+                isAttack = false;
+            }
             return;
         }
 
