@@ -35,6 +35,10 @@ public class AttackAreaDamage : NetworkBehaviour
                 if (other.GetComponent<BossAI>().GetCurrentAction().actionName=="Idol"
                     && other.GetComponent<BossAI>().Nokezori>0)
                 {               
+                    if(other.GetComponent<BossAI>().Nokezori==1)
+                    {
+                        other.GetComponent<BossStatus>().RPC_Damage(350);
+                    }
                     other.GetComponent<BossAI>().Nokezori--;
                     other.GetComponent<BossAI>().isInterrupted = true;
                     other.GetComponent<BossStatus>().RPC_Damage(40);
