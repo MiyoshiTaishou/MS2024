@@ -25,6 +25,9 @@ public class BossStatus : NetworkBehaviour
     [Tooltip("死亡時エフェクト")]
     public ParticleSystem Deathparticle;
 
+    [SerializeField,Header("ゲームマネージャー")]
+    private GameManager gameManager;
+
     [Networked] private bool isDamageEffect { get; set; }
 
     [Networked] private bool isDeathEffect { get; set; }
@@ -36,13 +39,17 @@ public class BossStatus : NetworkBehaviour
     //HPの減少が止まったら赤ゲージを減らすためのカウント
     [Networked] private int HPCount  { get; set; }
 
-    private void Start()
-    {
-      
-    }
+    private NetworkRunner networkRunner;
+
+    [SerializeField]
+    private TransitionManager transitionManager;
+
+    // シーン遷移が一度だけ実行されるようにするためのフラグ
+    private bool hasTransitioned = false;
 
     public override void Spawned()
     {
+        networkRunner = FindObjectOfType<NetworkRunner>();
         slider.value = nBossHP;
         Backslider.value = nBossHP;
         InitHP = nBossHP;
@@ -64,13 +71,23 @@ public class BossStatus : NetworkBehaviour
 
     private void HandleBossDeath()
     {
+        // シーン遷移が一度だけ行われるようにチェック
+        if (hasTransitioned) return;
+
         isDeathEffect = true;
 
-        if (Object.HasStateAuthority)
-        {
-            // クライアントに先にシーン遷移を指示
-            RPC_ClientSceneTransition();
-        }
+        transitionManager.TransitionStart();
+        hasTransitioned = true; // シーン遷移フラグを設定
+
+        // クライアントに先にシーン遷移を指示
+        gameManager.EndBattle(10, 5);
+
+        StartCoroutine(Load());
+
+        //if (Object.HasStateAuthority)
+        //{           
+        //    RPC_ClientSceneTransition();
+        //}
     }
 
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
@@ -139,5 +156,11 @@ public class BossStatus : NetworkBehaviour
         {
             HandleBossDeath();
         }
+    }
+
+    private IEnumerator Load()
+    {
+        yield return new WaitForSeconds(2f);
+        networkRunner.LoadScene(ResultSceneName);
     }
 }

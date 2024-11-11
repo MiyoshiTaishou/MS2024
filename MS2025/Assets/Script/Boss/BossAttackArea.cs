@@ -73,14 +73,24 @@ public class BossAttackArea : NetworkBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            if (other.GetComponent<PlayerParryNet>().ParryCheck())
+            //パリィ不可攻撃かどうか
+            if (!parent.GetComponent<BossAI>().isParry)
             {
-                Debug.Log("パリィ成功");
-                other.GetComponent<PlayerParryNet>().RPC_ParrySystem();
-                parent.GetComponent<BossAI>().RPC_AnimName();
-                gameObject.SetActive(false);
-                Render();
-                return;
+                if (other.GetComponent<PlayerParryNet>().ParryCheck())
+                {
+                    Debug.Log("パリィ成功");
+                    other.GetComponent<PlayerParryNet>().RPC_ParrySystem();
+
+                    //ノックバック可能かどうか
+                    if (parent.GetComponent<BossAI>().isKnockBack)
+                    {
+                        parent.GetComponent<BossAI>().RPC_AnimName();
+                    }
+
+                    gameObject.SetActive(false);
+
+                    return;
+                }
             }
 
             Debug.Log("攻撃ヒット");
