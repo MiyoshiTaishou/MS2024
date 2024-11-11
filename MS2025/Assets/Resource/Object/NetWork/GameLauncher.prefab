@@ -49,6 +49,12 @@ MonoBehaviour:
     RawGuidValue: 00000000000000000000000000000000
   bossAvatarPrefab:
     RawGuidValue: 00000000000000000000000000000000
+  PlayerStatePrefab:
+    RawGuidValue: 00000000000000000000000000000000
   roomNameInputField: {fileID: 0}
   gameScene: 
   numBoss: 1
+  LoadingImage: {fileID: 0}
+  transiton: []
+  skipScenes:
+  - ResultScene_Miyoshi

@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class GameManager : NetworkBehaviour
 {
+    [SerializeField, Header("開始人数")]
+    private int playerNum = 1;
     private float clearTime = 0.0f;
     private bool isBattleActive = false;
 
@@ -61,7 +63,7 @@ public class GameManager : NetworkBehaviour
         if (isReadyToStartBattle || isBattleActive) return;
 
         // プレイヤー数を確認 (2 人揃った場合)
-        if (Runner.SessionInfo.PlayerCount >= 2)
+        if (Runner.SessionInfo.PlayerCount >= playerNum)
         {
             isReadyToStartBattle = true;
             StartBattle();
