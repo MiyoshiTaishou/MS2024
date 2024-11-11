@@ -1,9 +1,5 @@
 using Fusion;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.Burst.Intrinsics;
 using UnityEngine;
-using static UnityEngine.Experimental.Rendering.Universal.PixelPerfectCamera;
 
 public class ChargeAttackAreaDamage : NetworkBehaviour
 {

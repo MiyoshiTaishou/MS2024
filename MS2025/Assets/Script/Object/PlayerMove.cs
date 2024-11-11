@@ -55,7 +55,7 @@ public class PlayerMove : NetworkBehaviour
 
         //ƒpƒŠƒB’†‚Í“®‚©‚¹‚È‚¢‚æ‚¤‚É‚·‚é
         if (landAnimStateInfo.IsName("APlayerParry") || landAnimStateInfo.IsName("APlayerCounter") || landAnimStateInfo.IsName("APlayerAttack")
-            || landAnimStateInfo.IsName("APlayerAttack2")|| landAnimStateInfo.IsName("APlayerAttack3"))
+            || landAnimStateInfo.IsName("APlayerAttack2")|| landAnimStateInfo.IsName("APlayerAttack3")||GetComponent<PlayerChargeAttack>().isCharge)
         {
             rb.velocity = new Vector3(0, rb.velocity.y, 0);
             return;
