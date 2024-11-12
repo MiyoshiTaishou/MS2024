@@ -64,11 +64,11 @@ public class BossStatus : NetworkBehaviour
         HPCount = 0;
         isDamageEffect = true;
 
-        // HPが0以下なら削除処理を呼ぶ
-        if (nBossHP <= 0)
-        {
-            HandleBossDeath();
-        }
+        //// HPが0以下なら削除処理を呼ぶ
+        //if (nBossHP <= 0)
+        //{
+        //    HandleBossDeath();
+        //}
     }
 
     private void HandleBossDeath()
@@ -79,10 +79,7 @@ public class BossStatus : NetworkBehaviour
         isDeathEffect = true;
 
         transitionManager.TransitionStart();
-        hasTransitioned = true; // シーン遷移フラグを設定
-
-        // クライアントに先にシーン遷移を指示
-        gameManager.EndBattle(10, 5);
+        hasTransitioned = true; // シーン遷移フラグを設定       
 
         StartCoroutine(Load());
 
@@ -153,6 +150,11 @@ public class BossStatus : NetworkBehaviour
 
     public override void FixedUpdateNetwork()
     {
+        if (nBossHP <= 0 && !hasTransitioned)
+        {
+            // クライアントに先にシーン遷移を指示
+            gameManager.RPC_EndBattle(10, 5);
+        }
 
         if (nBossHP <= 0 && Object.HasStateAuthority)
         {
