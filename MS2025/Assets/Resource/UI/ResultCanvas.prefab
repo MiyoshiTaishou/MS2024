@@ -55,6 +55,7 @@ GameObject:
   - component: {fileID: 4503632147108642420}
   - component: {fileID: 9082978863186506049}
   - component: {fileID: 4345437098851930855}
+  - component: {fileID: 3103493649605720155}
   m_Layer: 5
   m_Name: ClearTimeText
   m_TagString: Untagged
@@ -179,6 +180,19 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &3103493649605720155
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 152384873112097309}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71db07571708f40479712b54c5dbdc0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 0
 --- !u!1 &922581193949363326
 GameObject:
   m_ObjectHideFlags: 0
@@ -508,7 +522,7 @@ MonoBehaviour:
   m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SortKey: 975413246
+  SortKey: 693913172
   ObjectInterest: 1
   Flags: 262145
   NestedObjects: []
@@ -993,7 +1007,7 @@ MonoBehaviour:
   m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SortKey: 975413246
+  SortKey: 2823298546
   ObjectInterest: 1
   Flags: 262145
   NestedObjects: []
@@ -1496,7 +1510,7 @@ MonoBehaviour:
   m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SortKey: 1996481600
+  SortKey: 209428415
   ObjectInterest: 1
   Flags: 262145
   NestedObjects: []
@@ -1714,7 +1728,7 @@ MonoBehaviour:
   m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SortKey: 1996481600
+  SortKey: 1907714128
   ObjectInterest: 1
   Flags: 262145
   NestedObjects: []
@@ -1733,6 +1747,8 @@ GameObject:
   - component: {fileID: 645458748128301697}
   - component: {fileID: 9185704485883951706}
   - component: {fileID: 9011007786437135852}
+  - component: {fileID: -7515191055761055828}
+  - component: {fileID: 1191226138190761434}
   m_Layer: 5
   m_Name: ResultCanvas
   m_TagString: Untagged
@@ -1749,7 +1765,7 @@ RectTransform:
   m_GameObject: {fileID: 2638204579857998340}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1730496698124953941}
@@ -1764,7 +1780,7 @@ RectTransform:
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &5129572332521603768
 Canvas:
   m_ObjectHideFlags: 0
@@ -1844,6 +1860,42 @@ MonoBehaviour:
   - {fileID: 6458164677435803176}
   - {fileID: 7891612796167842595}
   - {fileID: 2166228242022595646}
+--- !u!114 &-7515191055761055828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2638204579857998340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21053a436920e53499e890df64531e6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hostUI: {fileID: 85622896100005431}
+  clientUI: {fileID: 6770522831267591043}
+--- !u!114 &1191226138190761434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2638204579857998340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SortKey: 1876331342
+  ObjectInterest: 1
+  Flags: 262145
+  NestedObjects:
+  - {fileID: 7803454781362292188}
+  - {fileID: 2713457425620320119}
+  - {fileID: 7031951888670228014}
+  - {fileID: 63982254904510128}
+  NetworkedBehaviours:
+  - {fileID: -7515191055761055828}
 --- !u!1 &2866003420085373573
 GameObject:
   m_ObjectHideFlags: 0
@@ -2470,6 +2522,7 @@ GameObject:
   - component: {fileID: 1170099313316456298}
   - component: {fileID: 1864738349767129915}
   - component: {fileID: 4618158850853784798}
+  - component: {fileID: 694818407120740763}
   m_Layer: 5
   m_Name: MultAttackCountText
   m_TagString: Untagged
@@ -2594,6 +2647,19 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &694818407120740763
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4146762040037321363}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71db07571708f40479712b54c5dbdc0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 2
 --- !u!1 &4928250284768341554
 GameObject:
   m_ObjectHideFlags: 0
@@ -3393,6 +3459,7 @@ GameObject:
   - component: {fileID: 4579689881674713552}
   - component: {fileID: 8937747722229645109}
   - component: {fileID: 3914702065845386586}
+  - component: {fileID: 2973388586206109742}
   m_Layer: 5
   m_Name: ComboCountText
   m_TagString: Untagged
@@ -3517,6 +3584,19 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &2973388586206109742
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8331013742008076599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71db07571708f40479712b54c5dbdc0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 1
 --- !u!1 &8369690093187585689
 GameObject:
   m_ObjectHideFlags: 0

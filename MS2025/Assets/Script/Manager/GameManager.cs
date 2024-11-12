@@ -5,7 +5,10 @@ public class GameManager : NetworkBehaviour
 {
     [SerializeField, Header("開始人数")]
     private int playerNum = 1;
-    private float clearTime = 0.0f;
+
+    [Networked]
+    private float clearTime { get; set; }
+
     private bool isBattleActive = false;
 
     // バトル開始判定のフラグ
@@ -53,6 +56,12 @@ public class GameManager : NetworkBehaviour
         ScoreManager.maxMultiAttack = multiAttack;
 
         Debug.Log($"バトル終了: クリア時間 = {ScoreManager.clearTime}, 最大コンボ = {ScoreManager.maxCombo}, 最大連撃 = {ScoreManager.maxMultiAttack}");
+    }
+
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    public void RPC_EndBattle(int combo, int multiAttack)
+    {
+        EndBattle(combo, multiAttack);
     }
 
     /// <summary>
