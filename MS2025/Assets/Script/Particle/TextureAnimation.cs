@@ -9,6 +9,9 @@ public class TextureAnimation : MonoBehaviour
 	[Tooltip("アニメーションのフレームレートを決めます")]
 	[SerializeField]
     private float frameRate = 0.1f;
+	[Tooltip("アニメーション再生の遅延時間を決めます")]
+	[SerializeField]
+    private float delayTime = 0.0f;
 	[Tooltip("ループの有無を決めます")]
 	[SerializeField]
     private bool isLoop = true;
@@ -19,10 +22,12 @@ public class TextureAnimation : MonoBehaviour
     private Renderer rend;
     private int currentFrame;
     private float timer;
+    private float delayTimer;
     private bool isPlaying = false;
 
     void Start() {
         rend = GetComponent<Renderer>();
+        rend.material.mainTexture = textures[textures.Length - 1];
         if (playOnStart) {
             StartAnimation();
         }
@@ -30,7 +35,8 @@ public class TextureAnimation : MonoBehaviour
 
     void Update() {
         if (!isPlaying || textures.Length == 0) return;
-
+        delayTimer += Time.deltaTime;
+        if (delayTime > delayTimer) return;
         timer += Time.deltaTime;
 
         // フレームを切り替える
@@ -59,7 +65,8 @@ public class TextureAnimation : MonoBehaviour
         isPlaying = true;
         currentFrame = 0;
         timer = 0;
-        rend.material.mainTexture = textures[currentFrame];
+        delayTimer = 0;
+        // rend.material.mainTexture = textures[currentFrame];
     }
 
     // アニメーションの停止
