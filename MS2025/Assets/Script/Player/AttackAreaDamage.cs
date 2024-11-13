@@ -11,6 +11,8 @@ public class AttackAreaDamage : NetworkBehaviour
     PlayerRaise raise;
     [SerializeField, Tooltip("ヒットストップ時間(f)")] int stopFrame;
 
+    [SerializeField, Header("ダメージ量")] int DamageNum = 100;
+
     public override void Spawned()
     {
         player = transform.parent.gameObject;
@@ -44,7 +46,7 @@ public class AttackAreaDamage : NetworkBehaviour
                     other.GetComponent<BossStatus>().RPC_Damage(40);
                     Debug.Log("のけぞってるなう" + other.GetComponent<BossAI>().Nokezori);
                 }
-                other.GetComponent<BossStatus>().RPC_Damage(10);
+                other.GetComponent<BossStatus>().RPC_Damage(DamageNum);
                 sharenum.AddHitnum();
                 RPCCombo();
                 if(raise.GetisRaise())

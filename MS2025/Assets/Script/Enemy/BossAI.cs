@@ -39,7 +39,7 @@ public class BossAI : NetworkBehaviour
     [Networked] private int currentPlayerIndex { get; set; }
     [Networked] private int currentSequenceIndex { get; set; }
     [Networked, SerializeField] private int maxPlayerIndex { get; set; }
-    [Networked, SerializeField] public bool isInterrupted { get; set; }
+    [Networked, SerializeField] public bool isInterrupted { get; set; }/*これを呼ぶ*/
     [Networked, SerializeField] public bool isDown { get; set; }
     [Networked, SerializeField] public bool isAir { get; set; }
 

@@ -198,7 +198,7 @@ MonoBehaviour:
   _isDown: 0
   _isAir: 0
   downAction: {fileID: 11400000, guid: 1041b2b8e439b384d80347ea7b971b0b, type: 2}
-  parryction: {fileID: 0}
+  parryction: {fileID: 11400000, guid: 90b568cc0d23f1f4b9873c9a8d9e7864, type: 2}
   Dawnparticle: {fileID: 0}
 --- !u!65 &-6834287320468394907
 BoxCollider:
@@ -354,7 +354,7 @@ MonoBehaviour:
   TotalWords: 1
   ApplyTiming: 2
   SyncSettings: 79
-  StateHashes: 000000004cf1e72e1eab98070d286c404e865f43cc60bdd948436b3669aa59422a046a41d3fb50db905563d8958341e27e40c91f
+  StateHashes: 000000004cf1e72e1eab98070d286c404e865f43cc60bdd948436b3669aa59422a046a41d3fb50db905563d8958341e27e40c91f28a981077af3fe2e6a950e8659262bb14c8d6b8ea74ee373
   TriggerHashes: 00000000b745de7f
 --- !u!114 &728711347568068367
 MonoBehaviour:
