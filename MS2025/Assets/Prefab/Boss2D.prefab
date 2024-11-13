@@ -185,6 +185,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8270a123ca69dbe42a168434b5d8d841, type: 2}
   - {fileID: 11400000, guid: 8270a123ca69dbe42a168434b5d8d841, type: 2}
   actionSequenceHalf: []
+  _isKnockBack: 0
+  _isParry: 0
+  _Nokezori: 0
+  NokezoriLimit: 0
   animName: Leisure
   _maxPlayerIndex: 1
   _isInterrupted: 0
@@ -347,7 +351,7 @@ MonoBehaviour:
   TotalWords: 1
   ApplyTiming: 2
   SyncSettings: 79
-  StateHashes: 000000004cf1e72e1eab98070d286c404e865f43cc60bdd948436b3669aa59422a046a41d3fb50db905563d8958341e27e40c91f
+  StateHashes: 000000004cf1e72e1eab98070d286c404e865f43cc60bdd948436b3669aa59422a046a41d3fb50db905563d8958341e27e40c91f28a981077af3fe2e6a950e8659262bb14c8d6b8ea74ee373
   TriggerHashes: 00000000b745de7f
 --- !u!114 &728711347568068367
 MonoBehaviour:
@@ -364,6 +368,7 @@ MonoBehaviour:
   _nBossHP: 1000
   InitHP: 0
   slider: {fileID: 0}
+  Backslider: {fileID: 0}
   Damageparticle: {fileID: 0}
   Deathparticle: {fileID: 0}
   ResultSceneName: 
@@ -380,7 +385,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   particleSystems: []
-  stopFrame: 100
 --- !u!1001 &1111860687885315067
 PrefabInstance:
   m_ObjectHideFlags: 0
