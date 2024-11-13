@@ -9,6 +9,8 @@ public class ChargeAttackAreaDamage : NetworkBehaviour
     ShareNumbers sharenum;
     ComboSystem combo;
     [SerializeField, Tooltip("ヒットストップ時間(f)")] int stopFrame;
+    [SerializeField] int ChargeDamege = 500;
+
 
     public override void Spawned()
     {
@@ -29,7 +31,9 @@ public class ChargeAttackAreaDamage : NetworkBehaviour
         {
             if (other.GetComponent<BossStatus>())
             {
-                other.GetComponent<BossStatus>().RPC_Damage(500);
+                Debug.Log("チャージアタック成功");
+                other.GetComponent<BossStatus>().RPC_Damage(ChargeDamege);
+                other.GetComponent<BossAI>().isInterrupted = true;
                 RPCCombo();
                 player.GetComponent<HitStop>().ApplyHitStop(stopFrame);
             }

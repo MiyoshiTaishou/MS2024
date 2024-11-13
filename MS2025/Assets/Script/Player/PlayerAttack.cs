@@ -127,7 +127,7 @@ public class PlayerAttack : NetworkBehaviour
             //Debug.LogError("壱の秘剣");
             //animator.SetTrigger("Attack"); // アニメーションのトリガー
             animator.Play("APlayerAttack");
-            effectList[0].GetComponent<ParticleSystem>().Play();
+            //effectList[0].GetComponent<ParticleSystem>().Play();
             isOnce = false; // フラグをリセット
         }
         else if (isOnce&& currentCombo==1)
@@ -135,7 +135,7 @@ public class PlayerAttack : NetworkBehaviour
             //Debug.LogError("弐の秘剣");
             //animator.SetTrigger("Attack2"); // アニメーションのトリガー
             animator.Play("APlayerAttack2");
-            effectList[1].GetComponent<ParticleSystem>().Play();
+            //effectList[1].GetComponent<ParticleSystem>().Play();
             isOnce = false; // フラグをリセット
 
         }
@@ -144,7 +144,7 @@ public class PlayerAttack : NetworkBehaviour
             //Debug.LogError("終の秘剣");
             //animator.SetTrigger("Attack3"); // アニメーションのトリガー
             animator.Play("APlayerAttack3");
-            effectList[2].GetComponent<ParticleSystem>().Play();
+           // effectList[2].GetComponent<ParticleSystem>().Play();
             isOnce = false; // フラグをリセット
            
         }

@@ -83,6 +83,11 @@ public class PlayerChargeAttack : NetworkBehaviour
                 isAttackEffect = true;
                 isAttack = true;
             }
+            else
+            {
+                chargeparticle.Stop();
+            }
+
             Attack();
             //if(released.IsSet(chargeCount)&&chargeCount>maxCharge)
             //{
