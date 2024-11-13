@@ -49,6 +49,7 @@ public class PlayerAttack : NetworkBehaviour
 
     HitStop hitStop;
     GameObject BossObj = null;
+    bool flashFlg = false;//連携攻撃による瞬間移動をしたか
 
     public override void Spawned()
     {
@@ -70,6 +71,7 @@ public class PlayerAttack : NetworkBehaviour
         {
             Debug.LogError("ぼすないよ");
         }
+        flashFlg= false;
     }
 
     public override void FixedUpdateNetwork()
@@ -115,8 +117,8 @@ public class PlayerAttack : NetworkBehaviour
         AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
 
 
-        // 攻撃フラグが立っている場合にアニメーションをトリガー
-        if(isOnce&&BossObj.GetComponent<BossAI>().GetCurrentAction().actionName=="Idol")
+        // ボスのけぞり時のエフェクト
+        if(isOnce&& BossObj.GetComponent<BossAI>().Nokezori >0)
         {
             //Debug.Log("連携攻撃いいいい");
             isEffect = true;
@@ -199,31 +201,94 @@ public class PlayerAttack : NetworkBehaviour
         {
             return;
         }
-
-        if(BossObj.GetComponent<BossAI>().Nokezori==1)
+        
+        //のけぞり状態に対しての攻撃(連携攻撃)
+        if (BossObj.GetComponent<BossAI>().Nokezori > 0)
         {
-            if (Count < buddyStartup)
+            //連携フィニッシュ攻撃
+            if (BossObj.GetComponent<BossAI>().Nokezori == 1)
             {
-                Count++;
+                if (Count < buddyStartup)
+                {
+                    Count++;
+                }
+                else if (Count < buddyStartup + buddyActive)
+                {
+                    //瞬間移動
+                    Vector3 pos = transform.position;
+                    Vector3 bosspos = BossObj.transform.position;
+                    if (!flashFlg)
+                    {
+                        if (pos.x < bosspos.x)
+                        {
+                            pos.x = bosspos.x - 2;
+                        }
+                        else if (pos.x > bosspos.x)
+                        {
+                            pos.x = bosspos.x + 2;
+                        }
+                        pos.z = bosspos.z;
+                        transform.position = pos;
+                        flashFlg = true;
+                    }
+                    Count++;
+                    attackArea.SetActive(true);
+                }
+                else if (Count < buddyStartup + buddyActive + buddyRecovery)
+                {
+                    Count++;
+                    attackArea.SetActive(false);
+                }
+                else if (Count >= buddyStartup + buddyActive + buddyRecovery)
+                {
+                    Count = 0;
+                    isAttack = false;
+                }
+                return;
             }
-            else if (Count < buddyStartup + buddyActive)
+            else
             {
-                Count++;
-                attackArea.SetActive(true);
-            }
-            else if (Count < buddyStartup + buddyActive + buddyRecovery)
-            {
-                Count++;
-                attackArea.SetActive(false);
-            }
-            else if (Count >= buddyStartup + buddyActive + buddyRecovery)
-            {
-                Count = 0;
-                isAttack = false;
-            }
-            return;
-        }
+                if (Count < Startup)
+                {
+                    Count++;
+                }
+                else if (Count < Startup + Active)
+                {
+                    //瞬間移動
+                    Vector3 pos =transform.position;
+                    Vector3 bosspos=BossObj.transform.position;
+                    if (!flashFlg)
+                    {
+                        if (pos.x < bosspos.x)
+                        {
+                            pos.x = bosspos.x - 2;
+                        }
+                        else if (pos.x > bosspos.x)
+                        {
+                            pos.x = bosspos.x + 2;
+                        }
+                        pos.z = bosspos.z;
+                        transform.position= pos;
+                        flashFlg = true;
+                    }
 
+                    Count++;
+                    attackArea.SetActive(true);
+                }
+                else if (Count < Startup + Active + Recovery)
+                {
+                    Count++;
+                    attackArea.SetActive(false);
+                }
+                else if (Count >= Startup + Active + Recovery)
+                {
+                    flashFlg = false;
+                    Count = 0;
+                    isAttack = false;
+                }
+            }
+        }
+        //通常攻撃
         if (Count < Startup) 
         {
             Count++;
