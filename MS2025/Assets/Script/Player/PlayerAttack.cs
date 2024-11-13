@@ -116,7 +116,7 @@ public class PlayerAttack : NetworkBehaviour
 
 
         // 攻撃フラグが立っている場合にアニメーションをトリガー
-        if(isOnce&&BossObj.GetComponent<BossAI>().GetCurrentAction().actionName=="Idol")
+        if(isOnce&&BossObj.GetComponent<BossAI>().GetCurrentAction().actionName== "KnockBack")
         {
             //Debug.Log("連携攻撃いいいい");
             isEffect = true;
