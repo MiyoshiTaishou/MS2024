@@ -27,6 +27,7 @@ public class BossAI : NetworkBehaviour
     private bool isOnce = false;
     private bool isHalf = false;
     private int isParticle = 1;
+    private int isAttack = 0;
     private Vector3 scale;
 
     [SerializeField, Header("ノックバックのアニメーション名")]
@@ -51,6 +52,12 @@ public class BossAI : NetworkBehaviour
     [Tooltip("ダウン時エフェクト")]
 
     public ParticleSystem Dawnparticle;
+
+    [SerializeField, Header("攻撃の予兆に関する項目")]
+    [Tooltip("攻撃予兆エフェクト")]
+    public ParticleSystem AttackOmenParticle;
+    [Tooltip("攻撃予兆エフェクトを出すまでの時間")]
+    public float AttackOmentime=1.0f;
 
     private ParticleSystem newParticle;
 
@@ -197,9 +204,25 @@ public class BossAI : NetworkBehaviour
         {
             Debug.Log($"Playing animation: {currentAction.actionName}");
             networkedAnimationName = currentAction.actionName; // ネットワーク変数にアニメーション名をセット
+            if(networkedAnimationName!="Attack")
+            {
+                //Attack以外ならまた攻撃時パーティクルが出るように設定する
+                isAttack = 0;
+            }
+        }
+
+        //次のアニメーションが攻撃モーションならパーティクルを出す
+        if(networkedAnimationName== "Attack")
+        {
+            Invoke("Omen", AttackOmentime);
         }
 
         isActionInitialized = true;
+    }
+
+    void Omen()
+    {
+        isAttack = 1;
     }
 
     void StartNextAction()
@@ -273,6 +296,21 @@ public class BossAI : NetworkBehaviour
 
                 isParticle = 1;
             }
+        }
+
+        if(isAttack==1)
+        {
+            // パーティクルシステムのインスタンスを生成
+            ParticleSystem OmenParticle = Instantiate(AttackOmenParticle);
+
+            //パーティクルを生成
+            OmenParticle.transform.position = this.transform.position;
+            // パーティクルを発生させる
+            OmenParticle.Play();
+
+            Destroy(OmenParticle.gameObject, 0.8f);
+
+            isAttack = 2;
         }
 
     }
