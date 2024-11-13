@@ -20,28 +20,28 @@ public class PlayerAttack : NetworkBehaviour
     [Networked] private bool isPlayingAnimation { get; set; }
     [Networked] public NetworkButtons ButtonsPrevious { get; set; }
 
-    [Header("UŒ‚SE"), SerializeField] private AudioClip[] attackSE;
+    [Header("æ”»æ’ƒSE"), SerializeField] private AudioClip[] attackSE;
 
 
-    [SerializeField, Tooltip("”­¶f")]
+    [SerializeField, Tooltip("ç™ºç”Ÿf")]
     int Startup;
-    [SerializeField, Tooltip("‘±f")]
+    [SerializeField, Tooltip("æŒç¶šf")]
     int Active;
-    [SerializeField, Tooltip("d’¼f")]
+    [SerializeField, Tooltip("ç¡¬ç›´f")]
     int Recovery;
-    [SerializeField, Tooltip("˜AŒgƒtƒBƒjƒbƒVƒ…”­¶f")]
+    [SerializeField, Tooltip("é€£æºãƒ•ã‚£ãƒ‹ãƒƒã‚·ãƒ¥ç™ºç”Ÿf")]
     int buddyStartup;
-    [SerializeField, Tooltip("˜AŒgƒtƒBƒjƒbƒVƒ…‘±f")]
+    [SerializeField, Tooltip("é€£æºãƒ•ã‚£ãƒ‹ãƒƒã‚·ãƒ¥æŒç¶šf")]
     int buddyActive;
-    [SerializeField, Tooltip("˜AŒgƒtƒBƒjƒbƒVƒ…d’¼f")]
+    [SerializeField, Tooltip("é€£æºãƒ•ã‚£ãƒ‹ãƒƒã‚·ãƒ¥ç¡¬ç›´f")]
     int buddyRecovery;
 
     int Count;
 
-    [SerializeField, Tooltip("UŒ‚Oí‚ÌƒGƒtƒFƒNƒg")]
+    [SerializeField, Tooltip("æ”»æ’ƒä¸‰ç¨®ã®ã‚¨ãƒ•ã‚§ã‚¯ãƒˆ")]
     List<GameObject> effectList;
 
-    [SerializeField, Tooltip("UŒ‚Oí‚ÌƒGƒtƒFƒNƒg")]
+    [SerializeField, Tooltip("æ”»æ’ƒä¸‰ç¨®ã®ã‚¨ãƒ•ã‚§ã‚¯ãƒˆ")]
     GameObject effectobj;
     ParticleSystem particle;
 
@@ -49,7 +49,7 @@ public class PlayerAttack : NetworkBehaviour
 
     HitStop hitStop;
     GameObject BossObj = null;
-    bool flashFlg = false;//˜AŒgUŒ‚‚É‚æ‚éuŠÔˆÚ“®‚ğ‚µ‚½‚©
+    bool flashFlg = false;//é€£æºæ”»æ’ƒã«ã‚ˆã‚‹ç¬é–“ç§»å‹•ã‚’ã—ãŸã‹
 
     public override void Spawned()
     {
@@ -60,7 +60,7 @@ public class PlayerAttack : NetworkBehaviour
         netobj = GameObject.Find("Networkbox");
         if(netobj==null) 
         {
-            Debug.LogError("ƒlƒbƒgƒIƒuƒWƒFƒNƒg‚È‚¢‚æ");
+            Debug.LogError("ãƒãƒƒãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãªã„ã‚ˆ");
         }
         sharenum = netobj.GetComponent<ShareNumbers>();
 
@@ -69,7 +69,7 @@ public class PlayerAttack : NetworkBehaviour
         BossObj = GameObject.Find("Boss2D");
         if(BossObj==null)
         {
-            Debug.LogError("‚Ú‚·‚È‚¢‚æ");
+            Debug.LogError("ã¼ã™ãªã„ã‚ˆ");
         }
         flashFlg= false;
     }
@@ -79,30 +79,30 @@ public class PlayerAttack : NetworkBehaviour
         if (Object.HasStateAuthority && GetInput(out NetworkInputData data) && !hitStop.IsHitStopActive)
         {
             AnimatorStateInfo landAnimStateInfo = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
-            if(landAnimStateInfo.IsName("APlayerParry")||//ƒpƒŠƒB‚ÍUŒ‚‚µ‚È‚¢
-                landAnimStateInfo.IsName("APlayerJumpUp")|| landAnimStateInfo.IsName("APlayerJumpDown"))//ƒWƒƒƒ“ƒv’†‚ÍUŒ‚‚µ‚È‚¢
+            if(landAnimStateInfo.IsName("APlayerParry")||//ãƒ‘ãƒªã‚£æ™‚ã¯æ”»æ’ƒã—ãªã„
+                landAnimStateInfo.IsName("APlayerJumpUp")|| landAnimStateInfo.IsName("APlayerJumpDown"))//ã‚¸ãƒ£ãƒ³ãƒ—ä¸­ã¯æ”»æ’ƒã—ãªã„
             {
                 return;
             }
             var pressed = data.Buttons.GetPressed(ButtonsPrevious);
             ButtonsPrevious = data.Buttons;
 
-            // Attackƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚½‚©A‚©‚ÂƒAƒjƒ[ƒVƒ‡ƒ“‚ªÄ¶’†‚Å‚È‚¢‚©ƒ`ƒFƒbƒN
+            // Attackãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚ŒãŸã‹ã€ã‹ã¤ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ãŒå†ç”Ÿä¸­ã§ãªã„ã‹ãƒã‚§ãƒƒã‚¯
             if (pressed.IsSet(NetworkInputButtons.Attack) && !isAttack && currentCombo<2)
             {
-                isAttack = true; // UŒ‚ƒtƒ‰ƒO‚ğ—§‚Ä‚é
+                isAttack = true; // æ”»æ’ƒãƒ•ãƒ©ã‚°ã‚’ç«‹ã¦ã‚‹
                 isPlayingAnimation = true;
                 isOnce = true;
-                //‘SƒvƒŒƒCƒ„[‚ÉSE‚ğÄ¶‚·‚é
+                //å…¨ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã«SEã‚’å†ç”Ÿã™ã‚‹
                 RPC_SE();
                 //particle.Play();
             }
             else if(pressed.IsSet(NetworkInputButtons.Attack) && currentCombo >= 2)
             {
-                isAttack = true; // UŒ‚ƒtƒ‰ƒO‚ğ—§‚Ä‚é
+                isAttack = true; // æ”»æ’ƒãƒ•ãƒ©ã‚°ã‚’ç«‹ã¦ã‚‹
                 isPlayingAnimation = true;
                 isOnce = true;
-                //‘SƒvƒŒƒCƒ„[‚ÉSE‚ğÄ¶‚·‚é
+                //å…¨ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã«SEã‚’å†ç”Ÿã™ã‚‹
                 RPC_SE();
                 //isEffect= true;
 
@@ -113,41 +113,42 @@ public class PlayerAttack : NetworkBehaviour
 
     public override void Render()
     {
-        // Œ»İ‚ÌƒAƒjƒ[ƒVƒ‡ƒ“‚Ìó‘Ô‚ğæ“¾
+        // ç¾åœ¨ã®ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã®çŠ¶æ…‹ã‚’å–å¾—
         AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
 
 
-        // ƒ{ƒX‚Ì‚¯‚¼‚è‚ÌƒGƒtƒFƒNƒg
-        if(isOnce&& BossObj.GetComponent<BossAI>().Nokezori >0)
+
+        // æ”»æ’ƒãƒ•ãƒ©ã‚°ãŒç«‹ã£ã¦ã„ã‚‹å ´åˆã«ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã‚’ãƒˆãƒªã‚¬ãƒ¼
+        if(isOnce&&BossObj.GetComponent<BossAI>().GetCurrentAction().actionName== "KnockBack")
         {
-            //Debug.Log("˜AŒgUŒ‚‚¢‚¢‚¢‚¢");
+            //Debug.Log("é€£æºæ”»æ’ƒã„ã„ã„ã„");
             isEffect = true;
-            isOnce = false; // ƒtƒ‰ƒO‚ğƒŠƒZƒbƒg
+            isOnce = false; // ãƒ•ãƒ©ã‚°ã‚’ãƒªã‚»ãƒƒãƒˆ
         }
         else if (isOnce&& currentCombo==0)
         {
-            //Debug.LogError("ˆë‚Ì”éŒ•");
-            //animator.SetTrigger("Attack"); // ƒAƒjƒ[ƒVƒ‡ƒ“‚ÌƒgƒŠƒK[
+            //Debug.LogError("å£±ã®ç§˜å‰£");
+            //animator.SetTrigger("Attack"); // ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã®ãƒˆãƒªã‚¬ãƒ¼
             animator.Play("APlayerAttack");
-            effectList[0].GetComponent<ParticleSystem>().Play();
-            isOnce = false; // ƒtƒ‰ƒO‚ğƒŠƒZƒbƒg
+            //effectList[0].GetComponent<ParticleSystem>().Play();
+            isOnce = false; // ãƒ•ãƒ©ã‚°ã‚’ãƒªã‚»ãƒƒãƒˆ
         }
         else if (isOnce&& currentCombo==1)
         {
-            //Debug.LogError("“ó‚Ì”éŒ•");
-            //animator.SetTrigger("Attack2"); // ƒAƒjƒ[ƒVƒ‡ƒ“‚ÌƒgƒŠƒK[
+            //Debug.LogError("å¼ã®ç§˜å‰£");
+            //animator.SetTrigger("Attack2"); // ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã®ãƒˆãƒªã‚¬ãƒ¼
             animator.Play("APlayerAttack2");
-            effectList[1].GetComponent<ParticleSystem>().Play();
-            isOnce = false; // ƒtƒ‰ƒO‚ğƒŠƒZƒbƒg
+            //effectList[1].GetComponent<ParticleSystem>().Play();
+            isOnce = false; // ãƒ•ãƒ©ã‚°ã‚’ãƒªã‚»ãƒƒãƒˆ
 
         }
         else if (isOnce&& currentCombo>=2)
         {
-            //Debug.LogError("I‚Ì”éŒ•");
-            //animator.SetTrigger("Attack3"); // ƒAƒjƒ[ƒVƒ‡ƒ“‚ÌƒgƒŠƒK[
+            //Debug.LogError("çµ‚ã®ç§˜å‰£");
+            //animator.SetTrigger("Attack3"); // ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã®ãƒˆãƒªã‚¬ãƒ¼
             animator.Play("APlayerAttack3");
-            effectList[2].GetComponent<ParticleSystem>().Play();
-            isOnce = false; // ƒtƒ‰ƒO‚ğƒŠƒZƒbƒg
+           // effectList[2].GetComponent<ParticleSystem>().Play();
+            isOnce = false; // ãƒ•ãƒ©ã‚°ã‚’ãƒªã‚»ãƒƒãƒˆ
            
         }
 
@@ -158,14 +159,14 @@ public class PlayerAttack : NetworkBehaviour
         }
 
 
-        //// ƒAƒjƒ[ƒVƒ‡ƒ“‚ªÄ¶’†‚Å‚ ‚éê‡‚Ìˆ—
+        //// ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ãŒå†ç”Ÿä¸­ã§ã‚ã‚‹å ´åˆã®å‡¦ç†
         //if (stateInfo.IsName("APlayerAttack"))
         //{
-        //    attackArea.SetActive(true); // UŒ‚ƒGƒŠƒA‚ğƒAƒNƒeƒBƒu‚É       
+        //    attackArea.SetActive(true); // æ”»æ’ƒã‚¨ãƒªã‚¢ã‚’ã‚¢ã‚¯ãƒ†ã‚£ãƒ–ã«       
         //}
         //else
         //{
-        //    attackArea.SetActive(false); // ƒAƒjƒ[ƒVƒ‡ƒ“‚ªÄ¶’†‚Å‚È‚¢ê‡‚ÍUŒ‚ƒGƒŠƒA‚ğ–³Œø‰»
+        //    attackArea.SetActive(false); // ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ãŒå†ç”Ÿä¸­ã§ãªã„å ´åˆã¯æ”»æ’ƒã‚¨ãƒªã‚¢ã‚’ç„¡åŠ¹åŒ–
         //    isAttack = false;
         //}
     }
@@ -188,7 +189,7 @@ public class PlayerAttack : NetworkBehaviour
                 break;
         }
         audioSource.PlayOneShot(attackSE[0]);
-        isAttack = true; // UŒ‚ƒtƒ‰ƒO‚ğ—§‚Ä‚é
+        isAttack = true; // æ”»æ’ƒãƒ•ãƒ©ã‚°ã‚’ç«‹ã¦ã‚‹
         isPlayingAnimation = true;
         isOnce = true;
         currentCombo = sharenum.nHitnum;
@@ -202,10 +203,10 @@ public class PlayerAttack : NetworkBehaviour
             return;
         }
         
-        //‚Ì‚¯‚¼‚èó‘Ô‚É‘Î‚µ‚Ä‚ÌUŒ‚(˜AŒgUŒ‚)
+        //ã®ã‘ãã‚ŠçŠ¶æ…‹ã«å¯¾ã—ã¦ã®æ”»æ’ƒ(é€£æºæ”»æ’ƒ)
         if (BossObj.GetComponent<BossAI>().Nokezori > 0)
         {
-            //˜AŒgƒtƒBƒjƒbƒVƒ…UŒ‚
+            //é€£æºãƒ•ã‚£ãƒ‹ãƒƒã‚·ãƒ¥æ”»æ’ƒ
             if (BossObj.GetComponent<BossAI>().Nokezori == 1)
             {
                 if (Count < buddyStartup)
@@ -214,7 +215,7 @@ public class PlayerAttack : NetworkBehaviour
                 }
                 else if (Count < buddyStartup + buddyActive)
                 {
-                    //uŠÔˆÚ“®
+                    //ç¬é–“ç§»å‹•
                     Vector3 pos = transform.position;
                     Vector3 bosspos = BossObj.transform.position;
                     if (!flashFlg)
@@ -254,7 +255,7 @@ public class PlayerAttack : NetworkBehaviour
                 }
                 else if (Count < Startup + Active)
                 {
-                    //uŠÔˆÚ“®
+                    //ç¬é–“ç§»å‹•
                     Vector3 pos =transform.position;
                     Vector3 bosspos=BossObj.transform.position;
                     if (!flashFlg)
@@ -288,7 +289,7 @@ public class PlayerAttack : NetworkBehaviour
                 }
             }
         }
-        //’ÊíUŒ‚
+        //é€šå¸¸æ”»æ’ƒ
         if (Count < Startup) 
         {
             Count++;
