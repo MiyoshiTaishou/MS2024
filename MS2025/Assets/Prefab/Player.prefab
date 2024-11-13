@@ -139,6 +139,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   netobj: {fileID: 6048116181023338960, guid: 2d5a6b03460814e4d8ec665c744611bb, type: 3}
   stopFrame: 5
+  DamageNum: 100
 --- !u!1 &2918473518555105603
 GameObject:
   m_ObjectHideFlags: 0
@@ -5823,6 +5824,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   netobj: {fileID: 6048116181023338960, guid: 2d5a6b03460814e4d8ec665c744611bb, type: 3}
   stopFrame: 145
+  ChargeDamege: 500
 --- !u!1001 &1603790674371511134
 PrefabInstance:
   m_ObjectHideFlags: 0
