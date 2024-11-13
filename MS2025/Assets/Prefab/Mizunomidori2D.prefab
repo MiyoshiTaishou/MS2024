@@ -310,14 +310,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b75be179e10814e42befb943a9ba5c07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HP: 0
-  downTime: 0
-  moveSpeed: 2
-  rotationSpeed: 2
-  changeTargetInterval: 30
-  skills:
-  - {fileID: 8463333794148526872}
-  minCooldownAfterAttack: 0
+  actionSequence: []
+  actionSequenceHalf:
+  - {fileID: 11400000, guid: f271122eb5ae39840a541e327ecfbd25, type: 2}
+  - {fileID: 11400000, guid: f271122eb5ae39840a541e327ecfbd25, type: 2}
+  _isKnockBack: 0
+  _isParry: 0
+  _Nokezori: 0
+  NokezoriLimit: 0
+  animName: 
+  _maxPlayerIndex: 0
+  _isInterrupted: 0
+  _isDown: 0
+  _isAir: 0
+  downAction: {fileID: 0}
+  parryction: {fileID: 0}
+  Dawnparticle: {fileID: 0}
 --- !u!1 &6532852424573138204
 GameObject:
   m_ObjectHideFlags: 0
