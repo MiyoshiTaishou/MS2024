@@ -1216,6 +1216,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4661521439997697640, guid: 745fd90e17809384d980f68c8c476341,
+        type: 3}
+      propertyPath: targetStateName
+      value: KnockBack
+      objectReference: {fileID: 0}
     - target: {fileID: 6831667486188821985, guid: 745fd90e17809384d980f68c8c476341,
         type: 3}
       propertyPath: SortKey
@@ -1224,7 +1229,7 @@ PrefabInstance:
     - target: {fileID: 6831667486188821985, guid: 745fd90e17809384d980f68c8c476341,
         type: 3}
       propertyPath: NetworkedBehaviours.Array.size
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6831667486188821985, guid: 745fd90e17809384d980f68c8c476341,
         type: 3}
@@ -1245,7 +1250,7 @@ PrefabInstance:
         type: 3}
       propertyPath: actionSequence.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: 8aee5de206c9c8e4f893d9c9a335a215,
+      objectReference: {fileID: 11400000, guid: 8270a123ca69dbe42a168434b5d8d841,
         type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -14784,6 +14789,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: TransitionCanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 608094728680519894, guid: 8f5384a39f68fc146a263c5d44ec6d36,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6081781734878344181, guid: 8f5384a39f68fc146a263c5d44ec6d36,
         type: 3}
