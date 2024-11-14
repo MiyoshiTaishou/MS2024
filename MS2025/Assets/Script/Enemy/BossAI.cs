@@ -56,8 +56,12 @@ public class BossAI : NetworkBehaviour
     [SerializeField, Header("攻撃の予兆に関する項目")]
     [Tooltip("攻撃予兆エフェクト")]
     public ParticleSystem AttackOmenParticle;
-    [Tooltip("攻撃予兆エフェクトを出すまでの時間")]
-    private float AttackOmentime=0.3f;
+    [Tooltip("攻撃予兆エフェクトを出すまでの時間(0.3fが丁度いい気がします)")]
+    public float Omentime = 0.3f;
+    [Tooltip("攻撃予兆エフェクトのX座標")]
+    public float OmenPosX = 1.5f;
+    [Tooltip("攻撃予兆エフェクトのY座標")]
+    public float OmenPosY = 1.7f;
 
     private ParticleSystem newParticle;
 
@@ -214,7 +218,7 @@ public class BossAI : NetworkBehaviour
         //次のアニメーションが攻撃モーションならパーティクルを出す
         if(networkedAnimationName== "Attack")
         {
-            Invoke("Omen", AttackOmentime);
+            Invoke("Omen", Omentime);
         }
 
         isActionInitialized = true;
@@ -306,7 +310,7 @@ public class BossAI : NetworkBehaviour
             if(this.transform.localScale.x>0)
             {
                 //パーティクルを生成
-                OmenParticle.transform.position = new Vector3(this.transform.position.x + 1.5f, this.transform.position.y + 1.7f, this.transform.position.z - 0.8f);
+                OmenParticle.transform.position = new Vector3(this.transform.position.x + OmenPosX, this.transform.position.y + OmenPosY, this.transform.position.z - 0.8f);
                 // パーティクルを発生させる
                 OmenParticle.Play();
 
@@ -315,7 +319,7 @@ public class BossAI : NetworkBehaviour
             else
             {
                 //パーティクルを生成
-                OmenParticle.transform.position = new Vector3(this.transform.position.x - 1.5f, this.transform.position.y + 1.7f, this.transform.position.z - 0.8f);
+                OmenParticle.transform.position = new Vector3(this.transform.position.x - OmenPosX, this.transform.position.y + OmenPosY, this.transform.position.z - 0.8f);
                 // パーティクルを発生させる
                 OmenParticle.Play();
 
