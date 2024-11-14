@@ -57,7 +57,7 @@ public class BossAI : NetworkBehaviour
     [Tooltip("攻撃予兆エフェクト")]
     public ParticleSystem AttackOmenParticle;
     [Tooltip("攻撃予兆エフェクトを出すまでの時間")]
-    public float AttackOmentime=1.0f;
+    private float AttackOmentime=0.3f;
 
     private ParticleSystem newParticle;
 
@@ -302,13 +302,25 @@ public class BossAI : NetworkBehaviour
         {
             // パーティクルシステムのインスタンスを生成
             ParticleSystem OmenParticle = Instantiate(AttackOmenParticle);
+            
+            if(this.transform.localScale.x>0)
+            {
+                //パーティクルを生成
+                OmenParticle.transform.position = new Vector3(this.transform.position.x + 1.5f, this.transform.position.y + 1.7f, this.transform.position.z - 0.8f);
+                // パーティクルを発生させる
+                OmenParticle.Play();
 
-            //パーティクルを生成
-            OmenParticle.transform.position = this.transform.position;
-            // パーティクルを発生させる
-            OmenParticle.Play();
+                Destroy(OmenParticle.gameObject, 0.8f);
+            }
+            else
+            {
+                //パーティクルを生成
+                OmenParticle.transform.position = new Vector3(this.transform.position.x - 1.5f, this.transform.position.y + 1.7f, this.transform.position.z - 0.8f);
+                // パーティクルを発生させる
+                OmenParticle.Play();
 
-            Destroy(OmenParticle.gameObject, 0.8f);
+                Destroy(OmenParticle.gameObject, 0.8f);
+            }
 
             isAttack = 2;
         }
