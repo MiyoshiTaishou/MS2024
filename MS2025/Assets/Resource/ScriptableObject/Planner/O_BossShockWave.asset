@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ee30865c1070cd4d8e5eae20ade98c8, type: 3}
   m_Name: O_BossShockWave
   m_EditorClassIdentifier: 
-  actionName: Attack
+  actionName: JumpAttack
   attackRange: 10
-  attackDuration: 2.8
-  attackAnimSpeed: 2
+  attackDuration: 1.4
+  attackAnimSpeed: 1.5
   attackScale: {x: 100, y: 1, z: 100}
   isCameraShake: 1
   cameraDuration: 1
