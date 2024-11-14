@@ -6069,7 +6069,7 @@ PrefabInstance:
         type: 3}
       propertyPath: parryction
       value: 
-      objectReference: {fileID: 11400000, guid: 90b568cc0d23f1f4b9873c9a8d9e7864,
+      objectReference: {fileID: 11400000, guid: 53fabe96f94aa38478ef3d1572aecf6d,
         type: 2}
     - target: {fileID: 9057512719745946127, guid: 745fd90e17809384d980f68c8c476341,
         type: 3}
@@ -6077,6 +6077,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 7551388611195229131, guid: a58aa9a78f2b45b45bb0f3e2e1e3ad3c,
         type: 3}
+    - target: {fileID: 9057512719745946127, guid: 745fd90e17809384d980f68c8c476341,
+        type: 3}
+      propertyPath: AttackOmenParticle
+      value: 
+      objectReference: {fileID: 2121593439}
     - target: {fileID: 9057512719745946127, guid: 745fd90e17809384d980f68c8c476341,
         type: 3}
       propertyPath: actionSequence.Array.size

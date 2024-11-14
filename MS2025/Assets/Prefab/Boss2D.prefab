@@ -199,8 +199,10 @@ MonoBehaviour:
   _isDown: 0
   _isAir: 0
   downAction: {fileID: 11400000, guid: 1041b2b8e439b384d80347ea7b971b0b, type: 2}
-  parryction: {fileID: 11400000, guid: 90b568cc0d23f1f4b9873c9a8d9e7864, type: 2}
+  parryction: {fileID: 11400000, guid: 53fabe96f94aa38478ef3d1572aecf6d, type: 2}
   Dawnparticle: {fileID: 0}
+  AttackOmenParticle: {fileID: 0}
+  AttackOmentime: 1
 --- !u!65 &-6834287320468394907
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -603,7 +605,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentAnimator: {fileID: 788142181416184284}
-  targetStateName: JumpAttack
+  targetStateName: KnockBack
 --- !u!4 &1473718671845502057 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4460215744293948848, guid: f0427bd7b78d25c44b813e7d448a6d4b,
