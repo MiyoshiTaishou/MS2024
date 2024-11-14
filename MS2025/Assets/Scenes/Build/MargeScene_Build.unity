@@ -1880,6 +1880,11 @@ PrefabInstance:
       propertyPath: Boss
       value: 
       objectReference: {fileID: 1152751669}
+    - target: {fileID: 1543679455732522373, guid: 2d5a6b03460814e4d8ec665c744611bb,
+        type: 3}
+      propertyPath: damage
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 5668343217354290683, guid: 2d5a6b03460814e4d8ec665c744611bb,
         type: 3}
       propertyPath: m_LocalPosition.x
