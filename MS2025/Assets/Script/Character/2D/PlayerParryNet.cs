@@ -193,7 +193,7 @@ public class PlayerParryNet : NetworkBehaviour
 
         Debug.Log("パリィシステム");
         audioSource.PlayOneShot(ParrySuccessSE);
-        animator.Play("APlayerCounter");
+        //animator.Play("APlayerCounter");
         // animator.SetTrigger("ParrySuccess"); // アニメーションのトリガー
         NetCountereffect = true;
         //cinemachar.CameraZoom(this.character.transform, 5,0.5f);
@@ -267,7 +267,7 @@ public class PlayerParryNet : NetworkBehaviour
     {
         if (isParry && isParryAnimation) //パリィアニメーション中かどうか
         {
-            Debug.Log("パリィクライアント");
+            //Debug.Log("パリィクライアント");
             NetParryeffect = true;
             animator.Play("APlayerParry");
             isParryAnimation = false; // フラグをリセット
@@ -275,9 +275,9 @@ public class PlayerParryNet : NetworkBehaviour
 
         if (isParrySuccess) //パリィアニメーション中かどうか
         {
-            Debug.Log("パリィカウンタークライアント");
+           // Debug.Log("パリィカウンタークライアント");
             NetCountereffect = true;
-            animator.Play("APlayerCounter");
+           // animator.Play("APlayerCounter");
             isParrySuccess = false;
         }
 
