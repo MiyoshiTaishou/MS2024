@@ -139,7 +139,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   netobj: {fileID: 6048116181023338960, guid: 2d5a6b03460814e4d8ec665c744611bb, type: 3}
   stopFrame: 5
+  buddyStopFrame: 5
+  buddyFinalStopFrame: 20
   DamageNum: 100
+  buddyDamageNum: 200
+  buddyFinalDamageNum: 1000
 --- !u!1 &2918473518555105603
 GameObject:
   m_ObjectHideFlags: 0
@@ -5422,12 +5426,12 @@ MonoBehaviour:
   - {fileID: 8300000, guid: b281b9192f65f4c48996b8acc78e3ed9, type: 3}
   - {fileID: 8300000, guid: e321da4a14b2787498ea392863a83a76, type: 3}
   - {fileID: 8300000, guid: 1da7497ed5fe7704bb8dc7f629c54e17, type: 3}
-  Startup: 15
-  Active: 15
+  Startup: 7
+  Active: 3
   Recovery: 50
-  buddyStartup: 40
+  buddyStartup: 3
   buddyActive: 5
-  buddyRecovery: 100
+  buddyRecovery: 50
   effectList:
   - {fileID: 780394350727776501}
   - {fileID: 5564641895426053759}
