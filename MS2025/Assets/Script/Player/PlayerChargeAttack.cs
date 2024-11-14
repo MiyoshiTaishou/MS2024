@@ -85,6 +85,7 @@ public class PlayerChargeAttack : NetworkBehaviour
             }
             else
             {
+                isCharge = false;
                 chargeparticle.Stop();
             }
 
