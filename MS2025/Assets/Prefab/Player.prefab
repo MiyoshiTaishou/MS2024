@@ -5428,7 +5428,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 1da7497ed5fe7704bb8dc7f629c54e17, type: 3}
   Startup: 7
   Active: 3
-  Recovery: 50
+  Recovery: 40
   buddyStartup: 3
   buddyActive: 5
   buddyRecovery: 50
@@ -5557,8 +5557,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d47f8f1480f49ed44b8df07745059b57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  acceleration: 20
-  maxSpeed: 5
+  acceleration: 30
+  maxSpeed: 10
   _isMove: 0
 --- !u!114 &7588640461257048479
 MonoBehaviour:
@@ -5573,8 +5573,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jumpSE: {fileID: 8300000, guid: 7e0c3b9ed31f17d4cba22d1c5346e04d, type: 3}
-  jumpPower: 10
-  gravity: 9.8
+  jumpPower: 15
+  gravity: 35
   effect: {fileID: 6574216082050649755, guid: abed7fcf5665eef4ab4326f47c503b02, type: 3}
   _isEffect: 0
   _jumpstart: 0
