@@ -9,24 +9,24 @@ public class PlayerChargeAttack : NetworkBehaviour
     GameObject netobj;
     ShareNumbers sharenum;
 
-    public bool isCharge=false;//ƒ`ƒƒ[ƒW’†‚©”Û‚©
+    public bool isCharge=false;//ãƒãƒ£ãƒ¼ã‚¸ä¸­ã‹å¦ã‹
     bool isAttack = false;
 
-    [SerializeField, Tooltip("”­¶f")]
+    [SerializeField, Tooltip("ç™ºç”Ÿf")]
     int Startup;
-    [SerializeField, Tooltip("‘±f")]
+    [SerializeField, Tooltip("æŒç¶šf")]
     int Active;
-    [SerializeField, Tooltip("d’¼f")]
+    [SerializeField, Tooltip("ç¡¬ç›´f")]
     int Recovery;
-    [SerializeField, Tooltip("—­‚ß‚É•K—v‚ÈƒtƒŒ[ƒ€")]
+    [SerializeField, Tooltip("æºœã‚ã«å¿…è¦ãªãƒ•ãƒ¬ãƒ¼ãƒ ")]
     int maxCharge;
     int Count;
     int chargeCount;
 
-    [SerializeField, Tooltip("—­‚ßƒGƒtƒFƒNƒg")]
+    [SerializeField, Tooltip("æºœã‚ã‚¨ãƒ•ã‚§ã‚¯ãƒˆ")]
     GameObject chargeeffect;
 
-    [SerializeField, Tooltip("—­‚ßUŒ‚ƒGƒtƒFƒNƒg")]
+    [SerializeField, Tooltip("æºœã‚æ”»æ’ƒã‚¨ãƒ•ã‚§ã‚¯ãƒˆ")]
     GameObject attackeffect;
 
     ParticleSystem chargeparticle;
@@ -43,7 +43,7 @@ public class PlayerChargeAttack : NetworkBehaviour
         netobj = GameObject.Find("Networkbox");
         if (netobj == null)
         {
-            Debug.LogError("ƒlƒbƒgƒIƒuƒWƒFƒNƒg‚È‚¢‚æ");
+            Debug.LogError("ãƒãƒƒãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãªã„ã‚ˆ");
         }
         sharenum = netobj.GetComponent<ShareNumbers>();
         chargeparticle = chargeeffect.GetComponent<ParticleSystem>();
@@ -55,8 +55,8 @@ public class PlayerChargeAttack : NetworkBehaviour
         if (Object.HasStateAuthority && GetInput(out NetworkInputData data))
         {
             AnimatorStateInfo landAnimStateInfo = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
-            if (landAnimStateInfo.IsName("APlayerParry") ||//ƒpƒŠƒB‚ÍUŒ‚‚µ‚È‚¢
-                landAnimStateInfo.IsName("APlayerJumpUp") || landAnimStateInfo.IsName("APlayerJumpDown"))//ƒWƒƒƒ“ƒv’†‚ÍUŒ‚‚µ‚È‚¢
+            if (landAnimStateInfo.IsName("APlayerParry") ||//ãƒ‘ãƒªã‚£æ™‚ã¯æ”»æ’ƒã—ãªã„
+                landAnimStateInfo.IsName("APlayerJumpUp") || landAnimStateInfo.IsName("APlayerJumpDown"))//ã‚¸ãƒ£ãƒ³ãƒ—ä¸­ã¯æ”»æ’ƒã—ãªã„
             {
                 return;
             }
@@ -65,13 +65,12 @@ public class PlayerChargeAttack : NetworkBehaviour
             ButtonsPrevious = data.Buttons;
 
 
-            // Attackƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚½‚©A‚©‚ÂƒAƒjƒ[ƒVƒ‡ƒ“‚ªÄ¶’†‚Å‚È‚¢‚©ƒ`ƒFƒbƒN
+            // Attackãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚ŒãŸã‹ã€ã‹ã¤ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ãŒå†ç”Ÿä¸­ã§ãªã„ã‹ãƒã‚§ãƒƒã‚¯
             if (data.Buttons.IsSet(NetworkInputButtons.ChargeAttack))
             {
-                Debug.Log("—­‚ß‚Ä‚Ü‚·" + chargeCount);
+                Debug.Log("æºœã‚ã¦ã¾ã™" + chargeCount);
                 isCharge = true;
                 chargeCount++;
-                Count++;
                 isEffect = true;
             }
             else if (released.IsSet(NetworkInputButtons.ChargeAttack) && isCharge&&chargeCount>maxCharge)
@@ -86,14 +85,11 @@ public class PlayerChargeAttack : NetworkBehaviour
             else
             {
                 isCharge = false;
+                chargeCount = 0;
+                isAttackEffect = false;
                 chargeparticle.Stop();
             }
-
             Attack();
-            //if(released.IsSet(chargeCount)&&chargeCount>maxCharge)
-            //{
-            //    Debug.Log("—­‚ßUŒ‚Å±±±±±±İ");
-            //}
         }
 
 
@@ -121,7 +117,7 @@ public class PlayerChargeAttack : NetworkBehaviour
         {
             return;
         }
-
+        Debug.Log("æºœã‚æ”»æ’ƒ");
         if (Count < Startup)
         {
             Count++;
