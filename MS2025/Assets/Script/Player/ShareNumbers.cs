@@ -97,6 +97,7 @@ public class ShareNumbers : NetworkBehaviour
     {        
         //”{—¦ŒvZ®
         magnification = (nCombo - 1) / 5 * 2 + 2;
+        Debug.Log("”{—¦ŒvZ" + magnification);
         int totalDamage = magnification * damage;
 
         Debug.Log("•KE‹Zƒ_ƒ[ƒW" + totalDamage);
