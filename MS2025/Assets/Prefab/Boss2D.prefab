@@ -202,7 +202,6 @@ MonoBehaviour:
   parryction: {fileID: 11400000, guid: 53fabe96f94aa38478ef3d1572aecf6d, type: 2}
   Dawnparticle: {fileID: 0}
   AttackOmenParticle: {fileID: 0}
-  AttackOmentime: 1
 --- !u!65 &-6834287320468394907
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -512,6 +511,16 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3550233201442903354, guid: f0427bd7b78d25c44b813e7d448a6d4b,
+        type: 3}
+      propertyPath: isLoop
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3550233201442903354, guid: f0427bd7b78d25c44b813e7d448a6d4b,
+        type: 3}
+      propertyPath: playOnStart
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4460215744293948848, guid: f0427bd7b78d25c44b813e7d448a6d4b,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -605,7 +614,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentAnimator: {fileID: 788142181416184284}
-  targetStateName: KnockBack
+  targetStateName: JumpAttack
 --- !u!4 &1473718671845502057 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4460215744293948848, guid: f0427bd7b78d25c44b813e7d448a6d4b,
