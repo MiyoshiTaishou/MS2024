@@ -32,12 +32,12 @@ public class PlayerSpecialAttackNet : NetworkBehaviour
 
             if(pressed.IsSet(NetworkInputButtons.Special))
             {
-                SpecialTime = 5.0f;
+                SpecialTime = 1.0f;
             }
             
             if(pressed.IsSet(NetworkInputButtons.Attack))
             {
-                SpecialTime2 = 5.0f;
+                SpecialTime2 = 1.0f;
             }
 
             //攻撃ボタンを押したときにコンボカウントが指定の数を超えてる場合再生
