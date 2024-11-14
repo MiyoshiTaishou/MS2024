@@ -7,8 +7,11 @@ using UnityEngine.UI;
 
 public class ComboSystem : NetworkBehaviour
 {
-    TextMeshProUGUI text;
-    TextMeshProUGUI text2;
+    Image Number1;
+    Image Number2;
+    Image Number3;
+
+    Image text2;
     Image image;
     [SerializeField, Tooltip("コンボ継続時間")] 
     int ComboKeepframe;
@@ -20,7 +23,7 @@ public class ComboSystem : NetworkBehaviour
         Combo++;
         sharenum.nCombo = Combo;
         Count = ComboKeepframe;
-        text.text=Combo.ToString();
+        //text.text=Combo.ToString();
         Debug.Log("コンボ数" + Combo+"ガチのコンボ数"+sharenum.nCombo);
     }
 
@@ -45,24 +48,30 @@ public class ComboSystem : NetworkBehaviour
             Debug.LogError("てきすといいいいないよ");
         }
         obj3 = obj.transform.Find("ComboImage").gameObject;
-        obj2 = obj.transform.Find("ComboCountText").gameObject;
-        obj = obj.transform.Find("ComboCount").gameObject;
+        obj2 = obj.transform.Find("Count").gameObject;
+        obj = obj.transform.Find("Combo").gameObject;
 
         if (obj == null)
         {
             Debug.LogError("てきすとううううないよ");
         }
-        text = obj.GetComponent<TextMeshProUGUI>();
-        text2 = obj2.GetComponent<TextMeshProUGUI>();
+        Number1 = obj.transform.Find("1").GetComponent<Image>();
+        Number2 = obj.transform.Find("10").GetComponent<Image>();
+        Number3 = obj.transform.Find("100").GetComponent<Image>();
+
+        text2 = obj2.GetComponent<Image>();
         image = obj3.GetComponent<Image>();
-        if(!text)
+        if(!Number1)
         {
             Debug.LogError("てきすとないよ");
         }
-        text.alpha = 0;
-        text2.alpha = 0;
         Color color = image.color;
         color.a = 0;
+
+        Number1.color = color;
+        Number2.color = color;
+        Number3.color = color;
+        text2.color = color;
         image.color = color;
     }
 
@@ -76,10 +85,12 @@ public class ComboSystem : NetworkBehaviour
 
         if(Combo >0)
         {
-            text.alpha = (float)Count / ComboKeepframe;
-            text2.alpha = (float)Count / ComboKeepframe;
             Color color = image.color;
             color.a = (float)Count / ComboKeepframe;
+            Number1.color = color;
+            Number2.color = color;
+            Number3.color = color;
+            text2.color = color;
             image.color = color;
         }
 
