@@ -119,7 +119,7 @@ public class PlayerAttack : NetworkBehaviour
 
 
         // 攻撃フラグが立っている場合にアニメーションをトリガー
-        if(isOnce&&BossObj.GetComponent<BossAI>().GetCurrentAction().actionName== "KnockBack")
+        if(isOnce&&BossObj.GetComponent<BossAI>().Nokezori>0)
         {
             //Debug.Log("連携攻撃いいいい");
             isEffect = true;
@@ -206,6 +206,7 @@ public class PlayerAttack : NetworkBehaviour
         //のけぞり状態に対しての攻撃(連携攻撃)
         if (BossObj.GetComponent<BossAI>().Nokezori > 0)
         {
+                Debug.Log("瞬間移動" + flashFlg);
             //連携フィニッシュ攻撃
             if (BossObj.GetComponent<BossAI>().Nokezori == 1)
             {
@@ -242,6 +243,7 @@ public class PlayerAttack : NetworkBehaviour
                 }
                 else if (Count >= buddyStartup + buddyActive + buddyRecovery)
                 {
+                    flashFlg = false;
                     Count = 0;
                     isAttack = false;
                 }
@@ -287,6 +289,7 @@ public class PlayerAttack : NetworkBehaviour
                     Count = 0;
                     isAttack = false;
                 }
+                return;
             }
         }
         //通常攻撃

@@ -70,7 +70,7 @@ public class BossAI : NetworkBehaviour
         animator = GetComponent<Animator>(); // Animator コンポーネントを取得
         currentSequenceIndex = Random.Range(0, actionSequence.Length);
 
-        Nokezori = NokezoriLimit;
+        Nokezori = 0;
         // プレイヤーオブジェクトをすべて取得してリストに保存
         players = new List<Transform>();
         RefreshPlayerList();
