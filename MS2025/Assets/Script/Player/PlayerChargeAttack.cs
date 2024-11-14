@@ -71,7 +71,6 @@ public class PlayerChargeAttack : NetworkBehaviour
                 Debug.Log("ó≠ÇﬂÇƒÇ‹Ç∑" + chargeCount);
                 isCharge = true;
                 chargeCount++;
-                Count++;
                 isEffect = true;
             }
             else if (released.IsSet(NetworkInputButtons.ChargeAttack) && isCharge&&chargeCount>maxCharge)
@@ -85,14 +84,12 @@ public class PlayerChargeAttack : NetworkBehaviour
             }
             else
             {
+                isCharge = false;
+                chargeCount = 0;
+                isAttackEffect = false;
                 chargeparticle.Stop();
             }
-
             Attack();
-            //if(released.IsSet(chargeCount)&&chargeCount>maxCharge)
-            //{
-            //    Debug.Log("ó≠ÇﬂçUåÇ≈±±±±±±›");
-            //}
         }
 
 
@@ -120,7 +117,7 @@ public class PlayerChargeAttack : NetworkBehaviour
         {
             return;
         }
-
+        Debug.Log("ó≠ÇﬂçUåÇ");
         if (Count < Startup)
         {
             Count++;
