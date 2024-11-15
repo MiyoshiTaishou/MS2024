@@ -12,7 +12,8 @@ public class ShareNumbers : NetworkBehaviour
     public int maxHitnum { get; set; }
 
     [Networked] public int nCombo { get; set; }
-
+    [Networked]public int maxCombo { get; set; }
+    [Networked] public int jumpAttackNum { get; set; }
     [Networked] private int specilaCombo { get; set; }
 
     [Networked] public bool isSpecial { get; set; }
@@ -137,6 +138,7 @@ public class ShareNumbers : NetworkBehaviour
         nHitnum = 0;
         CurrentHP =5;
         nCombo = 0;
+        jumpAttackNum = 0;
         Debug.Log("ƒvƒŒƒCƒ„[‚ÌHP‚Æ‚©‰Šú‰»");         
     }    
 }

@@ -3415,6 +3415,7 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 617070411}
   m_PrefabAsset: {fileID: 0}
+
 --- !u!1 &617070414 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3818991750017330964, guid: 75272d9e04545f442ba51314bef17477,
@@ -3451,6 +3452,7 @@ MonoBehaviour:
   NestedObjects: []
   NetworkedBehaviours:
   - {fileID: 617070415}
+
 --- !u!1 &628138812
 GameObject:
   m_ObjectHideFlags: 0
@@ -4875,6 +4877,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1761564918740919656, guid: eca39a7f69650f64999637e85db1167a,
         type: 3}
+      propertyPath: Flags
+      value: 262145
+      objectReference: {fileID: 0}
+    - target: {fileID: 1761564918740919656, guid: eca39a7f69650f64999637e85db1167a,
+        type: 3}
       propertyPath: SortKey
       value: 2427829682
       objectReference: {fileID: 0}
@@ -4928,6 +4935,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8241513086033729740, guid: eca39a7f69650f64999637e85db1167a,
+        type: 3}
+      propertyPath: share
+      value: 
+      objectReference: {fileID: 328990925}
     - target: {fileID: 8291126313816031658, guid: eca39a7f69650f64999637e85db1167a,
         type: 3}
       propertyPath: m_Name
@@ -6175,6 +6187,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 7551388611195229131, guid: a58aa9a78f2b45b45bb0f3e2e1e3ad3c,
         type: 3}
+    - target: {fileID: 9057512719745946127, guid: 745fd90e17809384d980f68c8c476341,
+        type: 3}
+      propertyPath: NokezoriLimit
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 9057512719745946127, guid: 745fd90e17809384d980f68c8c476341,
         type: 3}
       propertyPath: AttackOmenParticle

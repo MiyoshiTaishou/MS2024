@@ -26,6 +26,10 @@ public class ComboSystem : NetworkBehaviour
     {
         Combo++;
         sharenum.nCombo = Combo;
+        if(Combo>sharenum.maxCombo)
+        {
+            sharenum.maxCombo = Combo;
+        }
         Count = ComboKeepframe;
         //text.text=Combo.ToString();
         Debug.Log("コンボ数" + Combo+"ガチのコンボ数"+sharenum.nCombo);
