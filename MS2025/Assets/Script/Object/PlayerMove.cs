@@ -8,16 +8,14 @@ public class PlayerMove : NetworkBehaviour
     private Rigidbody rb;
     Animator animator;
 
-    [SerializeField, Header("‰Á‘¬“x")]
-    private float acceleration = 10f; // ‰Á‘¬“x
-    [SerializeField, Header("Å‘å‘¬“x")]
-    private float maxSpeed = 5f; // Å‘å‘¬“x
+    [SerializeField, Header("åŠ é€Ÿåº¦")]
+    private float acceleration = 10f; // åŠ é€Ÿåº¦
+    [SerializeField, Header("æœ€å¤§é€Ÿåº¦")]
+    private float maxSpeed = 5f; // æœ€å¤§é€Ÿåº¦
 
     private Vector3 currentVelocity;
 
     private Vector3 scale;
-
-    private HitStop hitstop;
 
     [Networked] bool isReflection { get; set; } = false;
 
@@ -38,29 +36,26 @@ public class PlayerMove : NetworkBehaviour
             rb = gameObject.AddComponent<Rigidbody>();
         }
 
-        // Rigidbody‚Ìİ’è
-        rb.constraints = RigidbodyConstraints.FreezeRotation; // ‰ñ“]‚ğŒÅ’è
-        //rb.useGravity = false; // d—Í‚ğg‚í‚È‚¢ê‡
+        // Rigidbodyã®è¨­å®š
+        rb.constraints = RigidbodyConstraints.FreezeRotation; // å›è»¢ã‚’å›ºå®š
+        //rb.useGravity = false; // é‡åŠ›ã‚’ä½¿ã‚ãªã„å ´åˆ
         scale = transform.localScale;
 
         comboCountObject = GameObject.Find("Networkbox");
-        hitstop = GetComponent<HitStop>();
-        if(hitstop==null)
-        {
-            Debug.LogError("Hitstop‚È‚¢‚æ");
-        }
     }
   
     public override void FixedUpdateNetwork()
     {
         
-        //if(comboCountObject.GetComponent<ShareNumbers>().isSpecial||hitstop.IsHitStopActive)
-        //{
-        //    return;
-        //}
+
+        if(comboCountObject.GetComponent<ShareNumbers>().isSpecial)
+        {
+            return;
+        }
+
         AnimatorStateInfo landAnimStateInfo = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
 
-        //ƒpƒŠƒB’†‚Í“®‚©‚¹‚È‚¢‚æ‚¤‚É‚·‚é
+        //ãƒ‘ãƒªã‚£ä¸­ã¯å‹•ã‹ã›ãªã„ã‚ˆã†ã«ã™ã‚‹
         if (landAnimStateInfo.IsName("APlayerParry") || landAnimStateInfo.IsName("APlayerCounter") || landAnimStateInfo.IsName("APlayerAttack")
             || landAnimStateInfo.IsName("APlayerAttack2")|| landAnimStateInfo.IsName("APlayerAttack3")||GetComponent<PlayerChargeAttack>().isCharge)
         {
@@ -68,21 +63,21 @@ public class PlayerMove : NetworkBehaviour
             return;
         }
 
-        // ƒlƒbƒgƒ[ƒNƒCƒ“ƒvƒbƒgƒf[ƒ^‚ğó‚¯æ‚èŒvZ‚·‚é
+        // ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯ã‚¤ãƒ³ãƒ—ãƒƒãƒˆãƒ‡ãƒ¼ã‚¿ã‚’å—ã‘å–ã‚Šè¨ˆç®—ã™ã‚‹
         if (GetInput(out NetworkInputData data))
         {
             dir = data.Direction;
-            // “ü—Í•ûŒü‚ÌƒxƒNƒgƒ‹‚ğ³‹K‰»‚·‚é
+            // å…¥åŠ›æ–¹å‘ã®ãƒ™ã‚¯ãƒˆãƒ«ã‚’æ­£è¦åŒ–ã™ã‚‹
             data.Direction.Normalize();
 
-            // Y²‚Ì‘¬“x‚ÍŒ»İ‚ÌRigidbody‚ÌY²‘¬“x‚ğ•Û‚·‚é
+            // Yè»¸ã®é€Ÿåº¦ã¯ç¾åœ¨ã®Rigidbodyã®Yè»¸é€Ÿåº¦ã‚’ä¿æŒã™ã‚‹
             float currentYVelocity = rb.velocity.y;
 
-            // ‰Á‘¬‚ÌŒvZ‚ğs‚¤iX‚ÆZ²‚Ì‚İŒvZj
+            // åŠ é€Ÿã®è¨ˆç®—ã‚’è¡Œã†ï¼ˆXã¨Zè»¸ã®ã¿è¨ˆç®—ï¼‰
             Vector3 targetVelocity = new Vector3(data.Direction.x * maxSpeed, currentYVelocity, data.Direction.z * maxSpeed);
             currentVelocity = Vector3.MoveTowards(new Vector3(rb.velocity.x, 0, rb.velocity.z), targetVelocity, acceleration * Time.deltaTime);
 
-            // Y²‘¬“x‚ğˆÛ‚µ‚È‚ª‚çAX‚ÆZ²‚ÌˆÚ“®‚ğ”½‰f‚³‚¹‚é
+            // Yè»¸é€Ÿåº¦ã‚’ç¶­æŒã—ãªãŒã‚‰ã€Xã¨Zè»¸ã®ç§»å‹•ã‚’åæ˜ ã•ã›ã‚‹
             currentVelocity.y = currentYVelocity;
 
             Vector3 nomaldata = Vector3.Normalize(data.Direction);
@@ -109,7 +104,7 @@ public class PlayerMove : NetworkBehaviour
                 currentVelocity.z = -currentVelocity.z;
             }
 
-            // •¨—“I‚ÈˆÚ“®‚ğs‚¤
+            // ç‰©ç†çš„ãªç§»å‹•ã‚’è¡Œã†
             rb.velocity = currentVelocity;
             if (data.Direction.x > 0.0f)
             {
