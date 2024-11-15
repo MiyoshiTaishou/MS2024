@@ -50,18 +50,17 @@ public class BossAI : NetworkBehaviour
     [SerializeField, Header("のけぞり時の行動データ")]
     public BossActionData parryction;
     [Tooltip("ダウン時エフェクト")]
-
-    public ParticleSystem Dawnparticle;
+    private ParticleSystem Dawnparticle;
 
     [SerializeField, Header("攻撃の予兆に関する項目")]
     [Tooltip("攻撃予兆エフェクト")]
-    public ParticleSystem AttackOmenParticle;
+     private ParticleSystem AttackOmenParticle;
     [Tooltip("攻撃予兆エフェクトを出すまでの時間(0.3fが丁度いい気がします)")]
-    public float Omentime = 0.3f;
+    private float Omentime = 0.3f;
     [Tooltip("攻撃予兆エフェクトのX座標")]
-    public float OmenPosX = 1.5f;
+    private float OmenPosX = 1.5f;
     [Tooltip("攻撃予兆エフェクトのY座標")]
-    public float OmenPosY = 1.7f;
+    private float OmenPosY = 1.7f;
 
     private ParticleSystem newParticle;
 
