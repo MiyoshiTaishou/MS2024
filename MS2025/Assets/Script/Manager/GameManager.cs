@@ -6,6 +6,9 @@ public class GameManager : NetworkBehaviour
     [SerializeField, Header("äJénêlêî")]
     private int playerNum = 1;
 
+    [SerializeField]
+    private ShareNumbers share;
+
     [Networked]
     private float clearTime { get; set; }
 
@@ -61,7 +64,7 @@ public class GameManager : NetworkBehaviour
     [Rpc(RpcSources.All, RpcTargets.All)]
     public void RPC_EndBattle(int combo, int multiAttack)
     {
-        EndBattle(combo, multiAttack);
+        EndBattle(share.maxCombo, share.jumpAttackNum);
     }
 
     /// <summary>

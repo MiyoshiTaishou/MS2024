@@ -17,6 +17,8 @@ public class PlayerMove : NetworkBehaviour
 
     private Vector3 scale;
 
+    private HitStop hitstop;
+
     [Networked] bool isReflection { get; set; } = false;
 
     GameObject comboCountObject;
@@ -42,12 +44,17 @@ public class PlayerMove : NetworkBehaviour
         scale = transform.localScale;
 
         comboCountObject = GameObject.Find("Networkbox");
+        hitstop = GetComponent<HitStop>();
+        if(hitstop==null)
+        {
+            Debug.LogError("Hitstop‚È‚¢‚æ");
+        }
     }
   
     public override void FixedUpdateNetwork()
     {
         
-        if(comboCountObject.GetComponent<ShareNumbers>().isSpecial)
+        if(comboCountObject.GetComponent<ShareNumbers>().isSpecial||hitstop.IsHitStopActive)
         {
             return;
         }
