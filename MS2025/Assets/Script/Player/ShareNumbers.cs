@@ -138,6 +138,7 @@ public class ShareNumbers : NetworkBehaviour
         nHitnum = 0;
         CurrentHP =5;
         nCombo = 0;
+        jumpAttackNum = 0;
         Debug.Log("ƒvƒŒƒCƒ„[‚ÌHP‚Æ‚©‰Šú‰»");         
     }    
 }

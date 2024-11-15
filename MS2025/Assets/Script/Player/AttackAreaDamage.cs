@@ -64,10 +64,10 @@ public class AttackAreaDamage : NetworkBehaviour
                     if(other.GetComponent<BossAI>().isAir)
                     {
                         other.GetComponent<BossAI>().isDown = true;
+                        sharenum.jumpAttackNum++;
                     }
                 }
-                other.GetComponent<BossStatus>().RPC_Damage(DamageNum);
-                sharenum.jumpAttackNum++;
+                other.GetComponent<BossStatus>().RPC_Damage(DamageNum);               
                 sharenum.AddHitnum();
                 RPCCombo();
                 player.GetComponent<HitStop>().ApplyHitStop(stopFrame);
