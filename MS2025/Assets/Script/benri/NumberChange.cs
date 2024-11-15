@@ -1,8 +1,9 @@
-﻿using Unity.VisualScripting;
+﻿using Fusion;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class NumberChange : MonoBehaviour
+public class NumberChange : NetworkBehaviour
 {
     public Sprite[] numberSprites; // 0〜9までのスプライト
     public Image[] digitImages; // 各桁用のImageコンポーネント（3つ）
@@ -10,7 +11,7 @@ public class NumberChange : MonoBehaviour
     [SerializeField] GameObject netobj;
     ShareNumbers sharenum;
 
-    private void Start()
+    public override void Spawned()
     {
         netobj = GameObject.Find("Networkbox");
         if (netobj == null)
@@ -21,7 +22,7 @@ public class NumberChange : MonoBehaviour
 
     }
 
-    private void Update()
+    public override void FixedUpdateNetwork()
     {
         DisplayNumber(sharenum.nCombo);
 
