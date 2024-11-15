@@ -60,11 +60,11 @@ public class AttackAreaDamage : NetworkBehaviour
                 if(raise.GetisRaise())
                 {
                     Debug.Log("—´’Ä‘M");
+                    sharenum.jumpAttackNum++;
 
-                    if(other.GetComponent<BossAI>().isAir)
+                    if (other.GetComponent<BossAI>().isAir)
                     {
-                        other.GetComponent<BossAI>().isDown = true;
-                        sharenum.jumpAttackNum++;
+                        other.GetComponent<BossAI>().isDown = true;                        
                     }
                 }
                 other.GetComponent<BossStatus>().RPC_Damage(DamageNum);               
