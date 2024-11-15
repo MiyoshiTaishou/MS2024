@@ -1007,7 +1007,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2906397228698122346}
   - component: {fileID: 3623249726774460860}
-  - component: {fileID: 9041867523875790054}
   m_Layer: 5
   m_Name: Combo
   m_TagString: Untagged
@@ -1065,23 +1064,6 @@ MonoBehaviour:
   - {fileID: 3521254148997197200}
   - {fileID: 5598338559283116333}
   netobj: {fileID: 0}
---- !u!114 &9041867523875790054
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3818991750017330964}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SortKey: 0
-  ObjectInterest: 1
-  Flags: 0
-  NestedObjects: []
-  NetworkedBehaviours: []
 --- !u!1 &4143932091943132340
 GameObject:
   m_ObjectHideFlags: 0

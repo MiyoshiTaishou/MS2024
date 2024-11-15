@@ -1,5 +1,4 @@
 ﻿using Fusion;
-using System.Reflection;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -25,13 +24,10 @@ public class NumberChange : NetworkBehaviour
 
     public override void FixedUpdateNetwork()
     {
-
-
         DisplayNumber(sharenum.nCombo);
 
+
     }
-
-
 
     public void DisplayNumber(int number)
     {
@@ -43,13 +39,6 @@ public class NumberChange : NetworkBehaviour
         {
             int digit = numberStr[i] - '0'; // 文字から数字に変換
             digitImages[i].sprite = numberSprites[digit];
-            Debug.Log("コンボカウント中" + digit);
-
         }
-    }
-
-    public override void Render()
-    {
-
     }
 }
