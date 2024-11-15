@@ -6,7 +6,7 @@ public class ScoreEvaluator : NetworkBehaviour
 {
     public enum ScoreRank { S, A, B }
 
-    [SerializeField,Header("スコア画像")]
+    [SerializeField, Header("スコア画像")]
     private Sprite[] images = null;
 
     // ステージのスコア条件
@@ -31,7 +31,7 @@ public class ScoreEvaluator : NetworkBehaviour
         jumpAttacksForS = 5,
         jumpAttacksForA = 2
     };
-   
+
     // スコア評価メソッド
     public ScoreRank EvaluateScore(int maxCombo, float clearTime, int jumpAttacks)
     {
@@ -74,5 +74,5 @@ public class ScoreEvaluator : NetworkBehaviour
                 GetComponent<Image>().sprite = images[2];
                 break;
         }
-    }   
+    }
 }

@@ -67,21 +67,22 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 
         if (result.Ok)
         {
-            // ホストならゲームシーンに遷移
             if (networkRunner.IsServer)
             {
-                var loadSceneParams = new NetworkLoadSceneParameters
-                {
-                    // 必要に応じてパラメータを設定
-                };
+                //// 必ずシーンをロードする前にプレイヤーオブジェクトを生成
+                //foreach (var player in networkRunner.ActivePlayers)
+                //{
+                //    if (!networkRunner.TryGetPlayerObject(player, out _))
+                //    {
+                //        var spawnPosition = new Vector3(0, 5f, 0);
+                //        var playerObject = networkRunner.Spawn(playerAvatarPrefab, spawnPosition, Quaternion.identity, player);
+                //        networkRunner.SetPlayerObject(player, playerObject);
+                //    }
+                //}
 
-                // SceneRef を使ってシーンをロード
+                // シーンロード
                 networkRunner.LoadScene(gameScene);
             }
-        }
-        else
-        {
-            Debug.LogError("Failed to start game: " + result.ShutdownReason);
         }
     }
 
@@ -90,26 +91,23 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
     {
         if (!runner.IsServer) { return; }
 
-        if (runner.SessionInfo.PlayerCount == 2)
-        {
-            var randomValue = UnityEngine.Random.insideUnitCircle * 2f;
-            var spawnPosition = new Vector3(randomValue.x, 5f, 0f);
+        var randomValue = UnityEngine.Random.insideUnitCircle * 2f;
+        var spawnPosition = new Vector3(randomValue.x, 5f, 0f);
 
-            var avatar = runner.Spawn(playerAvatarPrefab, spawnPosition, Quaternion.identity, player);
+        // ローカルプレイヤーオブジェクトを生成
+        var avatar = runner.Spawn(playerAvatarPrefab, spawnPosition, Quaternion.identity, player);
+
+        // SetPlayerObject を必ず呼び出す
+        if (avatar != null)
+        {
             runner.SetPlayerObject(player, avatar);
         }
-
-        //if (runner.SessionInfo.PlayerCount == 1)
-        //{
-        //    var avatar2 = runner.Spawn(PlayerStatePrefab, spawnPosition, Quaternion.identity, player);
-        //}     
-
-        //if (runner.SessionInfo.PlayerCount == numBoss)
-        //{
-        //    var spawnBossPosition = new Vector3(0f, 7f, 0f);
-        //    runner.Spawn(bossAvatarPrefab, spawnBossPosition, Quaternion.identity, player);            
-        //}
+        else
+        {
+            Debug.LogError("Failed to spawn player avatar!");
+        }
     }
+
 
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
     {
@@ -146,10 +144,8 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
     public void OnReliableDataReceived(NetworkRunner runner, PlayerRef player, ArraySegment<byte> data) { }
     public void OnSceneLoadDone(NetworkRunner runner)
     {
-        // 現在のシーン名を取得
+        // シーンスキップ対象のチェック
         string currentSceneName = SceneManager.GetActiveScene().name;
-
-        // シーンがスキップ対象の場合はプレイヤー生成処理を行わない
         if (Array.Exists<string>(skipScenes, scene => currentSceneName.Contains(scene)))
         {
             Debug.Log($"Skipping player spawn for scene: {currentSceneName}");
@@ -158,19 +154,32 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 
         if (runner.IsServer)
         {
-            // 必要に応じてプレイヤーオブジェクトを再生成
             foreach (var player in runner.ActivePlayers)
             {
+                // プレイヤーオブジェクトが存在しない場合にのみ生成
                 if (!runner.TryGetPlayerObject(player, out _))
                 {
                     var randomValue = UnityEngine.Random.insideUnitCircle * 2f;
                     var spawnPosition = new Vector3(randomValue.x, 5f, 0f);
+
+                    // プレイヤーオブジェクト生成
                     var playerObject = runner.Spawn(playerAvatarPrefab, spawnPosition, Quaternion.identity, player);
-                    runner.SetPlayerObject(player, playerObject);
+
+                    // SetPlayerObject を必ず呼び出す
+                    if (playerObject != null)
+                    {
+                        runner.SetPlayerObject(player, playerObject);
+                        Debug.Log($"Player object assigned for player {player.RawEncoded}");
+                    }
+                    else
+                    {
+                        Debug.LogError("Failed to spawn player object during OnSceneLoadDone.");
+                    }
                 }
             }
         }
     }
+
     public void OnSceneLoadStart(NetworkRunner runner) { }
 
     public void OnObjectExitAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player)
