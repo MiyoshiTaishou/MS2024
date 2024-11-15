@@ -13,6 +13,8 @@ public class ShareNumbers : NetworkBehaviour
 
     [Networked] public int nCombo { get; set; }
 
+    [Networked] private int specilaCombo { get; set; }
+
     [Networked] public bool isSpecial { get; set; }
 
     public GameObject Boss;
@@ -92,25 +94,41 @@ public class ShareNumbers : NetworkBehaviour
 
         HPUI[CurrentHP].SetActive(false);
     }
-    
+
     public void BossDamage()
-    {        
-        //倍率計算式
-        magnification = (nCombo - 1) / 5 * 2 + 2;
+    {
+        Debug.Log("必殺技前コンボ数" + specilaCombo);
+        // コンボ数が 0 の場合は倍率を最低値にする
+        if (specilaCombo <= 0)
+        {
+            magnification = 2; // コンボなしの場合の基本倍率
+        }
+        else
+        {
+            // コンボ数に基づいた倍率計算
+            // 例: コンボ数が増えるごとに倍率が指数関数的に上昇
+            magnification = (int)(2.0f + Mathf.Log(specilaCombo + 1, 1.2f)); // ベースの1.2を調整して倍率の上がり方を変更
+        }
+
+        Debug.Log("計算された倍率: " + magnification);
+
+        // ダメージ計算
         int totalDamage = magnification * damage;
+        Debug.Log("最終ダメージ: " + totalDamage);
 
-        Debug.Log("必殺技ダメージ" + totalDamage);
-
+        // ボスにダメージを送信
         Boss.GetComponent<BossStatus>().RPC_Damage(totalDamage);
 
+        // コンボ数リセット
         nCombo = 0;
-
         isSpecial = false;
     }
+
 
     public void SpecialStart()
     {
         isSpecial = true;
+        specilaCombo = nCombo;
     }
 
     public override void Spawned()

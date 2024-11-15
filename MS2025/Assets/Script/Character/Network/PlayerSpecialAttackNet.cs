@@ -16,6 +16,9 @@ public class PlayerSpecialAttackNet : NetworkBehaviour
     private float SpecialTime = 0.0f;
     private float SpecialTime2 = 0.0f;
 
+    [Header("猶予時間"), SerializeField]
+    private float specialTimeWait = 0.2f;
+
     public override void Spawned()
     {
         //必殺技再生用オブジェクト探索
@@ -32,12 +35,12 @@ public class PlayerSpecialAttackNet : NetworkBehaviour
 
             if(pressed.IsSet(NetworkInputButtons.Special))
             {
-                SpecialTime = 5.0f;
+                SpecialTime = specialTimeWait;
             }
             
             if(pressed.IsSet(NetworkInputButtons.Attack))
             {
-                SpecialTime2 = 5.0f;
+                SpecialTime2 = specialTimeWait;
             }
 
             //攻撃ボタンを押したときにコンボカウントが指定の数を超えてる場合再生
