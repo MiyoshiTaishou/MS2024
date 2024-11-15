@@ -76,7 +76,7 @@ public class PlayerChargeAttack : NetworkBehaviour
             else if (released.IsSet(NetworkInputButtons.ChargeAttack) && isCharge&&chargeCount>maxCharge)
             {
                 chargeparticle.Stop();
-                //attackArea.SetActive(true);
+                attackArea.SetActive(true);
                 chargeCount = 0;
                 isCharge = false;
                 isAttackEffect = true;
@@ -87,7 +87,7 @@ public class PlayerChargeAttack : NetworkBehaviour
                 isCharge = false;
                 chargeCount = 0;
                 isAttackEffect = false;
-                
+                chargeparticle.Stop();
             }
             Attack();
         }
@@ -104,11 +104,6 @@ public class PlayerChargeAttack : NetworkBehaviour
             chargeparticle.Play();
             isEffect = false;
         }
-        else
-        {
-            chargeparticle.Stop();
-        }
-
         if (isAttackEffect)
         {
             attackparticle.Play();
