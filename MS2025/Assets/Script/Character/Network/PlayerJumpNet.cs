@@ -32,6 +32,7 @@ public class PlayerJumpNet : NetworkBehaviour
 
     [SerializeField, Networked] bool jumpstart { get; set; } = false;
 
+    private HitStop hitstop;
 
     [Networked]  Vector3 velocity { get; set; }  // �v���C���[�̑��x
     private bool isJumping;    // �W�����v�����ǂ���    
@@ -46,12 +47,17 @@ public class PlayerJumpNet : NetworkBehaviour
 
         if(!particle)
             particle = effect.GetComponent<ParticleSystem>();
+        hitstop=GetComponent<HitStop>();
     }
 
     public override void FixedUpdateNetwork()
     {
         AnimatorStateInfo landAnimStateInfo = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
 
+        if (hitstop.IsHitStopActive)
+        {
+            return;
+        }
         if (velocity.y<0 && !landAnimStateInfo.IsName("APlayerJumpDown")&&!isGround)//ジャンプの降りアニメーション再生
         {
             animator.Play("APlayerJumpDown");
@@ -83,6 +89,10 @@ public class PlayerJumpNet : NetworkBehaviour
     {
         AnimatorStateInfo landAnimStateInfo = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
 
+        if (hitstop.IsHitStopActive)
+        {
+            return;
+        }
         if (jumpstart && !landAnimStateInfo.IsName("APlayerJumpUp") && !landAnimStateInfo.IsName("APlayerJumpDown"))//ジャンプの上りアニメーション再生
         {
             animator.Play("APlayerJumpUp");
