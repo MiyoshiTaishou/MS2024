@@ -4835,6 +4835,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1761564918740919656, guid: eca39a7f69650f64999637e85db1167a,
         type: 3}
+      propertyPath: Flags
+      value: 262145
+      objectReference: {fileID: 0}
+    - target: {fileID: 1761564918740919656, guid: eca39a7f69650f64999637e85db1167a,
+        type: 3}
       propertyPath: SortKey
       value: 2427829682
       objectReference: {fileID: 0}
@@ -4888,6 +4893,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8241513086033729740, guid: eca39a7f69650f64999637e85db1167a,
+        type: 3}
+      propertyPath: share
+      value: 
+      objectReference: {fileID: 328990925}
     - target: {fileID: 8291126313816031658, guid: eca39a7f69650f64999637e85db1167a,
         type: 3}
       propertyPath: m_Name
