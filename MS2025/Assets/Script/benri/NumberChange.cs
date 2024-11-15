@@ -24,7 +24,7 @@ public class NumberChange : NetworkBehaviour
 
     public override void FixedUpdateNetwork()
     {
-        DisplayNumber(sharenum.nCombo);
+        //DisplayNumber(sharenum.nCombo);
 
 
     }
