@@ -67,6 +67,7 @@ public class AttackAreaDamage : NetworkBehaviour
                     }
                 }
                 other.GetComponent<BossStatus>().RPC_Damage(DamageNum);
+                sharenum.jumpAttackNum++;
                 sharenum.AddHitnum();
                 RPCCombo();
                 player.GetComponent<HitStop>().ApplyHitStop(stopFrame);
