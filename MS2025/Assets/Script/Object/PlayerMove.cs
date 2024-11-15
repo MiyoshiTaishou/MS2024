@@ -54,10 +54,10 @@ public class PlayerMove : NetworkBehaviour
     public override void FixedUpdateNetwork()
     {
         
-        if(comboCountObject.GetComponent<ShareNumbers>().isSpecial||hitstop.IsHitStopActive)
-        {
-            return;
-        }
+        //if(comboCountObject.GetComponent<ShareNumbers>().isSpecial||hitstop.IsHitStopActive)
+        //{
+        //    return;
+        //}
         AnimatorStateInfo landAnimStateInfo = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
 
         //ƒpƒŠƒB’†‚Í“®‚©‚¹‚È‚¢‚æ‚¤‚É‚·‚é

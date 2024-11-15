@@ -7,6 +7,8 @@ using UnityEngine.UI;
 
 public class ComboSystem : NetworkBehaviour
 {
+    GameObject Combonum;
+
     Image Number1;
     Image Number2;
     Image Number3;
@@ -15,7 +17,7 @@ public class ComboSystem : NetworkBehaviour
     Image image;
     [SerializeField, Tooltip("コンボ継続時間")] 
     int ComboKeepframe;
-    int Count = 0;
+    [Networked] int Count { get; set; } = 0;
     public int GetCount() { return Count; }
     int Combo;
     public void AddCombo() 
@@ -53,15 +55,15 @@ public class ComboSystem : NetworkBehaviour
         }
         obj3 = obj.transform.Find("ComboImage").gameObject;
         obj2 = obj.transform.Find("Count").gameObject;
-        obj = obj.transform.Find("Combo").gameObject;
+        Combonum = obj.transform.Find("Combo").gameObject;
 
-        if (obj == null)
+        if (Combonum == null)
         {
             Debug.LogError("てきすとううううないよ");
         }
-        Number1 = obj.transform.Find("1").GetComponent<Image>();
-        Number2 = obj.transform.Find("10").GetComponent<Image>();
-        Number3 = obj.transform.Find("100").GetComponent<Image>();
+        Number1 = Combonum.transform.Find("1").GetComponent<Image>();
+        Number2 = Combonum.transform.Find("10").GetComponent<Image>();
+        Number3 = Combonum.transform.Find("100").GetComponent<Image>();
 
         text2 = obj2.GetComponent<Image>();
         image = obj3.GetComponent<Image>();
@@ -79,7 +81,7 @@ public class ComboSystem : NetworkBehaviour
         image.color = color;
     }
 
-    public override void FixedUpdateNetwork()
+    public override void Render()
     {
         Combo = sharenum.nCombo;
         if (Count > 0)
@@ -90,6 +92,7 @@ public class ComboSystem : NetworkBehaviour
         if(Combo >0)
         {
             Color color = image.color;
+            Combonum.GetComponent<NumberChange>().DisplayNumber(sharenum.nCombo);
             color.a = (float)Count / ComboKeepframe;
             Number1.color = color;
             Number2.color = color;
