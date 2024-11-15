@@ -146,6 +146,7 @@ public class BossAI : NetworkBehaviour
             isHalf = true;
             actionSequence = actionSequenceHalf;
             currentActionIndex = 0;
+            currentSequenceIndex = 0;
             StartNextAction(); // プレイヤーが二人以上揃っていたらアクションを開始            
         }
     }
