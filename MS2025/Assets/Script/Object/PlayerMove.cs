@@ -26,6 +26,8 @@ public class PlayerMove : NetworkBehaviour
     [Networked]
     public bool isMove { get; set; }
 
+    private HitStop hitstop;
+
     public override void Spawned()
     {
         animator = GetComponent<Animator>();
@@ -42,13 +44,14 @@ public class PlayerMove : NetworkBehaviour
         scale = transform.localScale;
 
         comboCountObject = GameObject.Find("Networkbox");
+        hitstop = GetComponent<HitStop>();
     }
   
     public override void FixedUpdateNetwork()
     {
         
 
-        if(comboCountObject.GetComponent<ShareNumbers>().isSpecial)
+        if(comboCountObject.GetComponent<ShareNumbers>().isSpecial||hitstop.IsHitStopActive)
         {
             return;
         }
@@ -127,6 +130,12 @@ public class PlayerMove : NetworkBehaviour
         {
             return;
         }
+
+        if(hitstop.IsHitStopActive) 
+        {
+            return;
+        }
+
         if (dir.magnitude == 0 && !landAnimStateInfo.IsName("APlayerIdle"))
         {
             animator.Play("APlayerIdle");
