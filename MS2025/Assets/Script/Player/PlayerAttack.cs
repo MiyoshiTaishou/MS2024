@@ -122,7 +122,7 @@ public class PlayerAttack : NetworkBehaviour
         if(isOnce&&BossObj.GetComponent<BossAI>().Nokezori>0)
         {
             //Debug.Log("連携攻撃いいいい");
-            isEffect = true;
+            //isEffect = true;
             isOnce = false; // フラグをリセット
         }
         else if (isOnce&& currentCombo==0)
@@ -216,6 +216,11 @@ public class PlayerAttack : NetworkBehaviour
                 }
                 else if (Count < buddyStartup + buddyActive)
                 {
+                    //エフェクトフラグのtrue
+                    if(isOnce)
+                    {
+                        isEffect= true;
+                    }
                     //瞬間移動
                     Vector3 pos = transform.position;
                     Vector3 bosspos = BossObj.transform.position;
