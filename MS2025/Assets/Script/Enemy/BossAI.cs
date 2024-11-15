@@ -26,8 +26,8 @@ public class BossAI : NetworkBehaviour
     private Animator animator;
     private bool isOnce = false;
     private bool isHalf = false;
-    private int isParticle = 1;
-    private int isAttack = 0;
+    private int isParticle = 1;//ダウンパーティクルを出したり消したりするためのint変数
+    private int isAttack = 0;//攻撃予兆エフェクトを出すタイミングを計るためのint変数 
     private Vector3 scale;
 
     [SerializeField, Header("ノックバックのアニメーション名")]
@@ -150,7 +150,6 @@ public class BossAI : NetworkBehaviour
             isHalf = true;
             actionSequence = actionSequenceHalf;
             currentActionIndex = 0;
-            currentSequenceIndex = 0;
             StartNextAction(); // プレイヤーが二人以上揃っていたらアクションを開始            
         }
     }
