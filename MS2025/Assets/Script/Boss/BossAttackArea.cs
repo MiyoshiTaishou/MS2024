@@ -7,7 +7,10 @@ public class BossAttackArea : NetworkBehaviour
 {
     GameObject box;
     GameObject parent;
+
+    [SerializeField]
     private float deactivateTime = 0.5f; // UŒ‚ƒGƒŠƒA‚Ì”ñ•\¦‚É‚·‚é‚Ü‚Å‚ÌŠÔ
+
     private float timer;
     [Networked] private bool isAttack { get; set; }
     private ParticleSystem newParticle;
