@@ -16,7 +16,7 @@ public class AttackAction : BossActionData
     private Vector3 attackScale;
 
     [SerializeField, Header("ƒJƒƒ‰‚ğ—h‚ç‚·ˆ—‚ğ“K—p‚·‚é‚©‚Ç‚¤‚©")]
-    private bool isCameraShake;
+    public bool isCameraShake;
 
     [SerializeField, Header("‰½‚Ü‚Å—h‚ç‚·‚©")]
     private float cameraDuration;
