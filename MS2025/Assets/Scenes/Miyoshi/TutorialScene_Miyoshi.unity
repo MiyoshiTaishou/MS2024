@@ -6468,6 +6468,26 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3719288773215115062, guid: 745fd90e17809384d980f68c8c476341,
+        type: 3}
+      propertyPath: StateHashes.Array.data[15]
+      value: -1905554100
+      objectReference: {fileID: 0}
+    - target: {fileID: 3719288773215115062, guid: 745fd90e17809384d980f68c8c476341,
+        type: 3}
+      propertyPath: StateHashes.Array.data[16]
+      value: 1944276647
+      objectReference: {fileID: 0}
+    - target: {fileID: 3719288773215115062, guid: 745fd90e17809384d980f68c8c476341,
+        type: 3}
+      propertyPath: StateHashes.Array.data[17]
+      value: -2045864598
+      objectReference: {fileID: 0}
+    - target: {fileID: 3719288773215115062, guid: 745fd90e17809384d980f68c8c476341,
+        type: 3}
+      propertyPath: StateHashes.Array.data[18]
+      value: -1322572199
+      objectReference: {fileID: 0}
     - target: {fileID: 3931164594149688494, guid: 745fd90e17809384d980f68c8c476341,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6530,6 +6550,11 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 83536ad75bc27984581b7fb9af2589b5, type: 2}
     - target: {fileID: 6137141220472783459, guid: 745fd90e17809384d980f68c8c476341,
         type: 3}
+      propertyPath: AttackParticle
+      value: 
+      objectReference: {fileID: 1721637353}
+    - target: {fileID: 6137141220472783459, guid: 745fd90e17809384d980f68c8c476341,
+        type: 3}
       propertyPath: deactivateTime
       value: 10
       objectReference: {fileID: 0}
@@ -6562,6 +6587,11 @@ PrefabInstance:
     - target: {fileID: 9057512719745946127, guid: 745fd90e17809384d980f68c8c476341,
         type: 3}
       propertyPath: Dawnparticle
+      value: 
+      objectReference: {fileID: 1721637353}
+    - target: {fileID: 9057512719745946127, guid: 745fd90e17809384d980f68c8c476341,
+        type: 3}
+      propertyPath: AttackOmenParticle
       value: 
       objectReference: {fileID: 1721637353}
     - target: {fileID: 9057512719745946127, guid: 745fd90e17809384d980f68c8c476341,
@@ -15469,6 +15499,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1761564918740919656, guid: eca39a7f69650f64999637e85db1167a,
         type: 3}
+      propertyPath: Flags
+      value: 262145
+      objectReference: {fileID: 0}
+    - target: {fileID: 1761564918740919656, guid: eca39a7f69650f64999637e85db1167a,
+        type: 3}
       propertyPath: SortKey
       value: 3803418582
       objectReference: {fileID: 0}
@@ -15521,6 +15556,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8241513086033729740, guid: eca39a7f69650f64999637e85db1167a,
+        type: 3}
+      propertyPath: share
+      value: 
+      objectReference: {fileID: 738146020}
+    - target: {fileID: 8241513086033729740, guid: eca39a7f69650f64999637e85db1167a,
+        type: 3}
+      propertyPath: playerNum
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8291126313816031658, guid: eca39a7f69650f64999637e85db1167a,
         type: 3}
