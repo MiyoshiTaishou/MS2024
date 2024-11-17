@@ -6072,6 +6072,26 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3719288773215115062, guid: 745fd90e17809384d980f68c8c476341,
+        type: 3}
+      propertyPath: StateHashes.Array.data[15]
+      value: -1905554100
+      objectReference: {fileID: 0}
+    - target: {fileID: 3719288773215115062, guid: 745fd90e17809384d980f68c8c476341,
+        type: 3}
+      propertyPath: StateHashes.Array.data[16]
+      value: 1944276647
+      objectReference: {fileID: 0}
+    - target: {fileID: 3719288773215115062, guid: 745fd90e17809384d980f68c8c476341,
+        type: 3}
+      propertyPath: StateHashes.Array.data[17]
+      value: -2045864598
+      objectReference: {fileID: 0}
+    - target: {fileID: 3719288773215115062, guid: 745fd90e17809384d980f68c8c476341,
+        type: 3}
+      propertyPath: StateHashes.Array.data[18]
+      value: -1322572199
+      objectReference: {fileID: 0}
     - target: {fileID: 3931164594149688494, guid: 745fd90e17809384d980f68c8c476341,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6174,7 +6194,8 @@ PrefabInstance:
         type: 3}
       propertyPath: AttackOmenParticle
       value: 
-      objectReference: {fileID: 2121593439}
+      objectReference: {fileID: 5826632143261002119, guid: 192f6f601e841004f9ebe795b905eb07,
+        type: 3}
     - target: {fileID: 9057512719745946127, guid: 745fd90e17809384d980f68c8c476341,
         type: 3}
       propertyPath: actionSequence.Array.size
