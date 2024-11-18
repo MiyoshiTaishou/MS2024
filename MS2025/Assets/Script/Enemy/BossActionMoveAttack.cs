@@ -11,6 +11,9 @@ public class BossActionMoveAttack : BossActionData
     [SerializeField, Header("攻撃が移動する時間")]
     private float moveAttackEndPosTime = 3.0f;
 
+    [SerializeField, Header("どれぐらい離れてたら攻撃するか")]
+    private float distance = 5.0f;
+
     [SerializeField, Header("アニメーションカーブで移動をリッチにする")]
     private AnimationCurve curve;
 
@@ -51,6 +54,8 @@ public class BossActionMoveAttack : BossActionData
     private Vector3 originalPosition;
     private bool isMoving;
 
+    private bool isAttack = false;
+
     public override void InitializeAction(GameObject boss, Transform player)
     {
         attackTarget = player;
@@ -62,27 +67,43 @@ public class BossActionMoveAttack : BossActionData
         originalPosition = attackArea.transform.position;
         attackArea.transform.localScale = attackScale;
         attackArea.SetActive(false);
-        isMoving = false;
+        isMoving = false;        
+
+        //長さを測る
+        float dis = Vector3.Distance(moveAttackEndPos, boss.transform.position);
+
+        isAttack = false;
+
+        if (distance > dis)
+        {
+            Debug.Log("実際の距離" + dis);
+            Debug.Log("設定の距離" + distance);
+            isAttack = true;
+            attackArea.GetComponent<BossAttackArea>().deactivateTime = 0.5f;
+        }
+        else
+        {
+            attackArea.GetComponent<BossAttackArea>().deactivateTime = moveAttackEndPosTime;            
+        }
 
         // ボスのアニメーション設定
         boss.GetComponent<Animator>().speed = attackAnimSpeed;
         boss.GetComponent<BossAI>().isKnockBack = canKnockBack;
-        boss.GetComponent<BossAI>().isParry = canParry;
+        boss.GetComponent<BossAI>().isParry = canParry;       
     }
 
     public override bool ExecuteAction(GameObject boss)
-    {
+    {      
         // 攻撃開始までの待機
         if (Time.time - attackStartTime < attackDuration)
         {
             return false;
         }
 
-        // 移動開始時の初期化
-        if (!isMoving)
+        if (isAttack)
         {
-            isMoving = true;
-            moveStartTime = Time.time;
+            Debug.Log("近すぎ");
+
             attackArea.SetActive(true);
 
             // 音を再生
@@ -90,32 +111,64 @@ public class BossActionMoveAttack : BossActionData
             {
                 boss.GetComponent<AudioSource>().clip = attackClip;
                 boss.GetComponent<AudioSource>().Play();
-            }
+            }       
+
+            boss.GetComponent<Animator>().speed = 1;
+
+            return true;
         }
-
-        // 移動処理
-        float elapsed = Time.time - moveStartTime;
-        float progress = elapsed / moveAttackEndPosTime;
-        float curveValue = curve.Evaluate(progress);
-
-        attackArea.transform.position = Vector3.Lerp(originalPosition, moveAttackEndPos, curveValue);
-
-        // プレイヤーへの攻撃がヒットしたか、移動が完了した場合
-        if (progress >= 1.0f || CheckForHit(attackArea))
+        else
         {
-            ResetAttackArea();
-            return true; // アクション完了
-        }
+            // 移動開始時の初期化
+            if (!isMoving)
+            {
+                isMoving = true;
+                moveStartTime = Time.time;
+                attackArea.SetActive(true);
 
-        return false; // アクション継続中
+                // 音を再生
+                if (boss.GetComponent<AudioSource>() != null && attackClip != null)
+                {
+                    boss.GetComponent<AudioSource>().clip = attackClip;
+                    boss.GetComponent<AudioSource>().Play();
+                }
+            }
+
+            // 移動処理
+            float elapsed = Time.time - moveStartTime;
+            float progress = elapsed / moveAttackEndPosTime;
+            float curveValue = curve.Evaluate(progress);
+
+            attackArea.transform.position = Vector3.Lerp(originalPosition, moveAttackEndPos, curveValue);
+
+            if(CheckForHit(attackArea))
+            {
+                //カメラを揺らす処理
+                if (isCameraShake)
+                {
+                    boss.GetComponent<HitStop>().ApplyHitStop(60000);
+                    Camera.main.GetComponent<CameraShake>().RPC_CameraShake(cameraDuration, magnitude);
+                }
+            }
+
+            // プレイヤーへの攻撃がヒットしたか、移動が完了した場合
+            if (progress >= 1.0f || CheckForHit(attackArea))
+            {
+                ResetAttackArea();
+                attackArea.GetComponent<BossAttackArea>().deactivateTime = 0.5f;
+                return true; // アクション完了
+            }
+
+            return false; // アクション継続中
+        }             
     }
 
     // 攻撃エリアを元の位置に戻して非アクティブ化
     private void ResetAttackArea()
     {
         attackArea.transform.position = originalPosition;
-        attackArea.SetActive(false);
-        isMoving = false;
+        //attackArea.SetActive(false);
+        //isMoving = false;
     }
 
     // 攻撃ヒット判定の例（実際のヒット判定処理に応じて変更すること）
