@@ -33,8 +33,6 @@ public class BossAI : NetworkBehaviour
     [SerializeField, Header("ノックバックのアニメーション名")]
     private string animName;
 
-
-
     // プレイヤーターゲット用
     private List<Transform> players;
     [Networked] public int currentPlayerIndex { get; set; }
