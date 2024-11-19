@@ -6,6 +6,9 @@ public class GameManager : NetworkBehaviour
     [SerializeField, Header("開始人数")]
     private int playerNum = 1;
 
+    [SerializeField, Header("トランジション")]
+    private TransitionManager transitionManager;
+
     [SerializeField]
     private ShareNumbers share;
 
@@ -13,6 +16,8 @@ public class GameManager : NetworkBehaviour
     private float clearTime { get; set; }
 
     private bool isBattleActive = false;
+
+    public bool GetBattleActive() { return  isBattleActive; }
 
     // バトル開始判定のフラグ
     private bool isReadyToStartBattle = false;
@@ -45,6 +50,7 @@ public class GameManager : NetworkBehaviour
         clearTime = 0.0f;
         isBattleActive = true;
         Debug.Log("バトル開始");
+        transitionManager.TransitionStartReverse();
     }
 
     /// <summary>
@@ -67,6 +73,12 @@ public class GameManager : NetworkBehaviour
         EndBattle(share.maxCombo, share.jumpAttackNum);
     }
 
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    public void RPC_StartBattle()
+    {
+        StartBattle();
+    }
+
     /// <summary>
     /// プレイヤーが揃ったらバトルを開始する
     /// </summary>
@@ -78,7 +90,7 @@ public class GameManager : NetworkBehaviour
         if (Runner.SessionInfo.PlayerCount >= playerNum)
         {
             isReadyToStartBattle = true;
-            StartBattle();
+            RPC_StartBattle();
         }
     }
 }

@@ -64,6 +64,10 @@ public class BossAI : NetworkBehaviour
 
     private ParticleSystem newParticle;
 
+    private GameManager gameManager;
+
+    private ShareNumbers shareNumbers;
+
     // アニメーション名をネットワーク同期させる
     [Networked]
     private NetworkString<_16> networkedAnimationName { get; set; }
@@ -79,6 +83,22 @@ public class BossAI : NetworkBehaviour
         RefreshPlayerList();
 
         scale = transform.localScale;
+
+        //ゲームマネージャー検索
+        gameManager = GameObject.FindObjectOfType<GameManager>();
+
+        if(!gameManager)
+        {
+            Debug.LogWarning("見つかりませんでした");
+        }
+
+        //シェアナンバー検索
+        shareNumbers = GameObject.FindObjectOfType<ShareNumbers>();
+
+        if (!shareNumbers)
+        {
+            Debug.LogWarning("見つかりませんでした");
+        }
 
         if (players.Count < maxPlayerIndex)
         {
@@ -96,6 +116,18 @@ public class BossAI : NetworkBehaviour
         if (players.Count < maxPlayerIndex)
         {
             SearchForPlayers(); // 探索中の動作をここに実装
+            return;
+        }
+
+        //ゲーム開始してなかったら動かさない
+        if(!gameManager.GetBattleActive())
+        {
+            return;
+        }
+
+        //必殺技中は動かない
+        if(shareNumbers.isSpecial)
+        {
             return;
         }
 

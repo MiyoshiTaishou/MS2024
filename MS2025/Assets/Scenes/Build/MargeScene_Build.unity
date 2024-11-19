@@ -2719,6 +2719,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1436457012745054779, guid: c71161469b6c102429892c1cead900b0,
+        type: 3}
+      propertyPath: isStart
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2050363138285357213, guid: c71161469b6c102429892c1cead900b0,
         type: 3}
       propertyPath: m_IsActive
@@ -4918,6 +4923,11 @@ PrefabInstance:
       propertyPath: share
       value: 
       objectReference: {fileID: 328990925}
+    - target: {fileID: 8241513086033729740, guid: eca39a7f69650f64999637e85db1167a,
+        type: 3}
+      propertyPath: transitionManager
+      value: 
+      objectReference: {fileID: 1270586526}
     - target: {fileID: 8291126313816031658, guid: eca39a7f69650f64999637e85db1167a,
         type: 3}
       propertyPath: m_Name
