@@ -64,6 +64,7 @@ public class BossActionMoveAttack : BossActionData
 
         // UŒ‚ƒGƒŠƒA‚Ìİ’è
         attackArea = boss.transform.Find(attackAreaName)?.gameObject;
+        attackArea.transform.position = boss.transform.position;
         originalPosition = attackArea.transform.position;
         attackArea.transform.localScale = attackScale;
         attackArea.SetActive(false);
