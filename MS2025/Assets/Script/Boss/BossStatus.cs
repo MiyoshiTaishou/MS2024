@@ -6,6 +6,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
+using Image = UnityEngine.UI.Image;
 
 public class BossStatus : NetworkBehaviour
 {
@@ -17,18 +18,20 @@ public class BossStatus : NetworkBehaviour
 
 
     //Slider
-    public UnityEngine.UI.Slider slider;
+    [SerializeField] private UnityEngine.UI.Slider slider;
 
-    public UnityEngine.UI.Slider Backslider;
+    [SerializeField] private UnityEngine.UI.Slider Backslider;
+
+    [SerializeField]private Image Sliderimage;
 
     [SerializeField] private Color HPBar2= new Color32(25, 176, 0, 255);
     [SerializeField] private Color HPBar3= new Color32(255, 221, 0, 255);
 
     [Tooltip("被ダメージエフェクト")]
-    public ParticleSystem Damageparticle;
+   [SerializeField] private ParticleSystem Damageparticle;
 
     [Tooltip("死亡時エフェクト")]
-    public ParticleSystem Deathparticle;
+    [SerializeField] private ParticleSystem Deathparticle;
 
     private int DeathCount = 0;
 
@@ -157,14 +160,14 @@ public class BossStatus : NetworkBehaviour
             HPCount = 0;
         }
 
-       // if(DeathCount==1)
-       // {
-       //     slider.image.color = HPBar2;
-       // }
-       //else if(DeathCount==2) 
-       // {
-       //     slider.image.color = HPBar3;
-       //         }
+        if (DeathCount == 1)
+        {
+            Sliderimage.color = HPBar2;
+        }
+        else if (DeathCount == 2)
+        {
+            Sliderimage.color = HPBar3;
+        }
 
     }
 
@@ -178,23 +181,26 @@ public class BossStatus : NetworkBehaviour
 
         if (nBossHP <= 0 && Object.HasStateAuthority)
         {
-            if(DeathCount==0)
+
+            switch(DeathCount)
             {
-                nBossHP = InitHP;
-                slider.value = nBossHP;
-                Backslider.value = nBossHP;
-                DeathCount += 1;
-            }
-            else if(DeathCount==1)
-            {
-                nBossHP = InitHP;
-                slider.value = nBossHP;
-                Backslider.value = nBossHP;
-                DeathCount += 1;
-            }
-            else if(DeathCount==2)
-            {
-                RPC_HandleBossDeath();
+                case 0:
+                    nBossHP = InitHP;
+                    slider.value = nBossHP;
+                    Backslider.value = nBossHP;
+                    DeathCount += 1;
+                break;
+
+                case 1:
+                    nBossHP = InitHP;
+                    slider.value = nBossHP;
+                    Backslider.value = nBossHP;
+                    DeathCount += 1;
+                break;
+
+                case 2:
+                    RPC_HandleBossDeath();
+                break;
             }
      
         }
