@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55d4b93695643ca41945309d46a25c32, type: 3}
+  m_Name: TutorialMoveAttack
+  m_EditorClassIdentifier: 
+  actionName: Attack
+  moveAttackEndPosTime: 2
+  distance: 10
+  curve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.76204073
+      value: 0.67945206
+      inSlope: 2.3593965
+      outSlope: 2.3593965
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.66228133
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  attackDuration: 1.4
+  attackAnimSpeed: 1
+  attackScale: {x: 1, y: 1, z: 1}
+  isCameraShake: 0
+  cameraDuration: 3
+  magnitude: 3
+  canParry: 0
+  canKnockBack: 1
+  attackAreaName: BossAttackArea
+  attackClip: {fileID: 8300000, guid: eb9fda050733fa643ae4981978b13725, type: 3}

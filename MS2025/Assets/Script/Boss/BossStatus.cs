@@ -14,16 +14,23 @@ public class BossStatus : NetworkBehaviour
 
     public int InitHP;
 
+
+
     //Slider
     public UnityEngine.UI.Slider slider;
 
     public UnityEngine.UI.Slider Backslider;
+
+    [SerializeField] private Color HPBar2= new Color32(25, 176, 0, 255);
+    [SerializeField] private Color HPBar3= new Color32(255, 221, 0, 255);
 
     [Tooltip("被ダメージエフェクト")]
     public ParticleSystem Damageparticle;
 
     [Tooltip("死亡時エフェクト")]
     public ParticleSystem Deathparticle;
+
+    private int DeathCount = 0;
 
     [SerializeField,Header("ゲームマネージャー")]
     private GameManager gameManager;
@@ -89,6 +96,12 @@ public class BossStatus : NetworkBehaviour
         //}
     }
 
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    private void RPC_HandleBossDeath()
+    {
+        HandleBossDeath();
+    }
+
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     private void RPC_ClientSceneTransition()
     {
@@ -144,7 +157,14 @@ public class BossStatus : NetworkBehaviour
             HPCount = 0;
         }
 
-       
+       // if(DeathCount==1)
+       // {
+       //     slider.image.color = HPBar2;
+       // }
+       //else if(DeathCount==2) 
+       // {
+       //     slider.image.color = HPBar3;
+       //         }
 
     }
 
@@ -158,7 +178,25 @@ public class BossStatus : NetworkBehaviour
 
         if (nBossHP <= 0 && Object.HasStateAuthority)
         {
-            HandleBossDeath();
+            if(DeathCount==0)
+            {
+                nBossHP = InitHP;
+                slider.value = nBossHP;
+                Backslider.value = nBossHP;
+                DeathCount += 1;
+            }
+            else if(DeathCount==1)
+            {
+                nBossHP = InitHP;
+                slider.value = nBossHP;
+                Backslider.value = nBossHP;
+                DeathCount += 1;
+            }
+            else if(DeathCount==2)
+            {
+                RPC_HandleBossDeath();
+            }
+     
         }
     }
 

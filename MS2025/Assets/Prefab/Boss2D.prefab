@@ -200,7 +200,6 @@ MonoBehaviour:
   _isAir: 0
   downAction: {fileID: 11400000, guid: 1041b2b8e439b384d80347ea7b971b0b, type: 2}
   parryction: {fileID: 11400000, guid: 53fabe96f94aa38478ef3d1572aecf6d, type: 2}
-  Dawnparticle: {fileID: 0}
   AttackOmenParticle: {fileID: 0}
 --- !u!65 &-6834287320468394907
 BoxCollider:
@@ -586,35 +585,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8450327402175588921, guid: f0427bd7b78d25c44b813e7d448a6d4b,
+        type: 3}
+      propertyPath: parentAnimator
+      value: 
+      objectReference: {fileID: 788142181416184284}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 2807290883339293421, guid: f0427bd7b78d25c44b813e7d448a6d4b,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 4661521439997697640}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f0427bd7b78d25c44b813e7d448a6d4b, type: 3}
---- !u!1 &1108991527652782900 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2807290883339293421, guid: f0427bd7b78d25c44b813e7d448a6d4b,
-    type: 3}
-  m_PrefabInstance: {fileID: 2996703292690063833}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &4661521439997697640
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1108991527652782900}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b6d172aa1ac3234ba8f4c31e5965142, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  parentAnimator: {fileID: 788142181416184284}
-  targetStateName: JumpAttack
 --- !u!4 &1473718671845502057 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4460215744293948848, guid: f0427bd7b78d25c44b813e7d448a6d4b,

@@ -139,8 +139,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   netobj: {fileID: 6048116181023338960, guid: 2d5a6b03460814e4d8ec665c744611bb, type: 3}
   stopFrame: 10
-  buddyStopFrame: 10
-  buddyFinalStopFrame: 20
+  buddyStopFrame: 65
+  buddyFinalStopFrame: 64
   DamageNum: 100
   buddyDamageNum: 200
   buddyFinalDamageNum: 1000
@@ -5675,6 +5675,8 @@ MonoBehaviour:
   - {fileID: 7902367504984516323}
   - {fileID: 5564641895426053759}
   - {fileID: 8581314509718457269}
+  - {fileID: 4684355246126431642}
+  - {fileID: 3776528047892386424}
 --- !u!114 &5591909908197937288
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5828,7 +5830,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   netobj: {fileID: 6048116181023338960, guid: 2d5a6b03460814e4d8ec665c744611bb, type: 3}
-  stopFrame: 145
+  stopFrame: 29
   ChargeDamege: 500
 --- !u!1001 &1603790674371511134
 PrefabInstance:

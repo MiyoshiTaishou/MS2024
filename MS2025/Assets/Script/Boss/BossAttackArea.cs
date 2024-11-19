@@ -7,7 +7,10 @@ public class BossAttackArea : NetworkBehaviour
 {
     GameObject box;
     GameObject parent;
-    private float deactivateTime = 0.5f; // 攻撃エリアの非表示にするまでの時間
+
+    [SerializeField]
+    public float deactivateTime = 0.5f; // 攻撃エリアの非表示にするまでの時間
+
     private float timer;
     [Networked] private bool isAttack { get; set; }
     private ParticleSystem newParticle;
@@ -16,64 +19,56 @@ public class BossAttackArea : NetworkBehaviour
 
     private GameObject Pare;
 
+    // 元の位置を保持する
+    private Vector3 originalPosition;
+
     public override void Spawned()
     {
-        
         box = GameObject.Find("Networkbox");
         parent = transform.parent.gameObject;
         timer = deactivateTime;
         Pare = transform.parent.gameObject;
+
+        // 元の位置を記録
+        originalPosition = transform.position;
     }
 
-    //SetActive(true)のたびに呼び出す
+    // SetActive(true)のたびに呼び出す
     public void OnEnable()
     {
         Debug.Log("攻撃エフェクト生成");
         isAttack = true;
-     
     }
 
     public override void Render()
     {
-
-     
-
         if (isAttack)
         {
+            // パーティクルシステムのインスタンスを生成
+            newParticle = Instantiate(AttackParticle);
+            // 攻撃方向に基づいて位置を設定
             if (Pare.transform.localScale.x >= 0)
             {
-                // パーティクルシステムのインスタンスを生成
-                newParticle = Instantiate(AttackParticle);
-                //パーティクルを生成
-                newParticle.transform.position = new Vector3(this.transform.position.x - 4.0f, this.transform.position.y - 2.0f, this.transform.position.z);
-                // パーティクルを発生させる
-                newParticle.Play();
-                // インスタンス化したパーティクルシステムのGameObjectを1秒後に削除
-                Destroy(newParticle.gameObject, 1f);
-                isAttack = false;
+                newParticle.transform.position = new Vector3(transform.position.x - 4.0f, transform.position.y - 2.0f, transform.position.z);
             }
             else
             {
-                // パーティクルシステムのインスタンスを生成
-                newParticle = Instantiate(AttackParticle);
-                //パーティクルを生成
-                newParticle.transform.position = new Vector3(this.transform.position.x + 4.0f, this.transform.position.y - 2.0f, this.transform.position.z);
-                // パーティクルを発生させる
-                newParticle.Play();
-                // インスタンス化したパーティクルシステムのGameObjectを1秒後に削除
-                Destroy(newParticle.gameObject, 1f);
-                isAttack = false;
+                newParticle.transform.position = new Vector3(transform.position.x + 4.0f, transform.position.y - 2.0f, transform.position.z);
             }
 
+            // パーティクルを発生させる
+            newParticle.Play();
+            // インスタンス化したパーティクルシステムのGameObjectを1秒後に削除
+            Destroy(newParticle.gameObject, 1f);
+            isAttack = false;
         }
-
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            //パリィ不可攻撃かどうか
+            // パリィ不可攻撃かどうか
             if (!parent.GetComponent<BossAI>().isParry)
             {
                 if (other.GetComponent<PlayerParryNet>().ParryCheck())
@@ -81,14 +76,14 @@ public class BossAttackArea : NetworkBehaviour
                     Debug.Log("パリィ成功");
                     other.GetComponent<PlayerParryNet>().RPC_ParrySystem();
 
-                    //ノックバック可能かどうか
+                    // ノックバック可能かどうか
                     if (parent.GetComponent<BossAI>().isKnockBack)
                     {
                         parent.GetComponent<BossAI>().RPC_AnimName();
                     }
 
+                    ResetToOriginalPosition(); // 元の位置に戻す
                     gameObject.SetActive(false);
-
                     return;
                 }
             }
@@ -97,11 +92,16 @@ public class BossAttackArea : NetworkBehaviour
             box.GetComponent<ShareNumbers>().RPC_Damage();
             other.GetComponent<PlayerHP>().RPC_DamageAnim();
             Render();
+            ResetToOriginalPosition(); // 元の位置に戻す
             gameObject.SetActive(false);
         }
     }
 
-    
+    // 元の位置に戻すメソッド
+    private void ResetToOriginalPosition()
+    {
+        transform.position = originalPosition;
+    }
 
     public override void FixedUpdateNetwork()
     {
@@ -111,6 +111,7 @@ public class BossAttackArea : NetworkBehaviour
             timer -= Runner.DeltaTime;
             if (timer <= 0)
             {
+                ResetToOriginalPosition(); // タイムアウト時にも元の位置に戻す
                 gameObject.SetActive(false);
                 timer = deactivateTime;
             }

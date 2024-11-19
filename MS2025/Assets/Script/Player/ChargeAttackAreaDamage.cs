@@ -36,6 +36,7 @@ public class ChargeAttackAreaDamage : NetworkBehaviour
                 other.GetComponent<BossAI>().isInterrupted = true;
                 RPCCombo();
                 player.GetComponent<HitStop>().ApplyHitStop(stopFrame);
+                other.GetComponent<BossAI>().RPC_AnimName();
             }
         }
     }

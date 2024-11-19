@@ -26,8 +26,8 @@ public class BossAI : NetworkBehaviour
     private Animator animator;
     private bool isOnce = false;
     private bool isHalf = false;
-    private int isParticle = 1;
-    private int isAttack = 0;
+    private int isParticle = 1;//ダウンパーティクルを出したり消したりするためのint変数
+    private int isAttack = 0;//攻撃予兆エフェクトを出すタイミングを計るためのint変数 
     private Vector3 scale;
 
     [SerializeField, Header("ノックバックのアニメーション名")]
@@ -50,16 +50,23 @@ public class BossAI : NetworkBehaviour
     [SerializeField, Header("のけぞり時の行動データ")]
     public BossActionData parryction;
     [Tooltip("ダウン時エフェクト")]
-
-    public ParticleSystem Dawnparticle;
+    private ParticleSystem Dawnparticle;
 
     [SerializeField, Header("攻撃の予兆に関する項目")]
     [Tooltip("攻撃予兆エフェクト")]
-    public ParticleSystem AttackOmenParticle;
-    [Tooltip("攻撃予兆エフェクトを出すまでの時間")]
-    private float AttackOmentime=0.3f;
+     private ParticleSystem AttackOmenParticle;
+    [Tooltip("攻撃予兆エフェクトを出すまでの時間(0.3fが丁度いい気がします)")]
+    private float Omentime = 0.3f;
+    [Tooltip("攻撃予兆エフェクトのX座標")]
+    private float OmenPosX = 1.5f;
+    [Tooltip("攻撃予兆エフェクトのY座標")]
+    private float OmenPosY = 1.7f;
 
     private ParticleSystem newParticle;
+
+    private GameManager gameManager;
+
+    private ShareNumbers shareNumbers;
 
     // アニメーション名をネットワーク同期させる
     [Networked]
@@ -77,6 +84,22 @@ public class BossAI : NetworkBehaviour
 
         scale = transform.localScale;
 
+        //ゲームマネージャー検索
+        gameManager = GameObject.FindObjectOfType<GameManager>();
+
+        if(!gameManager)
+        {
+            Debug.LogWarning("見つかりませんでした");
+        }
+
+        //シェアナンバー検索
+        shareNumbers = GameObject.FindObjectOfType<ShareNumbers>();
+
+        if (!shareNumbers)
+        {
+            Debug.LogWarning("見つかりませんでした");
+        }
+
         if (players.Count < maxPlayerIndex)
         {
             Debug.Log("Waiting for more players...");
@@ -93,6 +116,18 @@ public class BossAI : NetworkBehaviour
         if (players.Count < maxPlayerIndex)
         {
             SearchForPlayers(); // 探索中の動作をここに実装
+            return;
+        }
+
+        //ゲーム開始してなかったら動かさない
+        if(!gameManager.GetBattleActive())
+        {
+            return;
+        }
+
+        //必殺技中は動かない
+        if(shareNumbers.isSpecial)
+        {
             return;
         }
 
@@ -156,6 +191,7 @@ public class BossAI : NetworkBehaviour
         Debug.Log("ぱられたあああああああ");
         currentAction = parryction;
         currentActionIndex = 0;
+        currentSequenceIndex = 0;
         isActionInitialized = false;
         isInterrupted = false;
     }
@@ -215,7 +251,7 @@ public class BossAI : NetworkBehaviour
         //次のアニメーションが攻撃モーションならパーティクルを出す
         if(networkedAnimationName== "Attack")
         {
-            Invoke("Omen", AttackOmentime);
+            Invoke("Omen", Omentime);
         }
 
         isActionInitialized = true;
@@ -307,7 +343,7 @@ public class BossAI : NetworkBehaviour
             if(this.transform.localScale.x>0)
             {
                 //パーティクルを生成
-                OmenParticle.transform.position = new Vector3(this.transform.position.x + 1.5f, this.transform.position.y + 1.7f, this.transform.position.z - 0.8f);
+                OmenParticle.transform.position = new Vector3(this.transform.position.x + OmenPosX, this.transform.position.y + OmenPosY, this.transform.position.z - 0.8f);
                 // パーティクルを発生させる
                 OmenParticle.Play();
 
@@ -316,7 +352,7 @@ public class BossAI : NetworkBehaviour
             else
             {
                 //パーティクルを生成
-                OmenParticle.transform.position = new Vector3(this.transform.position.x - 1.5f, this.transform.position.y + 1.7f, this.transform.position.z - 0.8f);
+                OmenParticle.transform.position = new Vector3(this.transform.position.x - OmenPosX, this.transform.position.y + OmenPosY, this.transform.position.z - 0.8f);
                 // パーティクルを発生させる
                 OmenParticle.Play();
 
