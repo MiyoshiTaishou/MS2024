@@ -27,6 +27,9 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
     public void StartHost()
     {
         StartGame(GameMode.AutoHostOrClient, roomNameInputField.text);
+    }public void StartDebug()
+    {
+        StartGame(GameMode.AutoHostOrClient, roomNameInputField.text);
     }
 
     // ボタンを押してクライアントとしてゲームに参加する
@@ -35,7 +38,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
         StartGame(GameMode.Client, roomNameInputField.text);
     }
 
-    // ゲームを開始し、シーンを遷移するメソッド
+    // ゲームを開始し、シーンを遷移するメソッド roomNameを松竹梅にする コントローラー対応
     private async void StartGame(GameMode mode, string roomName)
     {
         networkRunner = FindObjectOfType<NetworkRunner>();
