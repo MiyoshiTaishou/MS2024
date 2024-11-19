@@ -33,6 +33,7 @@ public class BossStatus : NetworkBehaviour
     [Tooltip("死亡時エフェクト")]
     [SerializeField] private ParticleSystem Deathparticle;
 
+    //体力が0になった回数を数える
     private int DeathCount = 0;
 
     [SerializeField,Header("ゲームマネージャー")]
