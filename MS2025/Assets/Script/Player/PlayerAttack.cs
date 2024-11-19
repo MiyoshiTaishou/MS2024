@@ -15,7 +15,7 @@ public class PlayerAttack : NetworkBehaviour
 
     ShareNumbers sharenum;
 
-    [Networked] private bool isAttack { get; set; }
+    [Networked] public bool isAttack { get; private set; }
     [Networked] private bool isOnce { get; set; }
     [Networked] private bool isPlayingAnimation { get; set; }
     [Networked] public NetworkButtons ButtonsPrevious { get; set; }
@@ -44,6 +44,9 @@ public class PlayerAttack : NetworkBehaviour
     [SerializeField, Tooltip("攻撃三種のエフェクト")]
     GameObject effectobj;
     ParticleSystem particle;
+
+    [SerializeField, Tooltip("連携攻撃可能時間のエフェクト")]
+    GameObject effectRengekiTime;
 
     [Networked] private bool isEffect { get; set; }
 
@@ -76,6 +79,8 @@ public class PlayerAttack : NetworkBehaviour
 
     public override void FixedUpdateNetwork()
     {
+
+
         if (Object.HasStateAuthority && GetInput(out NetworkInputData data) && !hitStop.IsHitStopActive)
         {
             AnimatorStateInfo landAnimStateInfo = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
@@ -116,10 +121,18 @@ public class PlayerAttack : NetworkBehaviour
         // 現在のアニメーションの状態を取得
         AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
 
+        if (BossObj.GetComponent<BossAI>().Nokezori > 0)
+        {
+            effectRengekiTime.SetActive(true);
+        }
+        else
+        {
+            effectRengekiTime.SetActive(false);
 
+        }
 
         // 攻撃フラグが立っている場合にアニメーションをトリガー
-        if(isOnce&&BossObj.GetComponent<BossAI>().Nokezori>0)
+        if (isOnce&&BossObj.GetComponent<BossAI>().Nokezori>0)
         {
             //Debug.Log("連携攻撃いいいい");
             isEffect = true;
