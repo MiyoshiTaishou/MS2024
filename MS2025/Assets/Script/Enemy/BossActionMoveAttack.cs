@@ -14,6 +14,9 @@ public class BossActionMoveAttack : BossActionData
     [SerializeField, Header("どれぐらい離れてたら攻撃するか")]
     private float distance = 5.0f;
 
+    [SerializeField, Header("攻撃がどれだけずれるか")]
+    private Vector3 deviate;
+
     [SerializeField, Header("アニメーションカーブで移動をリッチにする")]
     private AnimationCurve curve;
 
@@ -60,7 +63,7 @@ public class BossActionMoveAttack : BossActionData
     {
         attackTarget = player;
         attackStartTime = Time.time;
-        moveAttackEndPos = player.transform.position;
+        moveAttackEndPos = player.transform.position + deviate;
 
         // 攻撃エリアの設定
         attackArea = boss.transform.Find(attackAreaName)?.gameObject;

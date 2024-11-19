@@ -3471,6 +3471,18 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 617070411}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &617070414 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4405010710886284918, guid: 75272d9e04545f442ba51314bef17477,
+    type: 3}
+  m_PrefabInstance: {fileID: 617070411}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &628138812
 GameObject:
   m_ObjectHideFlags: 0
@@ -4960,6 +4972,11 @@ PrefabInstance:
       objectReference: {fileID: 328990925}
     - target: {fileID: 8241513086033729740, guid: eca39a7f69650f64999637e85db1167a,
         type: 3}
+      propertyPath: playerNum
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8241513086033729740, guid: eca39a7f69650f64999637e85db1167a,
+        type: 3}
       propertyPath: transitionManager
       value: 
       objectReference: {fileID: 1270586526}
@@ -6093,13 +6110,18 @@ PrefabInstance:
     - target: {fileID: 728711347568068367, guid: 745fd90e17809384d980f68c8c476341,
         type: 3}
       propertyPath: _nBossHP
-      value: 5000
+      value: 500
       objectReference: {fileID: 0}
     - target: {fileID: 728711347568068367, guid: 745fd90e17809384d980f68c8c476341,
         type: 3}
       propertyPath: Backslider
       value: 
       objectReference: {fileID: 1506146584}
+    - target: {fileID: 728711347568068367, guid: 745fd90e17809384d980f68c8c476341,
+        type: 3}
+      propertyPath: Sliderimage
+      value: 
+      objectReference: {fileID: 617070414}
     - target: {fileID: 728711347568068367, guid: 745fd90e17809384d980f68c8c476341,
         type: 3}
       propertyPath: gameManager
