@@ -96,6 +96,12 @@ public class BossStatus : NetworkBehaviour
         //}
     }
 
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    private void RPC_HandleBossDeath()
+    {
+        HandleBossDeath();
+    }
+
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     private void RPC_ClientSceneTransition()
     {
@@ -188,7 +194,7 @@ public class BossStatus : NetworkBehaviour
             }
             else if(DeathCount==2)
             {
-                HandleBossDeath();
+                RPC_HandleBossDeath();
             }
      
         }
