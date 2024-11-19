@@ -109,13 +109,16 @@ public class PlayerMove : NetworkBehaviour
 
             // 物理的な移動を行う
             rb.velocity = currentVelocity;
-            if (data.Direction.x > 0.0f)
+            if (!GetComponent<PlayerAttack>().isAttack)
             {
-                isReflection = false;
-            }
-            else if(data.Direction.x < 0.0f)
-            {
-                isReflection = true;
+                if (data.Direction.x > 0.0f)
+                {
+                    isReflection = false;
+                }
+                else if (data.Direction.x < 0.0f)
+                {
+                    isReflection = true;
+                }
             }
         }
     }
