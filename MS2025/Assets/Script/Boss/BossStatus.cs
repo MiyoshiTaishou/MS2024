@@ -198,6 +198,7 @@ public class BossStatus : NetworkBehaviour
                 break;
 
                 case 2:
+                    Debug.Log("ƒ{ƒXŽ€–S‚Å‚·");
                     RPC_HandleBossDeath();
                     transitionManager.TransitionStart();
                     DeathCount++;

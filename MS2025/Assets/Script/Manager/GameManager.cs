@@ -17,6 +17,8 @@ public class GameManager : NetworkBehaviour
 
     private bool isBattleActive = false;
 
+    private bool isPlayed = false;
+
     public bool GetBattleActive() { return  isBattleActive; }
 
     // バトル開始判定のフラグ
@@ -34,11 +36,15 @@ public class GameManager : NetworkBehaviour
         {
             // バトルがアクティブな間、経過時間を記録
             clearTime += Time.deltaTime;
+            isPlayed = true;
         }
         else
         {
-            // プレイヤー数を定期的に確認し、バトル開始準備ができるか判断
-            CheckAndStartBattle();
+            if (!isPlayed)
+            {
+                // プレイヤー数を定期的に確認し、バトル開始準備ができるか判断
+                CheckAndStartBattle();
+            }
         }
     }
 
