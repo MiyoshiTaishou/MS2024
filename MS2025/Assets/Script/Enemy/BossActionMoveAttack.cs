@@ -88,7 +88,7 @@ public class BossActionMoveAttack : BossActionData
         else
         {
             attackArea.GetComponent<BossAttackArea>().deactivateTime = moveAttackEndPosTime;            
-        }
+        }       
 
         // ボスのアニメーション設定
         boss.GetComponent<Animator>().speed = attackAnimSpeed;
@@ -118,6 +118,8 @@ public class BossActionMoveAttack : BossActionData
             }       
 
             boss.GetComponent<Animator>().speed = 1;
+
+            
 
             return true;
         }
