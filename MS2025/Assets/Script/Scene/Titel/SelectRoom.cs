@@ -6,7 +6,6 @@ public class SelectRoom : MonoBehaviour
 	[Tooltip("アクティブにするオブジェクトを決めます")]
 	[SerializeField]
     private GameObject[] activeObject;
-    
 	[Tooltip("アクティブを解除オブジェクトを決めます")]
 	[SerializeField]
     private GameObject[] disActiveObject;
@@ -25,6 +24,14 @@ public class SelectRoom : MonoBehaviour
         }
         foreach (GameObject obj in disActiveObject) {
             obj.gameObject.SetActive(false);
+        }
+    }
+    public void DisActive() {
+        foreach (GameObject obj in activeObject) {
+            obj.gameObject.SetActive(false);
+        }
+        foreach (GameObject obj in disActiveObject) {
+            obj.gameObject.SetActive(true);
         }
     }
 }
