@@ -171,13 +171,7 @@ public class BossStatus : NetworkBehaviour
     }
 
     public override void FixedUpdateNetwork()
-    {
-        if (nBossHP <= 0 && !hasTransitioned)
-        {
-            // クライアントに先にシーン遷移を指示
-            gameManager.RPC_EndBattle(10, 5);
-        }
-
+    {      
         if (nBossHP <= 0 && Object.HasStateAuthority)
         {
 
@@ -201,6 +195,8 @@ public class BossStatus : NetworkBehaviour
                     Debug.Log("ボス死亡です");
                     RPC_HandleBossDeath();
                     transitionManager.TransitionStart();
+                    // クライアントに先にシーン遷移を指示
+                    gameManager.RPC_EndBattle(10, 5);
                     DeathCount++;
                     break;
             }

@@ -72,12 +72,14 @@ public class GameManager : NetworkBehaviour
     /// <summary>
     /// バトル終了時の処理
     /// </summary>
+    /// <summary>
+    /// バトル終了時の処理
+    /// </summary>
     public void EndBattle(int combo, int multiAttack)
     {
         isBattleActive = false;
         isGameOver = true; // バトル終了後に索敵を止める
         isReadyToStartBattle = false; // 索敵フラグをリセット
-        isPlayed = false; // 再びバトル開始できないようにする
 
         // 記録した時間を ScoreManager に保存
         ScoreManager.clearTime = clearTime;
@@ -101,8 +103,8 @@ public class GameManager : NetworkBehaviour
 
     private void CheckAndStartBattle()
     {
-        // バトル中または終了後の場合、処理をスキップ
-        if (isReadyToStartBattle || isBattleActive || isGameOver) return;
+        // すでにゲームを開始している場合、またはバトル中・終了後の場合は処理をスキップ
+        if (isPlayed || isReadyToStartBattle || isBattleActive || isGameOver) return;
 
         // プレイヤー数を確認 (指定した人数が揃った場合)
         if (Runner.SessionInfo.PlayerCount >= playerNum)
