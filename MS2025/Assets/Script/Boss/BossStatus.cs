@@ -196,7 +196,7 @@ public class BossStatus : NetworkBehaviour
                     RPC_HandleBossDeath();
                     transitionManager.TransitionStart();
                     // クライアントに先にシーン遷移を指示
-                    gameManager.RPC_EndBattle(10, 5);
+                    gameManager.EndBattle(10, 5);
                     DeathCount++;
                     break;
             }
