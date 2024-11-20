@@ -24,6 +24,8 @@ public class GameManager : NetworkBehaviour
     // バトル開始判定のフラグ
     private bool isReadyToStartBattle = false;
 
+    private bool isGameOver = false;
+
     public override void Spawned()
     {
         // プレイヤー数を確認し、バトル開始の準備をする
@@ -32,20 +34,27 @@ public class GameManager : NetworkBehaviour
 
     public override void FixedUpdateNetwork()
     {
+        if (isGameOver)
+        {
+            // ゲーム終了後は何もしない
+            return;
+        }
+
         if (isBattleActive)
         {
             // バトルがアクティブな間、経過時間を記録
             clearTime += Time.deltaTime;
-            isPlayed = true;
         }
         else
         {
-            if (!isPlayed)
+            if (!isPlayed && !isGameOver)
             {
-                // プレイヤー数を定期的に確認し、バトル開始準備ができるか判断
+                // ゲーム終了後ではなく、まだバトルが開始されていない場合のみ索敵する
                 CheckAndStartBattle();
             }
         }
+
+        Debug.Log(isPlayed + "バグ確認！！！！！！");
     }
 
     /// <summary>
@@ -55,6 +64,7 @@ public class GameManager : NetworkBehaviour
     {
         clearTime = 0.0f;
         isBattleActive = true;
+        isPlayed = true;
         Debug.Log("バトル開始");
         transitionManager.TransitionStartReverse();
     }
@@ -65,6 +75,10 @@ public class GameManager : NetworkBehaviour
     public void EndBattle(int combo, int multiAttack)
     {
         isBattleActive = false;
+        isGameOver = true; // バトル終了後に索敵を止める
+        isReadyToStartBattle = false; // 索敵フラグをリセット
+        isPlayed = false; // 再びバトル開始できないようにする
+
         // 記録した時間を ScoreManager に保存
         ScoreManager.clearTime = clearTime;
         ScoreManager.maxCombo = combo;
