@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 using Fusion.Sockets;
 using System;
 using UnityEngine.UI;
+using System.Linq;
 
 public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 {
@@ -77,7 +78,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
                 //}
 
                 // シーンロード
-                networkRunner.LoadScene(gameScene);
+                //networkRunner.LoadScene(gameScene);
             }
         }
     }
@@ -99,6 +100,15 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
         //else {
         //    Debug.LogError("Failed to spawn player avatar!");
         //}
+
+        // プレイヤー数が 2 人以上になったらシーンをロード
+        if (runner.ActivePlayers.Count() >= 2)
+        {           
+            if (runner.IsServer)
+            {
+                networkRunner.LoadScene(gameScene);
+            }
+        }
     }
 
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player) {
