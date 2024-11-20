@@ -99,14 +99,12 @@ public class GameManager : NetworkBehaviour
         StartBattle();
     }
 
-    /// <summary>
-    /// プレイヤーが揃ったらバトルを開始する
-    /// </summary>
     private void CheckAndStartBattle()
     {
-        if (isReadyToStartBattle || isBattleActive) return;
+        // バトル中または終了後の場合、処理をスキップ
+        if (isReadyToStartBattle || isBattleActive || isGameOver) return;
 
-        // プレイヤー数を確認 (2 人揃った場合)
+        // プレイヤー数を確認 (指定した人数が揃った場合)
         if (Runner.SessionInfo.PlayerCount >= playerNum)
         {
             isReadyToStartBattle = true;

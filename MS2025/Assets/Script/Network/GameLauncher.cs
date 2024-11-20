@@ -21,6 +21,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
     [SerializeField] Image LoadingImage;
     [SerializeField, Header("トランジションオブジェクト")] private GameObject[] transiton;
     [SerializeField, Header("プレイヤーを生成しないシーンリスト")] private string[] skipScenes;
+    [SerializeField, Header("開始人数")] private int playerNum;
 
     private NetworkRunner networkRunner;
 
@@ -102,7 +103,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
         //}
 
         // プレイヤー数が 2 人以上になったらシーンをロード
-        if (runner.ActivePlayers.Count() >= 2)
+        if (runner.ActivePlayers.Count() >= playerNum)
         {           
             if (runner.IsServer)
             {
