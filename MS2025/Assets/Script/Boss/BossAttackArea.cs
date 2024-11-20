@@ -3,6 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public  enum PARRYTYPE
+{
+    ALL,
+    TANUKI,
+    KITUNE,
+};
+
 public class BossAttackArea : NetworkBehaviour
 {
     GameObject box;
@@ -21,6 +28,8 @@ public class BossAttackArea : NetworkBehaviour
 
     // å≥ÇÃà íuÇï€éùÇ∑ÇÈ
     private Vector3 originalPosition;
+
+    [Networked] public  PARRYTYPE Type { get; set; }
 
     public override void Spawned()
     {

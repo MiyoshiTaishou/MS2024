@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 using Fusion.Sockets;
 using System;
 using UnityEngine.UI;
+using System.Linq;
 
 public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 {
@@ -20,6 +21,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
     [SerializeField] Image LoadingImage;
     [SerializeField, Header("トランジションオブジェクト")] private GameObject[] transiton;
     [SerializeField, Header("プレイヤーを生成しないシーンリスト")] private string[] skipScenes;
+    [SerializeField, Header("開始人数")] private int playerNum;
 
     private NetworkRunner networkRunner;
 
@@ -77,27 +79,36 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
                 //}
 
                 // シーンロード
-                networkRunner.LoadScene(gameScene);
+                //networkRunner.LoadScene(gameScene);
             }
         }
     }
 
     // INetworkRunnerCallbacksの実装
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player) {
-        if (!runner.IsServer) { return; }
+        //if (!runner.IsServer) { return; }
 
-        var randomValue = UnityEngine.Random.insideUnitCircle * 2f;
-        var spawnPosition = new Vector3(randomValue.x, 5f, 0f);
+        //var randomValue = UnityEngine.Random.insideUnitCircle * 2f;
+        //var spawnPosition = new Vector3(randomValue.x, 5f, 0f);
 
-        // ローカルプレイヤーオブジェクトを生成
-        var avatar = runner.Spawn(playerAvatarPrefab, spawnPosition, Quaternion.identity, player);
+        //// ローカルプレイヤーオブジェクトを生成
+        //var avatar = runner.Spawn(playerAvatarPrefab, spawnPosition, Quaternion.identity, player);
 
-        // SetPlayerObject を必ず呼び出す
-        if (avatar != null) {
-            runner.SetPlayerObject(player, avatar);
-        }
-        else {
-            Debug.LogError("Failed to spawn player avatar!");
+        //// SetPlayerObject を必ず呼び出す
+        //if (avatar != null) {
+        //    runner.SetPlayerObject(player, avatar);
+        //}
+        //else {
+        //    Debug.LogError("Failed to spawn player avatar!");
+        //}
+
+        // プレイヤー数が 2 人以上になったらシーンをロード
+        if (runner.ActivePlayers.Count() >= playerNum)
+        {           
+            if (runner.IsServer)
+            {
+                networkRunner.LoadScene(gameScene);
+            }
         }
     }
 

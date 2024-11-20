@@ -10,7 +10,7 @@ public class PlayerChargeAttack : NetworkBehaviour
     ShareNumbers sharenum;
 
     public bool isCharge=false;//チャージ中か否か
-    bool isAttack = false;
+    [SerializeField, Networked] bool isAttack { get; set; } = false;
 
     [SerializeField, Tooltip("発生f")]
     int Startup;
@@ -35,6 +35,14 @@ public class PlayerChargeAttack : NetworkBehaviour
     [Networked] private bool isEffect { get; set; }
     [Networked] private bool isAttackEffect { get; set; }
 
+    GameObject BossObj = null;
+
+    [SerializeField, Tooltip("連携攻撃可能時間のエフェクト")]
+    GameObject effectRengekiTime;
+
+    [Networked] public bool isWait { get; private set; }
+
+
     // Start is called before the first frame update
     public override void Spawned()
     {
@@ -49,6 +57,11 @@ public class PlayerChargeAttack : NetworkBehaviour
         chargeparticle = chargeeffect.GetComponent<ParticleSystem>();
         attackparticle = attackeffect.GetComponent<ParticleSystem>();
 
+        BossObj = GameObject.Find("Boss2D");
+        if (BossObj == null)
+        {
+            Debug.LogError("ぼすないよ");
+        }
     }
     public override void FixedUpdateNetwork()
     {
@@ -81,6 +94,8 @@ public class PlayerChargeAttack : NetworkBehaviour
                 isCharge = false;
                 isAttackEffect = true;
                 isAttack = true;
+                isWait = true;
+
             }
             else
             {
@@ -89,7 +104,6 @@ public class PlayerChargeAttack : NetworkBehaviour
                 isAttackEffect = false;
                 chargeparticle.Stop();
             }
-            Attack();
         }
 
 
@@ -98,6 +112,29 @@ public class PlayerChargeAttack : NetworkBehaviour
 
     public override void Render()
     {
+        Attack();
+
+
+        if (isWait)
+        {
+            Debug.Log("硬直中");
+            effectRengekiTime.SetActive(false);
+        }
+        else
+        {
+            Debug.Log("硬直終わり");
+
+            if (BossObj.GetComponent<BossAI>().Nokezori > 0)
+            {
+                effectRengekiTime.SetActive(true);
+            }
+            else
+            {
+                effectRengekiTime.SetActive(false);
+
+            }
+
+        }
 
         if (isEffect)
         {
@@ -120,27 +157,40 @@ public class PlayerChargeAttack : NetworkBehaviour
     {
         if (isAttack == false)
         {
+            isWait = false;
+
             return;
         }
         Debug.Log("溜め攻撃");
         if (Count < Startup)
         {
             Count++;
+
         }
         else if (Count < Startup + Active)
         {
             Count++;
             attackArea.SetActive(true);
+
         }
         else if (Count < Startup + Active + Recovery)
         {
             Count++;
             attackArea.SetActive(false);
+
         }
-        else if (Count >= Startup + Active + Recovery)
+        else if (Count == Startup + Active + Recovery)
         {
+
             Count = 0;
             isAttack = false;
         }
+        else if (Count > Startup + Active + Recovery)
+        {
+
+            Count = 0;
+            isAttack = false;
+        }
+
     }
 }
