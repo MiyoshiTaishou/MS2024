@@ -35,7 +35,7 @@ public class PlayerJumpNet : NetworkBehaviour
     private HitStop hitstop;
     private PlayerAttack attack;
     private PlayerChargeAttack chargeattack;
-
+    PlayerFreeze freeze;
 
     [Networked]  Vector3 velocity { get; set; }  // �v���C���[�̑��x
     private bool isJumping;    // �W�����v�����ǂ���    
@@ -53,6 +53,7 @@ public class PlayerJumpNet : NetworkBehaviour
         hitstop=GetComponent<HitStop>();
         attack = GetComponent<PlayerAttack>();
         chargeattack = GetComponent<PlayerChargeAttack>();
+        freeze = GetComponent<PlayerFreeze>();
     }
 
     public override void FixedUpdateNetwork()
