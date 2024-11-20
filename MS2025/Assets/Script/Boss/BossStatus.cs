@@ -87,9 +87,7 @@ public class BossStatus : NetworkBehaviour
         // シーン遷移が一度だけ行われるようにチェック
         if (hasTransitioned) return;
 
-        isDeathEffect = true;
-
-        transitionManager.TransitionStart();
+        isDeathEffect = true;        
         hasTransitioned = true; // シーン遷移フラグを設定       
 
         StartCoroutine(Load());
@@ -201,7 +199,9 @@ public class BossStatus : NetworkBehaviour
 
                 case 2:
                     RPC_HandleBossDeath();
-                break;
+                    transitionManager.TransitionStart();
+                    DeathCount++;
+                    break;
             }
      
         }
