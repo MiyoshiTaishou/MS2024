@@ -121,15 +121,15 @@ public class PlayerAttack : NetworkBehaviour
         // 現在のアニメーションの状態を取得
         AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
 
-        if (BossObj.GetComponent<BossAI>().Nokezori > 0)
-        {
-            effectRengekiTime.SetActive(true);
-        }
-        else
-        {
-            effectRengekiTime.SetActive(false);
+        //if (BossObj.GetComponent<BossAI>().Nokezori > 0)
+        //{
+        //    effectRengekiTime.SetActive(true);
+        //}
+        //else
+        //{
+        //    effectRengekiTime.SetActive(false);
 
-        }
+        //}
 
         // 攻撃フラグが立っている場合にアニメーションをトリガー
         if (isOnce&&BossObj.GetComponent<BossAI>().Nokezori>0)
