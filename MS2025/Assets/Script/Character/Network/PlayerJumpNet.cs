@@ -33,6 +33,9 @@ public class PlayerJumpNet : NetworkBehaviour
     [SerializeField, Networked] bool jumpstart { get; set; } = false;
 
     private HitStop hitstop;
+    private PlayerAttack attack;
+    private PlayerChargeAttack chargeattack;
+    PlayerFreeze freeze;
 
     [Networked]  Vector3 velocity { get; set; }  // �v���C���[�̑��x
     private bool isJumping;    // �W�����v�����ǂ���    
@@ -48,13 +51,16 @@ public class PlayerJumpNet : NetworkBehaviour
         if(!particle)
             particle = effect.GetComponent<ParticleSystem>();
         hitstop=GetComponent<HitStop>();
+        attack = GetComponent<PlayerAttack>();
+        chargeattack = GetComponent<PlayerChargeAttack>();
+        freeze = GetComponent<PlayerFreeze>();
     }
 
     public override void FixedUpdateNetwork()
     {
         AnimatorStateInfo landAnimStateInfo = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
 
-        if (hitstop.IsHitStopActive)
+        if (hitstop.IsHitStopActive||attack.isAttack||chargeattack.isCharge)
         {
             return;
         }

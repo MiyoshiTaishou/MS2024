@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 using Fusion.Sockets;
 using System;
 using UnityEngine.UI;
+using System.Linq;
 
 public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 {
@@ -15,61 +16,58 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
     [SerializeField] private NetworkPrefabRef bossAvatarPrefab;
     [SerializeField] private NetworkPrefabRef PlayerStatePrefab;
     [SerializeField] private InputField roomNameInputField;
-    [SerializeField] private string gameScene; // SceneRef ‚É•ÏX
+    [SerializeField] private string gameScene; // SceneRef ã«å¤‰æ›´
     [SerializeField] private int numBoss = 1;
     [SerializeField] Image LoadingImage;
-    [SerializeField, Header("ƒgƒ‰ƒ“ƒWƒVƒ‡ƒ“ƒIƒuƒWƒFƒNƒg")] private GameObject[] transiton;
-    [SerializeField, Header("ƒvƒŒƒCƒ„[‚ğ¶¬‚µ‚È‚¢ƒV[ƒ“ƒŠƒXƒg")] private string[] skipScenes;
+    [SerializeField, Header("ãƒˆãƒ©ãƒ³ã‚¸ã‚·ãƒ§ãƒ³ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ")] private GameObject[] transiton;
+    [SerializeField, Header("ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’ç”Ÿæˆã—ãªã„ã‚·ãƒ¼ãƒ³ãƒªã‚¹ãƒˆ")] private string[] skipScenes;
+    [SerializeField, Header("é–‹å§‹äººæ•°")] private int playerNum;
 
     private NetworkRunner networkRunner;
 
-    // ƒ{ƒ^ƒ“‚ğ‰Ÿ‚µ‚ÄƒzƒXƒg‚Æ‚µ‚ÄƒQ[ƒ€‚ğŠJn‚·‚é
-    public void StartHost()
-    {
+    // ãƒœã‚¿ãƒ³ã‚’æŠ¼ã—ã¦ãƒ›ã‚¹ãƒˆã¨ã—ã¦ã‚²ãƒ¼ãƒ ã‚’é–‹å§‹ã™ã‚‹
+    public void StartHost(string roomName) {
+        StartGame(GameMode.AutoHostOrClient, roomName);
+    }
+
+    public void StartDebug() {
         StartGame(GameMode.AutoHostOrClient, roomNameInputField.text);
     }
 
-    // ƒ{ƒ^ƒ“‚ğ‰Ÿ‚µ‚ÄƒNƒ‰ƒCƒAƒ“ƒg‚Æ‚µ‚ÄƒQ[ƒ€‚ÉQ‰Á‚·‚é
-    public void StartClient()
-    {
+    // ãƒœã‚¿ãƒ³ã‚’æŠ¼ã—ã¦ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã¨ã—ã¦ã‚²ãƒ¼ãƒ ã«å‚åŠ ã™ã‚‹
+    public void StartClient() {
         StartGame(GameMode.Client, roomNameInputField.text);
     }
 
-    // ƒQ[ƒ€‚ğŠJn‚µAƒV[ƒ“‚ğ‘JˆÚ‚·‚éƒƒ\ƒbƒh
-    private async void StartGame(GameMode mode, string roomName)
-    {
+    // ã‚²ãƒ¼ãƒ ã‚’é–‹å§‹ã—ã€ã‚·ãƒ¼ãƒ³ã‚’é·ç§»ã™ã‚‹ãƒ¡ã‚½ãƒƒãƒ‰ roomNameã‚’æ¾ç«¹æ¢…ã«ã™ã‚‹ ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ãƒ¼å¯¾å¿œ
+    private async void StartGame(GameMode mode, string roomName) {
         networkRunner = FindObjectOfType<NetworkRunner>();
-        if (networkRunner == null)
-        {
+        if (networkRunner == null) {
             networkRunner = Instantiate(networkRunnerPrefab);
         }
 
-        // ‚±‚ÌƒXƒNƒŠƒvƒg‚ÅƒR[ƒ‹ƒoƒbƒN‚ğˆ—‚Å‚«‚é‚æ‚¤‚É‚·‚é
+        // ã“ã®ã‚¹ã‚¯ãƒªãƒ—ãƒˆã§ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯ã‚’å‡¦ç†ã§ãã‚‹ã‚ˆã†ã«ã™ã‚‹
         networkRunner.AddCallbacks(this);
         networkRunner.ProvideInput = true;
 
-        //ƒ[ƒfƒBƒ“ƒO‚Ì‰æ‘œ‚ğo‚·
+        //ãƒ­ãƒ¼ãƒ‡ã‚£ãƒ³ã‚°ã®ç”»åƒã‚’å‡ºã™
         LoadingImage.gameObject.SetActive(true);
 
-        //ƒgƒ‰ƒ“ƒWƒVƒ‡ƒ“Ä¶ŠJn
-        foreach (var tran in transiton)
-        {
+        //ãƒˆãƒ©ãƒ³ã‚¸ã‚·ãƒ§ãƒ³å†ç”Ÿé–‹å§‹
+        foreach (var tran in transiton) {
             tran.GetComponent<Animator>().SetTrigger("Start");
         }
 
-        // ƒQ[ƒ€ƒZƒbƒVƒ‡ƒ“‚ÌŠJn
-        var result = await networkRunner.StartGame(new StartGameArgs
-        {
+        // ã‚²ãƒ¼ãƒ ã‚»ãƒƒã‚·ãƒ§ãƒ³ã®é–‹å§‹
+        var result = await networkRunner.StartGame(new StartGameArgs {
             GameMode = mode,
             SessionName = roomName,
             SceneManager = networkRunner.GetComponent<NetworkSceneManagerDefault>()
         });
 
-        if (result.Ok)
-        {
-            if (networkRunner.IsServer)
-            {
-                //// •K‚¸ƒV[ƒ“‚ğƒ[ƒh‚·‚é‘O‚ÉƒvƒŒƒCƒ„[ƒIƒuƒWƒFƒNƒg‚ğ¶¬
+        if (result.Ok) {
+            if (networkRunner.IsServer) {
+                //// å¿…ãšã‚·ãƒ¼ãƒ³ã‚’ãƒ­ãƒ¼ãƒ‰ã™ã‚‹å‰ã«ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç”Ÿæˆ
                 //foreach (var player in networkRunner.ActivePlayers)
                 //{
                 //    if (!networkRunner.TryGetPlayerObject(player, out _))
@@ -80,46 +78,48 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
                 //    }
                 //}
 
-                // ƒV[ƒ“ƒ[ƒh
+                // ã‚·ãƒ¼ãƒ³ãƒ­ãƒ¼ãƒ‰
+                //networkRunner.LoadScene(gameScene);
+            }
+        }
+    }
+
+    // INetworkRunnerCallbacksã®å®Ÿè£…
+    public void OnPlayerJoined(NetworkRunner runner, PlayerRef player) {
+        //if (!runner.IsServer) { return; }
+
+        //var randomValue = UnityEngine.Random.insideUnitCircle * 2f;
+        //var spawnPosition = new Vector3(randomValue.x, 5f, 0f);
+
+        //// ãƒ­ãƒ¼ã‚«ãƒ«ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç”Ÿæˆ
+        //var avatar = runner.Spawn(playerAvatarPrefab, spawnPosition, Quaternion.identity, player);
+
+        //// SetPlayerObject ã‚’å¿…ãšå‘¼ã³å‡ºã™
+        //if (avatar != null) {
+        //    runner.SetPlayerObject(player, avatar);
+        //}
+        //else {
+        //    Debug.LogError("Failed to spawn player avatar!");
+        //}
+
+        // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼æ•°ãŒ 2 äººä»¥ä¸Šã«ãªã£ãŸã‚‰ã‚·ãƒ¼ãƒ³ã‚’ãƒ­ãƒ¼ãƒ‰
+        if (runner.ActivePlayers.Count() >= playerNum)
+        {           
+            if (runner.IsServer)
+            {
                 networkRunner.LoadScene(gameScene);
             }
         }
     }
 
-    // INetworkRunnerCallbacks‚ÌÀ‘•
-    public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
-    {
+    public void OnPlayerLeft(NetworkRunner runner, PlayerRef player) {
         if (!runner.IsServer) { return; }
-
-        var randomValue = UnityEngine.Random.insideUnitCircle * 2f;
-        var spawnPosition = new Vector3(randomValue.x, 5f, 0f);
-
-        // ƒ[ƒJƒ‹ƒvƒŒƒCƒ„[ƒIƒuƒWƒFƒNƒg‚ğ¶¬
-        var avatar = runner.Spawn(playerAvatarPrefab, spawnPosition, Quaternion.identity, player);
-
-        // SetPlayerObject ‚ğ•K‚¸ŒÄ‚Ño‚·
-        if (avatar != null)
-        {
-            runner.SetPlayerObject(player, avatar);
-        }
-        else
-        {
-            Debug.LogError("Failed to spawn player avatar!");
-        }
-    }
-
-
-    public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
-    {
-        if (!runner.IsServer) { return; }
-        if (runner.TryGetPlayerObject(player, out var avatar))
-        {
+        if (runner.TryGetPlayerObject(player, out var avatar)) {
             runner.Despawn(avatar);
         }
     }
 
-    public void OnInput(NetworkRunner runner, NetworkInput input)
-    {
+    public void OnInput(NetworkRunner runner, NetworkInput input) {
         var data = new NetworkInputData();
         data.Direction = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
         data.Buttons.Set(NetworkInputButtons.Attack, Input.GetButton("Attack"));
@@ -130,49 +130,42 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
         input.Set(data);
     }
 
-    // ‘¼‚ÌƒR[ƒ‹ƒoƒbƒNi‹óÀ‘•j
-    public void OnInputMissing(NetworkRunner runner, PlayerRef player, NetworkInput input) { }
-    public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason) { }
-    public void OnConnectedToServer(NetworkRunner runner) { }
-    public void OnDisconnectedFromServer(NetworkRunner runner) { }
-    public void OnConnectRequest(NetworkRunner runner, NetworkRunnerCallbackArgs.ConnectRequest request, byte[] token) { }
-    public void OnConnectFailed(NetworkRunner runner, NetAddress remoteAddress, NetConnectFailedReason reason) { }
-    public void OnUserSimulationMessage(NetworkRunner runner, SimulationMessagePtr message) { }
-    public void OnSessionListUpdated(NetworkRunner runner, List<SessionInfo> sessionList) { }
-    public void OnCustomAuthenticationResponse(NetworkRunner runner, Dictionary<string, object> data) { }
-    public void OnHostMigration(NetworkRunner runner, HostMigrationToken hostMigrationToken) { }
-    public void OnReliableDataReceived(NetworkRunner runner, PlayerRef player, ArraySegment<byte> data) { }
-    public void OnSceneLoadDone(NetworkRunner runner)
-    {
-        // ƒV[ƒ“ƒXƒLƒbƒv‘ÎÛ‚Ìƒ`ƒFƒbƒN
+    // ä»–ã®ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯ï¼ˆç©ºå®Ÿè£…ï¼‰
+    public void OnInputMissing(NetworkRunner runner, PlayerRef player, NetworkInput input) {}
+    public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason) {}
+    public void OnConnectedToServer(NetworkRunner runner) {}
+    public void OnDisconnectedFromServer(NetworkRunner runner) {}
+    public void OnConnectRequest(NetworkRunner runner, NetworkRunnerCallbackArgs.ConnectRequest request, byte[] token) {}
+    public void OnConnectFailed(NetworkRunner runner, NetAddress remoteAddress, NetConnectFailedReason reason) {}
+    public void OnUserSimulationMessage(NetworkRunner runner, SimulationMessagePtr message) {}
+    public void OnSessionListUpdated(NetworkRunner runner, List<SessionInfo> sessionList) {}
+    public void OnCustomAuthenticationResponse(NetworkRunner runner, Dictionary<string, object> data) {}
+    public void OnHostMigration(NetworkRunner runner, HostMigrationToken hostMigrationToken) {}
+    public void OnReliableDataReceived(NetworkRunner runner, PlayerRef player, ArraySegment<byte> data) {}
+    public void OnSceneLoadDone(NetworkRunner runner) {
+        // ã‚·ãƒ¼ãƒ³ã‚¹ã‚­ãƒƒãƒ—å¯¾è±¡ã®ãƒã‚§ãƒƒã‚¯
         string currentSceneName = SceneManager.GetActiveScene().name;
-        if (Array.Exists<string>(skipScenes, scene => currentSceneName.Contains(scene)))
-        {
+        if (Array.Exists<string>(skipScenes, scene => currentSceneName.Contains(scene))) {
             Debug.Log($"Skipping player spawn for scene: {currentSceneName}");
             return;
         }
 
-        if (runner.IsServer)
-        {
-            foreach (var player in runner.ActivePlayers)
-            {
-                // ƒvƒŒƒCƒ„[ƒIƒuƒWƒFƒNƒg‚ª‘¶İ‚µ‚È‚¢ê‡‚É‚Ì‚İ¶¬
-                if (!runner.TryGetPlayerObject(player, out _))
-                {
+        if (runner.IsServer) {
+            foreach (var player in runner.ActivePlayers) {
+                // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒå­˜åœ¨ã—ãªã„å ´åˆã«ã®ã¿ç”Ÿæˆ
+                if (!runner.TryGetPlayerObject(player, out _)) {
                     var randomValue = UnityEngine.Random.insideUnitCircle * 2f;
                     var spawnPosition = new Vector3(randomValue.x, 5f, 0f);
 
-                    // ƒvƒŒƒCƒ„[ƒIƒuƒWƒFƒNƒg¶¬
+                    // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç”Ÿæˆ
                     var playerObject = runner.Spawn(playerAvatarPrefab, spawnPosition, Quaternion.identity, player);
 
-                    // SetPlayerObject ‚ğ•K‚¸ŒÄ‚Ño‚·
-                    if (playerObject != null)
-                    {
+                    // SetPlayerObject ã‚’å¿…ãšå‘¼ã³å‡ºã™
+                    if (playerObject != null) {
                         runner.SetPlayerObject(player, playerObject);
                         Debug.Log($"Player object assigned for player {player.RawEncoded}");
                     }
-                    else
-                    {
+                    else {
                         Debug.LogError("Failed to spawn player object during OnSceneLoadDone.");
                     }
                 }
@@ -180,30 +173,10 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
         }
     }
 
-    public void OnSceneLoadStart(NetworkRunner runner) { }
-
-    public void OnObjectExitAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player)
-    {
-       
-    }
-
-    public void OnObjectEnterAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player)
-    {
-       
-    }
-
-    public void OnDisconnectedFromServer(NetworkRunner runner, NetDisconnectReason reason)
-    {
-       
-    }
-
-    public void OnReliableDataReceived(NetworkRunner runner, PlayerRef player, ReliableKey key, ArraySegment<byte> data)
-    {
-       
-    }
-
-    public void OnReliableDataProgress(NetworkRunner runner, PlayerRef player, ReliableKey key, float progress)
-    {
-       
-    }
+    public void OnSceneLoadStart(NetworkRunner runner) {}
+    public void OnObjectExitAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player) {}
+    public void OnObjectEnterAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player) {}
+    public void OnDisconnectedFromServer(NetworkRunner runner, NetDisconnectReason reason) {}
+    public void OnReliableDataReceived(NetworkRunner runner, PlayerRef player, ReliableKey key, ArraySegment<byte> data) {}
+    public void OnReliableDataProgress(NetworkRunner runner, PlayerRef player, ReliableKey key, float progress) {}
 }

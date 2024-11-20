@@ -17,10 +17,14 @@ public class GameManager : NetworkBehaviour
 
     private bool isBattleActive = false;
 
+    private bool isPlayed = false;
+
     public bool GetBattleActive() { return  isBattleActive; }
 
     // バトル開始判定のフラグ
     private bool isReadyToStartBattle = false;
+
+    private bool isGameOver = false;
 
     public override void Spawned()
     {
@@ -30,6 +34,12 @@ public class GameManager : NetworkBehaviour
 
     public override void FixedUpdateNetwork()
     {
+        if (isGameOver)
+        {
+            // ゲーム終了後は何もしない
+            return;
+        }
+
         if (isBattleActive)
         {
             // バトルがアクティブな間、経過時間を記録
@@ -37,9 +47,14 @@ public class GameManager : NetworkBehaviour
         }
         else
         {
-            // プレイヤー数を定期的に確認し、バトル開始準備ができるか判断
-            CheckAndStartBattle();
+            if (!isPlayed && !isGameOver)
+            {
+                // ゲーム終了後ではなく、まだバトルが開始されていない場合のみ索敵する
+                CheckAndStartBattle();
+            }
         }
+
+        Debug.Log(isPlayed + "バグ確認！！！！！！");
     }
 
     /// <summary>
@@ -49,6 +64,7 @@ public class GameManager : NetworkBehaviour
     {
         clearTime = 0.0f;
         isBattleActive = true;
+        isPlayed = true;
         Debug.Log("バトル開始");
         transitionManager.TransitionStartReverse();
     }
@@ -56,9 +72,15 @@ public class GameManager : NetworkBehaviour
     /// <summary>
     /// バトル終了時の処理
     /// </summary>
+    /// <summary>
+    /// バトル終了時の処理
+    /// </summary>
     public void EndBattle(int combo, int multiAttack)
     {
         isBattleActive = false;
+        isGameOver = true; // バトル終了後に索敵を止める
+        isReadyToStartBattle = false; // 索敵フラグをリセット
+
         // 記録した時間を ScoreManager に保存
         ScoreManager.clearTime = clearTime;
         ScoreManager.maxCombo = combo;
@@ -79,14 +101,12 @@ public class GameManager : NetworkBehaviour
         StartBattle();
     }
 
-    /// <summary>
-    /// プレイヤーが揃ったらバトルを開始する
-    /// </summary>
     private void CheckAndStartBattle()
     {
-        if (isReadyToStartBattle || isBattleActive) return;
+        // すでにゲームを開始している場合、またはバトル中・終了後の場合は処理をスキップ
+        if (isPlayed || isReadyToStartBattle || isBattleActive || isGameOver) return;
 
-        // プレイヤー数を確認 (2 人揃った場合)
+        // プレイヤー数を確認 (指定した人数が揃った場合)
         if (Runner.SessionInfo.PlayerCount >= playerNum)
         {
             isReadyToStartBattle = true;
