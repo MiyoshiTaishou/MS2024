@@ -65,7 +65,7 @@ public class CameraZoom : NetworkBehaviour
             pos.x = center;
             pos.z = newZ;
             transform.position = pos;
-            Debug.Log("‹——£" + minX + "‚Á‚±" + maxX);
+            //Debug.Log("‹——£" + minX + "‚Á‚±" + maxX);
         }
 
     }
