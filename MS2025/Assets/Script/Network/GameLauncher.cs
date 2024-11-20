@@ -84,21 +84,21 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 
     // INetworkRunnerCallbacksの実装
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player) {
-        if (!runner.IsServer) { return; }
+        //if (!runner.IsServer) { return; }
 
-        var randomValue = UnityEngine.Random.insideUnitCircle * 2f;
-        var spawnPosition = new Vector3(randomValue.x, 5f, 0f);
+        //var randomValue = UnityEngine.Random.insideUnitCircle * 2f;
+        //var spawnPosition = new Vector3(randomValue.x, 5f, 0f);
 
-        // ローカルプレイヤーオブジェクトを生成
-        var avatar = runner.Spawn(playerAvatarPrefab, spawnPosition, Quaternion.identity, player);
+        //// ローカルプレイヤーオブジェクトを生成
+        //var avatar = runner.Spawn(playerAvatarPrefab, spawnPosition, Quaternion.identity, player);
 
-        // SetPlayerObject を必ず呼び出す
-        if (avatar != null) {
-            runner.SetPlayerObject(player, avatar);
-        }
-        else {
-            Debug.LogError("Failed to spawn player avatar!");
-        }
+        //// SetPlayerObject を必ず呼び出す
+        //if (avatar != null) {
+        //    runner.SetPlayerObject(player, avatar);
+        //}
+        //else {
+        //    Debug.LogError("Failed to spawn player avatar!");
+        //}
     }
 
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player) {
