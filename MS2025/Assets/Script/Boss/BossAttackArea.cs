@@ -80,7 +80,10 @@ public class BossAttackArea : NetworkBehaviour
             // パリィ不可攻撃かどうか
             if (!parent.GetComponent<BossAI>().isParry)
             {
-                if (other.GetComponent<PlayerParryNet>().ParryCheck())
+                if (other.GetComponent<PlayerParryNet>().ParryCheck()&&
+                    ((other.GetComponent<PlayerParryNet>().isTanuki&&Type==PARRYTYPE.TANUKI)||
+                    (!other.GetComponent<PlayerParryNet>().isTanuki&&Type==PARRYTYPE.KITUNE)||
+                     Type==PARRYTYPE.ALL))
                 {
                     Debug.Log("パリィ成功");
                     other.GetComponent<PlayerParryNet>().RPC_ParrySystem();

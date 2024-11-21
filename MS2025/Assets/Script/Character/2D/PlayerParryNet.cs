@@ -96,6 +96,8 @@ public class PlayerParryNet : NetworkBehaviour
     /// </summary>
     /// 
     PlayerFreeze freeze;
+    [Networked]public bool isTanuki { get; set; }
+
 
     public bool ParryCheck()
     {
@@ -143,6 +145,7 @@ public class PlayerParryNet : NetworkBehaviour
     {
         // NetworkRunnerのインスタンスを取得
         runner = FindObjectOfType<NetworkRunner>();
+        isTanuki=runner.IsServer?true:false;
 
         //SE読み込み
         //audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
