@@ -101,6 +101,9 @@ public class BossActionMoveAttack : BossActionData
         // UŒ‚ŠJn‚Ü‚Å‚Ì‘Ò‹@
         if (Time.time - attackStartTime < attackDuration)
         {
+            attackTarget = boss.GetComponent<BossAI>().players[boss.GetComponent<BossAI>().currentPlayerIndex];
+            attackStartTime = Time.time;
+            moveAttackEndPos = player.transform.position + deviate;
             return false;
         }
 

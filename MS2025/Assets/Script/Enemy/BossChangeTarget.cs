@@ -9,7 +9,16 @@ public class BossChangeTarget : BossActionData
     private int taregt = 0;
     public override void InitializeAction(GameObject boss, Transform player)
     {
-        boss.GetComponent<BossAI>().currentPlayerIndex = taregt;
+        if (boss.GetComponent<BossAI>().currentPlayerIndex == 0)
+        {
+            boss.GetComponent<BossAI>().currentPlayerIndex = 1;
+        }
+        else
+        {
+            boss.GetComponent<BossAI>().currentPlayerIndex = 0;
+        }
+
+        //boss.GetComponent<BossAI>().currentPlayerIndex = taregt;
     }
 
     public override bool ExecuteAction(GameObject boss, Transform player)
