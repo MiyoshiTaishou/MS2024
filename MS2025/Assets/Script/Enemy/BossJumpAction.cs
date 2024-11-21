@@ -36,7 +36,7 @@ public class BossJumpAction : BossActionData
         boss.GetComponent<BossAI>().isAir = true;
     }
 
-    public override bool ExecuteAction(GameObject boss)
+    public override bool ExecuteAction(GameObject boss, Transform player)
     {
         if (isJumping)
         {

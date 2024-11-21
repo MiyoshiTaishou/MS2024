@@ -17,7 +17,7 @@ public class BossMoveAction : BossActionData
         attackTarget = player;
     }
 
-    public override bool ExecuteAction(GameObject boss)
+    public override bool ExecuteAction(GameObject boss, Transform player)
     {
         if (attackTarget == null || bossRigidbody == null)
             return false;
