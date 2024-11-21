@@ -11,8 +11,17 @@ public class GekiDisplay : NetworkBehaviour
 
     [SerializeField] private float Limit = 10.0f;
 
-    
+    [Networked] Vector3 parentpos { get; set; }
 
+    public void SetPos(Vector3 pos)
+    {
+        parentpos = pos;
+    }
+
+    public override void Spawned()
+    {
+        transform.position = parentpos; 
+    }
 
     public override void FixedUpdateNetwork()
     {
@@ -27,5 +36,11 @@ public class GekiDisplay : NetworkBehaviour
             Destroy(gameObject);
 
         }
+    }
+
+    public override void Render()
+    {
+        transform.position = parentpos;
+
     }
 }

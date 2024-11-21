@@ -20,6 +20,8 @@ public class AttackAreaDamage : NetworkBehaviour
     [SerializeField] GameObject Gekiobj;
     NetworkRunner runner;
 
+    [Networked] bool isGeki { get; set; } = false;
+
     public override void Spawned()
     {
         runner = GameObject.Find("Runner(Clone)").GetComponent<NetworkRunner>();
@@ -76,13 +78,13 @@ public class AttackAreaDamage : NetworkBehaviour
                 other.GetComponent<BossStatus>().RPC_Damage(DamageNum);
 
                 //“–‚½‚Á‚½ˆÊ’u‚ÉŒ‚•\Ž¦
-                runner.Spawn(Gekiobj, player.transform.position + Gekiobj.transform.position);
-
+                isGeki = true;
                 sharenum.AddHitnum();
                 RPCCombo();
                 player.GetComponent<HitStop>().ApplyHitStop(stopFrame);
             }
-        }      
+        }
+
     }
     [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
     public void RPCCombo()
@@ -90,5 +92,17 @@ public class AttackAreaDamage : NetworkBehaviour
         attack.currentCombo = sharenum.nHitnum;
         Debug.Log("‚ ‚ ‚ ‚ ‚ ‚ ‚ ‚ ‚ ‚ ‚ ‚ ‚ ‚ ‚ ‚ ‚ ‚ ‚ ‚ ‚ ‚ ‚ ‚ ‚ ‚ ‚ ‚ ‚ ‚ ‚ ‚ ‚ ‚ ‚ ‚ ‚ ‚ ‚ ‚ ‚ ‚ ‚ ‚ ‚ ‚ ‚ ‚ ‚ ‚ ‚ ‚ ");
         combo.AddCombo();
+    }
+
+    public override void Render()
+    {
+        if(isGeki)
+        {
+            NetworkObject geki =  runner.Spawn(Gekiobj, player.transform.position + Gekiobj.transform.position, Quaternion.identity, runner.LocalPlayer);
+            geki.GetComponent<GekiDisplay>().SetPos(player.transform.position + Gekiobj.transform.position);
+            isGeki = false;
+        }
+
+
     }
 }
