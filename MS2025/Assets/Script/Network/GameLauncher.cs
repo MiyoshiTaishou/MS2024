@@ -12,6 +12,7 @@ using System.Linq;
 public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 {
     [SerializeField] private NetworkRunner networkRunnerPrefab;
+    [SerializeField] private SoundManager soundManagerPrefab;
     [SerializeField] private NetworkPrefabRef playerAvatarPrefab;
     [SerializeField] private NetworkPrefabRef bossAvatarPrefab;
     [SerializeField] private NetworkPrefabRef PlayerStatePrefab;
@@ -44,6 +45,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
         networkRunner = FindObjectOfType<NetworkRunner>();
         if (networkRunner == null) {
             networkRunner = Instantiate(networkRunnerPrefab);
+            soundManagerPrefab = Instantiate(soundManagerPrefab);
         }
 
         // このスクリプトでコールバックを処理できるようにする
