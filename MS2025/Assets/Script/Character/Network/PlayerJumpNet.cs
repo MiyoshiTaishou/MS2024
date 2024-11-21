@@ -1,12 +1,6 @@
 using Fusion;
 using Fusion.Addons.Physics;
-using System.Collections;
-using System.Collections.Generic;
-using System.Reflection;
-using Unity.VisualScripting;
-//using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using static UnityEngine.ParticleSystem;
 
 public class PlayerJumpNet : NetworkBehaviour
 {

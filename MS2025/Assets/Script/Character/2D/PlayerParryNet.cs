@@ -145,7 +145,6 @@ public class PlayerParryNet : NetworkBehaviour
     {
         // NetworkRunnerのインスタンスを取得
         runner = FindObjectOfType<NetworkRunner>();
-        isTanuki=runner.IsServer?true:false;
 
         //SE読み込み
         //audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
@@ -171,6 +170,7 @@ public class PlayerParryNet : NetworkBehaviour
         {
            isHost= true;
         }
+        isTanuki=isHost?true:false;
 
         particle = Parryeffect.GetComponent<ParticleSystem>();
 
