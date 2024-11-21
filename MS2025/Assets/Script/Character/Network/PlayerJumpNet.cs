@@ -60,7 +60,7 @@ public class PlayerJumpNet : NetworkBehaviour
     {
         AnimatorStateInfo landAnimStateInfo = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
 
-        if (hitstop.IsHitStopActive||attack.isAttack||chargeattack.isCharge)
+        if (hitstop.IsHitStopActive||chargeattack.isCharge||freeze.GetIsFreeze())
         {
             return;
         }
