@@ -10,6 +10,7 @@ public class ChargeAttackAreaDamage : NetworkBehaviour
     ComboSystem combo;
     [SerializeField, Tooltip("ヒットストップ時間(f)")] int stopFrame;
     [SerializeField] int ChargeDamege = 500;
+    [SerializeField] GameObject Gekiobj;
 
 
     public override void Spawned()
