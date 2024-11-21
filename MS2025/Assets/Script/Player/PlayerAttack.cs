@@ -47,7 +47,8 @@ public class PlayerAttack : NetworkBehaviour
 
     [SerializeField, Tooltip("連携攻撃可能時間のエフェクト")]
     GameObject effectRengekiTime;
-
+    [SerializeField, Tooltip("離れる距離")]
+    float disX = 0;
     [Networked] private bool isEffect { get; set; }
 
     HitStop hitStop;
@@ -87,7 +88,8 @@ public class PlayerAttack : NetworkBehaviour
         if (Object.HasStateAuthority && GetInput(out NetworkInputData data) && !hitStop.IsHitStopActive)
         {
             AnimatorStateInfo landAnimStateInfo = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
-            if(landAnimStateInfo.IsName("APlayerJumpUp")|| freeze.GetIsFreeze())//ジャンプ中は攻撃しない
+            if(landAnimStateInfo.IsName("APlayerJumpUp")||landAnimStateInfo.IsName("APlayerJumpDown")
+                || freeze.GetIsFreeze())//ジャンプ中は攻撃しない
             {
                 return;
             }
@@ -122,15 +124,16 @@ public class PlayerAttack : NetworkBehaviour
         // 現在のアニメーションの状態を取得
         AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
 
-        //if (BossObj.GetComponent<BossAI>().Nokezori > 0)
-        //{
-        //    effectRengekiTime.SetActive(true);
-        //}
-        //else
-        //{
-        //    effectRengekiTime.SetActive(false);
+        if (freeze.GetIsFreeze())
+        {
+            effectRengekiTime.SetActive(false);
+        }
+        else
+        {
+            if (isOnce && BossObj.GetComponent<BossAI>().Nokezori > 0)
+                effectRengekiTime.SetActive(true);
 
-        //}
+        }
 
         // 攻撃フラグが立っている場合にアニメーションをトリガー
         if (isOnce&&BossObj.GetComponent<BossAI>().Nokezori>0)
@@ -238,11 +241,11 @@ public class PlayerAttack : NetworkBehaviour
                     {
                         if (pos.x < bosspos.x)
                         {
-                            pos.x = bosspos.x - 2;
+                            pos.x = bosspos.x - disX;
                         }
                         else if (pos.x > bosspos.x)
                         {
-                            pos.x = bosspos.x + 2;
+                            pos.x = bosspos.x + disX;
                         }
                         pos.z = bosspos.z;
                         transform.position = pos;
@@ -280,11 +283,11 @@ public class PlayerAttack : NetworkBehaviour
                     {
                         if (pos.x < bosspos.x)
                         {
-                            pos.x = bosspos.x - 2;
+                            pos.x = bosspos.x - disX;
                         }
                         else if (pos.x > bosspos.x)
                         {
-                            pos.x = bosspos.x + 2;
+                            pos.x = bosspos.x + disX;
                         }
                         pos.z = bosspos.z;
                         transform.position= pos;

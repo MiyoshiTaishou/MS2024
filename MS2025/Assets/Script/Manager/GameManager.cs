@@ -15,16 +15,20 @@ public class GameManager : NetworkBehaviour
     [Networked]
     private float clearTime { get; set; }
 
-    private bool isBattleActive = false;
+    [Networked]
+    private bool isBattleActive { get; set; }
 
-    private bool isPlayed = false;
+    [Networked]
+    private bool isPlayed { get; set; }
 
     public bool GetBattleActive() { return  isBattleActive; }
 
     // バトル開始判定のフラグ
-    private bool isReadyToStartBattle = false;
+    [Networked]
+    private bool isReadyToStartBattle { get; set; }
 
-    private bool isGameOver = false;
+    [Networked]
+    private bool isGameOver { get; set; }
 
     public override void Spawned()
     {
@@ -95,7 +99,7 @@ public class GameManager : NetworkBehaviour
         EndBattle(share.maxCombo, share.jumpAttackNum);
     }
 
-    [Rpc(RpcSources.All, RpcTargets.All)]
+    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
     public void RPC_StartBattle()
     {
         StartBattle();
