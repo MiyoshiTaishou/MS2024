@@ -240,11 +240,11 @@ public class PlayerAttack : NetworkBehaviour
                     {
                         if (pos.x < bosspos.x)
                         {
-                            pos.x = bosspos.x - 2;
+                            pos.x = bosspos.x - 10;
                         }
                         else if (pos.x > bosspos.x)
                         {
-                            pos.x = bosspos.x + 2;
+                            pos.x = bosspos.x + 10;
                         }
                         pos.z = bosspos.z;
                         transform.position = pos;
@@ -282,11 +282,11 @@ public class PlayerAttack : NetworkBehaviour
                     {
                         if (pos.x < bosspos.x)
                         {
-                            pos.x = bosspos.x - 2;
+                            pos.x = bosspos.x - 10;
                         }
                         else if (pos.x > bosspos.x)
                         {
-                            pos.x = bosspos.x + 2;
+                            pos.x = bosspos.x + 10;
                         }
                         pos.z = bosspos.z;
                         transform.position= pos;
