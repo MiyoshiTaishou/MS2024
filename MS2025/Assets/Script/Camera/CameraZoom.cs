@@ -11,8 +11,8 @@ public class CameraZoom : NetworkBehaviour
     GameObject player2;
     GameObject boss;
 
-    [SerializeField, Tooltip("一番ズームした時にどれぐらい離すか")] float minZ;
-    [SerializeField, Tooltip("ズーム倍率")] float zoomConf;
+    [SerializeField, Tooltip("一番ズームした時にどれぐらい離すか"),Networked] float minZ { get; set; }
+    [SerializeField, Tooltip("ズーム倍率"), Networked] float zoomConf { get; set; }
 
     public override void FixedUpdateNetwork()
     {
