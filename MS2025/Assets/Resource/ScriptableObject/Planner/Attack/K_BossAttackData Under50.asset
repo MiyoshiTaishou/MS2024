@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6ee30865c1070cd4d8e5eae20ade98c8, type: 3}
-  m_Name: O_BossAttackDataNotKnockBack
+  m_Name: K_BossAttackData Under50
   m_EditorClassIdentifier: 
   actionName: Attack
   attackRange: 6.16
-  attackDuration: 1.0875
-  attackAnimSpeed: 1.25
+  attackDuration: 0.5
+  attackAnimSpeed: 2.25
   attackScale: {x: 2, y: 1, z: 1}
   isCameraShake: 0
   cameraDuration: 0
   magnitude: 0
   canParry: 0
-  canKnockBack: 0
+  canKnockBack: 1
   attackAreaName: BossAttackArea
   attackClip: {fileID: 8300000, guid: 1b591394cce1dbf41b5bf55d676ff7b0, type: 3}
