@@ -116,7 +116,7 @@ public class PlayerChargeAttack : NetworkBehaviour
         Attack();
 
 
-        if (isWait)
+        if (freeze.GetIsFreeze())
         {
             Debug.Log("硬直中");
             effectRengekiTime.SetActive(false);
@@ -125,7 +125,7 @@ public class PlayerChargeAttack : NetworkBehaviour
         {
             Debug.Log("硬直終わり");
 
-            if (BossObj.GetComponent<BossAI>().Nokezori > 0)
+            if (BossObj.GetComponent<BossAI>().Nokezori > 0  )
             {
                 effectRengekiTime.SetActive(true);
             }
