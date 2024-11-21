@@ -5,16 +5,19 @@ using UnityEngine.UI;
 
 public class ButtonSelect : MonoBehaviour
 {
-    [SerializeField, Header("‘I‘ğ‰Â”\ƒ{ƒ^ƒ“")] Button[] buttons;
+    [SerializeField, Header("é¸æŠå¯èƒ½ãƒœã‚¿ãƒ³")] Button[] buttons;
+	[Tooltip("Bãƒœã‚¿ãƒ³ã‚’æŠ¼ã—ãŸã¨ãã«å‹•ä½œã™ã‚‹ãƒœã‚¿ãƒ³ã‚’æ±ºã‚ã¾ã™")]
+    [SerializeField]
+    private Button CancelButton;
 
-    private int selectedIndex = 0;  // Œ»İ‘I‘ğ’†‚Ìƒ{ƒ^ƒ“‚ÌƒCƒ“ƒfƒbƒNƒX
-    private float inputDelay = 0.2f; // “ü—ÍŠÔŠu‚ğİ‚¯‚ÄA˜A‘±‘I‘ğ‚ğ–h‚®
-    private float lastInputTime;     // ÅŒã‚É“ü—Í‚ªs‚í‚ê‚½ŠÔ
+    private int selectedIndex = 0;  // ç¾åœ¨é¸æŠä¸­ã®ãƒœã‚¿ãƒ³ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
+    private float inputDelay = 0.2f; // å…¥åŠ›é–“éš”ã‚’è¨­ã‘ã¦ã€é€£ç¶šé¸æŠã‚’é˜²ã
+    private float lastInputTime;     // æœ€å¾Œã«å…¥åŠ›ãŒè¡Œã‚ã‚ŒãŸæ™‚é–“
 
     // Start is called before the first frame update
     void Start()
     {
-        buttons[selectedIndex].Select(); // Å‰‚Ìƒ{ƒ^ƒ“‚ğ‘I‘ğó‘Ô‚É‚·‚é
+        buttons[selectedIndex].Select(); // æœ€åˆã®ãƒœã‚¿ãƒ³ã‚’é¸æŠçŠ¶æ…‹ã«ã™ã‚‹
         buttons[selectedIndex].GetComponent<Animator>().SetBool("Loop",true);
     }
 
@@ -23,40 +26,47 @@ public class ButtonSelect : MonoBehaviour
     {
         HandleButtonSelection();
         HandleButtonPress();
+        CanselButtonPress();
     }
 
-    // ƒ{ƒ^ƒ“‚Ì‘I‘ğ‚ğƒRƒ“ƒgƒ[ƒ‰[‚Åˆ—
+    // ãƒœã‚¿ãƒ³ã®é¸æŠã‚’ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ãƒ¼ã§å‡¦ç†
     private void HandleButtonSelection()
     {
-        if (Time.time - lastInputTime < inputDelay) return; // “ü—Í‚ÌŠÔŠu‚ğŠÇ—
+        if (Time.time - lastInputTime < inputDelay) return; // å…¥åŠ›ã®é–“éš”ã‚’ç®¡ç†
 
         float horizontal = Input.GetAxis("Horizontal");
         //float vertical = Input.GetAxis("Vertical");
 
-        if (horizontal > 0/* || vertical < 0*/) // ‰E‚Ü‚½‚Í‰º‚ÉˆÚ“®
+        if (horizontal > 0/* || vertical < 0*/) // å³ã¾ãŸã¯ä¸‹ã«ç§»å‹•
         {
             buttons[selectedIndex].GetComponent<Animator>().SetBool("Loop", false);
-            selectedIndex = (selectedIndex + 1) % buttons.Length;            
+            selectedIndex = (selectedIndex + 1) % buttons.Length;
             buttons[selectedIndex].Select();
             buttons[selectedIndex].GetComponent<Animator>().SetBool("Loop", true);
             lastInputTime = Time.time;
         }
-        else if (horizontal < 0/* || vertical > 0*/) // ¶‚Ü‚½‚Íã‚ÉˆÚ“®
+        else if (horizontal < 0/* || vertical > 0*/) // å·¦ã¾ãŸã¯ä¸Šã«ç§»å‹•
         {
             buttons[selectedIndex].GetComponent<Animator>().SetBool("Loop", false);
-            selectedIndex = (selectedIndex - 1 + buttons.Length) % buttons.Length;            
+            selectedIndex = (selectedIndex - 1 + buttons.Length) % buttons.Length;
             buttons[selectedIndex].Select();
             buttons[selectedIndex].GetComponent<Animator>().SetBool("Loop", true);
             lastInputTime = Time.time;
         }
     }
 
-    // ‘I‘ğ’†‚Ìƒ{ƒ^ƒ“‚ğ‰Ÿ‚·ˆ—
+    // é¸æŠä¸­ã®ãƒœã‚¿ãƒ³ã‚’æŠ¼ã™å‡¦ç†
     private void HandleButtonPress()
     {
-        if (Input.GetButtonDown("Submit")) // "Submit" ‚Í’Êí "A" ƒ{ƒ^ƒ“‚âƒGƒ“ƒ^[ƒL[‚É‘Î‰
+        if (Input.GetButtonDown("Submit")) // "Submit" ã¯é€šå¸¸ "A" ãƒœã‚¿ãƒ³ã‚„ã‚¨ãƒ³ã‚¿ãƒ¼ã‚­ãƒ¼ã«å¯¾å¿œ
         {
-            buttons[selectedIndex].onClick.Invoke(); // ‘I‘ğ’†‚Ìƒ{ƒ^ƒ“‚ğ‰Ÿ‚·
+            buttons[selectedIndex].onClick.Invoke(); // é¸æŠä¸­ã®ãƒœã‚¿ãƒ³ã‚’æŠ¼ã™
+        }
+    }
+
+    public void CanselButtonPress() {
+        if (Input.GetButtonDown("Cancel"))  { // "Cancel" ã¯é€šå¸¸ "B" ãƒœã‚¿ãƒ³ã‚„escã‚­ãƒ¼ã«å¯¾å¿œ
+            CancelButton.onClick.Invoke();
         }
     }
 }

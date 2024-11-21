@@ -28,6 +28,7 @@ public class PlayerParryNet : NetworkBehaviour
 
     //パリィの効果時間
     [SerializeField, Tooltip("パリィ効果時間")] float ParryActivetime = 3;
+    [SerializeField, Tooltip("パリィ効果時間")] int ParryRecoverytime;
     [Networked] private float ParryActivetimeFrame { get; set; } = 0; //フレームに変換する
 
     //ヒットストップ時間
@@ -93,6 +94,9 @@ public class PlayerParryNet : NetworkBehaviour
     /// <summary>
     /// パリィ状態かどうかのチェック(プレイヤーがダメージを受けたときに呼ぶ)
     /// </summary>
+    /// 
+    PlayerFreeze freeze;
+
     public bool ParryCheck()
     {
         //Debug.Log("パリィ!!!");
@@ -168,7 +172,7 @@ public class PlayerParryNet : NetworkBehaviour
         particle = Parryeffect.GetComponent<ParticleSystem>();
 
         counterparticle = Countereffect.GetComponent<ParticleSystem>();
-
+        freeze = GetComponent<PlayerFreeze>();
     }
 
     public void Area()
@@ -224,15 +228,15 @@ public class PlayerParryNet : NetworkBehaviour
 
     public override void FixedUpdateNetwork()
     {
+            //パリィ中は動かせないようにする
+            if (freeze.GetIsFreeze())
+            {
+                return;
+            }
         AnimatorStateInfo landAnimStateInfo = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
 
         if (GetInput(out NetworkInputData data))
         {
-            //パリィ中は動かせないようにする
-            if (landAnimStateInfo.IsName("APlayerAttack1") || landAnimStateInfo.IsName("APlayerAttack2") || landAnimStateInfo.IsName("APlayerAttack3"))
-            {
-                return;
-            }
 
             var pressed = data.Buttons.GetPressed(ButtonsPrevious);
             ButtonsPrevious = data.Buttons;
@@ -240,6 +244,7 @@ public class PlayerParryNet : NetworkBehaviour
             // Attackボタンが押されたか、かつアニメーションが再生中でないかチェック
             if (pressed.IsSet(NetworkInputButtons.Parry) && !isParry && isGround /*地上にいるかの判定*/)
             {
+                freeze.Freeze((int)ParryActivetime + ParryRecoverytime);
                 ParryStart();
                 RPC_ParryArea();
             }

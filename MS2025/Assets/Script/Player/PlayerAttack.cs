@@ -15,7 +15,7 @@ public class PlayerAttack : NetworkBehaviour
 
     ShareNumbers sharenum;
 
-    [Networked] private bool isAttack { get; set; }
+    [Networked] public bool isAttack { get; private set; }
     [Networked] private bool isOnce { get; set; }
     [Networked] private bool isPlayingAnimation { get; set; }
     [Networked] public NetworkButtons ButtonsPrevious { get; set; }
@@ -45,11 +45,16 @@ public class PlayerAttack : NetworkBehaviour
     GameObject effectobj;
     ParticleSystem particle;
 
+    [SerializeField, Tooltip("連携攻撃可能時間のエフェクト")]
+    GameObject effectRengekiTime;
+    [SerializeField, Tooltip("離れる距離")]
+    float disX = 0;
     [Networked] private bool isEffect { get; set; }
 
     HitStop hitStop;
     GameObject BossObj = null;
     bool flashFlg = false;//連携攻撃による瞬間移動をしたか
+    PlayerFreeze freeze;
 
     public override void Spawned()
     {
@@ -72,15 +77,19 @@ public class PlayerAttack : NetworkBehaviour
             Debug.LogError("ぼすないよ");
         }
         flashFlg= false;
+        freeze = GetComponent<PlayerFreeze>();
     }
 
     public override void FixedUpdateNetwork()
     {
+        Attack();
+
+
         if (Object.HasStateAuthority && GetInput(out NetworkInputData data) && !hitStop.IsHitStopActive)
         {
             AnimatorStateInfo landAnimStateInfo = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
-            if(landAnimStateInfo.IsName("APlayerParry")||//パリィ時は攻撃しない
-                landAnimStateInfo.IsName("APlayerJumpUp")|| landAnimStateInfo.IsName("APlayerJumpDown"))//ジャンプ中は攻撃しない
+            if(landAnimStateInfo.IsName("APlayerJumpUp")||landAnimStateInfo.IsName("APlayerJumpDown")
+                || freeze.GetIsFreeze())//ジャンプ中は攻撃しない
             {
                 return;
             }
@@ -108,7 +117,6 @@ public class PlayerAttack : NetworkBehaviour
 
             }
         }
-        Attack();
     }
 
     public override void Render()
@@ -116,10 +124,19 @@ public class PlayerAttack : NetworkBehaviour
         // 現在のアニメーションの状態を取得
         AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
 
+        if (freeze.GetIsFreeze())
+        {
+            effectRengekiTime.SetActive(false);
+        }
+        else
+        {
+            if (isOnce && BossObj.GetComponent<BossAI>().Nokezori > 0)
+                effectRengekiTime.SetActive(true);
 
+        }
 
         // 攻撃フラグが立っている場合にアニメーションをトリガー
-        if(isOnce&&BossObj.GetComponent<BossAI>().Nokezori>0)
+        if (isOnce&&BossObj.GetComponent<BossAI>().Nokezori>0)
         {
             //Debug.Log("連携攻撃いいいい");
             isEffect = true;
@@ -212,6 +229,7 @@ public class PlayerAttack : NetworkBehaviour
             {
                 if (Count < buddyStartup)
                 {
+                    freeze.Freeze(buddyActive + buddyRecovery);
                     Count++;
                 }
                 else if (Count < buddyStartup + buddyActive)
@@ -223,11 +241,11 @@ public class PlayerAttack : NetworkBehaviour
                     {
                         if (pos.x < bosspos.x)
                         {
-                            pos.x = bosspos.x - 2;
+                            pos.x = bosspos.x - disX;
                         }
                         else if (pos.x > bosspos.x)
                         {
-                            pos.x = bosspos.x + 2;
+                            pos.x = bosspos.x + disX;
                         }
                         pos.z = bosspos.z;
                         transform.position = pos;
@@ -253,6 +271,7 @@ public class PlayerAttack : NetworkBehaviour
             {
                 if (Count < Startup)
                 {
+                    freeze.Freeze(Active + Recovery);
                     Count++;
                 }
                 else if (Count < Startup + Active)
@@ -264,11 +283,11 @@ public class PlayerAttack : NetworkBehaviour
                     {
                         if (pos.x < bosspos.x)
                         {
-                            pos.x = bosspos.x - 2;
+                            pos.x = bosspos.x - disX;
                         }
                         else if (pos.x > bosspos.x)
                         {
-                            pos.x = bosspos.x + 2;
+                            pos.x = bosspos.x + disX;
                         }
                         pos.z = bosspos.z;
                         transform.position= pos;
@@ -295,6 +314,7 @@ public class PlayerAttack : NetworkBehaviour
         //通常攻撃
         if (Count < Startup) 
         {
+            freeze.Freeze(Active + Recovery);
             Count++;
         }
         else if(Count < Startup+Active)

@@ -17,7 +17,7 @@ public class PlayerMove : NetworkBehaviour
 
     private Vector3 scale;
 
-    [Networked] bool isReflection { get; set; } = false;
+    [Networked] public bool isReflection { get; set; } = false;
 
     GameObject comboCountObject;
 
@@ -27,6 +27,7 @@ public class PlayerMove : NetworkBehaviour
     public bool isMove { get; set; }
 
     private HitStop hitstop;
+    PlayerFreeze freeze;
 
     public override void Spawned()
     {
@@ -45,6 +46,7 @@ public class PlayerMove : NetworkBehaviour
 
         comboCountObject = GameObject.Find("Networkbox");
         hitstop = GetComponent<HitStop>();
+        freeze = GetComponent<PlayerFreeze>();
     }
   
     public override void FixedUpdateNetwork()
@@ -59,8 +61,7 @@ public class PlayerMove : NetworkBehaviour
         AnimatorStateInfo landAnimStateInfo = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
 
         //パリィ中は動かせないようにする
-        if (landAnimStateInfo.IsName("APlayerParry") || landAnimStateInfo.IsName("APlayerCounter") || landAnimStateInfo.IsName("APlayerAttack")
-            || landAnimStateInfo.IsName("APlayerAttack2")|| landAnimStateInfo.IsName("APlayerAttack3")||GetComponent<PlayerChargeAttack>().isCharge)
+        if (freeze.GetIsFreeze()||GetComponent<PlayerChargeAttack>().isCharge)
         {
             rb.velocity = new Vector3(0, rb.velocity.y, 0);
             return;
@@ -109,13 +110,16 @@ public class PlayerMove : NetworkBehaviour
 
             // 物理的な移動を行う
             rb.velocity = currentVelocity;
-            if (data.Direction.x > 0.0f)
+            if (!GetComponent<PlayerAttack>().isAttack)
             {
-                isReflection = false;
-            }
-            else if(data.Direction.x < 0.0f)
-            {
-                isReflection = true;
+                if (data.Direction.x > 0.0f)
+                {
+                    isReflection = false;
+                }
+                else if (data.Direction.x < 0.0f)
+                {
+                    isReflection = true;
+                }
             }
         }
     }

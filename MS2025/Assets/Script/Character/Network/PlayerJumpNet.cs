@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using Unity.VisualScripting;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using static UnityEngine.ParticleSystem;
 
@@ -33,6 +34,12 @@ public class PlayerJumpNet : NetworkBehaviour
     [SerializeField, Networked] bool jumpstart { get; set; } = false;
 
     private HitStop hitstop;
+    private PlayerAttack attack;
+    private PlayerChargeAttack chargeattack;
+    PlayerFreeze freeze;
+
+    private Vector3 scale;
+    bool isReflection;
 
     [Networked]  Vector3 velocity { get; set; }  // �v���C���[�̑��x
     private bool isJumping;    // �W�����v�����ǂ���    
@@ -48,19 +55,23 @@ public class PlayerJumpNet : NetworkBehaviour
         if(!particle)
             particle = effect.GetComponent<ParticleSystem>();
         hitstop=GetComponent<HitStop>();
+        attack = GetComponent<PlayerAttack>();
+        chargeattack = GetComponent<PlayerChargeAttack>();
+        freeze = GetComponent<PlayerFreeze>();
+        scale=transform.localScale;
     }
 
     public override void FixedUpdateNetwork()
     {
         AnimatorStateInfo landAnimStateInfo = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
 
-        if (hitstop.IsHitStopActive)
+        if (hitstop.IsHitStopActive||chargeattack.isCharge||freeze.GetIsFreeze())
         {
             return;
         }
         if (velocity.y<0 && !landAnimStateInfo.IsName("APlayerJumpDown")&&!isGround)//ジャンプの降りアニメーション再生
         {
-            animator.Play("APlayerJumpDown");
+            //animator.Play("APlayerJumpDown");
         }
         if (Object.HasStateAuthority && GetInput(out NetworkInputData data))
         {
@@ -80,7 +91,29 @@ public class PlayerJumpNet : NetworkBehaviour
 
                 Debug.Log("�W�����v���܂�");
             }
+            if (data.Direction.x > 0.0f)
+            {
+                isReflection = false;
+            }
+            else if (data.Direction.x < 0.0f)
+            {
+                isReflection = true;
+            }
+            if (landAnimStateInfo.IsName("APlayerJumpDown") || landAnimStateInfo.IsName("APlayerJumpUp"))
+            {
+                if (GetComponent<PlayerMove>().isReflection)
+                {
+                    Vector3 temp = scale;
+                    temp.x = -scale.x;
+                    transform.localScale= temp;
+                }
+                else
+                {
+                    Vector3 temp = scale;
 
+                    transform.localScale = temp;
+                }
+            }
             // ����̏d�͌v�Z��K�p
             ApplyGravity();
         }
@@ -93,16 +126,17 @@ public class PlayerJumpNet : NetworkBehaviour
         {
             return;
         }
-        if (jumpstart && !landAnimStateInfo.IsName("APlayerJumpUp") && !landAnimStateInfo.IsName("APlayerJumpDown"))//ジャンプの上りアニメーション再生
+        if (jumpstart && !landAnimStateInfo.IsName("APlayerJumpDown") && !landAnimStateInfo.IsName("APlayerJumpUp"))//ジャンプの上りアニメーション再生
         {
-            animator.Play("APlayerJumpUp");
 
             isEffect = true;
         }
 
+
         if (velocity.y < 0 && !landAnimStateInfo.IsName("APlayerJumpDown") && !isGround)//ジャンプの降りアニメーション再生
         {
-            animator.Play("APlayerJumpDown");
+            //animator.Play("APlayerJumpDown");
+
         }
 
         if (isEffect)
@@ -147,7 +181,7 @@ public class PlayerJumpNet : NetworkBehaviour
             isGround = true;
             isJumping = false;
             jumpstart = false;
-
+            animator.speed = 1.0f;
         }
     }
 
@@ -156,8 +190,10 @@ public class PlayerJumpNet : NetworkBehaviour
         // �n�ʂ��痣�ꂽ�ꍇ�̏���
         if (collision.gameObject.CompareTag("Ground"))
         {
+            animator.speed = 2.5f;
             isGround = false;
-            animator.Play("APlayerJumpUp");
+            animator.Play("APlayerJumpDown",-1,0f);
+            
         }
     }
 }

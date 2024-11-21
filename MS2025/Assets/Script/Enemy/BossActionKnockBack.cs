@@ -20,7 +20,6 @@ public class BossActionKnockBack : BossActionData
 
     bool isknock = false;
 
-
     public override void InitializeAction(GameObject boss, Transform player)
     {
         PBVec = player.transform.position - boss.transform.position;
@@ -46,7 +45,7 @@ public class BossActionKnockBack : BossActionData
 
         if (Time.time - waitStartTime >= waitDuration)
         {
-
+            boss.GetComponent<BossAI>().Nokezori = 0;
             return true; // ƒAƒNƒVƒ‡ƒ“Š®—¹
         }
 

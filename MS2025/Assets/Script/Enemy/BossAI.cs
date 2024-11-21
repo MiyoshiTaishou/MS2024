@@ -37,7 +37,7 @@ public class BossAI : NetworkBehaviour
 
     // プレイヤーターゲット用
     private List<Transform> players;
-    [Networked] private int currentPlayerIndex { get; set; }
+    [Networked] public int currentPlayerIndex { get; set; }
     [Networked] private int currentSequenceIndex { get; set; }
     [Networked, SerializeField] private int maxPlayerIndex { get; set; }
     [Networked, SerializeField] public bool isInterrupted { get; set; }/*これを呼ぶ*/
@@ -64,6 +64,10 @@ public class BossAI : NetworkBehaviour
 
     private ParticleSystem newParticle;
 
+    private GameManager gameManager;
+
+    private ShareNumbers shareNumbers;
+
     // アニメーション名をネットワーク同期させる
     [Networked]
     private NetworkString<_16> networkedAnimationName { get; set; }
@@ -79,6 +83,22 @@ public class BossAI : NetworkBehaviour
         RefreshPlayerList();
 
         scale = transform.localScale;
+
+        //ゲームマネージャー検索
+        gameManager = GameObject.FindObjectOfType<GameManager>();
+
+        if(!gameManager)
+        {
+            Debug.LogWarning("見つかりませんでした");
+        }
+
+        //シェアナンバー検索
+        shareNumbers = GameObject.FindObjectOfType<ShareNumbers>();
+
+        if (!shareNumbers)
+        {
+            Debug.LogWarning("見つかりませんでした");
+        }
 
         if (players.Count < maxPlayerIndex)
         {
@@ -96,6 +116,18 @@ public class BossAI : NetworkBehaviour
         if (players.Count < maxPlayerIndex)
         {
             SearchForPlayers(); // 探索中の動作をここに実装
+            return;
+        }
+
+        //ゲーム開始してなかったら動かさない
+        if(!gameManager.GetBattleActive())
+        {
+            return;
+        }
+
+        //必殺技中は動かない
+        if(shareNumbers.isSpecial)
+        {
             return;
         }
 
@@ -282,54 +314,62 @@ public class BossAI : NetworkBehaviour
         
         if(isParticle==2||isParticle==3)
         {
-            if(isParticle==2)
+            switch(isParticle)
             {
-                // パーティクルシステムのインスタンスを生成
-                newParticle = Instantiate(Dawnparticle);
+                case 2:
+                    // パーティクルシステムのインスタンスを生成
+                    newParticle = Instantiate(Dawnparticle);
 
-                //パーティクルを生成
-                newParticle.transform.position = this.transform.position;
-                // パーティクルを発生させる
-                newParticle.Play();
-                isParticle = 3;
+                    //パーティクルを生成
+                    newParticle.transform.position = this.transform.position;
+                    // パーティクルを発生させる
+                    newParticle.Play();
+                    isParticle = 3;
+                    break;
             }
             
-            if (isDown==false)
-            {
-                // インスタンス化したパーティクルシステムのGameObjectを削除
-                Destroy(newParticle.gameObject, 0.01f);
-
-                isParticle = 1;
-            }
         }
 
-        if(isAttack==1)
+        //ダウン状態が解除されたらダウンパーティクルを削除する
+        if (!isDown)
         {
-            // パーティクルシステムのインスタンスを生成
-            ParticleSystem OmenParticle = Instantiate(AttackOmenParticle);
-            
-            if(this.transform.localScale.x>0)
-            {
-                //パーティクルを生成
-                OmenParticle.transform.position = new Vector3(this.transform.position.x + OmenPosX, this.transform.position.y + OmenPosY, this.transform.position.z - 0.8f);
-                // パーティクルを発生させる
-                OmenParticle.Play();
+            // インスタンス化したパーティクルシステムのGameObjectを削除
+            Destroy(newParticle.gameObject, 0.01f);
 
-                Destroy(OmenParticle.gameObject, 0.8f);
-            }
-            else
-            {
-                //パーティクルを生成
-                OmenParticle.transform.position = new Vector3(this.transform.position.x - OmenPosX, this.transform.position.y + OmenPosY, this.transform.position.z - 0.8f);
-                // パーティクルを発生させる
-                OmenParticle.Play();
-
-                Destroy(OmenParticle.gameObject, 0.8f);
-            }
-
-            isAttack = 2;
+            isParticle = 1;
         }
 
+        switch(isAttack)
+        {
+            case 1:
+                // パーティクルシステムのインスタンスを生成
+                ParticleSystem OmenParticle = Instantiate(AttackOmenParticle);
+
+                if (this.transform.localScale.x > 0)
+                {
+                    //パーティクルを生成
+                    OmenParticle.transform.position = new Vector3(this.transform.position.x + OmenPosX, this.transform.position.y + OmenPosY, this.transform.position.z - 0.8f);
+                    // パーティクルを発生させる
+                    OmenParticle.Play();
+
+                    Destroy(OmenParticle.gameObject, 0.8f);
+                }
+                else
+                {
+                    //パーティクルを生成
+                    OmenParticle.transform.position = new Vector3(this.transform.position.x - OmenPosX, this.transform.position.y + OmenPosY, this.transform.position.z - 0.8f);
+                    // パーティクルを発生させる
+                    OmenParticle.Play();
+
+                    Destroy(OmenParticle.gameObject, 0.8f);
+                }
+
+                isAttack = 2;
+                break;
+
+                case 2:
+                break;
+        }
     }
 
     [Rpc(RpcSources.All, RpcTargets.All)]

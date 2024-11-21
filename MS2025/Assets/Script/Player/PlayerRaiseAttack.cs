@@ -32,6 +32,7 @@ public class PlayerRaiseAttack : NetworkBehaviour
 
     bool isOnce = false;
     bool isEffect = false;
+    PlayerFreeze freeze;
 
     // Start is called before the first frame update
     public override void Spawned()
@@ -41,6 +42,7 @@ public class PlayerRaiseAttack : NetworkBehaviour
         attackArea = gameObject.transform.Find("AttackArea").gameObject;
         netobj = GameObject.Find("Networkbox");
         particle = effect.GetComponent<ParticleSystem>();
+        freeze= GetComponent<PlayerFreeze>();
     }
     public override void FixedUpdateNetwork()
     {
