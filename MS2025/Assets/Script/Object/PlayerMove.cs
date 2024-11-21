@@ -17,7 +17,7 @@ public class PlayerMove : NetworkBehaviour
 
     private Vector3 scale;
 
-    [Networked] bool isReflection { get; set; } = false;
+    [Networked] public bool isReflection { get; set; } = false;
 
     GameObject comboCountObject;
 
