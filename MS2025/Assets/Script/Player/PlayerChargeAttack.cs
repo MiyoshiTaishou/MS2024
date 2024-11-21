@@ -41,7 +41,7 @@ public class PlayerChargeAttack : NetworkBehaviour
     GameObject effectRengekiTime;
 
     [Networked] public bool isWait { get; private set; }
-
+    PlayerFreeze freeze;
 
     // Start is called before the first frame update
     public override void Spawned()
@@ -62,14 +62,15 @@ public class PlayerChargeAttack : NetworkBehaviour
         {
             Debug.LogError("ぼすないよ");
         }
+        freeze= GetComponent<PlayerFreeze>();
     }
     public override void FixedUpdateNetwork()
     {
         if (Object.HasStateAuthority && GetInput(out NetworkInputData data))
         {
             AnimatorStateInfo landAnimStateInfo = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
-            if (landAnimStateInfo.IsName("APlayerParry") ||//パリィ時は攻撃しない
-                landAnimStateInfo.IsName("APlayerJumpUp") || landAnimStateInfo.IsName("APlayerJumpDown"))//ジャンプ中は攻撃しない
+            if (landAnimStateInfo.IsName("APlayerJumpUp") || landAnimStateInfo.IsName("APlayerJumpDown")//ジャンプ中は攻撃しない
+                || freeze.GetIsFreeze())
             {
                 return;
             }
@@ -115,7 +116,7 @@ public class PlayerChargeAttack : NetworkBehaviour
         Attack();
 
 
-        if (isWait)
+        if (freeze.GetIsFreeze())
         {
             Debug.Log("硬直中");
             effectRengekiTime.SetActive(false);
@@ -124,7 +125,7 @@ public class PlayerChargeAttack : NetworkBehaviour
         {
             Debug.Log("硬直終わり");
 
-            if (BossObj.GetComponent<BossAI>().Nokezori > 0)
+            if (BossObj.GetComponent<BossAI>().Nokezori > 0  )
             {
                 effectRengekiTime.SetActive(true);
             }
@@ -165,7 +166,7 @@ public class PlayerChargeAttack : NetworkBehaviour
         if (Count < Startup)
         {
             Count++;
-
+            freeze.Freeze(Active + Recovery);
         }
         else if (Count < Startup + Active)
         {
@@ -187,7 +188,6 @@ public class PlayerChargeAttack : NetworkBehaviour
         }
         else if (Count > Startup + Active + Recovery)
         {
-
             Count = 0;
             isAttack = false;
         }
