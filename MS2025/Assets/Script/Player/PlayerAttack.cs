@@ -47,7 +47,8 @@ public class PlayerAttack : NetworkBehaviour
 
     [SerializeField, Tooltip("連携攻撃可能時間のエフェクト")]
     GameObject effectRengekiTime;
-
+    [SerializeField, Tooltip("離れる距離")]
+    float disX = 0;
     [Networked] private bool isEffect { get; set; }
 
     HitStop hitStop;
@@ -240,11 +241,11 @@ public class PlayerAttack : NetworkBehaviour
                     {
                         if (pos.x < bosspos.x)
                         {
-                            pos.x = bosspos.x - 10;
+                            pos.x = bosspos.x - disX;
                         }
                         else if (pos.x > bosspos.x)
                         {
-                            pos.x = bosspos.x + 10;
+                            pos.x = bosspos.x + disX;
                         }
                         pos.z = bosspos.z;
                         transform.position = pos;
@@ -282,11 +283,11 @@ public class PlayerAttack : NetworkBehaviour
                     {
                         if (pos.x < bosspos.x)
                         {
-                            pos.x = bosspos.x - 10;
+                            pos.x = bosspos.x - disX;
                         }
                         else if (pos.x > bosspos.x)
                         {
-                            pos.x = bosspos.x + 10;
+                            pos.x = bosspos.x + disX;
                         }
                         pos.z = bosspos.z;
                         transform.position= pos;
