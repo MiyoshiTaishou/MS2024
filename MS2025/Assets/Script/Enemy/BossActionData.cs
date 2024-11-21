@@ -5,5 +5,5 @@ public abstract class BossActionData : ScriptableObject
     public string actionName; // ƒAƒNƒVƒ‡ƒ“–¼
 
     public abstract void InitializeAction(GameObject boss,Transform player);
-    public abstract bool ExecuteAction(GameObject boss);
+    public abstract bool ExecuteAction(GameObject boss, Transform player);
 }
