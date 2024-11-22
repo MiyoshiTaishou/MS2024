@@ -329,13 +329,13 @@ public class BossAI : NetworkBehaviour
         }
 
         //ダウン状態が解除されたらダウンパーティクルを削除する
-        if (!isDown)
-        {
-            // インスタンス化したパーティクルシステムのGameObjectを削除
-            Destroy(newParticle.gameObject, 0.01f);
+        //if (!isDown)
+        //{
+        //    // インスタンス化したパーティクルシステムのGameObjectを削除
+        //    Destroy(newParticle.gameObject, 0.01f);
 
-            isParticle = 1;
-        }
+        //    isParticle = 1;
+        //}
 
         switch(isAttack)
         {
