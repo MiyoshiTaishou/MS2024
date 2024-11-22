@@ -33,8 +33,6 @@ public class BossAI : NetworkBehaviour
     [SerializeField, Header("ノックバックのアニメーション名")]
     private string animName;
 
-
-
     // プレイヤーターゲット用
     public List<Transform> players;
     [Networked] public int currentPlayerIndex { get; set; }
@@ -331,13 +329,13 @@ public class BossAI : NetworkBehaviour
         }
 
         //ダウン状態が解除されたらダウンパーティクルを削除する
-        if (!isDown)
-        {
-            // インスタンス化したパーティクルシステムのGameObjectを削除
-            Destroy(newParticle.gameObject, 0.01f);
+        //if (!isDown)
+        //{
+        //    // インスタンス化したパーティクルシステムのGameObjectを削除
+        //    Destroy(newParticle.gameObject, 0.01f);
 
-            isParticle = 1;
-        }
+        //    isParticle = 1;
+        //}
 
         switch(isAttack)
         {

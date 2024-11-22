@@ -34,7 +34,7 @@ public class BossStatus : NetworkBehaviour
     [SerializeField] private ParticleSystem Deathparticle;
 
     //体力が0になった回数を数える
-    private int DeathCount = 0;
+    [SerializeField] private int DeathCount = 0;
 
     [SerializeField,Header("ゲームマネージャー")]
     private GameManager gameManager;
@@ -163,10 +163,16 @@ public class BossStatus : NetworkBehaviour
         if (DeathCount == 1)
         {
             Sliderimage.color = HPBar2;
+            Destroy(GameObject.Find("BossHPBarP"));
         }
         else if (DeathCount == 2)
         {
             Sliderimage.color = HPBar3;
+            Destroy(GameObject.Find("BossHPBarG"));
+        }
+        else if(DeathCount==3)
+        {
+            Destroy(GameObject.Find("BossHPBarY"));
         }
 
     }
@@ -183,6 +189,7 @@ public class BossStatus : NetworkBehaviour
                     slider.value = nBossHP;
                     Backslider.value = nBossHP;
                     DeathCount += 1;
+                    
                 break;
 
                 case 1:
