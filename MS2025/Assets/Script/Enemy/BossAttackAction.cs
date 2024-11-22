@@ -56,7 +56,7 @@ public class AttackAction : BossActionData
         boss.GetComponent<BossAI>().isParry = canParry;
     }
 
-    public override bool ExecuteAction(GameObject boss)
+    public override bool ExecuteAction(GameObject boss, Transform player)
     {       
         // UŒ‚ŠJn‚Ü‚Å‚ÌŠÔ‚ğ‘Ò‹@
         if (Time.time - attackStartTime < attackDuration)

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 55d4b93695643ca41945309d46a25c32, type: 3}
-  m_Name: TutorialMoveAttack
+  m_Name: TutorialMoveAttack 1
   m_EditorClassIdentifier: 
   actionName: Attack
   moveAttackEndPosTime: 2
@@ -28,15 +28,6 @@ MonoBehaviour:
       weightedMode: 0
       inWeight: 0
       outWeight: 0
-    - serializedVersion: 3
-      time: 0.76204073
-      value: 0.67945206
-      inSlope: 2.3593965
-      outSlope: 2.3593965
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.66228133
-      outWeight: 0.33333334
     - serializedVersion: 3
       time: 1
       value: 1
@@ -57,5 +48,5 @@ MonoBehaviour:
   magnitude: 3
   canParry: 0
   canKnockBack: 1
-  attackAreaName: BossAttackArea1
+  attackAreaName: BossAttackArea
   attackClip: {fileID: 8300000, guid: eb9fda050733fa643ae4981978b13725, type: 3}

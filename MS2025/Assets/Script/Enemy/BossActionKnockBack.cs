@@ -32,7 +32,7 @@ public class BossActionKnockBack : BossActionData
         isknock = false;
     }
 
-    public override bool ExecuteAction(GameObject boss)
+    public override bool ExecuteAction(GameObject boss, Transform player)
     {
         boss.GetComponent<Rigidbody>().useGravity = true;
 

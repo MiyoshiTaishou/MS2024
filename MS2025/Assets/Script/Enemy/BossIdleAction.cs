@@ -13,7 +13,7 @@ public class WaitAction : BossActionData
         boss.GetComponent<Rigidbody>().useGravity = true;
     }
 
-    public override bool ExecuteAction(GameObject boss)
+    public override bool ExecuteAction(GameObject boss, Transform player)
     {
         boss.GetComponent<Rigidbody>().useGravity = true;
 

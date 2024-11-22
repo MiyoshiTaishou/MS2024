@@ -61,7 +61,7 @@ public class BossActionMoveAttack : BossActionData
 
     public override void InitializeAction(GameObject boss, Transform player)
     {
-        attackTarget = player;
+        attackTarget = boss.GetComponent<BossAI>().players[boss.GetComponent<BossAI>().currentPlayerIndex];
         attackStartTime = Time.time;
         moveAttackEndPos = player.transform.position + deviate;
 
@@ -96,11 +96,14 @@ public class BossActionMoveAttack : BossActionData
         boss.GetComponent<BossAI>().isParry = canParry;       
     }
 
-    public override bool ExecuteAction(GameObject boss)
+    public override bool ExecuteAction(GameObject boss, Transform player)
     {      
         // çUåÇäJénÇ‹Ç≈ÇÃë“ã@
         if (Time.time - attackStartTime < attackDuration)
         {
+            attackTarget = boss.GetComponent<BossAI>().players[boss.GetComponent<BossAI>().currentPlayerIndex];
+            //attackStartTime = Time.time;
+            moveAttackEndPos = player.transform.position + deviate;
             return false;
         }
 

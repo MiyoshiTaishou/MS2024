@@ -34,7 +34,7 @@ public class BossAI : NetworkBehaviour
     private string animName;
 
     // プレイヤーターゲット用
-    private List<Transform> players;
+    public List<Transform> players;
     [Networked] public int currentPlayerIndex { get; set; }
     [Networked] private int currentSequenceIndex { get; set; }
     [Networked, SerializeField] private int maxPlayerIndex { get; set; }
@@ -156,7 +156,7 @@ public class BossAI : NetworkBehaviour
             RPC_InitAction();
         }
 
-        if (currentAction.ExecuteAction(gameObject))
+        if (currentAction.ExecuteAction(gameObject, players[currentPlayerIndex]))
         {
             StartNextAction(); // アクション完了後に次のアクションに進む
         }      

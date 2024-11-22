@@ -9,9 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 29429c0f62db2354f954e021ed15468f, type: 3}
-  m_Name: BASTutorial1
+  m_Script: {fileID: 11500000, guid: 2646a67f1f875ec449ac13f945282e2d, type: 3}
+  m_Name: ChangeTargetAction
   m_EditorClassIdentifier: 
-  actions:
-  - {fileID: 11400000, guid: 8b6e3060ab5d8e94290069004dbe5802, type: 2}
-  - {fileID: 11400000, guid: 4dda2d256b92bf5479947f75eae09d94, type: 2}
+  actionName: Idol
+  taregt: 1

@@ -96,6 +96,8 @@ public class PlayerParryNet : NetworkBehaviour
     /// </summary>
     /// 
     PlayerFreeze freeze;
+    [Networked]public bool isTanuki { get; set; }
+
 
     public bool ParryCheck()
     {
@@ -168,6 +170,7 @@ public class PlayerParryNet : NetworkBehaviour
         {
            isHost= true;
         }
+        isTanuki=isHost?true:false;
 
         particle = Parryeffect.GetComponent<ParticleSystem>();
 

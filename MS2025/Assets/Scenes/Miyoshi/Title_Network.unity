@@ -2679,6 +2679,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6862905053322490403, guid: 2b84b475479e98c4b8d0352ae4e1ccdd,
         type: 3}
+      propertyPath: playerNum
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6862905053322490403, guid: 2b84b475479e98c4b8d0352ae4e1ccdd,
+        type: 3}
       propertyPath: loadingBar
       value: 
       objectReference: {fileID: 0}
@@ -2694,6 +2699,12 @@ PrefabInstance:
       objectReference: {fileID: 1031793701}
     - target: {fileID: 6862905053322490403, guid: 2b84b475479e98c4b8d0352ae4e1ccdd,
         type: 3}
+      propertyPath: soundManagerPrefab
+      value: 
+      objectReference: {fileID: 736280441253342196, guid: b66858073cf77574f81842a89badbdff,
+        type: 3}
+    - target: {fileID: 6862905053322490403, guid: 2b84b475479e98c4b8d0352ae4e1ccdd,
+        type: 3}
       propertyPath: networkRunnerPrefab
       value: 
       objectReference: {fileID: 4900573497466851079, guid: ec7d6a101cb147a468d61d4a18aa9615,
@@ -2706,7 +2717,7 @@ PrefabInstance:
     - target: {fileID: 6862905053322490403, guid: 2b84b475479e98c4b8d0352ae4e1ccdd,
         type: 3}
       propertyPath: skipScenes.Array.size
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6862905053322490403, guid: 2b84b475479e98c4b8d0352ae4e1ccdd,
         type: 3}
@@ -17423,6 +17434,7 @@ MonoBehaviour:
   - {fileID: 1486950236}
   - {fileID: 1521377206}
   - {fileID: 1608467981}
+  CancelButton: {fileID: 0}
 --- !u!224 &1918146455
 RectTransform:
   m_ObjectHideFlags: 0
