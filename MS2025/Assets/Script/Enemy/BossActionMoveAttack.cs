@@ -8,6 +8,9 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "MoveAttackAction", menuName = "Boss/Actions/MoveAttack")]
 public class BossActionMoveAttack : BossActionData
 {
+    [SerializeField, Header("どちらをターゲットにするか0が1P,1が2P")]
+    private int taregt = 0;
+
     [SerializeField, Header("攻撃が移動する時間")]
     private float moveAttackEndPosTime = 3.0f;
 
@@ -61,9 +64,9 @@ public class BossActionMoveAttack : BossActionData
 
     public override void InitializeAction(GameObject boss, Transform player)
     {
-        attackTarget = boss.GetComponent<BossAI>().players[boss.GetComponent<BossAI>().currentPlayerIndex];
+        attackTarget = boss.GetComponent<BossAI>().players[taregt];
         attackStartTime = Time.time;
-        moveAttackEndPos = player.transform.position + deviate;
+        moveAttackEndPos = attackTarget.transform.position + deviate;
 
         // 攻撃エリアの設定
         attackArea = boss.transform.Find(attackAreaName)?.gameObject;
@@ -101,9 +104,9 @@ public class BossActionMoveAttack : BossActionData
         // 攻撃開始までの待機
         if (Time.time - attackStartTime < attackDuration)
         {
-            attackTarget = boss.GetComponent<BossAI>().players[boss.GetComponent<BossAI>().currentPlayerIndex];
-            //attackStartTime = Time.time;
-            moveAttackEndPos = player.transform.position + deviate;
+            //attackTarget = boss.GetComponent<BossAI>().players[boss.GetComponent<BossAI>().currentPlayerIndex];
+            ////attackStartTime = Time.time;
+            //moveAttackEndPos = player.transform.position + deviate;
             return false;
         }
 
@@ -161,9 +164,9 @@ public class BossActionMoveAttack : BossActionData
             }
 
             // プレイヤーへの攻撃がヒットしたか、移動が完了した場合
-            if (progress >= 1.0f || CheckForHit(attackArea))
+            if (progress >= 1.0f /*|| CheckForHit(attackArea)*/)
             {
-                ResetAttackArea();
+                //ResetAttackArea();
                 attackArea.GetComponent<BossAttackArea>().deactivateTime = 0.5f;
                 return true; // アクション完了
             }
