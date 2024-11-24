@@ -160,6 +160,34 @@ public class BossStatus : NetworkBehaviour
             HPCount = 0;
         }
 
+        
+        if (nBossHP <= 0 && Object.HasStateAuthority)
+        {
+
+            switch (DeathCount)
+            {
+                case 0:
+                    nBossHP = InitHP;
+                    slider.value = nBossHP;
+                    Backslider.value = nBossHP;
+                    DeathCount += 1;
+
+                    break;
+
+                case 1:
+                    nBossHP = InitHP;
+                    slider.value = nBossHP;
+                    Backslider.value = nBossHP;
+                    DeathCount += 1;
+                    break;
+
+                case 2:
+                    DeathCount++;
+                    break;
+            }
+
+        }
+
         if (DeathCount == 1)
         {
             Sliderimage.color = HPBar2;
@@ -178,36 +206,21 @@ public class BossStatus : NetworkBehaviour
     }
 
     public override void FixedUpdateNetwork()
-    {      
+    {
         if (nBossHP <= 0 && Object.HasStateAuthority)
         {
 
-            switch(DeathCount)
+            switch (DeathCount)
             {
-                case 0:
-                    nBossHP = InitHP;
-                    slider.value = nBossHP;
-                    Backslider.value = nBossHP;
-                    DeathCount += 1;
-                    
-                break;
-
-                case 1:
-                    nBossHP = InitHP;
-                    slider.value = nBossHP;
-                    Backslider.value = nBossHP;
-                    DeathCount += 1;
-                break;
-
+               
                 case 2:
                     Debug.Log("ボス死亡です");
-                    RPC_HandleBossDeath();                    
+                    RPC_HandleBossDeath();
                     // クライアントに先にシーン遷移を指示
                     gameManager.RPC_EndBattle(10, 5);
-                    DeathCount++;
                     break;
             }
-     
+
         }
     }
 
