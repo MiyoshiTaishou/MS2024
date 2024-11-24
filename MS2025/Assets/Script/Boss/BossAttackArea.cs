@@ -77,6 +77,7 @@ public class BossAttackArea : NetworkBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            timer = deactivateTime;
             // ƒpƒŠƒB•s‰ÂUŒ‚‚©‚Ç‚¤‚©
             if (!parent.GetComponent<BossAI>().isParry)
             {

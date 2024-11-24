@@ -176,7 +176,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 6, y: 6, z: 6}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6711700141398747843}
@@ -5668,7 +5668,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   jumpSE: {fileID: 8300000, guid: 7e0c3b9ed31f17d4cba22d1c5346e04d, type: 3}
   jumpPower: 15
-  gravity: 35
+  gravity: 20
   effect: {fileID: 6574216082050649755, guid: abed7fcf5665eef4ab4326f47c503b02, type: 3}
   _isEffect: 0
   _jumpstart: 0
@@ -5688,13 +5688,14 @@ MonoBehaviour:
   ParrySuccessSE: {fileID: 8300000, guid: 76679888a166a874ea5b576cedbb74cd, type: 3}
   parryradius: 3
   ParryActivetime: 39
-  ParryRecoverytime: 5
-  HitStopFrame: 3
+  ParryRecoverytime: 30
+  HitStopFrame: 15
   KnockbackPower: 100
   _isHost: 0
   Parryeffect: {fileID: 3013321790575122626, guid: bbb3292f43d4a47489bc6f20bfdff0f9,
     type: 3}
   Countereffect: {fileID: 5564641895426053759}
+  _isTanuki: 0
 --- !u!114 &-5807025104072942480
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5722,7 +5723,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8741b14123914ca41a46a43967a6d003, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpPower: 250
+  jumpPower: 75
   jumpSE: {fileID: 8300000, guid: 5464c3d20971c3349aeb02ef2adb190d, type: 3}
 --- !u!114 &2067936154868451922
 MonoBehaviour:

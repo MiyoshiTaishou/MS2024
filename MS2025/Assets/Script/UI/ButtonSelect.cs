@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,12 +11,24 @@ public class ButtonSelect : MonoBehaviour
     private int selectedIndex = 0;  // 現在選択中のボタンのインデックス
     private float inputDelay = 0.2f; // 入力間隔を設けて、連続選択を防ぐ
     private float lastInputTime;     // 最後に入力が行われた時間
+    // ボタンを押した瞬間をとるためのフラグ
+    private bool aButtonTriggered = false;
+    private bool bButtonTriggered = false;
 
     // Start is called before the first frame update
     void Start()
     {
-        buttons[selectedIndex].Select(); // 最初のボタンを選択状態にする
-        buttons[selectedIndex].GetComponent<Animator>().SetBool("Loop",true);
+        if (buttons != null || buttons.Length >= 0) {
+            buttons[selectedIndex].Select(); // 最初のボタンを選択状態にする
+            buttons[selectedIndex].GetComponent<Animator>().SetBool("Loop",true);
+        }
+
+        if (Input.GetButtonDown("Submit")) {
+            aButtonTriggered = true;
+        }
+        if (Input.GetButtonDown("Cancel")) {
+            bButtonTriggered = true;
+        }
     }
 
     // Update is called once per frame
@@ -56,17 +66,25 @@ public class ButtonSelect : MonoBehaviour
     }
 
     // 選択中のボタンを押す処理
-    private void HandleButtonPress()
-    {
-        if (Input.GetButtonDown("Submit")) // "Submit" は通常 "A" ボタンやエンターキーに対応
-        {
+    private void HandleButtonPress() {
+        if (Input.GetButtonDown("Submit") && !aButtonTriggered) {// "Submit" は通常 "A" ボタンやエンターキーに対応
+            if(buttons == null || buttons.Length == 0) return;
             buttons[selectedIndex].onClick.Invoke(); // 選択中のボタンを押す
+            aButtonTriggered = true;
+        }
+        if (Input.GetButtonUp("Submit")) {
+            aButtonTriggered = false;
         }
     }
 
     public void CanselButtonPress() {
-        if (Input.GetButtonDown("Cancel"))  { // "Cancel" は通常 "B" ボタンやescキーに対応
+        if (Input.GetButtonDown("Cancel") && !bButtonTriggered) { // "Cancel" は通常 "B" ボタンやescキーに対応
+            if(!CancelButton) return;
             CancelButton.onClick.Invoke();
+            bButtonTriggered = true;
+        }
+        if (Input.GetButtonUp("Cancel")) {
+            bButtonTriggered = false;
         }
     }
 }

@@ -10927,7 +10927,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &830982883
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10996,6 +10996,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   activeObject:
+  - {fileID: 830982882}
   - {fileID: 1045476419}
   - {fileID: 157030269}
   - {fileID: 1241440344}
@@ -14736,6 +14737,12 @@ PrefabInstance:
       propertyPath: roomNameInputField
       value: 
       objectReference: {fileID: 684843893}
+    - target: {fileID: 6862905053322490403, guid: 2b84b475479e98c4b8d0352ae4e1ccdd,
+        type: 3}
+      propertyPath: soundManagerPrefab
+      value: 
+      objectReference: {fileID: 736280441253342196, guid: b66858073cf77574f81842a89badbdff,
+        type: 3}
     - target: {fileID: 6862905053322490403, guid: 2b84b475479e98c4b8d0352ae4e1ccdd,
         type: 3}
       propertyPath: networkRunnerPrefab
