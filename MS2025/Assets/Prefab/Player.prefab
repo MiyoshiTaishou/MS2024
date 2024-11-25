@@ -5668,7 +5668,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   jumpSE: {fileID: 8300000, guid: 7e0c3b9ed31f17d4cba22d1c5346e04d, type: 3}
   jumpPower: 15
-  gravity: 35
+  gravity: 20
   effect: {fileID: 6574216082050649755, guid: abed7fcf5665eef4ab4326f47c503b02, type: 3}
   _isEffect: 0
   _jumpstart: 0
@@ -5723,7 +5723,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8741b14123914ca41a46a43967a6d003, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpPower: 250
+  jumpPower: 75
   jumpSE: {fileID: 8300000, guid: 5464c3d20971c3349aeb02ef2adb190d, type: 3}
 --- !u!114 &2067936154868451922
 MonoBehaviour:
