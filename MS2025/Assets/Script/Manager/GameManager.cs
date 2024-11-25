@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class GameManager : NetworkBehaviour
 {
-    [SerializeField, Header("開始人数")]
-    private int playerNum = 1;
+    //[SerializeField, Header("開始人数")]
+    //private int playerNum = 1;
 
     [SerializeField, Header("トランジション")]
     private TransitionManager transitionManager;
@@ -110,11 +110,13 @@ public class GameManager : NetworkBehaviour
         // すでにゲームを開始している場合、またはバトル中・終了後の場合は処理をスキップ
         if (isPlayed || isReadyToStartBattle || isBattleActive || isGameOver) return;
 
-        // プレイヤー数を確認 (指定した人数が揃った場合)
-        if (Runner.SessionInfo.PlayerCount >= playerNum)
-        {
-            isReadyToStartBattle = true;
-            RPC_StartBattle();
-        }
+        isReadyToStartBattle = true;
+        RPC_StartBattle();
+        //// プレイヤー数を確認 (指定した人数が揃った場合)
+        //if (Runner.SessionInfo.PlayerCount >= playerNum)
+        //{
+        //    isReadyToStartBattle = true;
+        //    RPC_StartBattle();
+        //}
     }
 }

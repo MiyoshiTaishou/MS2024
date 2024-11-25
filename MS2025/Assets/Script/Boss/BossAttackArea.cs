@@ -18,7 +18,8 @@ public class BossAttackArea : NetworkBehaviour
     [SerializeField]
     public float deactivateTime = 0.5f; // 攻撃エリアの非表示にするまでの時間
 
-    private float timer;
+    [Networked]private float timer { get; set; }
+
     [Networked] private bool isAttack { get; set; }
     private ParticleSystem newParticle;
     [Tooltip("攻撃エフェクト")]
