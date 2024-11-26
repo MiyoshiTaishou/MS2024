@@ -8,6 +8,7 @@ public  enum PARRYTYPE
     ALL,
     TANUKI,
     KITUNE,
+    DOUBLE,
 };
 
 public class BossAttackArea : NetworkBehaviour
@@ -18,7 +19,8 @@ public class BossAttackArea : NetworkBehaviour
     [SerializeField]
     public float deactivateTime = 0.5f; // 攻撃エリアの非表示にするまでの時間
 
-    private float timer;
+    [Networked]private float timer { get; set; }
+
     [Networked] private bool isAttack { get; set; }
     private ParticleSystem newParticle;
     [Tooltip("攻撃エフェクト")]
@@ -31,13 +33,17 @@ public class BossAttackArea : NetworkBehaviour
 
     [Networked] public  PARRYTYPE Type { get; set; }
 
+    [Networked] public bool isTanuki { get; set; }
+    [Networked] public bool isKitune { get; set; }
+
     public override void Spawned()
     {
         box = GameObject.Find("Networkbox");
         parent = transform.parent.gameObject;
         timer = deactivateTime;
         Pare = transform.parent.gameObject;
-
+        isTanuki= false;
+        isKitune= false;
         // 元の位置を記録
         originalPosition = transform.position;
     }
@@ -47,6 +53,8 @@ public class BossAttackArea : NetworkBehaviour
     {
         Debug.Log("攻撃エフェクト生成");
         isAttack = true;
+        isTanuki = false;
+        isKitune = false;
     }
 
     public override void Render()
@@ -75,6 +83,7 @@ public class BossAttackArea : NetworkBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        //ここから
         if (other.CompareTag("Player"))
         {
             timer = deactivateTime;
@@ -99,9 +108,36 @@ public class BossAttackArea : NetworkBehaviour
                     gameObject.SetActive(false);
                     return;
                 }
-            }
+                else if(other.GetComponent<PlayerParryNet>().ParryCheck() &&Type == PARRYTYPE.DOUBLE)
+                {
+                    if(other.GetComponent<PlayerParryNet>().isTanuki) 
+                    {
+                        isTanuki = true;
+                    }
+                    else if(other.GetComponent<PlayerParryNet>().isTanuki==false) 
+                    {
+                        isKitune = true;
+                    }
+                    if(isTanuki&&isKitune)
+                    {
+                        Debug.Log("パリィ成功");
+                        other.GetComponent<PlayerParryNet>().RPC_ParrySystem();
 
+                        // ノックバック可能かどうか
+                        if (parent.GetComponent<BossAI>().isKnockBack)
+                        {
+                            parent.GetComponent<BossAI>().RPC_AnimName();
+                        }
+
+                        ResetToOriginalPosition(); // 元の位置に戻す
+                        gameObject.SetActive(false);
+                        return;
+                    }
+                }
+            }
+            //ここまでTriggerStay
             Debug.Log("攻撃ヒット");
+            box.GetComponent<ShareNumbers>().CurrentHP--;
             box.GetComponent<ShareNumbers>().RPC_Damage();
             other.GetComponent<PlayerHP>().RPC_DamageAnim();
             Render();

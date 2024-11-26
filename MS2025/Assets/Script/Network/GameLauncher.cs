@@ -11,8 +11,7 @@ using System.Linq;
 
 public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 {
-    [SerializeField] private NetworkRunner networkRunnerPrefab;
-    [SerializeField] private SoundManager soundManagerPrefab;
+    [SerializeField] private NetworkRunner networkRunnerPrefab;   
     [SerializeField] private NetworkPrefabRef playerAvatarPrefab;
     [SerializeField] private NetworkPrefabRef bossAvatarPrefab;
     [SerializeField] private NetworkPrefabRef PlayerStatePrefab;
@@ -25,6 +24,40 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
     [SerializeField, Header("開始人数")] private int playerNum;
 
     private NetworkRunner networkRunner;
+
+    private void Update()
+    {
+        // XBoxのAボタン（Submitに割り当てられている）を押したら接続を切る
+        if (Input.GetButtonDown("Cancel"))
+        {
+            DisconnectFromServer();
+        }
+    }
+
+    // 接続を切るメソッド
+    private void DisconnectFromServer()
+    {
+        if (networkRunner != null)
+        {
+            Debug.Log("Disconnecting from server...");
+            networkRunner.Shutdown(); // 接続を切る
+
+            //ローディングの画像を出す
+            LoadingImage.gameObject.SetActive(false);
+
+            //トランジション再生開始
+            foreach (var tran in transiton)
+            {
+                tran.GetComponent<Animator>().SetTrigger("Reverse");
+            }
+
+        }
+        else
+        {
+            Debug.LogWarning("No active NetworkRunner instance to disconnect.");
+        }
+    }
+
 
     // ボタンを押してホストとしてゲームを開始する
     public void StartHost(string roomName) {
@@ -44,8 +77,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
     private async void StartGame(GameMode mode, string roomName) {
         networkRunner = FindObjectOfType<NetworkRunner>();
         if (networkRunner == null) {
-            networkRunner = Instantiate(networkRunnerPrefab);
-            soundManagerPrefab = Instantiate(soundManagerPrefab);
+            networkRunner = Instantiate(networkRunnerPrefab);           
         }
 
         // このスクリプトでコールバックを処理できるようにする

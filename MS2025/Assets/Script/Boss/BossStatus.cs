@@ -213,7 +213,7 @@ public class BossStatus : NetworkBehaviour
             switch (DeathCount)
             {
                
-                case 2:
+                case 3:
                     Debug.Log("ボス死亡です");
                     RPC_HandleBossDeath();
                     // クライアントに先にシーン遷移を指示

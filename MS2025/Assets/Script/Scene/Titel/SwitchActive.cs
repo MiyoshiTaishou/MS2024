@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class SelectRoom : MonoBehaviour
+public class SwitchActive : MonoBehaviour
 {
     [Header("アクティブ設定")]
 	[Tooltip("アクティブにするオブジェクトを決めます")]
@@ -9,10 +9,19 @@ public class SelectRoom : MonoBehaviour
 	[Tooltip("アクティブを解除オブジェクトを決めます")]
 	[SerializeField]
     private GameObject[] disActiveObject;
+    private bool diray = false;
+    private float time = 0.0f;
 
 	private void Start(){
 	}
 	private void Update() {
+        if (diray){
+            if (time <= 0.0f) {
+                DisActive();
+                diray = false;
+            }
+            time -= Time.deltaTime;
+        }
 	}
 
 	private void FixedUpdate() {
@@ -26,7 +35,12 @@ public class SelectRoom : MonoBehaviour
             obj.gameObject.SetActive(false);
         }
     }
-    public void DisActive() {
+    public void DisActive(float t = 0.0f) {
+        if (t > 0.0f) {
+            diray = true;
+            time = t;
+            return;
+        }
         foreach (GameObject obj in activeObject) {
             obj.gameObject.SetActive(false);
         }
