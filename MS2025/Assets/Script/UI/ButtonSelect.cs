@@ -3,7 +3,10 @@ using UnityEngine.UI;
 
 public class ButtonSelect : MonoBehaviour
 {
-    [SerializeField, Header("選択可能ボタン")] Button[] buttons;
+    [Header("選択可能ボタン")]
+    [Tooltip("Aボタンを押したときに動作するボタンを決めます")]
+    [SerializeField]
+    private Button[] buttons;
 	[Tooltip("Bボタンを押したときに動作するボタンを決めます")]
     [SerializeField]
     private Button CancelButton;
@@ -20,7 +23,8 @@ public class ButtonSelect : MonoBehaviour
     {
         if (buttons != null || buttons.Length >= 0) {
             buttons[selectedIndex].Select(); // 最初のボタンを選択状態にする
-            buttons[selectedIndex].GetComponent<Animator>().SetBool("Loop",true);
+            // buttons[selectedIndex].GetComponent<Animator>().SetBool("Loop",true);
+            // buttons[selectedIndex].GetcomponentInChildren<Animator>().SetBool("Loop",true);
         }
 
         if (Input.GetButtonDown("Submit")) {
@@ -49,18 +53,22 @@ public class ButtonSelect : MonoBehaviour
 
         if (horizontal > 0/* || vertical < 0*/) // 右または下に移動
         {
-            buttons[selectedIndex].GetComponent<Animator>().SetBool("Loop", false);
+            // buttons[selectedIndex].GetComponent<Animator>().SetBool("Loop", false);
+            buttons[selectedIndex].GetComponentInChildren<Animator>().SetBool("Loop",false);
             selectedIndex = (selectedIndex + 1) % buttons.Length;
             buttons[selectedIndex].Select();
-            buttons[selectedIndex].GetComponent<Animator>().SetBool("Loop", true);
+            // buttons[selectedIndex].GetComponent<Animator>().SetBool("Loop", true);
+            buttons[selectedIndex].GetComponentInChildren<Animator>().SetBool("Loop",true);
             lastInputTime = Time.time;
         }
         else if (horizontal < 0/* || vertical > 0*/) // 左または上に移動
         {
-            buttons[selectedIndex].GetComponent<Animator>().SetBool("Loop", false);
+            // buttons[selectedIndex].GetComponent<Animator>().SetBool("Loop", false);
+            buttons[selectedIndex].GetComponentInChildren<Animator>().SetBool("Loop",false);
             selectedIndex = (selectedIndex - 1 + buttons.Length) % buttons.Length;
             buttons[selectedIndex].Select();
-            buttons[selectedIndex].GetComponent<Animator>().SetBool("Loop", true);
+            // buttons[selectedIndex].GetComponent<Animator>().SetBool("Loop", true);
+            buttons[selectedIndex].GetComponentInChildren<Animator>().SetBool("Loop",true);
             lastInputTime = Time.time;
         }
     }
