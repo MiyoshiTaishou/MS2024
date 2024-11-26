@@ -98,8 +98,13 @@ public class AttackAreaDamage : NetworkBehaviour
     {
         if(isGeki)
         {
-            NetworkObject geki =  runner.Spawn(Gekiobj, player.transform.position + Gekiobj.transform.position, Quaternion.identity, runner.LocalPlayer);
-            geki.GetComponent<GekiDisplay>().SetPos(player.transform.position + Gekiobj.transform.position);
+            float spawnRadius = 2.5f;
+            Vector2 randomPos = Random.insideUnitCircle * spawnRadius;
+            Debug.Log(randomPos);
+            Vector3 spawnPosition = new Vector3(player.transform.position.x + randomPos.x, (player.transform.localScale.y / 2) + player.transform.position.y + randomPos.y, player.transform.position.z);
+
+            NetworkObject geki =  runner.Spawn(Gekiobj, spawnPosition, Quaternion.identity, runner.LocalPlayer);
+            geki.GetComponent<GekiDisplay>().SetPos(spawnPosition);
             isGeki = false;
         }
 

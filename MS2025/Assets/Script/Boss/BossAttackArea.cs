@@ -18,7 +18,8 @@ public class BossAttackArea : NetworkBehaviour
     [SerializeField]
     public float deactivateTime = 0.5f; // 攻撃エリアの非表示にするまでの時間
 
-    private float timer;
+    [Networked]private float timer { get; set; }
+
     [Networked] private bool isAttack { get; set; }
     private ParticleSystem newParticle;
     [Tooltip("攻撃エフェクト")]
@@ -77,6 +78,7 @@ public class BossAttackArea : NetworkBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            timer = deactivateTime;
             // パリィ不可攻撃かどうか
             if (!parent.GetComponent<BossAI>().isParry)
             {
@@ -101,6 +103,7 @@ public class BossAttackArea : NetworkBehaviour
             }
 
             Debug.Log("攻撃ヒット");
+            box.GetComponent<ShareNumbers>().CurrentHP--;
             box.GetComponent<ShareNumbers>().RPC_Damage();
             other.GetComponent<PlayerHP>().RPC_DamageAnim();
             Render();

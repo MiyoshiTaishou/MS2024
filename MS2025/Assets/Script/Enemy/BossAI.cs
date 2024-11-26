@@ -41,6 +41,7 @@ public class BossAI : NetworkBehaviour
     [Networked, SerializeField] public bool isInterrupted { get; set; }/*これを呼ぶ*/
     [Networked, SerializeField] public bool isDown { get; set; }
     [Networked, SerializeField] public bool isAir { get; set; }
+    [Networked, SerializeField] public bool isDir { get; set; }
 
     [SerializeField,Header("ダウン時の行動データ")]
     public BossActionData downAction;
@@ -148,6 +149,16 @@ public class BossAI : NetworkBehaviour
 
         if (currentAction == null) return;
 
+        //向き変更処理
+        if (GetComponent<Rigidbody>().velocity.x < -0.5)
+        {
+            isDir = true;
+        }
+        else if (GetComponent<Rigidbody>().velocity.x > 0.5)
+        {
+            isDir = false;
+        }
+
         //押されても動かないようにする為の処理
         GetComponent<Rigidbody>().velocity = new Vector3(0, GetComponent<Rigidbody>().velocity.y, 0);
 
@@ -159,19 +170,7 @@ public class BossAI : NetworkBehaviour
         if (currentAction.ExecuteAction(gameObject, players[currentPlayerIndex]))
         {
             StartNextAction(); // アクション完了後に次のアクションに進む
-        }      
-
-        //向き変更処理
-        if(GetComponent<Rigidbody>().velocity.x < -0.5)
-        {
-            transform.localScale = scale;
-        }
-        else if (GetComponent<Rigidbody>().velocity.x > 0.5)
-        {
-            Vector3 temp = scale;
-            temp.x = -scale.x;
-            transform.localScale = temp;
-        }
+        }           
         
         //50%以下で行動変更
         if (!isHalf && GetComponent<BossStatus>().nBossHP < GetComponent<BossStatus>().InitHP / 2)
@@ -309,8 +308,20 @@ public class BossAI : NetworkBehaviour
             animator.Play((string)networkedAnimationName);
                
         }
-        
-        if(isParticle==2||isParticle==3)
+
+        //向き変更処理
+        if (isDir)
+        {
+            transform.localScale = scale;
+        }
+        else
+        {
+            Vector3 temp = scale;
+            temp.x = -scale.x;
+            transform.localScale = temp;
+        }
+
+        if (isParticle==2||isParticle==3)
         {
             switch(isParticle)
             {

@@ -5,7 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 
 
-public class SoundManager : NetworkBehaviour
+public class SoundManager : MonoBehaviour
 {
     [SerializeField] AudioSource bgmAudioSource;
     [SerializeField] AudioSource PlayerSeAudioSource;
@@ -20,28 +20,46 @@ public class SoundManager : NetworkBehaviour
     public float bgmMasterVolume = 1;
     public float seMasterVolume = 1;
 
-    public static SoundManager Instance { get; private set; }
+    bool cameraon = false;
+    bool playeron = false;
+    bool bosson   = false;
 
-    void Awake()
+    //public static SoundManager Instance { get; private set; }
+
+    //void Awake()
+    //{
+    //    if (Instance == null)
+    //    {
+    //        Instance = this;
+    //        DontDestroyOnLoad(gameObject);
+
+    //    }
+    //    else
+    //    {
+    //        Destroy(gameObject);
+    //    }
+    //}
+
+    private void Start()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-           
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        masterVolume= SoundDataManager.masterVolume;
+        bgmMasterVolume= SoundDataManager.bgmMasterVolume;
+        seMasterVolume= SoundDataManager.seMasterVolume;
     }
 
-    public override void FixedUpdateNetwork()
+    private void Update()
     {
-        if(!bgmAudioSource)
+        masterVolume = SoundDataManager.masterVolume;
+        bgmMasterVolume = SoundDataManager.bgmMasterVolume;
+        seMasterVolume = SoundDataManager.seMasterVolume;
+
+
+        if (!bgmAudioSource)
         {
             Debug.Log("呼ばれた");
             bgmAudioSource = Camera.main.GetComponent<AudioSource>();
+            bgmAudioSource.volume= masterVolume * bgmMasterVolume;
+            cameraon = true;
         }
 
         if (!PlayerSeAudioSource)
@@ -49,7 +67,8 @@ public class SoundManager : NetworkBehaviour
             if (GameObject.Find("Player(Clone)"))
             {
                 PlayerSeAudioSource = GameObject.Find("Player(Clone)").GetComponent<AudioSource>();
-
+                PlayerSeAudioSource.volume= masterVolume * seMasterVolume;
+                playeron = true;
             }
             else
             {
@@ -63,7 +82,8 @@ public class SoundManager : NetworkBehaviour
             if (GameObject.Find("Boss2D"))
             {
                 EnemySeAudioSource = GameObject.Find("Boss2D").GetComponent<AudioSource>();
-
+                EnemySeAudioSource.volume = masterVolume * seMasterVolume;
+                bosson = true;
             }
             else
             {
@@ -71,7 +91,63 @@ public class SoundManager : NetworkBehaviour
             }
         }
 
+        if(cameraon)
+        {
+            bgmAudioSource.volume = masterVolume * bgmMasterVolume;
+
+        }
+
+        if(playeron)
+        {
+            PlayerSeAudioSource.volume = masterVolume * seMasterVolume;
+
+        }
+
+        if(bosson)
+        {
+            EnemySeAudioSource.volume = masterVolume * seMasterVolume;
+
+        }
+
+
     }
+
+    //public override void FixedUpdateNetwork()
+    //{
+    //    if (!bgmAudioSource)
+    //    {
+    //        Debug.Log("呼ばれた");
+    //        bgmAudioSource = Camera.main.GetComponent<AudioSource>();
+    //    }
+
+    //    if (!PlayerSeAudioSource)
+    //    {
+    //        if (GameObject.Find("Player(Clone)"))
+    //        {
+    //            PlayerSeAudioSource = GameObject.Find("Player(Clone)").GetComponent<AudioSource>();
+
+    //        }
+    //        else
+    //        {
+    //            Debug.LogError("プレイヤーがいないよ");
+
+    //        }
+    //    }
+
+    //    if (!EnemySeAudioSource)
+    //    {
+    //        if (GameObject.Find("Boss2D"))
+    //        {
+    //            EnemySeAudioSource = GameObject.Find("Boss2D").GetComponent<AudioSource>();
+
+    //        }
+    //        else
+    //        {
+    //            Debug.LogError("ボスがいないよ");
+    //        }
+    //    }
+
+    //}
 
     public void PlayBGM(BGMSoundData.BGM bgm)
     {
