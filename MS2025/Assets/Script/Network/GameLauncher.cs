@@ -25,6 +25,40 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 
     private NetworkRunner networkRunner;
 
+    private void Update()
+    {
+        // XBoxのAボタン（Submitに割り当てられている）を押したら接続を切る
+        if (Input.GetButtonDown("Cancel"))
+        {
+            DisconnectFromServer();
+        }
+    }
+
+    // 接続を切るメソッド
+    private void DisconnectFromServer()
+    {
+        if (networkRunner != null)
+        {
+            Debug.Log("Disconnecting from server...");
+            networkRunner.Shutdown(); // 接続を切る
+
+            //ローディングの画像を出す
+            LoadingImage.gameObject.SetActive(false);
+
+            //トランジション再生開始
+            foreach (var tran in transiton)
+            {
+                tran.GetComponent<Animator>().SetTrigger("Reverse");
+            }
+
+        }
+        else
+        {
+            Debug.LogWarning("No active NetworkRunner instance to disconnect.");
+        }
+    }
+
+
     // ボタンを押してホストとしてゲームを開始する
     public void StartHost(string roomName) {
         StartGame(GameMode.AutoHostOrClient, roomName);
