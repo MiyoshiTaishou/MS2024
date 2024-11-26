@@ -121,6 +121,27 @@ public class PlayerMove : NetworkBehaviour
                     isReflection = true;
                 }
             }
+
+            //速度制限処理
+            if(rb.velocity.x > 10)
+            {
+                rb.velocity = new Vector3(10, rb.velocity.y, rb.velocity.z);
+            }
+
+            if(rb.velocity .x < -10)
+            {
+                rb.velocity = new Vector3(-10, rb.velocity.y, rb.velocity.z);
+            }
+
+            if(rb.velocity.z > 10)
+            {
+                rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y, 10);
+            }
+
+            if(rb.velocity.z < -10)
+            {
+                rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y, -10);
+            }
         }
     }
 
