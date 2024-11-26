@@ -41,6 +41,7 @@ public class BossAI : NetworkBehaviour
     [Networked, SerializeField] public bool isInterrupted { get; set; }/*これを呼ぶ*/
     [Networked, SerializeField] public bool isDown { get; set; }
     [Networked, SerializeField] public bool isAir { get; set; }
+    [Networked, SerializeField] public bool isDir { get; set; }
 
     [SerializeField,Header("ダウン時の行動データ")]
     public BossActionData downAction;
@@ -147,6 +148,16 @@ public class BossAI : NetworkBehaviour
         }
 
         if (currentAction == null) return;
+
+        //向き変更処理
+        if (GetComponent<Rigidbody>().velocity.x < -0.5)
+        {
+            isDir = true;
+        }
+        else if (GetComponent<Rigidbody>().velocity.x > 0.5)
+        {
+            isDir = false;
+        }
 
         //押されても動かないようにする為の処理
         GetComponent<Rigidbody>().velocity = new Vector3(0, GetComponent<Rigidbody>().velocity.y, 0);
@@ -299,11 +310,11 @@ public class BossAI : NetworkBehaviour
         }
 
         //向き変更処理
-        if (GetComponent<Rigidbody>().velocity.x < -0.5)
+        if (isDir)
         {
             transform.localScale = scale;
         }
-        else if (GetComponent<Rigidbody>().velocity.x > 0.5)
+        else
         {
             Vector3 temp = scale;
             temp.x = -scale.x;
