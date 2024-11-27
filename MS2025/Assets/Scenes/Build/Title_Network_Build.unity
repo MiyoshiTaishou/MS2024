@@ -2723,6 +2723,7 @@ MonoBehaviour:
   - {fileID: 736396538}
   - {fileID: 2077346718}
   CancelButton: {fileID: 0}
+  selectedIndex: 0
 --- !u!1001 &286396023
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10373,6 +10374,11 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: SelectRoom, Assembly-CSharp
       objectReference: {fileID: 0}
+    - target: {fileID: 805648038430042237, guid: b6641e141eedcf943941f8ef19c92bff,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 845063752455318388, guid: b6641e141eedcf943941f8ef19c92bff,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
@@ -10546,7 +10552,7 @@ PrefabInstance:
     - target: {fileID: 4136335406526796908, guid: b6641e141eedcf943941f8ef19c92bff,
         type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4572176711386096819, guid: b6641e141eedcf943941f8ef19c92bff,
         type: 3}
@@ -10568,6 +10574,11 @@ PrefabInstance:
       propertyPath: buttonObj.Array.data[2]
       value: 
       objectReference: {fileID: 2077346718}
+    - target: {fileID: 5211920139372467140, guid: b6641e141eedcf943941f8ef19c92bff,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5778452836723168288, guid: b6641e141eedcf943941f8ef19c92bff,
         type: 3}
       propertyPath: m_Text
@@ -10594,6 +10605,41 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6124435224286036496, guid: b6641e141eedcf943941f8ef19c92bff,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6124435224286036496, guid: b6641e141eedcf943941f8ef19c92bff,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6124435224286036496, guid: b6641e141eedcf943941f8ef19c92bff,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2077346727}
+    - target: {fileID: 6124435224286036496, guid: b6641e141eedcf943941f8ef19c92bff,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6124435224286036496, guid: b6641e141eedcf943941f8ef19c92bff,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: EndGame
+      objectReference: {fileID: 0}
+    - target: {fileID: 6124435224286036496, guid: b6641e141eedcf943941f8ef19c92bff,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: ExitGame, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 6124435224286036496, guid: b6641e141eedcf943941f8ef19c92bff,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 6127104559096594943, guid: b6641e141eedcf943941f8ef19c92bff,
         type: 3}
       propertyPath: m_SizeDelta.x
@@ -10603,6 +10649,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SizeDelta.y
       value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 6258070440195161065, guid: b6641e141eedcf943941f8ef19c92bff,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6259537286761737404, guid: b6641e141eedcf943941f8ef19c92bff,
         type: 3}
@@ -10627,7 +10678,7 @@ PrefabInstance:
     - target: {fileID: 6660742826184403652, guid: b6641e141eedcf943941f8ef19c92bff,
         type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7805975338590367253, guid: b6641e141eedcf943941f8ef19c92bff,
         type: 3}
@@ -10637,7 +10688,7 @@ PrefabInstance:
     - target: {fileID: 8411987223922148526, guid: b6641e141eedcf943941f8ef19c92bff,
         type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8678138306353011800, guid: b6641e141eedcf943941f8ef19c92bff,
         type: 3}
@@ -10716,6 +10767,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 736396544}
+    - targetCorrespondingSourceObject: {fileID: 4605692804378464503, guid: b6641e141eedcf943941f8ef19c92bff,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2077346727}
   m_SourcePrefab: {fileID: 100100000, guid: b6641e141eedcf943941f8ef19c92bff, type: 3}
 --- !u!114 &684843892 stripped
 MonoBehaviour:
@@ -11856,6 +11911,7 @@ MonoBehaviour:
   - {fileID: 1564702100}
   - {fileID: 786674869}
   CancelButton: {fileID: 786674871}
+  selectedIndex: 0
 --- !u!224 &830982885
 RectTransform:
   m_ObjectHideFlags: 0
@@ -12705,6 +12761,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 265255040}
     m_Modifications:
+    - target: {fileID: 899753440580293988, guid: e16e9080c02687b45858421dae0a9373,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 736396544}
+    - target: {fileID: 899753440580293988, guid: e16e9080c02687b45858421dae0a9373,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: DisActive
+      objectReference: {fileID: 0}
     - target: {fileID: 1265798491607110418, guid: e16e9080c02687b45858421dae0a9373,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -12718,6 +12784,16 @@ PrefabInstance:
     - target: {fileID: 1265798491607110418, guid: e16e9080c02687b45858421dae0a9373,
         type: 3}
       propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2346573207809034973, guid: e16e9080c02687b45858421dae0a9373,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2346573207809034973, guid: e16e9080c02687b45858421dae0a9373,
+        type: 3}
+      propertyPath: buttons.Array.size
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2664602797704989784, guid: e16e9080c02687b45858421dae0a9373,
@@ -12885,6 +12961,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: configSystem
       objectReference: {fileID: 0}
+    - target: {fileID: 8885139434130426156, guid: e16e9080c02687b45858421dae0a9373,
+        type: 3}
+      propertyPath: cancel
+      value: 
+      objectReference: {fileID: 736396538}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -21205,6 +21286,19 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 684843891}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2077346727
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2077346718}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67249a8db3b23024a92bbef7507e6b82, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  select: {fileID: 274148857}
 --- !u!1001 &2081221204
 PrefabInstance:
   m_ObjectHideFlags: 0
