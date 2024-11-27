@@ -48,14 +48,14 @@ public class ComboSystem : NetworkBehaviour
         {
             Debug.LogError("てきすとああああないよ");
         }
-        obj = obj.transform.Find("Combo").gameObject;
+        Combonum = obj.transform.Find("Combo").gameObject;
         if (obj == null)
         {
             Debug.LogError("てきすといいいいないよ");
         }
-        obj3 = obj.transform.Find("ComboImage").gameObject;
-        obj2 = obj.transform.Find("Count").gameObject;
-        Combonum = obj.transform.Find("Combo").gameObject;
+        obj3 = Combonum.transform.Find("ComboImage").gameObject;
+        obj2 = Combonum.transform.Find("Count").gameObject;
+        //Combonum = obj.transform.Find("Combo").gameObject;
 
         if (Combonum == null)
         {
