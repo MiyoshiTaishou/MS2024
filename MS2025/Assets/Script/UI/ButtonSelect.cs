@@ -86,8 +86,8 @@ public class ButtonSelect : MonoBehaviour
     }
 
     // 選択中のボタンを押す処理
-    private void HandleButtonPress() {
-        if (Input.GetButton("Submit")/* && !aButtonTriggered*/) {// "Submit" は通常 "A" ボタンやエンターキーに対応
+    private void HandleButtonPress() {        
+        if (Input.GetButtonDown("Submit")/* && !aButtonTriggered*/) {// "Submit" は通常 "A" ボタンやエンターキーに対応
             if(buttons == null || buttons.Length == 0) return;
             Debug.Log(buttons[selectedIndex]);
             buttons[selectedIndex].onClick.Invoke(); // 選択中のボタンを押す
