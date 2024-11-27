@@ -82,7 +82,7 @@ public class ButtonSelect : MonoBehaviour
             lastInputTime = Time.time;
         }
 
-       //Debug.Log(buttons[selectedIndex]);
+       Debug.Log(buttons[selectedIndex]);
     }
 
     // 選択中のボタンを押す処理
