@@ -82,30 +82,33 @@ public class ButtonSelect : MonoBehaviour
             lastInputTime = Time.time;
         }
 
-        Debug.Log(buttons[selectedIndex]);
+       //Debug.Log(buttons[selectedIndex]);
     }
 
     // 選択中のボタンを押す処理
     private void HandleButtonPress() {
-        if (Input.GetButtonDown("Submit") && !aButtonTriggered) {// "Submit" は通常 "A" ボタンやエンターキーに対応
+        if (Input.GetButton("Submit")/* && !aButtonTriggered*/) {// "Submit" は通常 "A" ボタンやエンターキーに対応
             if(buttons == null || buttons.Length == 0) return;
             Debug.Log(buttons[selectedIndex]);
             buttons[selectedIndex].onClick.Invoke(); // 選択中のボタンを押す
             aButtonTriggered = true;
+            //Debug.Log("決定");
         }
-        if (Input.GetButtonUp("Submit")) {
-            aButtonTriggered = false;
-        }
+        //if (Input.GetButtonUp("Submit")) {
+        //    aButtonTriggered = false;
+        //    Debug.Log("戻れ！");
+
+        //}
     }
 
     public void CanselButtonPress() {
-        if (Input.GetButtonDown("Cancel") && !bButtonTriggered) { // "Cancel" は通常 "B" ボタンやescキーに対応
+        if (Input.GetButtonDown("Cancel")/* && !bButtonTriggered*/) { // "Cancel" は通常 "B" ボタンやescキーに対応
             if(!CancelButton) return;
             CancelButton.onClick.Invoke();
             bButtonTriggered = true;
         }
-        if (Input.GetButtonUp("Cancel")) {
-            bButtonTriggered = false;
-        }
+        //if (Input.GetButtonUp("Cancel")) {
+        //    bButtonTriggered = false;
+        //}
     }
 }
