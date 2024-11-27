@@ -13,7 +13,7 @@ public class ButtonSelect : MonoBehaviour
     [SerializeField]
     private Button CancelButton;
 
-    private int selectedIndex = 0;  // 現在選択中のボタンのインデックス
+    public int selectedIndex = 0;  // 現在選択中のボタンのインデックス
     private float inputDelay = 0.2f; // 入力間隔を設けて、連続選択を防ぐ
     private float lastInputTime;     // 最後に入力が行われた時間
     // ボタンを押した瞬間をとるためのフラグ
@@ -22,28 +22,29 @@ public class ButtonSelect : MonoBehaviour
 
     // Start is called before the first frame update
     void Start()
-    {
-        if (buttons != null || buttons.Length >= 0) {
-            buttons[selectedIndex].Select(); // 最初のボタンを選択状態にする
-            //buttons[selectedIndex].GetComponent<Image>().color = new Vector4(1.0f, 1.0f, 1.0f, 1.0f); // 最初のボタンを選択状態にする
-            //buttons[selectedIndex].GetComponent<Animator>().SetBool("Loop",true);
-            buttonObj[selectedIndex].GetComponent<Image>().color = new Vector4(1.0f, 1.0f, 1.0f, 1.0f);
-        }
-
+    {      
         if (Input.GetButtonDown("Submit")) {
             aButtonTriggered = true;
         }
         if (Input.GetButtonDown("Cancel")) {
             bButtonTriggered = true;
         }
+
+        if (buttons != null || buttons.Length >= 0)
+        {
+            buttons[selectedIndex].Select(); // 最初のボタンを選択状態にする
+            //buttons[selectedIndex].GetComponent<Image>().color = new Vector4(1.0f, 1.0f, 1.0f, 1.0f); // 最初のボタンを選択状態にする
+            //buttons[selectedIndex].GetComponent<Animator>().SetBool("Loop",true);
+            buttonObj[selectedIndex].GetComponent<Image>().color = new Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        HandleButtonSelection();
         HandleButtonPress();
         CanselButtonPress();
+        HandleButtonSelection();        
     }
 
     // ボタンの選択をコントローラーで処理
@@ -78,12 +79,15 @@ public class ButtonSelect : MonoBehaviour
             buttonObj[selectedIndex].GetComponent<Image>().color = new Vector4(1.0f, 1.0f, 1.0f, 1.0f);
             lastInputTime = Time.time;
         }
+
+        Debug.Log(buttons[selectedIndex]);
     }
 
     // 選択中のボタンを押す処理
     private void HandleButtonPress() {
         if (Input.GetButtonDown("Submit") && !aButtonTriggered) {// "Submit" は通常 "A" ボタンやエンターキーに対応
             if(buttons == null || buttons.Length == 0) return;
+            Debug.Log(buttons[selectedIndex]);
             buttons[selectedIndex].onClick.Invoke(); // 選択中のボタンを押す
             aButtonTriggered = true;
         }
