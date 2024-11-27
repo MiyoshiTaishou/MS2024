@@ -22,8 +22,49 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
     [SerializeField, Header("トランジションオブジェクト")] private GameObject[] transiton;
     [SerializeField, Header("プレイヤーを生成しないシーンリスト")] private string[] skipScenes;
     [SerializeField, Header("開始人数")] private int playerNum;
+    [SerializeField, Header("キャラ画像")] private GameObject[] charobj;
 
     private NetworkRunner networkRunner;
+
+    private void Update()
+    {
+        // XBoxのAボタン（Submitに割り当てられている）を押したら接続を切る
+        if (Input.GetButtonDown("Cancel"))
+        {
+            DisconnectFromServer();
+        }
+    }
+
+    // 接続を切るメソッド
+    private void DisconnectFromServer()
+    {
+        if (networkRunner != null)
+        {
+            Debug.Log("Disconnecting from server...");
+
+            foreach (var obj in charobj)
+            {
+                obj.SetActive(false);
+            }
+
+            networkRunner.Shutdown(); // 接続を切る
+
+            //ローディングの画像を出す
+            LoadingImage.gameObject.SetActive(false);
+
+            //トランジション再生開始
+            foreach (var tran in transiton)
+            {
+                tran.GetComponent<Animator>().SetTrigger("Reverse");
+            }
+
+        }
+        else
+        {
+            Debug.LogWarning("No active NetworkRunner instance to disconnect.");
+        }
+    }
+
 
     // ボタンを押してホストとしてゲームを開始する
     public void StartHost(string roomName) {
@@ -67,19 +108,14 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 
         if (result.Ok) {
             if (networkRunner.IsServer) {
-                //// 必ずシーンをロードする前にプレイヤーオブジェクトを生成
-                //foreach (var player in networkRunner.ActivePlayers)
-                //{
-                //    if (!networkRunner.TryGetPlayerObject(player, out _))
-                //    {
-                //        var spawnPosition = new Vector3(0, 5f, 0);
-                //        var playerObject = networkRunner.Spawn(playerAvatarPrefab, spawnPosition, Quaternion.identity, player);
-                //        networkRunner.SetPlayerObject(player, playerObject);
-                //    }
-                //}
-
-                // シーンロード
-                //networkRunner.LoadScene(gameScene);
+               if(networkRunner.ActivePlayers.Count() == 3)
+                {
+                    foreach (var obj in charobj)
+                    {
+                        obj.SetActive(true);
+                    }
+                    DisconnectFromServer();
+                }
             }
         }
     }

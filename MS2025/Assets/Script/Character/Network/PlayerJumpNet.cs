@@ -122,7 +122,7 @@ public class PlayerJumpNet : NetworkBehaviour
         }
         if (jumpstart && !landAnimStateInfo.IsName("APlayerJumpDown") && !landAnimStateInfo.IsName("APlayerJumpUp"))//ジャンプの上りアニメーション再生
         {
-
+            jumpstart= false;
             isEffect = true;
         }
 
