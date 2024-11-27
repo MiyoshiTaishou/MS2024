@@ -30,7 +30,7 @@ public class HitStop : NetworkBehaviour
     {
         if (hitStopCoroutine == null) // すでにヒットストップが実行中でない場合のみ発動
         {
-            Debug.Log("ヒットストップを発動");
+            //Debug.Log("ヒットストップを発動");
             hitStopCoroutine = StartCoroutine(DoHitStop(hitStopDuration));
         }
     }
@@ -40,9 +40,13 @@ public class HitStop : NetworkBehaviour
         List<float> time = new List<float>();
         Vector3 vel=GetComponent<NetworkRigidbody3D>().Rigidbody.velocity;
         Vector3 hozonvel=GetComponent<NetworkRigidbody3D>().Rigidbody.velocity;
-
+        AnimatorStateInfo landAnimStateInfo = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
         if (animator != null)
         {
+            if (landAnimStateInfo.IsName("APlayerCoordinatedAttack"))
+            {
+                Debug.Log("ストップ");
+            }
             animator.speed = 0;
         }
         vel.x = 0;
@@ -72,6 +76,10 @@ public class HitStop : NetworkBehaviour
 
         if (animator != null)
         {
+            if (landAnimStateInfo.IsName("APlayerCoordinatedAttack"))
+            {
+                Debug.Log("ストップ2");
+            }
             animator.speed = 1;
         }
 

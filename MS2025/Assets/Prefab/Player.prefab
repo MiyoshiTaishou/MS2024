@@ -5521,7 +5521,7 @@ MonoBehaviour:
   Startup: 7
   Active: 3
   Recovery: 40
-  buddyStartup: 3
+  buddyStartup: 17
   buddyActive: 5
   buddyRecovery: 50
   effectList:
@@ -5712,6 +5712,8 @@ MonoBehaviour:
   _specialNum: 3
   _specialDamage: 0
   specialTimeWait: 0.01
+  specialColor: {r: 1, g: 0, b: 0, a: 0}
+  ComboList: []
 --- !u!114 &5507341137057323025
 MonoBehaviour:
   m_ObjectHideFlags: 0
