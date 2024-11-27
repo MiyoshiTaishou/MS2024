@@ -104,6 +104,7 @@ public class ButtonSelect : MonoBehaviour
     public void CanselButtonPress() {
         if (Input.GetButtonDown("Cancel")/* && !bButtonTriggered*/) { // "Cancel" は通常 "B" ボタンやescキーに対応
             if(!CancelButton) return;
+            selectedIndex = 0;
             CancelButton.onClick.Invoke();
             bButtonTriggered = true;
         }
