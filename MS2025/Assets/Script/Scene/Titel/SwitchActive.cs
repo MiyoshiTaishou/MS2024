@@ -9,18 +9,18 @@ public class SwitchActive : MonoBehaviour
 	[Tooltip("アクティブを解除オブジェクトを決めます")]
 	[SerializeField]
     private GameObject[] disActiveObject;
-    private bool diray = false;
-    private float time = 0.0f;
+    private bool delayFlag = false;
+    private float delayTime = 0.0f;
 
 	private void Start(){
 	}
 	private void Update() {
-        if (diray){
-            if (time <= 0.0f) {
+        if (delayFlag){
+            if (delayTime <= 0.0f) {
                 DisActive();
-                diray = false;
+                delayFlag = false;
             }
-            time -= Time.deltaTime;
+            delayTime -= Time.deltaTime;
         }
 	}
 
@@ -35,10 +35,10 @@ public class SwitchActive : MonoBehaviour
             obj.gameObject.SetActive(false);
         }
     }
-    public void DisActive(float t = 0.0f) {
-        if (t > 0.0f) {
-            diray = true;
-            time = t;
+    public void DisActive(float time = 0.0f) {
+        if (time > 0.0f) {
+            delayFlag = true;
+            delayTime = time;
             return;
         }
         foreach (GameObject obj in activeObject) {
