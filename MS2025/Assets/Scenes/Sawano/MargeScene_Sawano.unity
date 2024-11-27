@@ -1876,7 +1876,7 @@ PrefabInstance:
     - target: {fileID: 6355994842718124850, guid: 2d5a6b03460814e4d8ec665c744611bb,
         type: 3}
       propertyPath: SortKey
-      value: 3501654677
+      value: 2646970168
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3311,7 +3311,7 @@ PrefabInstance:
     - target: {fileID: 6002189017229424988, guid: 75272d9e04545f442ba51314bef17477,
         type: 3}
       propertyPath: SortKey
-      value: 4174976228
+      value: 3320291719
       objectReference: {fileID: 0}
     - target: {fileID: 6002189017229424988, guid: 75272d9e04545f442ba51314bef17477,
         type: 3}
@@ -4861,7 +4861,7 @@ PrefabInstance:
     - target: {fileID: 1761564918740919656, guid: eca39a7f69650f64999637e85db1167a,
         type: 3}
       propertyPath: SortKey
-      value: 2892291119
+      value: 2037606610
       objectReference: {fileID: 0}
     - target: {fileID: 3433697096088619139, guid: eca39a7f69650f64999637e85db1167a,
         type: 3}
@@ -6149,6 +6149,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6137141220472783459, guid: 745fd90e17809384d980f68c8c476341,
         type: 3}
+      propertyPath: _Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6137141220472783459, guid: 745fd90e17809384d980f68c8c476341,
+        type: 3}
       propertyPath: AttackParticle
       value: 
       objectReference: {fileID: 5473588508934549075, guid: 035ce8c9cfc34104991ce416daf8aebe,
@@ -6156,7 +6161,7 @@ PrefabInstance:
     - target: {fileID: 6831667486188821985, guid: 745fd90e17809384d980f68c8c476341,
         type: 3}
       propertyPath: SortKey
-      value: 1613008536
+      value: 758324027
       objectReference: {fileID: 0}
     - target: {fileID: 6831667486188821985, guid: 745fd90e17809384d980f68c8c476341,
         type: 3}
@@ -6171,7 +6176,7 @@ PrefabInstance:
     - target: {fileID: 7837555946122299140, guid: 745fd90e17809384d980f68c8c476341,
         type: 3}
       propertyPath: SortKey
-      value: 2391437106
+      value: 1536752597
       objectReference: {fileID: 0}
     - target: {fileID: 9057512719745946127, guid: 745fd90e17809384d980f68c8c476341,
         type: 3}
@@ -9679,16 +9684,21 @@ PrefabInstance:
     - target: {fileID: 4744330989960973998, guid: 261a044d9ceec7f4f9911d6a58ff0f71,
         type: 3}
       propertyPath: SortKey
-      value: 444203489
+      value: 3884486276
       objectReference: {fileID: 0}
     - target: {fileID: 4744330989960973998, guid: 261a044d9ceec7f4f9911d6a58ff0f71,
         type: 3}
       propertyPath: NetworkedBehaviours.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4744330989960973998, guid: 261a044d9ceec7f4f9911d6a58ff0f71,
         type: 3}
       propertyPath: NetworkedBehaviours.Array.data[1]
+      value: 
+      objectReference: {fileID: 1825650122}
+    - target: {fileID: 4744330989960973998, guid: 261a044d9ceec7f4f9911d6a58ff0f71,
+        type: 3}
+      propertyPath: NetworkedBehaviours.Array.data[2]
       value: 
       objectReference: {fileID: 1825650121}
     m_RemovedComponents: []
@@ -9724,9 +9734,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b00b51c094651748819ffc3a70a2a9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxZ: -60
   minZ: 5
   zoomConf: 1
+--- !u!114 &1825650122 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8814137500507979562, guid: 261a044d9ceec7f4f9911d6a58ff0f71,
+    type: 3}
+  m_PrefabInstance: {fileID: 1825650118}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1825650120}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b00b51c094651748819ffc3a70a2a9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1844001536
 PrefabInstance:
   m_ObjectHideFlags: 0
