@@ -54,6 +54,8 @@ public class AttackAction : BossActionData
         //UŒ‚‚Ì”»’è‚Ì‹­‚³‚ğŒˆ‚ß‚é
         boss.GetComponent<BossAI>().isKnockBack = canKnockBack;
         boss.GetComponent<BossAI>().isParry = canParry;
+
+        attackArea.transform.position = boss.transform.position;
     }
 
     public override bool ExecuteAction(GameObject boss, Transform player)
