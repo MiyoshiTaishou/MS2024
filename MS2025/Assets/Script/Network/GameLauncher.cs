@@ -139,7 +139,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
         //}
 
         // プレイヤー数が 2 人以上になったらシーンをロード
-        if (runner.ActivePlayers.Count() >= playerNum)
+        if (runner.ActivePlayers.Count() == playerNum)
         {           
             if (runner.IsServer)
             {
