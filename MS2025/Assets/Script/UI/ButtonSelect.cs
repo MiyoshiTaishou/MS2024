@@ -11,7 +11,7 @@ public class ButtonSelect : MonoBehaviour
     private GameObject[] buttonObj;
 	[Tooltip("Bボタンを押したときに動作するボタンを決めます")]
     [SerializeField]
-    private Button CancelButton;
+    private Button CancelButton;   
 
     public int selectedIndex = 0;  // 現在選択中のボタンのインデックス
     private float inputDelay = 0.2f; // 入力間隔を設けて、連続選択を防ぐ
@@ -68,6 +68,8 @@ public class ButtonSelect : MonoBehaviour
             //buttonObj[selectedIndex].GetComponentInChildren<Animator>().SetBool("Loop",true);
             buttonObj[selectedIndex].GetComponent<Image>().color = new Vector4(1.0f, 1.0f, 1.0f, 1.0f);
             lastInputTime = Time.time;
+
+            GetComponent<AudioSource>().Play();
         }
         else if (horizontal < 0/* || vertical > 0*/) // 左または上に移動
         {
@@ -80,6 +82,8 @@ public class ButtonSelect : MonoBehaviour
             //buttonObj[selectedIndex].GetComponentInChildren<Animator>().SetBool("Loop",true);
             buttonObj[selectedIndex].GetComponent<Image>().color = new Vector4(1.0f, 1.0f, 1.0f, 1.0f);
             lastInputTime = Time.time;
+
+            GetComponent<AudioSource>().Play();
         }
 
        Debug.Log(buttons[selectedIndex]);
@@ -89,10 +93,10 @@ public class ButtonSelect : MonoBehaviour
     private void HandleButtonPress() {        
         if (Input.GetButtonDown("Submit")/* && !aButtonTriggered*/) {// "Submit" は通常 "A" ボタンやエンターキーに対応
             if(buttons == null || buttons.Length == 0) return;
-            Debug.Log(buttons[selectedIndex]);
+            //Debug.Log(buttons[selectedIndex]);
             buttons[selectedIndex].onClick.Invoke(); // 選択中のボタンを押す
             aButtonTriggered = true;
-            //Debug.Log("決定");
+            Debug.Log("決定" + buttons[selectedIndex]);
         }
         //if (Input.GetButtonUp("Submit")) {
         //    aButtonTriggered = false;
