@@ -22,14 +22,7 @@ public class ButtonSelect : MonoBehaviour
 
     // Start is called before the first frame update
     void Start()
-    {      
-        if (Input.GetButtonDown("Submit")) {
-            aButtonTriggered = true;
-        }
-        if (Input.GetButtonDown("Cancel")) {
-            bButtonTriggered = true;
-        }
-
+    {
         if (buttons != null || buttons.Length >= 0)
         {
             buttons[selectedIndex].Select(); // 最初のボタンを選択状態にする
@@ -37,14 +30,23 @@ public class ButtonSelect : MonoBehaviour
             //buttons[selectedIndex].GetComponent<Animator>().SetBool("Loop",true);
             buttonObj[selectedIndex].GetComponent<Image>().color = new Vector4(1.0f, 1.0f, 1.0f, 1.0f);
         }
+        if (Input.GetButtonDown("Submit")) {
+            aButtonTriggered = true;
+        }
+        if (Input.GetButtonDown("Cancel")) {
+            bButtonTriggered = true;
+        }
+
+
     }
 
     // Update is called once per frame
     void Update()
     {
+        HandleButtonSelection();
         HandleButtonPress();
         CanselButtonPress();
-        HandleButtonSelection();        
+              
     }
 
     // ボタンの選択をコントローラーで処理

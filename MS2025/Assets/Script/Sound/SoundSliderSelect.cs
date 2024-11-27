@@ -25,6 +25,9 @@ public class SoundSliderSelect : MonoBehaviour
 
     bool isSlider = false;
 
+    [SerializeField] GameObject cancel;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -146,8 +149,8 @@ public class SoundSliderSelect : MonoBehaviour
             }
             else
             {
-               // m_ActiveSound.ShowObject();
-
+                // m_ActiveSound.ShowObject();
+                cancel.GetComponent<SwitchActive>().DisActive(0);
             }
 
         }
