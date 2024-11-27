@@ -20,6 +20,12 @@ public class ButtonSelect : MonoBehaviour
     private bool aButtonTriggered = false;
     private bool bButtonTriggered = false;
 
+    [SerializeField, Header("選択時の色")]
+    private Color selectColor;
+
+    [SerializeField, Header("ベースカラー")]
+    private Color baseColor;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -61,12 +67,26 @@ public class ButtonSelect : MonoBehaviour
         {
             // buttons[selectedIndex].GetComponent<Animator>().SetBool("Loop", false);
             //buttonObj[selectedIndex].GetComponentInChildren<Animator>().SetBool("Loop",false);
-            buttonObj[selectedIndex].GetComponent<Image>().color = new Vector4(1.0f, 1.0f, 1.0f, 0.0f);
+            if (buttonObj[selectedIndex].GetComponent<Image>())
+            {
+                buttonObj[selectedIndex].GetComponent<Image>().color = baseColor;
+            }
+            else
+            {
+                buttons[selectedIndex].GetComponent<Image>().color = baseColor;
+            }
             selectedIndex = (selectedIndex + 1) % buttons.Length;
             buttons[selectedIndex].Select();
             // buttons[selectedIndex].GetComponent<Animator>().SetBool("Loop", true);
             //buttonObj[selectedIndex].GetComponentInChildren<Animator>().SetBool("Loop",true);
-            buttonObj[selectedIndex].GetComponent<Image>().color = new Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+            if (buttonObj[selectedIndex].GetComponent<Image>())
+            {
+                buttonObj[selectedIndex].GetComponent<Image>().color = selectColor;
+            }
+            else
+            {
+                buttons[selectedIndex].GetComponent<Image>().color = selectColor;
+            }
             lastInputTime = Time.time;
 
             GetComponent<AudioSource>().Play();
@@ -75,12 +95,26 @@ public class ButtonSelect : MonoBehaviour
         {
             // buttons[selectedIndex].GetComponent<Animator>().SetBool("Loop", false);
             //buttonObj[selectedIndex].GetComponentInChildren<Animator>().SetBool("Loop",false);
-            buttonObj[selectedIndex].GetComponent<Image>().color = new Vector4(1.0f, 1.0f, 1.0f, 0.0f);
+            if (buttonObj[selectedIndex].GetComponent<Image>())
+            {
+                buttonObj[selectedIndex].GetComponent<Image>().color = baseColor;
+            }
+            else
+            {
+                buttons[selectedIndex].GetComponent<Image>().color = baseColor;
+            }
             selectedIndex = (selectedIndex - 1 + buttons.Length) % buttons.Length;
             buttons[selectedIndex].Select();
             // buttons[selectedIndex].GetComponent<Animator>().SetBool("Loop", true);
             //buttonObj[selectedIndex].GetComponentInChildren<Animator>().SetBool("Loop",true);
-            buttonObj[selectedIndex].GetComponent<Image>().color = new Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+            if (buttonObj[selectedIndex].GetComponent<Image>())
+            {
+                buttonObj[selectedIndex].GetComponent<Image>().color = selectColor;
+            }
+            else
+            {
+                buttons[selectedIndex].GetComponent<Image>().color = selectColor;
+            }
             lastInputTime = Time.time;
 
             GetComponent<AudioSource>().Play();
