@@ -25,8 +25,9 @@ public class ButtonSelect : MonoBehaviour
     {
         if (buttons != null || buttons.Length >= 0) {
             buttons[selectedIndex].Select(); // 最初のボタンを選択状態にする
-            // buttons[selectedIndex].GetComponent<Animator>().SetBool("Loop",true);
-            buttonObj[selectedIndex].GetComponentInChildren<Animator>().SetBool("Loop",true);
+            //buttons[selectedIndex].GetComponent<Image>().color = new Vector4(1.0f, 1.0f, 1.0f, 1.0f); // 最初のボタンを選択状態にする
+            //buttons[selectedIndex].GetComponent<Animator>().SetBool("Loop",true);
+            buttonObj[selectedIndex].GetComponent<Image>().color = new Vector4(1.0f, 1.0f, 1.0f, 1.0f);
         }
 
         if (Input.GetButtonDown("Submit")) {
@@ -56,21 +57,25 @@ public class ButtonSelect : MonoBehaviour
         if (horizontal > 0/* || vertical < 0*/) // 右または下に移動
         {
             // buttons[selectedIndex].GetComponent<Animator>().SetBool("Loop", false);
-            buttonObj[selectedIndex].GetComponentInChildren<Animator>().SetBool("Loop",false);
+            //buttonObj[selectedIndex].GetComponentInChildren<Animator>().SetBool("Loop",false);
+            buttonObj[selectedIndex].GetComponent<Image>().color = new Vector4(1.0f, 1.0f, 1.0f, 0.0f);
             selectedIndex = (selectedIndex + 1) % buttons.Length;
             buttons[selectedIndex].Select();
             // buttons[selectedIndex].GetComponent<Animator>().SetBool("Loop", true);
-            buttonObj[selectedIndex].GetComponentInChildren<Animator>().SetBool("Loop",true);
+            //buttonObj[selectedIndex].GetComponentInChildren<Animator>().SetBool("Loop",true);
+            buttonObj[selectedIndex].GetComponent<Image>().color = new Vector4(1.0f, 1.0f, 1.0f, 1.0f);
             lastInputTime = Time.time;
         }
         else if (horizontal < 0/* || vertical > 0*/) // 左または上に移動
         {
             // buttons[selectedIndex].GetComponent<Animator>().SetBool("Loop", false);
-            buttonObj[selectedIndex].GetComponentInChildren<Animator>().SetBool("Loop",false);
+            //buttonObj[selectedIndex].GetComponentInChildren<Animator>().SetBool("Loop",false);
+            buttonObj[selectedIndex].GetComponent<Image>().color = new Vector4(1.0f, 1.0f, 1.0f, 0.0f);
             selectedIndex = (selectedIndex - 1 + buttons.Length) % buttons.Length;
             buttons[selectedIndex].Select();
             // buttons[selectedIndex].GetComponent<Animator>().SetBool("Loop", true);
-            buttonObj[selectedIndex].GetComponentInChildren<Animator>().SetBool("Loop",true);
+            //buttonObj[selectedIndex].GetComponentInChildren<Animator>().SetBool("Loop",true);
+            buttonObj[selectedIndex].GetComponent<Image>().color = new Vector4(1.0f, 1.0f, 1.0f, 1.0f);
             lastInputTime = Time.time;
         }
     }
