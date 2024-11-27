@@ -15,8 +15,10 @@ public class SoundSliderSelect : MonoBehaviour
 
 
     [SerializeField,Tooltip("スライダー移動スピード")] float SliderInterval = 0.01f; // 一回の移動間隔（秒）
-
+    float slidenum = 0; 
     [SerializeField, ReadOnly] int curornum = 0;
+    [SerializeField, Tooltip("SEがなる移動量スピード")] float SoundInterval = 0.1f; // 一回の移動間隔（秒）
+
 
     [SerializeField, Tooltip("カーソル移動スピード")] float CuorsorInterval = 0.5f; // 一回の移動間隔（秒）
     private float timer = 0f; // タイマー
@@ -27,11 +29,15 @@ public class SoundSliderSelect : MonoBehaviour
 
     [SerializeField] GameObject cancel;
 
+    [SerializeField] AudioSource SESource;
+    [SerializeField] AudioClip SEClip;
 
     // Start is called before the first frame update
     void Start()
     {
         m_ActiveSound = transform.parent.GetComponent<SoundActive>();
+        SESource.clip = SEClip;
+
     }
 
     // Update is called once per frame
@@ -57,6 +63,7 @@ public class SoundSliderSelect : MonoBehaviour
                 {
                     timer = 0f; // タイマーをリセット
                     curornum--;
+                    slidenum = 0; 
                 }
             }
 
@@ -68,7 +75,7 @@ public class SoundSliderSelect : MonoBehaviour
                 {
                     timer = 0f; // タイマーをリセット
                     curornum++;
-
+                    slidenum = 0;
                 }
             }
 
@@ -122,10 +129,13 @@ public class SoundSliderSelect : MonoBehaviour
             if (horizontal > 0)
             {
                 m_SelectSlider[curornum].GetComponent<Slider>().value += SliderInterval;
+                slidenum += SliderInterval;
             }
             if (horizontal < 0)
             {
                 m_SelectSlider[curornum].GetComponent<Slider>().value -= SliderInterval;
+                slidenum += SliderInterval;
+
 
             }
 
@@ -136,6 +146,17 @@ public class SoundSliderSelect : MonoBehaviour
             {
                 m_SelectSlider[i].GetComponent<Slider>().handleRect.GetComponent<Image>().sprite = normalHandleObj;
             }
+        }
+
+        if (slidenum >= SoundInterval)
+        {
+            SESource.PlayOneShot(SESource.clip);
+            slidenum = 0;
+        }
+
+
+        if (slidenum - m_SelectSlider[curornum].GetComponent<Slider>().value  >= SoundInterval)
+        {
         }
 
 
