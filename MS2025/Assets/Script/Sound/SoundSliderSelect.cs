@@ -8,15 +8,24 @@ public class SoundSliderSelect : MonoBehaviour
     [SerializeField] List<GameObject> m_SelectSlider;
     [SerializeField] GameObject numcorsorobj;
 
-    [SerializeField] float SliderInterval = 0.01f; // 一回の移動間隔（秒）
+    //[SerializeField] List<GameObject> m_SelectHandle;
+
+    [SerializeField] Sprite normalHandleObj;
+    [SerializeField] Sprite handleObj;
+
+
+    [SerializeField,Tooltip("スライダー移動スピード")] float SliderInterval = 0.01f; // 一回の移動間隔（秒）
 
     [SerializeField, ReadOnly] int curornum = 0;
 
-    [SerializeField] float CuorsorInterval = 0.5f; // 一回の移動間隔（秒）
+    [SerializeField, Tooltip("カーソル移動スピード")] float CuorsorInterval = 0.5f; // 一回の移動間隔（秒）
     private float timer = 0f; // タイマー
 
     SoundActive m_ActiveSound;
 
+    bool isSlider = false;
+
+    [SerializeField] GameObject cancel;
 
 
     // Start is called before the first frame update
@@ -39,28 +48,32 @@ public class SoundSliderSelect : MonoBehaviour
         timer += Time.deltaTime;
 
 
-
-
-        if (vertical > 0)
+        if(!isSlider)
         {
-            // 一定時間が経過したらカーソルを移動
-            if (timer >= CuorsorInterval)
+            if (vertical > 0)
             {
-                timer = 0f; // タイマーをリセット
-                curornum--;
+                // 一定時間が経過したらカーソルを移動
+                if (timer >= CuorsorInterval)
+                {
+                    timer = 0f; // タイマーをリセット
+                    curornum--;
+                }
             }
+
+
+            if (vertical < 0)
+            {
+                // 一定時間が経過したらカーソルを移動
+                if (timer >= CuorsorInterval)
+                {
+                    timer = 0f; // タイマーをリセット
+                    curornum++;
+
+                }
+            }
+
         }
 
-
-        if (vertical < 0)
-        {
-            // 一定時間が経過したらカーソルを移動
-            if (timer >= CuorsorInterval)
-            {
-                timer = 0f; // タイマーをリセット
-                curornum++;
-            }
-        }
 
         //下限
         if (curornum < 0)
@@ -81,23 +94,68 @@ public class SoundSliderSelect : MonoBehaviour
             numcorsorobj.transform.position = pos;
 
         }
+        if (Input.GetButtonDown("Submit"))
+        {
+            isSlider = !isSlider;
+        }
 
         //選択されているスライダー移動
         float horizontal = Input.GetAxis("Horizontal");
-        if (horizontal > 0)
+
+        if (isSlider)
         {
-            m_SelectSlider[curornum].GetComponent<Slider>().value += SliderInterval;
-        }
-        if (horizontal < 0)
-        {
-            m_SelectSlider[curornum].GetComponent<Slider>().value -= SliderInterval;
+            for (int i = 0; i < m_SelectSlider.Count; i++)
+            {
+                if (i == curornum)
+                {
+                    m_SelectSlider[i].GetComponent<Slider>().handleRect.GetComponent<Image>().sprite = handleObj;
+
+                }
+                else
+                {
+                    m_SelectSlider[i].GetComponent<Slider>().handleRect.GetComponent<Image>().sprite = normalHandleObj;
+
+                }
+            }
+            // m_SelectHandle[curornum].GetComponent<Image>().sprite
+
+            if (horizontal > 0)
+            {
+                m_SelectSlider[curornum].GetComponent<Slider>().value += SliderInterval;
+            }
+            if (horizontal < 0)
+            {
+                m_SelectSlider[curornum].GetComponent<Slider>().value -= SliderInterval;
+
+            }
 
         }
+        else
+        {
+            for (int i = 0; i < m_SelectSlider.Count; i++)
+            {
+                m_SelectSlider[i].GetComponent<Slider>().handleRect.GetComponent<Image>().sprite = normalHandleObj;
+            }
+        }
+
 
         // Bボタン（Xboxコントローラーの場合）
         if (Input.GetButtonDown("Cancel"))
         {
-            m_ActiveSound.ShowObject();
+            if(isSlider)
+            {
+                isSlider = !isSlider;
+
+            }
+            else
+            {
+                // m_ActiveSound.ShowObject();
+                cancel.GetComponent<SwitchActive>().DisActive(0);
+            }
+
         }
+
+
+
     }
 }
