@@ -138,7 +138,8 @@ public class PlayerAttack : NetworkBehaviour
         // 攻撃フラグが立っている場合にアニメーションをトリガー
         if (isOnce&&BossObj.GetComponent<BossAI>().Nokezori>0)
         {
-            //Debug.Log("連携攻撃いいいい");
+            Debug.Log("連携攻撃いいいい");
+            animator.Play("APlayerCoordinatedAttack");
             isEffect = true;
             isOnce = false; // フラグをリセット
         }

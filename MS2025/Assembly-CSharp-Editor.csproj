@@ -61,7 +61,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\LightRays2D\Editor\LightRays2DEditor.cs" />
+    <Compile Include="Assets\AfterImageEffect2D\Editor\StaticAfterImageEffect2DPlayerEditor.cs" />
     <Compile Include="Assets\TutorialInfo\Scripts\Editor\ReadmeEditor.cs" />
+    <Compile Include="Assets\AfterImageEffect2D\Editor\DynamicAfterImageEffect2DPlayerEditor.cs" />
+    <Compile Include="Assets\AfterImageEffect2D\Editor\AfterImageEffect2DPlayerBaseEditor.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

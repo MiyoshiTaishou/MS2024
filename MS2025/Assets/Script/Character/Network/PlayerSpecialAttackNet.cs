@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
+using UnityEngine.UI;
 
 public class PlayerSpecialAttackNet : NetworkBehaviour
 {
@@ -19,11 +20,22 @@ public class PlayerSpecialAttackNet : NetworkBehaviour
     [Header("猶予時間"), SerializeField]
     private float specialTimeWait = 0.2f;
 
+    [SerializeField,Tooltip("必殺技使える時のコンボ数の色")] Color specialColor;
+    [SerializeField,ReadOnly] private List<Image> ComboList;
+
     public override void Spawned()
     {
         //必殺技再生用オブジェクト探索
         director = GameObject.Find("Director");
         comboCountObject = GameObject.Find("Networkbox");
+        for (int j = 0; j < GameObject.Find("MainGameUI/Combo").transform.childCount; j++)
+        {
+            if (GameObject.Find("MainGameUI/Combo").transform.GetChild(j).GetComponent<Image>())
+            {
+                ComboList.Add(GameObject.Find("MainGameUI/Combo").transform.GetChild(j).GetComponent<Image>());
+
+            }
+        }
     }
 
     public override void FixedUpdateNetwork()
@@ -61,6 +73,24 @@ public class PlayerSpecialAttackNet : NetworkBehaviour
             if (SpecialTime2 > 0.0f)
             {
                 SpecialTime2 -= Time.deltaTime;
+            }
+        }
+
+        if (comboCountObject.GetComponent<ShareNumbers>().nCombo >= specialNum)
+        {
+            for(int i = 0;i < ComboList.Count;i++)
+            {
+                ComboList[i].color = specialColor;
+            }
+        }
+        else
+        {
+            for (int i = 0; i < ComboList.Count; i++)
+            {
+                Color col = ComboList[i].color;
+                Color color = Color.white;
+                color.a = ComboList[i].color.a;
+                ComboList[i].color = color;
             }
         }
     }

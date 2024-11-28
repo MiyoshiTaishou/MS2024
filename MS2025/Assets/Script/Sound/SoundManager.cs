@@ -3,13 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 
 public class SoundManager : MonoBehaviour
 {
     [SerializeField] AudioSource bgmAudioSource;
     [SerializeField] AudioSource PlayerSeAudioSource;
     [SerializeField] AudioSource EnemySeAudioSource;
+    [SerializeField] AudioSource titleSeAudioSource;
 
     [SerializeField] List<BGMSoundData> bgmSoundDatas;
     [SerializeField] List<PlayerSESoundData> PlayerSeSoundDatas;
@@ -23,6 +24,8 @@ public class SoundManager : MonoBehaviour
     bool cameraon = false;
     bool playeron = false;
     bool bosson   = false;
+    bool otheron = false;
+
 
     //public static SoundManager Instance { get; private set; }
 
@@ -53,10 +56,9 @@ public class SoundManager : MonoBehaviour
         bgmMasterVolume = SoundDataManager.bgmMasterVolume;
         seMasterVolume = SoundDataManager.seMasterVolume;
 
-
         if (!bgmAudioSource)
         {
-            Debug.Log("呼ばれた");
+          //  Debug.Log("呼ばれた");
             bgmAudioSource = Camera.main.GetComponent<AudioSource>();
             bgmAudioSource.volume= masterVolume * bgmMasterVolume;
             cameraon = true;
@@ -72,7 +74,7 @@ public class SoundManager : MonoBehaviour
             }
             else
             {
-                Debug.LogError("プレイヤーがいないよ");
+               // Debug.LogError("プレイヤーがいないよ");
 
             }
         }
@@ -87,7 +89,21 @@ public class SoundManager : MonoBehaviour
             }
             else
             {
-                Debug.LogError("ボスがいないよ");
+                //Debug.LogError("ボスがいないよ");
+            }
+        }
+
+        if(!titleSeAudioSource)
+        {
+            if (GameObject.Find("SE"))
+            {
+                titleSeAudioSource = GameObject.Find("SE").GetComponent<AudioSource>();
+                titleSeAudioSource.volume = masterVolume * seMasterVolume;
+                otheron = true;
+            }
+            else
+            {
+                //Debug.LogError("ボスがいないよ");
             }
         }
 
@@ -109,7 +125,11 @@ public class SoundManager : MonoBehaviour
 
         }
 
+        if(otheron)
+        {
+            titleSeAudioSource.volume = masterVolume * seMasterVolume;
 
+        }
     }
 
     //public override void FixedUpdateNetwork()
