@@ -34,6 +34,7 @@ public class PlayerJumpNet : NetworkBehaviour
 
     private Vector3 scale;
     bool isReflection;
+    [Networked]public bool isAnim { get; set; }
 
     [Networked]  Vector3 velocity { get; set; }  // �v���C���[�̑��x
     private bool isJumping;    // �W�����v�����ǂ���    
@@ -53,6 +54,7 @@ public class PlayerJumpNet : NetworkBehaviour
         chargeattack = GetComponent<PlayerChargeAttack>();
         freeze = GetComponent<PlayerFreeze>();
         scale=transform.localScale;
+        isAnim = false;
     }
 
     public override void FixedUpdateNetwork()
@@ -138,6 +140,12 @@ public class PlayerJumpNet : NetworkBehaviour
             Instantiate(particle, this.gameObject.transform.position, Quaternion.identity);
             isEffect = false;
         }
+        if (isGround == false && isAnim == true)
+        {
+            animator.speed = 2.5f;
+            animator.Play("APlayerJumpDown", -1, 0f);
+            isAnim= false;
+        }
     }
 
     [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
@@ -184,10 +192,8 @@ public class PlayerJumpNet : NetworkBehaviour
         // �n�ʂ��痣�ꂽ�ꍇ�̏���
         if (collision.gameObject.CompareTag("Ground"))
         {
-            animator.speed = 2.5f;
             isGround = false;
-            animator.Play("APlayerJumpDown",-1,0f);
-            
+            isAnim = true;
         }
     }
 }
