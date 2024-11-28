@@ -91,7 +91,7 @@ public class ButtonSelect : MonoBehaviour
             buttonObj[selectedIndex].GetComponent<Image>().color = selectColor;
             lastInputTime = Time.time;
 
-            GetComponent<AudioSource>().Play();r
+            GetComponent<AudioSource>().Play();
         }
         else if (horizontal < 0/* || vertical > 0*/) // 左または上に移動
         {
