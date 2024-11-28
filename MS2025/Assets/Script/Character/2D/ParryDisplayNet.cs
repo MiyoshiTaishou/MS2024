@@ -12,7 +12,8 @@ public class ParryDisplayNet : NetworkBehaviour
     [SerializeField] PlayerParryNet player;
 
     [Networked] public bool Hit {  get; private set; } =false;
-
+    [Networked] public bool isRaaise { get; private set; } = false;
+    GameObject obj;
     public override void Spawned()
     {
 
@@ -42,12 +43,28 @@ public class ParryDisplayNet : NetworkBehaviour
         }
     }
 
+    public override void Render()
+    {
+        if(isRaaise) 
+        {
+            player.isRaise= true;
+            isRaaise= false;
+        }
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if(other.tag == "Enemy")
         {
             Debug.Log("‚Ð‚Á‚Æ");
             Hit = true;
+        }
+        if(other.GetComponent<PlayerRaise>())
+        {
+            if(other.GetComponent<PlayerRaise>().GetisRaise() == false && other.GetComponent<PlayerJumpNet>().GetisJumping())
+            {
+                isRaaise= true;
+            }
         }
 
     }

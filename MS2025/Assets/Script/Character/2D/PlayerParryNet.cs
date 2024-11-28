@@ -97,7 +97,7 @@ public class PlayerParryNet : NetworkBehaviour
     /// 
     PlayerFreeze freeze;
     [Networked]public bool isTanuki { get; set; }
-
+    [Networked] public bool isRaise { get; set; }
 
     public bool ParryCheck()
     {
@@ -176,6 +176,7 @@ public class PlayerParryNet : NetworkBehaviour
 
         counterparticle = Countereffect.GetComponent<ParticleSystem>();
         freeze = GetComponent<PlayerFreeze>();
+        isRaise = false;
     }
 
     public void Area()
@@ -231,11 +232,11 @@ public class PlayerParryNet : NetworkBehaviour
 
     public override void FixedUpdateNetwork()
     {
-            //パリィ中は動かせないようにする
-            if (freeze.GetIsFreeze())
-            {
-                return;
-            }
+        //パリィ中は動かせないようにする
+        if (freeze.GetIsFreeze())
+        {
+            return;
+        }
         AnimatorStateInfo landAnimStateInfo = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
 
         if (GetInput(out NetworkInputData data))
@@ -273,9 +274,23 @@ public class PlayerParryNet : NetworkBehaviour
 
     public override void Render()
     {
+        AnimatorStateInfo landAnimStateInfo = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
+        if (isRaise)
+        {
+            animator.Play("APlayerKachiage");
+            isRaise= false;
+            isParryAnimation = false; // フラグをリセット
+            NetParryeffect = true;
+            Debug.Log("かちあげ");
+        }
+        if(landAnimStateInfo.IsName("APlayerKachiage"))
+        {
+            Debug.Log("かちあげてる");
+            return;
+        }
         if (isParry && isParryAnimation) //パリィアニメーション中かどうか
         {
-            //Debug.Log("パリィクライアント");
+            Debug.Log("パリィクライアント");
             NetParryeffect = true;
             animator.Play("APlayerParry");
             isParryAnimation = false; // フラグをリセット
