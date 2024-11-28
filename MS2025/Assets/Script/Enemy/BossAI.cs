@@ -150,11 +150,11 @@ public class BossAI : NetworkBehaviour
         if (currentAction == null) return;
 
         //向き変更処理
-        if (GetComponent<Rigidbody>().velocity.x < -0.5)
+        if (transform.position.x > players[currentPlayerIndex].position.x)
         {
             isDir = true;
         }
-        else if (GetComponent<Rigidbody>().velocity.x > 0.5)
+        else if (transform.position.x < players[currentPlayerIndex].position.x)
         {
             isDir = false;
         }
