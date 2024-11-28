@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class CameraShake : NetworkBehaviour
 {
+    [SerializeField,Header("ƒJƒƒ‰‚ÌU‚ê•")]
+    AnimationCurve curve;
+
     [Rpc(RpcSources.All, RpcTargets.All)]
     public void RPC_CameraShake(float duration,float magnitude)
     {
@@ -24,7 +27,7 @@ public class CameraShake : NetworkBehaviour
 
         while (elapsed < duration)
         {
-            transform.position = originalPosition + Random.insideUnitSphere * magnitude;
+            transform.position = originalPosition + Random.insideUnitSphere * magnitude * curve.Evaluate(elapsed);
             elapsed += Time.deltaTime;
             yield return null;
         }
