@@ -12229,6 +12229,66 @@ PrefabInstance:
       propertyPath: m_Volume
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9134003929742808826, guid: 261a044d9ceec7f4f9911d6a58ff0f71,
+        type: 3}
+      propertyPath: curve.m_Curve.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9134003929742808826, guid: 261a044d9ceec7f4f9911d6a58ff0f71,
+        type: 3}
+      propertyPath: curve.m_Curve.Array.data[1].time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9134003929742808826, guid: 261a044d9ceec7f4f9911d6a58ff0f71,
+        type: 3}
+      propertyPath: curve.m_Curve.Array.data[0].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9134003929742808826, guid: 261a044d9ceec7f4f9911d6a58ff0f71,
+        type: 3}
+      propertyPath: curve.m_Curve.Array.data[1].value
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9134003929742808826, guid: 261a044d9ceec7f4f9911d6a58ff0f71,
+        type: 3}
+      propertyPath: curve.m_Curve.Array.data[0].inSlope
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9134003929742808826, guid: 261a044d9ceec7f4f9911d6a58ff0f71,
+        type: 3}
+      propertyPath: curve.m_Curve.Array.data[1].inSlope
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9134003929742808826, guid: 261a044d9ceec7f4f9911d6a58ff0f71,
+        type: 3}
+      propertyPath: curve.m_Curve.Array.data[0].outSlope
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9134003929742808826, guid: 261a044d9ceec7f4f9911d6a58ff0f71,
+        type: 3}
+      propertyPath: curve.m_Curve.Array.data[1].inWeight
+      value: 0.33333334
+      objectReference: {fileID: 0}
+    - target: {fileID: 9134003929742808826, guid: 261a044d9ceec7f4f9911d6a58ff0f71,
+        type: 3}
+      propertyPath: curve.m_Curve.Array.data[1].outSlope
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9134003929742808826, guid: 261a044d9ceec7f4f9911d6a58ff0f71,
+        type: 3}
+      propertyPath: curve.m_Curve.Array.data[0].outWeight
+      value: 0.33333334
+      objectReference: {fileID: 0}
+    - target: {fileID: 9134003929742808826, guid: 261a044d9ceec7f4f9911d6a58ff0f71,
+        type: 3}
+      propertyPath: curve.m_Curve.Array.data[0].tangentMode
+      value: 34
+      objectReference: {fileID: 0}
+    - target: {fileID: 9134003929742808826, guid: 261a044d9ceec7f4f9911d6a58ff0f71,
+        type: 3}
+      propertyPath: curve.m_Curve.Array.data[1].tangentMode
+      value: 34
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
