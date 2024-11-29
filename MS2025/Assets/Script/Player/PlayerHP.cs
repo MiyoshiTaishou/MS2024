@@ -53,21 +53,18 @@ public class PlayerHP : NetworkBehaviour
             Debug.Log("ÇﬁÇƒÇ´Ç¢Ç¢Ç¢Ç¢Ç¢" + inbisibleFrame);
             if (inbisibleFrame%4==0) 
             {
-                Debug.Log("Ç´Ç¶ÇøÇ≠ÇËÅ[");
                 Color color = sprite.color;
                 color.a = 0.0f;
                 sprite.color = color;
             }
             else if (inbisibleFrame % 4 == 0)
             {
-                Debug.Log("Ç´Ç¶ÇøÇ≠ÇËÅ[");
                 Color color = sprite.color;
                 color.a = 0.5f;
                 sprite.color = color;
             }
             else 
             {
-                Debug.Log("Ç›Ç¶ÇøÇ≠ÇËÅ[");
                 Color color = sprite.color;
                 color.a = 1.0f;
                 sprite.color = color;
