@@ -1418,7 +1418,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boss: {fileID: 1128437062}
-  bossAction: {fileID: 11400000, guid: 8adab2bcc19753c41a9d1881e876837b, type: 2}
+  bossAction: {fileID: 11400000, guid: 39113c47697af3a498cae5db0c4e150f, type: 2}
   jumpAction: {fileID: 11400000, guid: 0ca605b77a9619f41b260fe360252ff6, type: 2}
   ParryInstrucionText: {fileID: 1622053}
   InstructionText: {fileID: 767991349}
@@ -8245,7 +8245,7 @@ PrefabInstance:
         type: 3}
       propertyPath: actionSequence.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: 39113c47697af3a498cae5db0c4e150f,
+      objectReference: {fileID: 11400000, guid: df3920de6081fb146b17e225e0dd75d5,
         type: 2}
     - target: {fileID: 9057512719745946127, guid: 745fd90e17809384d980f68c8c476341,
         type: 3}
@@ -8274,7 +8274,7 @@ PrefabInstance:
         type: 3}
       propertyPath: actionSequenceHalf.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: 8adab2bcc19753c41a9d1881e876837b,
+      objectReference: {fileID: 11400000, guid: 39113c47697af3a498cae5db0c4e150f,
         type: 2}
     - target: {fileID: 9057512719745946127, guid: 745fd90e17809384d980f68c8c476341,
         type: 3}
