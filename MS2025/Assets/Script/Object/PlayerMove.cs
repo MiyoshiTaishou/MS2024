@@ -16,7 +16,7 @@ public class PlayerMove : NetworkBehaviour
     private Vector3 currentVelocity;
 
     private Vector3 scale;
-
+    [SerializeField] float LimitSpeed;
     [Networked] public bool isReflection { get; set; } = false;
 
     GameObject comboCountObject;
@@ -51,9 +51,29 @@ public class PlayerMove : NetworkBehaviour
   
     public override void FixedUpdateNetwork()
     {
-        
+        //速度制限処理
+        if (rb.velocity.x > LimitSpeed)
+        {
+            rb.velocity = new Vector3(LimitSpeed, rb.velocity.y, rb.velocity.z);
+        }
 
-        if(comboCountObject.GetComponent<ShareNumbers>().isSpecial||hitstop.IsHitStopActive)
+        if (rb.velocity.x < -LimitSpeed)
+        {
+            rb.velocity = new Vector3(-LimitSpeed, rb.velocity.y, rb.velocity.z);
+        }
+
+        if (rb.velocity.z > LimitSpeed)
+        {
+            rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y, LimitSpeed);
+        }
+
+        if (rb.velocity.z < -LimitSpeed)
+        {
+            rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y, -LimitSpeed);
+        }
+
+
+        if (comboCountObject.GetComponent<ShareNumbers>().isSpecial||hitstop.IsHitStopActive)
         {
             return;
         }
@@ -122,26 +142,7 @@ public class PlayerMove : NetworkBehaviour
                 }
             }
 
-            //速度制限処理
-            if(rb.velocity.x > 10)
-            {
-                rb.velocity = new Vector3(10, rb.velocity.y, rb.velocity.z);
-            }
-
-            if(rb.velocity .x < -10)
-            {
-                rb.velocity = new Vector3(-10, rb.velocity.y, rb.velocity.z);
-            }
-
-            if(rb.velocity.z > 10)
-            {
-                rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y, 10);
-            }
-
-            if(rb.velocity.z < -10)
-            {
-                rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y, -10);
-            }
+        
         }
     }
 

@@ -94,7 +94,14 @@ public class PlayerChargeAttack : NetworkBehaviour
                 chargeCount++;
                 isEffect = true;
             }
-            else if (released.IsSet(NetworkInputButtons.ChargeAttack) && isCharge&&chargeCount>maxCharge)
+            else
+            {
+                isCharge = false;
+                chargeCount = 0;
+                isAttackEffect = false;
+                chargeparticle.Stop();
+            }
+            if (data.Buttons.IsSet(NetworkInputButtons.ChargeAttack) && isCharge&&chargeCount>maxCharge)
             {
                 chargeparticle.Stop();
                // attackArea.SetActive(true);
@@ -105,20 +112,13 @@ public class PlayerChargeAttack : NetworkBehaviour
                 isWait = true;
 
             }
-            else
-            {
-                isCharge = false;
-                chargeCount = 0;
-                isAttackEffect = false;
-                chargeparticle.Stop();
-            }
         }
 
         if(chargeCount > maxCharge)
         {
             sprite.color = color;
         }
-        else
+        else if (GetComponent<PlayerHP>().inbisibleFrame == 0)
         {
             sprite.color = Color.white;
 

@@ -60,6 +60,14 @@ public class ButtonSelect : MonoBehaviour
         CanselButtonPress();       
     }
 
+    void OnEnable() {
+        buttonObj[selectedIndex].GetComponent<Image>().color = selectColor;
+    }
+    void OnDisable() {
+        // buttons[selectedIndex].Select();
+        buttonObj[selectedIndex].GetComponent<Image>().color = baseColor;
+    }
+
     private void HandleButtonSelection()
     {
         float horizontal = Input.GetAxis("Horizontal");
@@ -111,12 +119,22 @@ public class ButtonSelect : MonoBehaviour
             selectedIndex = 0;
             CancelButton.onClick.Invoke();
             bButtonTriggered = true;
+
             Debug.Log("キャンセル" + CancelClip);
 
             Audio.PlayOneShot(CancelClip);
+
+            // buttonObj[selectedIndex].GetComponent<Image>().color = baseColor;
+
         }
         //if (Input.GetButtonUp("Cancel")) {
         //    bButtonTriggered = false;
         //}
+    }
+
+    public void ResetButtonColor() {
+        foreach (GameObject obj in buttonObj) {
+            obj.GetComponent<Image>().color = baseColor;
+        }
     }
 }

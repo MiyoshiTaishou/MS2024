@@ -15,38 +15,55 @@ public class ChangeBossAction : NetworkBehaviour
 
     [SerializeField, Header("変更する行動")]
     private BossActionSequence bossAction;
+    [SerializeField]
+    private BossActionSequence jumpAction;
 
     [SerializeField, Header("切り替えテキスト")]
-    private GameObject TextPanel1;
-    [SerializeField] private GameObject TextPanel2;
-
+    private GameObject ParryInstrucionText;
+    [SerializeField] private GameObject InstructionText;
+    [SerializeField] private GameObject JumpInstrucionText;
     [SerializeField, Header("説明テキストボックス")]
     private GameObject TextBox;
-
+    private int ActionNo=0;
     
     private void OnTriggerEnter(Collider other)
     {
         if(other.CompareTag("Player"))
         {
             //行動入れ替え
+       
             BossActionSequence data = boss.GetComponent<BossAI>().actionSequence[0];
 
             boss.GetComponent<BossAI>().actionSequence[0] = bossAction;
 
-            bossAction = data;
+            bossAction = jumpAction;
+
+            jumpAction = data;
 
             switch(BossPattern)
             {
                 case 0:
-                    TextPanel1.SetActive(false);
-                    TextPanel2.SetActive(true);
+                    ParryInstrucionText.SetActive(true);
+                    JumpInstrucionText.SetActive(false);
+                    InstructionText.SetActive(false);
                     BossPattern = 1;
-                    TextBox.GetComponent<TextMesh>().text = "基本操作説明";
+                    TextBox.GetComponent<TextMesh>().text = "協力ジャンプ";
                     break;
 
                 case 1:
-                    TextPanel2.SetActive(false);
-                    TextPanel1.SetActive(true);
+               
+                    ParryInstrucionText.SetActive(false);
+                    JumpInstrucionText.SetActive(true);
+                    InstructionText.SetActive(false);
+                    BossPattern = 2;
+                    TextBox.GetComponent<TextMesh>().text = "基本操作説明";
+                    break;
+
+                case 2:
+                   
+                    ParryInstrucionText.SetActive(false);
+                    JumpInstrucionText.SetActive(false);
+                    InstructionText.SetActive(true);
                     BossPattern = 0;
                     TextBox.GetComponent<TextMesh>().text = "パリィ説明";
                     break;
@@ -56,12 +73,12 @@ public class ChangeBossAction : NetworkBehaviour
 
     private void HPCheck()
     {
-        if (boss.GetComponent<BossStatus>().nBossHP < boss.GetComponent<BossStatus>().InitHP / 2 && Count > 1)
-        {
-            TextPanel1.SetActive(false);
-            TextPanel2.SetActive(true);
-            BossPattern = 0;
-        }
+        //if (boss.GetComponent<BossStatus>().nBossHP < boss.GetComponent<BossStatus>().InitHP / 2 && Count > 1)
+        //{
+        //    ParryInstrucionText.SetActive(false);
+        //    InstructionText.SetActive(true);
+        //    BossPattern = 0;
+        //}
     }
 
     private void Update()
