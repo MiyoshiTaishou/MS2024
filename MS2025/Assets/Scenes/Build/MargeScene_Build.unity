@@ -2264,6 +2264,16 @@ PrefabInstance:
       propertyPath: damage
       value: 100
       objectReference: {fileID: 0}
+    - target: {fileID: 1543679455732522373, guid: 2d5a6b03460814e4d8ec665c744611bb,
+        type: 3}
+      propertyPath: SceneName
+      value: Title_Network_Build
+      objectReference: {fileID: 0}
+    - target: {fileID: 1543679455732522373, guid: 2d5a6b03460814e4d8ec665c744611bb,
+        type: 3}
+      propertyPath: transitionManager
+      value: 
+      objectReference: {fileID: 1270586526}
     - target: {fileID: 3850866010930052348, guid: 2d5a6b03460814e4d8ec665c744611bb,
         type: 3}
       propertyPath: ComboKeepframe

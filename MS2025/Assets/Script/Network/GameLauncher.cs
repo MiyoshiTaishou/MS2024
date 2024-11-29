@@ -23,6 +23,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
     [SerializeField, Header("プレイヤーを生成しないシーンリスト")] private string[] skipScenes;
     [SerializeField, Header("開始人数")] private int playerNum;
     [SerializeField, Header("キャラ画像")] private GameObject[] charobj;
+    [SerializeField, Header("skyBox")] private StartSkyBoxChange skyBoxChange;
 
     private NetworkRunner networkRunner;
     private bool openDelayFlag = false;
@@ -35,6 +36,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
         // XBoxのAボタン（Submitに割り当てられている）を押したら接続を切る
         if (Input.GetButtonDown("Cancel")) {
             DisconnectFromServer();
+            skyBoxChange.CancelChange();
         }
 
         if (openDelayFlag){
