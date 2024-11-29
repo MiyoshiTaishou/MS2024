@@ -74,8 +74,8 @@ public class SoundManager : MonoBehaviour
             }
             else
             {
-               // Debug.LogError("プレイヤーがいないよ");
-
+                // Debug.LogError("プレイヤーがいないよ");
+                playeron = false;
             }
         }
 
@@ -89,7 +89,7 @@ public class SoundManager : MonoBehaviour
             }
             else
             {
-                //Debug.LogError("ボスがいないよ");
+                bosson= false;
             }
         }
 
@@ -104,6 +104,7 @@ public class SoundManager : MonoBehaviour
             else
             {
                 //Debug.LogError("ボスがいないよ");
+                otheron = true;
             }
         }
 
