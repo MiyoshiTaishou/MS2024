@@ -30,6 +30,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
     private bool closeDelayFlag = false;
     private float openDelayTime = 0.0f;
     private float closeDelayTime = 0.0f;
+    private string roomNameTemp = "";
 
     private void Update()
     {
@@ -88,14 +89,17 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 
     // ボタンを押してホストとしてゲームを開始する
     public void StartHost(string roomName) {
+        if (roomName == "" || roomName == null) {
+            roomName = roomNameTemp;
+        }
         StartGame(GameMode.AutoHostOrClient, roomName);
     }
 
+    public void SetRoomName(string roomName) {
+        roomNameTemp = roomName;
+    }
+
     public void StartDebug() {
-        // if(roomNameInputField.text == ""){
-        //     roomNameInputField.text = (string)System.Random.value;
-        //     Debug.LogWarning(roomNameInputField.text);
-        // }
         StartGame(GameMode.AutoHostOrClient, roomNameInputField.text);
     }
 

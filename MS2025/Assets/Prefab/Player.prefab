@@ -5660,6 +5660,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   acceleration: 30
   maxSpeed: 10
+  LimitSpeed: 10
   _isReflection: 0
   _isMove: 0
 --- !u!114 &7588640461257048479
@@ -5723,8 +5724,8 @@ MonoBehaviour:
   specialTimeWait: 0.01
   specialColor: {r: 1, g: 0.98927224, b: 0, a: 0}
   ComboList: []
-  Tanukiparticle: {fileID: 2382725228349261798}
-  Kituneparticle: {fileID: 2996601022003781360}
+  Tanukiparticle: {fileID: 2996601022003781360}
+  Kituneparticle: {fileID: 2382725228349261798}
   clip: {fileID: 8300000, guid: d1caadd9f3d3e5142b744d13c3631965, type: 3}
 --- !u!114 &5507341137057323025
 MonoBehaviour:

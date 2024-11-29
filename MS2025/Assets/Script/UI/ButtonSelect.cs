@@ -29,7 +29,8 @@ public class ButtonSelect : MonoBehaviour
     private float inputThreshold = 0.5f; // 入力を受け付ける最小値
 
     [SerializeField] AudioSource Audio;
-    [SerializeField] AudioClip Clip;
+    [SerializeField,Tooltip("決定音")] AudioClip Clip;
+    [SerializeField, Tooltip("キャンセル音")] AudioClip CancelClip;
 
     // Start is called before the first frame update
     void Start()
@@ -57,6 +58,14 @@ public class ButtonSelect : MonoBehaviour
         HandleButtonSelection();
         HandleButtonPress();
         CanselButtonPress();       
+    }
+
+    void OnEnable() {
+        buttonObj[selectedIndex].GetComponent<Image>().color = selectColor;
+    }
+    void OnDisable() {
+        // buttons[selectedIndex].Select();
+        buttonObj[selectedIndex].GetComponent<Image>().color = baseColor;
     }
 
     private void HandleButtonSelection()
@@ -110,9 +119,22 @@ public class ButtonSelect : MonoBehaviour
             selectedIndex = 0;
             CancelButton.onClick.Invoke();
             bButtonTriggered = true;
+
+            Debug.Log("キャンセル" + CancelClip);
+
+            Audio.PlayOneShot(CancelClip);
+
+            // buttonObj[selectedIndex].GetComponent<Image>().color = baseColor;
+
         }
         //if (Input.GetButtonUp("Cancel")) {
         //    bButtonTriggered = false;
         //}
+    }
+
+    public void ResetButtonColor() {
+        foreach (GameObject obj in buttonObj) {
+            obj.GetComponent<Image>().color = baseColor;
+        }
     }
 }
