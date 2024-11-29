@@ -137,9 +137,12 @@ public class BossAttackArea : NetworkBehaviour
             }
             //Ç±Ç±Ç‹Ç≈TriggerStay
             Debug.Log("çUåÇÉqÉbÉg");
-            box.GetComponent<ShareNumbers>().CurrentHP--;
-            box.GetComponent<ShareNumbers>().RPC_Damage();
-            other.GetComponent<PlayerHP>().RPC_DamageAnim();
+            if (other.GetComponent<PlayerHP>().inbisibleFrame == 0)
+            {
+                box.GetComponent<ShareNumbers>().CurrentHP--;
+                box.GetComponent<ShareNumbers>().RPC_Damage();
+                other.GetComponent<PlayerHP>().RPC_DamageAnim();
+            }
             Render();
             ResetToOriginalPosition(); // å≥ÇÃà íuÇ…ñﬂÇ∑
             gameObject.SetActive(false);

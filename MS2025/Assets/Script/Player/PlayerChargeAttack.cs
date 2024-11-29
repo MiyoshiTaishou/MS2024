@@ -118,7 +118,7 @@ public class PlayerChargeAttack : NetworkBehaviour
         {
             sprite.color = color;
         }
-        else
+        else if (GetComponent<PlayerHP>().inbisibleFrame == 0)
         {
             sprite.color = Color.white;
 

@@ -64,7 +64,8 @@ public class CameraZoom : NetworkBehaviour
             float rangeX = maxX - minX;
             float center;
             //float newZ = Mathf.Lerp(minZ, maxZ, dd / zoomConf); // 「10f」は範囲のスケールに応じて調整可能
-            float newZ = minZ1 - (dd * zoomConf) - minZ;
+            //float newZ = minZ1 - (dd * zoomConf) - minZ;
+            float newZ = minZ - Mathf.Abs(rangeX);
             center = (minX + maxX) / 2;
             Vector3 pos = transform.position;
             pos.x = center;
