@@ -8,27 +8,28 @@ using UnityEngine.UI;
 using UnityEngine.UIElements;
 using static System.Net.Mime.MediaTypeNames;
 
-public class FadeInText : NetworkBehaviour
+public class OnFadeInText : NetworkBehaviour
 {
 
     private float alpha;             //パネルのalpha値取得変数
     private bool fadein;          //フェードインのフラグ用変数
     private int Count;
+    public GameObject Boss;
 
     // Start is called before the first frame update
     void Start()
     {
-       
+
         alpha = this.GetComponent<UnityEngine.UI.Text>().color.a;
     }
 
     void Update()
     {
-       if(Count<60)
+        if (Count < 60)
         {
             Count++;
         }
-        else 
+        else
         {
             Time.timeScale = 0.0f;
             FadeIn();
@@ -50,9 +51,10 @@ public class FadeInText : NetworkBehaviour
         this.GetComponent<UnityEngine.UI.Outline>().effectColor = outcolor;
         if (color.a <= 0)
         {
+            Boss.GetComponent<TutoriarBossAI>().enabled = true;
             Time.timeScale = 1.0f;
             this.gameObject.SetActive(false);
-         
+
         }
     }
 }
