@@ -152,7 +152,7 @@ public class PlayerMove : NetworkBehaviour
         if (landAnimStateInfo.IsName("APlayerJumpUp") || landAnimStateInfo.IsName("APlayerJumpDown") ||
             landAnimStateInfo.IsName("APlayerParry")||landAnimStateInfo.IsName("APlayerCounter")||
             landAnimStateInfo.IsName("APlayerAttack")|| landAnimStateInfo.IsName("APlayerAttack2")|| landAnimStateInfo.IsName("APlayerAttack3")||
-            landAnimStateInfo.IsName("APlayerCoordinatedAttack"))
+            landAnimStateInfo.IsName("APlayerCoordinatedAttack")||landAnimStateInfo.IsName("APlayerKachiage"))
         {
             return;
         }
