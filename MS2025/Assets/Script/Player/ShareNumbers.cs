@@ -1,4 +1,5 @@
 using Fusion;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
@@ -27,6 +28,14 @@ public class ShareNumbers : NetworkBehaviour
     int magnification = 2;
     [SerializeField] int damage = 10;
 
+    [Header("€‚ñ‚¾‚Æ‚«‚Ì‘JˆÚæƒV[ƒ“–¼"), SerializeField]
+    private String SceneName;
+
+    private NetworkRunner networkRunner;
+
+    [SerializeField]
+    private TransitionManager transitionManager;
+
     public override void FixedUpdateNetwork()
     {
         if(nCombo == 0)
@@ -52,6 +61,13 @@ public class ShareNumbers : NetworkBehaviour
     public void RPC_Damage()
     {              
         HPUI[CurrentHP].SetActive(false);
+
+        if (CurrentHP == 0)
+        {
+            transitionManager.TransitionStart();
+            StartCoroutine(Load());
+        }
+
     }
 
     public void BossDamage()
@@ -139,5 +155,12 @@ public class ShareNumbers : NetworkBehaviour
             Debug.LogError("HPUI ‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ‚Å‚µ‚½");
         }
 
+        networkRunner = FindObjectOfType<NetworkRunner>();
+    }
+
+    private IEnumerator Load()
+    {
+        yield return new WaitForSeconds(2f);
+        networkRunner.LoadScene(SceneName);
     }
 }
