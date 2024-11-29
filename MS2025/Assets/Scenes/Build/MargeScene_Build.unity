@@ -3780,6 +3780,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: StageAsset2
       objectReference: {fileID: 0}
+    - target: {fileID: 6488287454505898729, guid: 368429c4cf6329a428d442e74319c75d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7016888561829049921, guid: 368429c4cf6329a428d442e74319c75d,
         type: 3}
       propertyPath: m_IsActive
@@ -3793,7 +3798,7 @@ PrefabInstance:
     - target: {fileID: 7198157054709091733, guid: 368429c4cf6329a428d442e74319c75d,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 95
+      value: 74.1
       objectReference: {fileID: 0}
     - target: {fileID: 7198157054709091733, guid: 368429c4cf6329a428d442e74319c75d,
         type: 3}
@@ -3834,6 +3839,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7306178670290542484, guid: 368429c4cf6329a428d442e74319c75d,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 8030872494527658083, guid: 368429c4cf6329a428d442e74319c75d,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 8211371021564180246, guid: 368429c4cf6329a428d442e74319c75d,
         type: 3}
@@ -13007,7 +13022,7 @@ PrefabInstance:
     - target: {fileID: 8577569533820186930, guid: 1c3f60a1b83d6a543ac745472a0e6306,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9209529800278843238, guid: 1c3f60a1b83d6a543ac745472a0e6306,
         type: 3}

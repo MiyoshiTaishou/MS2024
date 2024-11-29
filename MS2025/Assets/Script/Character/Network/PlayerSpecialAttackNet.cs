@@ -26,6 +26,8 @@ public class PlayerSpecialAttackNet : NetworkBehaviour
     [SerializeField, Tooltip("必殺技使える時のプレイヤーパーティクル")] private ParticleSystem Tanukiparticle;
     [SerializeField, Tooltip("必殺技使える時のプレイヤーパーティクル")] private ParticleSystem Kituneparticle;
 
+    private AudioSource source;
+    [SerializeField, Tooltip("必殺技使えるタイミングで鳴らす音")] private AudioClip clip;
 
     public override void Spawned()
     {
@@ -40,6 +42,8 @@ public class PlayerSpecialAttackNet : NetworkBehaviour
 
             }
         }
+
+        source = GetComponent<AudioSource>();
     }
 
     public override void FixedUpdateNetwork()
@@ -91,7 +95,6 @@ public class PlayerSpecialAttackNet : NetworkBehaviour
         {
             for (int i = 0; i < ComboList.Count; i++)
             {
-                Color col = ComboList[i].color;
                 Color color = Color.white;
                 color.a = ComboList[i].color.a;
                 ComboList[i].color = color;
@@ -107,8 +110,8 @@ public class PlayerSpecialAttackNet : NetworkBehaviour
             {
                 if(!Tanukiparticle.isPlaying)
                 {
+                    source.PlayOneShot(clip);
                     Tanukiparticle.Play();
-                    Debug.Log("タヌキ炎スタート");
 
                 }
             }
@@ -117,7 +120,6 @@ public class PlayerSpecialAttackNet : NetworkBehaviour
                 Tanukiparticle.Stop();
                 Kituneparticle.Stop();
 
-                Debug.Log("タヌキ炎エンド");
 
             }
         }
@@ -127,8 +129,8 @@ public class PlayerSpecialAttackNet : NetworkBehaviour
             {
                 if (!Tanukiparticle.isPlaying)
                 {
+                    source.PlayOneShot(clip);
                     Kituneparticle.Play();
-                    Debug.Log("キツネ炎スタート");
 
                 }
 
@@ -137,7 +139,6 @@ public class PlayerSpecialAttackNet : NetworkBehaviour
             {
                 Tanukiparticle.Stop();
                 Kituneparticle.Stop();
-                Debug.Log("キツネ炎エンド");
 
             }
 
