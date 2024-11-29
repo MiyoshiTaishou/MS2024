@@ -37,15 +37,4 @@ public class UIController : NetworkBehaviour
         hostUI.SetActive(false);
         clientUI.SetActive(true);
     }
-
-    public void SEScore()
-    {
-        GetComponent<AudioSource>().Play();
-    }
-    
-    [Rpc(RpcSources.All, RpcTargets.All)]
-    public void RPC_SEScore()
-    {
-        SEScore();
-    }
 }

@@ -7,19 +7,62 @@ public class PlayerHP : NetworkBehaviour
 {
     GameObject box;
     [Networked]public bool isDamage { get; set; }
-
+    [SerializeField,Header("硬直フレーム")]int damageFrame;
+    [SerializeField, Header("ノックバック距離")] float knockbackDistance;
+    [SerializeField, Header("減衰ノックバック距離")] float knockbackSlowDistance;
+    int frame4_3;
+    int frame4_1;
+    int Count;
+    GameObject boss;
 
     public override void Spawned()
     {
         box = GameObject.Find("Networkbox");
+        boss = GameObject.Find("Boss2D");
+        if(!boss)
+        {
+            Debug.LogError("ボスないよ");
+        }
     }
 
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     public void RPC_DamageAnim()
     {
+        Count = damageFrame;
+        isDamage= true;
         GetComponent<Animator>().Play("APlayerHurt");
-        GetComponent<PlayerFreeze>().Freeze(120);
+        GetComponent<PlayerFreeze>().Freeze(damageFrame);
         GetComponent<PlayerDamageReceived>().DamageReceived();
+        frame4_3 = (damageFrame / 4) * 3;
+        frame4_1 = damageFrame / 4;
+    }
+
+    public override void FixedUpdateNetwork()
+    {
+        if(isDamage)
+        {
+            Vector3 bosspos=boss.transform.position;
+            Vector3 pos= transform.position;
+            frame4_1 = damageFrame / 4;
+            frame4_3 = frame4_1* 3;
+            bool isRight = pos.x < bosspos.x ? true : false;
+            float knockback=0;
+            if ((frame4_3+frame4_1>Count)&&(frame4_1<Count))
+            {
+                knockback = knockbackDistance / frame4_3;
+            }
+            else
+            {
+                knockback = knockbackSlowDistance/frame4_1;
+            }
+            pos.x += isRight ? -knockback : knockback;
+            transform.position = pos;
+            Count--;
+        }
+        if(!GetComponent<PlayerFreeze>().GetIsFreeze()) 
+        {
+            isDamage = false;
+        }
     }
 
     /// <summary>
