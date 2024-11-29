@@ -20,9 +20,9 @@ public class ChangeBossAction : NetworkBehaviour
     private GameObject TextPanel1;
     [SerializeField] private GameObject TextPanel2;
 
-    [SerializeField, Header("画像切り替え")]
-    private Sprite imageBase;
-    [SerializeField]private Sprite imageBoss;
+    [SerializeField, Header("説明テキストボックス")]
+    private GameObject TextBox;
+
     
     private void OnTriggerEnter(Collider other)
     {
@@ -40,15 +40,15 @@ public class ChangeBossAction : NetworkBehaviour
                 case 0:
                     TextPanel1.SetActive(false);
                     TextPanel2.SetActive(true);
-                    GameObject.Find("BossIcon").GetComponent<SpriteRenderer>().sprite = imageBase;
                     BossPattern = 1;
+                    TextBox.GetComponent<TextMesh>().text = "基本操作説明";
                     break;
 
                 case 1:
                     TextPanel2.SetActive(false);
                     TextPanel1.SetActive(true);
-                    GameObject.Find("BossIcon").GetComponent<SpriteRenderer>().sprite = imageBoss;
                     BossPattern = 0;
+                    TextBox.GetComponent<TextMesh>().text = "パリィ説明";
                     break;
             }
         }
