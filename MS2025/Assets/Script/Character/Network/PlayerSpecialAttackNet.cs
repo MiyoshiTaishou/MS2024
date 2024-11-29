@@ -29,6 +29,8 @@ public class PlayerSpecialAttackNet : NetworkBehaviour
     private AudioSource source;
     [SerializeField, Tooltip("必殺技使えるタイミングで鳴らす音")] private AudioClip clip;
 
+    PlayerParryNet parry;
+
     public override void Spawned()
     {
         //必殺技再生用オブジェクト探索
@@ -44,6 +46,7 @@ public class PlayerSpecialAttackNet : NetworkBehaviour
         }
 
         source = GetComponent<AudioSource>();
+        parry = GetComponent<PlayerParryNet>();
     }
 
     public override void FixedUpdateNetwork()
@@ -104,45 +107,39 @@ public class PlayerSpecialAttackNet : NetworkBehaviour
 
     public override void Render()
     {
-        if (Object.HasStateAuthority)
+        if (comboCountObject.GetComponent<ShareNumbers>().nCombo >= specialNum)
         {
-            if (comboCountObject.GetComponent<ShareNumbers>().nCombo >= specialNum)
-            {
-                if(!Tanukiparticle.isPlaying)
-                {
-                    source.PlayOneShot(clip);
-                    Tanukiparticle.Play();
 
-                }
-            }
-            else
-            {
-                Tanukiparticle.Stop();
-                Kituneparticle.Stop();
-
-
-            }
-        }
-        else
-        {
-            if (comboCountObject.GetComponent<ShareNumbers>().nCombo >= specialNum)
+            source.PlayOneShot(clip);
+            if (parry.isTanuki)
             {
                 if (!Tanukiparticle.isPlaying)
                 {
-                    source.PlayOneShot(clip);
+                    Tanukiparticle.Play();
+
+                }
+
+
+
+            }
+            else
+            {
+                if (!Kituneparticle.isPlaying)
+                {
                     Kituneparticle.Play();
 
                 }
 
-            }
-            else
-            {
-                Tanukiparticle.Stop();
-                Kituneparticle.Stop();
 
             }
 
         }
+        else
+        {
+            Tanukiparticle.Stop();
+            Kituneparticle.Stop();
+        }
+
     }
 
     [Rpc(RpcSources.All, RpcTargets.All)]
