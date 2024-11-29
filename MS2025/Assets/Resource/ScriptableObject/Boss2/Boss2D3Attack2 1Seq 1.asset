@@ -9,12 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2362f019bfcb0bd49b3f2b148fb8694a, type: 3}
-  m_Name: RoundAction
+  m_Script: {fileID: 11500000, guid: 29429c0f62db2354f954e021ed15468f, type: 3}
+  m_Name: Boss2D3Attack2 1Seq 1
   m_EditorClassIdentifier: 
-  actionName: wark1
-  moveSpeed: 10
-  radius: 15
-  angularSpeed: 3
-  centerPoint: {x: 0, y: 5, z: -5}
-  moveTime: 3
+  actions:
+  - {fileID: 11400000, guid: a4216cf7738c64446b3fd07335d20645, type: 2}
+  - {fileID: 11400000, guid: 886d58a142e7b3b4e8a34b9972de192a, type: 2}
