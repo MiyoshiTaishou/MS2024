@@ -20,16 +20,16 @@ public class SwitchActive : MonoBehaviour
         // gameLauncher = GetComponent<GameLauncher>();
 	}
 	private void Update() {
-        // if (isDelayFlag && gameLauncher.IsAnimation()){
-        if (isDelayFlag){
+        if (isDelayFlag && gameLauncher.IsAnimation()){
+        // if (isDelayFlag){
             if (isDelayTime <= 0.0f) {
                 IsActive();
                 isDelayFlag = false;
             }
             isDelayTime -= Time.deltaTime;
         }
-        // if (disDelayFlag && gameLauncher.IsAnimation()){
-        if (disDelayFlag){
+        if (disDelayFlag && gameLauncher.IsAnimation()){
+        // if (disDelayFlag){
             if (disDelayTime <= 0.0f) {
                 DisActive();
                 disDelayFlag = false;
