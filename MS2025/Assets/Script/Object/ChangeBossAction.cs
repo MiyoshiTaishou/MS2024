@@ -11,6 +11,8 @@ public class ChangeBossAction : NetworkBehaviour
     
     private int BossPattern;
 
+    private int Count;//開幕nBossHPを参照するとSpawn前でエラーが出るので、少し待たせるためのカウント
+
     [SerializeField, Header("変更する行動")]
     private BossActionSequence bossAction;
 
@@ -46,14 +48,26 @@ public class ChangeBossAction : NetworkBehaviour
         }
     }
 
-    private void Update()
+    private void HPCheck()
     {
-        
-        if(boss.GetComponent<BossStatus>().nBossHP<boss.GetComponent<BossStatus>().InitHP / 2)
+        if (boss.GetComponent<BossStatus>().nBossHP < boss.GetComponent<BossStatus>().InitHP / 2 && Count > 1)
         {
             TextPanel1.SetActive(false);
             TextPanel2.SetActive(true);
             BossPattern = 0;
+        }
+    }
+
+    private void Update()
+    {
+        if(Count>=10)
+        {
+            HPCheck();
+        }
+        else
+        {
+            Count++;
+
         }
 
     }

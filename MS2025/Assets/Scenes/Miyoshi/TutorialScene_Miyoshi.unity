@@ -2020,6 +2020,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c36ffda8cdf844147ab47a0ab93179a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Count: 0
+  FadeInCount: 180
 --- !u!114 &230053396
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3047,6 +3049,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c36ffda8cdf844147ab47a0ab93179a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Count: 0
+  FadeInCount: 120
 --- !u!114 &449934060
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3230,6 +3234,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c36ffda8cdf844147ab47a0ab93179a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Count: 0
+  FadeInCount: 60
 --- !u!114 &461701097
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4574,6 +4580,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &680528725 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4405010710886284918, guid: 75272d9e04545f442ba51314bef17477,
+    type: 3}
+  m_PrefabInstance: {fileID: 680528723}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &690257546
@@ -7263,6 +7281,11 @@ PrefabInstance:
       propertyPath: Backslider
       value: 
       objectReference: {fileID: 680528724}
+    - target: {fileID: 728711347568068367, guid: 745fd90e17809384d980f68c8c476341,
+        type: 3}
+      propertyPath: Sliderimage
+      value: 
+      objectReference: {fileID: 680528725}
     - target: {fileID: 728711347568068367, guid: 745fd90e17809384d980f68c8c476341,
         type: 3}
       propertyPath: gameManager
@@ -16066,6 +16089,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c36ffda8cdf844147ab47a0ab93179a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Count: 0
+  FadeInCount: 240
 --- !u!114 &1923557913
 MonoBehaviour:
   m_ObjectHideFlags: 0
