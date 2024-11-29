@@ -23,6 +23,10 @@ public class PlayerSpecialAttackNet : NetworkBehaviour
     [SerializeField,Tooltip("必殺技使える時のコンボ数の色")] Color specialColor;
     [SerializeField,ReadOnly] private List<Image> ComboList;
 
+    [SerializeField, Tooltip("必殺技使える時のプレイヤーパーティクル")] private ParticleSystem Tanukiparticle;
+    [SerializeField, Tooltip("必殺技使える時のプレイヤーパーティクル")] private ParticleSystem Kituneparticle;
+
+
     public override void Spawned()
     {
         //必殺技再生用オブジェクト探索
@@ -92,6 +96,51 @@ public class PlayerSpecialAttackNet : NetworkBehaviour
                 color.a = ComboList[i].color.a;
                 ComboList[i].color = color;
             }
+        }
+    }
+
+    public override void Render()
+    {
+        if (Object.HasStateAuthority)
+        {
+            if (comboCountObject.GetComponent<ShareNumbers>().nCombo >= specialNum)
+            {
+                if(!Tanukiparticle.isPlaying)
+                {
+                    Tanukiparticle.Play();
+                    Debug.Log("タヌキ炎スタート");
+
+                }
+            }
+            else
+            {
+                Tanukiparticle.Stop();
+                Kituneparticle.Stop();
+
+                Debug.Log("タヌキ炎エンド");
+
+            }
+        }
+        else
+        {
+            if (comboCountObject.GetComponent<ShareNumbers>().nCombo >= specialNum)
+            {
+                if (!Tanukiparticle.isPlaying)
+                {
+                    Kituneparticle.Play();
+                    Debug.Log("キツネ炎スタート");
+
+                }
+
+            }
+            else
+            {
+                Tanukiparticle.Stop();
+                Kituneparticle.Stop();
+                Debug.Log("キツネ炎エンド");
+
+            }
+
         }
     }
 

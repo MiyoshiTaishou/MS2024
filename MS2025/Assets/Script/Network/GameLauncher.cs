@@ -19,19 +19,37 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
     [SerializeField] private string gameScene; // SceneRef に変更
     [SerializeField] private int numBoss = 1;
     [SerializeField] Image LoadingImage;
-    [SerializeField, Header("トランジションオブジェクト")] private GameObject[] transiton;
+    [SerializeField, Header("トランジションオブジェクト")] private GameObject[] transition;
     [SerializeField, Header("プレイヤーを生成しないシーンリスト")] private string[] skipScenes;
     [SerializeField, Header("開始人数")] private int playerNum;
     [SerializeField, Header("キャラ画像")] private GameObject[] charobj;
 
     private NetworkRunner networkRunner;
+    private bool openDelayFlag = false;
+    private bool closeDelayFlag = false;
+    private float openDelayTime = 0.0f;
+    private float closeDelayTime = 0.0f;
 
     private void Update()
     {
         // XBoxのAボタン（Submitに割り当てられている）を押したら接続を切る
-        if (Input.GetButtonDown("Cancel"))
-        {
+        if (Input.GetButtonDown("Cancel")) {
             DisconnectFromServer();
+        }
+
+        if (openDelayFlag){
+            if (openDelayTime <= 0.0f) {
+                Open();
+                openDelayFlag = false;
+            }
+            openDelayTime -= Time.deltaTime;
+        }
+        if (closeDelayFlag){
+            if (closeDelayTime <= 0.0f) {
+                Close();
+                closeDelayFlag = false;
+            }
+            closeDelayTime -= Time.deltaTime;
         }
     }
 
@@ -53,7 +71,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
             LoadingImage.gameObject.SetActive(false);
 
             //トランジション再生開始
-            foreach (var tran in transiton)
+            foreach (var tran in transition)
             {
                 tran.GetComponent<Animator>().SetTrigger("Reverse");
             }
@@ -84,7 +102,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
     private async void StartGame(GameMode mode, string roomName) {
         networkRunner = FindObjectOfType<NetworkRunner>();
         if (networkRunner == null) {
-            networkRunner = Instantiate(networkRunnerPrefab);           
+            networkRunner = Instantiate(networkRunnerPrefab);
         }
 
         // このスクリプトでコールバックを処理できるようにする
@@ -95,7 +113,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
         LoadingImage.gameObject.SetActive(true);
 
         //トランジション再生開始
-        foreach (var tran in transiton) {
+        foreach (var tran in transition) {
             tran.GetComponent<Animator>().SetTrigger("Start");
         }
 
@@ -215,4 +233,35 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
     public void OnDisconnectedFromServer(NetworkRunner runner, NetDisconnectReason reason) {}
     public void OnReliableDataReceived(NetworkRunner runner, PlayerRef player, ReliableKey key, ArraySegment<byte> data) {}
     public void OnReliableDataProgress(NetworkRunner runner, PlayerRef player, ReliableKey key, float progress) {}
+
+    public void Open(float time = 0.0f) {
+        if (time > 0.0f) {
+            openDelayFlag = true;
+            openDelayTime = time;
+            return;
+        }
+        foreach (var tran in transition) {
+            tran.GetComponent<Animator>().SetTrigger("Reverse");
+        }
+    }
+    public void Close(float time = 0.0f) {
+        if (time > 0.0f) {
+            closeDelayFlag = true;
+            closeDelayTime = time;
+            return;
+        }
+        foreach (var tran in transition){
+            tran.GetComponent<Animator>().SetTrigger("Start");
+        }
+    }
+
+    public bool IsAnimation() {
+        foreach (var tran in transition) {
+            Animator animator = tran.GetComponent<Animator>();
+            if (animator != null && animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
