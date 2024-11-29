@@ -171,7 +171,7 @@ public class SoundSliderSelect : MonoBehaviour
             else
             {
                 // m_ActiveSound.ShowObject();
-                cancel.GetComponent<SwitchActive>().DisActive();
+                cancel.GetComponent<SceneChange>().Back();
             }
 
         }
