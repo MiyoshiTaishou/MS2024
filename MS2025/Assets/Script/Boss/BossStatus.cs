@@ -22,7 +22,7 @@ public class BossStatus : NetworkBehaviour
 
     [SerializeField] private UnityEngine.UI.Slider Backslider;
 
-    [SerializeField]private Image Sliderimage;
+    [SerializeField]private Image Fill;
 
     [SerializeField] private Color HPBar2= new Color32(25, 176, 0, 255);
     [SerializeField] private Color HPBar3= new Color32(255, 221, 0, 255);
@@ -190,12 +190,12 @@ public class BossStatus : NetworkBehaviour
 
         if (DeathCount == 1)
         {
-            Sliderimage.color = HPBar2;
+            Fill.color = HPBar2;
             Destroy(GameObject.Find("BossHPBarP"));
         }
         else if (DeathCount == 2)
         {
-            Sliderimage.color = HPBar3;
+            Fill.color = HPBar3;
             Destroy(GameObject.Find("BossHPBarG"));
         }
         else if(DeathCount==3)
