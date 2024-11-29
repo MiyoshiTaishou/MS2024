@@ -75,6 +75,10 @@ public class PlayerChargeAttack : NetworkBehaviour
     {
         if (Object.HasStateAuthority && GetInput(out NetworkInputData data))
         {
+            if(GetComponent<PlayerJumpNet>().GetisJumping())
+            {
+                return;
+            }
             AnimatorStateInfo landAnimStateInfo = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
             if (landAnimStateInfo.IsName("APlayerJumpUp") || landAnimStateInfo.IsName("APlayerJumpDown")//ジャンプ中は攻撃しない
                 || freeze.GetIsFreeze())
