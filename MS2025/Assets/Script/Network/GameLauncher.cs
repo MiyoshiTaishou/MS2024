@@ -92,6 +92,10 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
     }
 
     public void StartDebug() {
+        if(roomNameInputField.text == ""){
+            roomNameInputField.text = (string)System.Random.value;
+            Debug.LogWarning(roomNameInputField.text);
+        }
         StartGame(GameMode.AutoHostOrClient, roomNameInputField.text);
     }
 
