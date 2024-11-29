@@ -29,7 +29,8 @@ public class ButtonSelect : MonoBehaviour
     private float inputThreshold = 0.5f; // 入力を受け付ける最小値
 
     [SerializeField] AudioSource Audio;
-    [SerializeField] AudioClip Clip;
+    [SerializeField,Tooltip("決定音")] AudioClip Clip;
+    [SerializeField, Tooltip("キャンセル音")] AudioClip CancelClip;
 
     // Start is called before the first frame update
     void Start()
@@ -110,6 +111,9 @@ public class ButtonSelect : MonoBehaviour
             selectedIndex = 0;
             CancelButton.onClick.Invoke();
             bButtonTriggered = true;
+            Debug.Log("キャンセル" + CancelClip);
+
+            Audio.PlayOneShot(CancelClip);
         }
         //if (Input.GetButtonUp("Cancel")) {
         //    bButtonTriggered = false;
