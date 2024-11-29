@@ -1,6 +1,7 @@
 using Fusion;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.UI;
@@ -31,6 +32,16 @@ public class PlayerSpecialAttackNet : NetworkBehaviour
 
     PlayerParryNet parry;
 
+    [Networked]
+    private bool SpecialWait1P { get;set; }
+
+    [Networked]
+    private bool SpecialWait2P { get; set; }
+
+    private bool isHost = false;
+
+    private float SpecialTimeDouble = 10.0f;
+
     public override void Spawned()
     {
         //必殺技再生用オブジェクト探索
@@ -41,12 +52,16 @@ public class PlayerSpecialAttackNet : NetworkBehaviour
             if (GameObject.Find("MainGameUI/Combo").transform.GetChild(j).GetComponent<Image>())
             {
                 ComboList.Add(GameObject.Find("MainGameUI/Combo").transform.GetChild(j).GetComponent<Image>());
-
             }
         }
 
         source = GetComponent<AudioSource>();
         parry = GetComponent<PlayerParryNet>();
+
+        if (Object.HasInputAuthority)
+        {
+            isHost = true;
+        }
     }
 
     public override void FixedUpdateNetwork()
@@ -69,10 +84,25 @@ public class PlayerSpecialAttackNet : NetworkBehaviour
             //攻撃ボタンを押したときにコンボカウントが指定の数を超えてる場合再生
             if (SpecialTime > 0.0f && SpecialTime2 > 0.0f && comboCountObject.GetComponent<ShareNumbers>().nCombo >= specialNum)
             {               
-                RPC_SpecialAttack();
+                if(isHost)
+                {
+                    SpecialWait1P = true;
+                }
+                else
+                {
+                    SpecialWait2P = true;
+                }
+                
+                SpecialTimeDouble = 10.0f;
+            }
+
+            //二人とも押したら
+            if(SpecialWait1P && SpecialWait2P)
+            {
                 SpecialTime = 0.0f;
                 SpecialTime2 = 0.0f;
                 GetComponent<PlayerMove>().isMove = false;
+                RPC_SpecialAttack();
             }
 
 
@@ -84,6 +114,11 @@ public class PlayerSpecialAttackNet : NetworkBehaviour
             if (SpecialTime2 > 0.0f)
             {
                 SpecialTime2 -= Time.deltaTime;
+            }
+
+            if(SpecialTimeDouble > 0.0f)
+            {
+                SpecialTimeDouble -= Time.deltaTime;
             }
         }
 
@@ -110,13 +145,13 @@ public class PlayerSpecialAttackNet : NetworkBehaviour
         if (comboCountObject.GetComponent<ShareNumbers>().nCombo >= specialNum)
         {
 
-            source.PlayOneShot(clip);
+            
             if (parry.isTanuki)
             {
                 if (!Tanukiparticle.isPlaying)
                 {
                     Tanukiparticle.Play();
-
+                    source.PlayOneShot(clip);
                 }
 
 
@@ -127,7 +162,7 @@ public class PlayerSpecialAttackNet : NetworkBehaviour
                 if (!Kituneparticle.isPlaying)
                 {
                     Kituneparticle.Play();
-
+                    source.PlayOneShot(clip);
                 }
 
 
