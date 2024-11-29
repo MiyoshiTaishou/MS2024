@@ -9702,12 +9702,12 @@ PrefabInstance:
     - target: {fileID: 2166228242022595646, guid: 7e7bca2dbb9956846b17b3c1b93926ab,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: LoadMenu
+      value: OneMoreLoad
       objectReference: {fileID: 0}
     - target: {fileID: 2166228242022595646, guid: 7e7bca2dbb9956846b17b3c1b93926ab,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: MenuLoad, Assembly-CSharp
+      value: OneMoreStage, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 2166228242022595646, guid: 7e7bca2dbb9956846b17b3c1b93926ab,
         type: 3}
@@ -10391,10 +10391,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 8916930347922865369}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 31c373babb0cdce4ca9224889768cffa, type: 3}
+  m_Script: {fileID: 11500000, guid: 951f7332cf35fd5409dbe8ba2dd04eef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ResultSceneName: Boss2Stage
+  nextSceneName: Boss2Stage
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
