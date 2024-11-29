@@ -1,7 +1,5 @@
 using Fusion;
-using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.UI;
@@ -11,9 +9,9 @@ public class PlayerSpecialAttackNet : NetworkBehaviour
     [Networked] public NetworkButtons ButtonsPrevious { get; set; }
     [Networked] public int specialNum { get; set; }
     [Networked] public int specialDamage { get; set; }
-   
-    GameObject director;
-    GameObject comboCountObject;
+
+    private GameObject director;
+    private GameObject comboCountObject;
 
     private float SpecialTime = 0.0f;
     private float SpecialTime2 = 0.0f;
@@ -21,37 +19,46 @@ public class PlayerSpecialAttackNet : NetworkBehaviour
     [Header("猶予時間"), SerializeField]
     private float specialTimeWait = 0.2f;
 
-    [SerializeField,Tooltip("必殺技使える時のコンボ数の色")] Color specialColor;
-    [SerializeField,ReadOnly] private List<Image> ComboList;
+    [SerializeField, Tooltip("必殺技使える時のコンボ数の色")]
+    private Color specialColor;
 
-    [SerializeField, Tooltip("必殺技使える時のプレイヤーパーティクル")] private ParticleSystem Tanukiparticle;
-    [SerializeField, Tooltip("必殺技使える時のプレイヤーパーティクル")] private ParticleSystem Kituneparticle;
+    [SerializeField, ReadOnly]
+    private List<Image> ComboList = new List<Image>();
+
+    [SerializeField, Tooltip("必殺技使える時のプレイヤーパーティクル")]
+    private ParticleSystem Tanukiparticle;
+
+    [SerializeField, Tooltip("必殺技使える時のプレイヤーパーティクル")]
+    private ParticleSystem Kituneparticle;
 
     private AudioSource source;
-    [SerializeField, Tooltip("必殺技使えるタイミングで鳴らす音")] private AudioClip clip;
+    [SerializeField, Tooltip("必殺技使えるタイミングで鳴らす音")]
+    private AudioClip clip;
 
-    PlayerParryNet parry;
+    private PlayerParryNet parry;
 
     [Networked]
-    private bool SpecialWait1P { get;set; }
+    private bool SpecialWait1P { get; set; }
 
     [Networked]
     private bool SpecialWait2P { get; set; }
 
     private bool isHost = false;
 
-    private float SpecialTimeDouble = 10.0f;
-
     public override void Spawned()
     {
-        //必殺技再生用オブジェクト探索
+        // 必殺技再生用オブジェクト探索
         director = GameObject.Find("Director");
         comboCountObject = GameObject.Find("Networkbox");
-        for (int j = 0; j < GameObject.Find("MainGameUI/Combo").transform.childCount; j++)
+
+        // コンボUIのリストを取得
+        var comboUI = GameObject.Find("MainGameUI/Combo");
+        for (int j = 0; j < comboUI.transform.childCount; j++)
         {
-            if (GameObject.Find("MainGameUI/Combo").transform.GetChild(j).GetComponent<Image>())
+            var childImage = comboUI.transform.GetChild(j).GetComponent<Image>();
+            if (childImage != null)
             {
-                ComboList.Add(GameObject.Find("MainGameUI/Combo").transform.GetChild(j).GetComponent<Image>());
+                ComboList.Add(childImage);
             }
         }
 
@@ -71,20 +78,20 @@ public class PlayerSpecialAttackNet : NetworkBehaviour
             var pressed = data.Buttons.GetPressed(ButtonsPrevious);
             ButtonsPrevious = data.Buttons;
 
-            if(pressed.IsSet(NetworkInputButtons.Special))
+            if (pressed.IsSet(NetworkInputButtons.Special))
             {
                 SpecialTime = specialTimeWait;
             }
-            
-            if(pressed.IsSet(NetworkInputButtons.Attack))
+
+            if (pressed.IsSet(NetworkInputButtons.Attack))
             {
                 SpecialTime2 = specialTimeWait;
             }
 
-            //攻撃ボタンを押したときにコンボカウントが指定の数を超えてる場合再生
+            // 攻撃ボタンとスペシャルボタンが押され、コンボ数が指定数以上の場合
             if (SpecialTime > 0.0f && SpecialTime2 > 0.0f && comboCountObject.GetComponent<ShareNumbers>().nCombo >= specialNum)
-            {               
-                if(isHost)
+            {
+                if (isHost)
                 {
                     SpecialWait1P = true;
                 }
@@ -92,69 +99,47 @@ public class PlayerSpecialAttackNet : NetworkBehaviour
                 {
                     SpecialWait2P = true;
                 }
-                
-                SpecialTimeDouble = 10.0f;
+                Debug.Log("必殺技押した");                
             }
 
-            //二人とも押したら
-            if(SpecialWait1P && SpecialWait2P)
+            // 両プレイヤーが必殺技ボタンを押した場合
+            if (SpecialWait1P && SpecialWait2P)
             {
                 SpecialTime = 0.0f;
                 SpecialTime2 = 0.0f;
-                GetComponent<PlayerMove>().isMove = false;
+                SpecialWait1P = false;
+                SpecialWait2P = false;
 
-                if (isHost)
-                {
-                    SpecialWait1P = false;
-                }
-                else
-                {
-                    SpecialWait2P = false;
-                }
-
+                GetComponent<PlayerMove>().isMove = false; // 移動を一時停止
+                Debug.Log("必殺技出すぞ！");
                 RPC_SpecialAttack();
             }
 
-
-            if(SpecialTime > 0.0f)
-            {
-                SpecialTime -= Time.deltaTime;
-            }
-
-            if (SpecialTime2 > 0.0f)
-            {
-                SpecialTime2 -= Time.deltaTime;
-            }
-
-            if(SpecialTimeDouble > 0.0f)
-            {
-                if (isHost)
-                {
-                    SpecialWait1P = false;
-                }
-                else
-                {
-                    SpecialWait2P = false;
-                }
-
-                SpecialTimeDouble -= Time.deltaTime;
-            }
+            // タイマー減少処理
+            if (SpecialTime > 0.0f) SpecialTime -= Time.deltaTime;
+            if (SpecialTime2 > 0.0f) SpecialTime2 -= Time.deltaTime;
         }
 
+        // コンボUIの色変更処理
+        UpdateComboUI();
+    }
+
+    private void UpdateComboUI()
+    {
         if (comboCountObject.GetComponent<ShareNumbers>().nCombo >= specialNum)
         {
-            for(int i = 0;i < ComboList.Count;i++)
+            foreach (var combo in ComboList)
             {
-                ComboList[i].color = specialColor;
+                combo.color = specialColor;
             }
         }
         else
         {
-            for (int i = 0; i < ComboList.Count; i++)
+            foreach (var combo in ComboList)
             {
-                Color color = Color.white;
-                color.a = ComboList[i].color.a;
-                ComboList[i].color = color;
+                var color = Color.white;
+                color.a = combo.color.a;
+                combo.color = color;
             }
         }
     }
@@ -163,42 +148,37 @@ public class PlayerSpecialAttackNet : NetworkBehaviour
     {
         if (comboCountObject.GetComponent<ShareNumbers>().nCombo >= specialNum)
         {
-
-            
-            if (parry.isTanuki)
-            {
-                if (!Tanukiparticle.isPlaying)
-                {
-                    Tanukiparticle.Play();
-                    source.PlayOneShot(clip);
-                }
-
-
-
-            }
-            else
-            {
-                if (!Kituneparticle.isPlaying)
-                {
-                    Kituneparticle.Play();
-                    source.PlayOneShot(clip);
-                }
-
-
-            }
-
+            PlaySpecialParticles();
         }
         else
         {
-            Tanukiparticle.Stop();
-            Kituneparticle.Stop();
+            StopSpecialParticles();
         }
+    }
 
+    private void PlaySpecialParticles()
+    {
+        if (parry.isTanuki && !Tanukiparticle.isPlaying)
+        {
+            Tanukiparticle.Play();
+            source.PlayOneShot(clip);
+        }
+        else if (!parry.isTanuki && !Kituneparticle.isPlaying)
+        {
+            Kituneparticle.Play();
+            source.PlayOneShot(clip);
+        }
+    }
+
+    private void StopSpecialParticles()
+    {
+        if (Tanukiparticle.isPlaying) Tanukiparticle.Stop();
+        if (Kituneparticle.isPlaying) Kituneparticle.Stop();
     }
 
     [Rpc(RpcSources.All, RpcTargets.All)]
     public void RPC_SpecialAttack()
     {
-        director.GetComponent<PlayableDirector>().Play();       
+        director.GetComponent<PlayableDirector>().Play();
     }
 }

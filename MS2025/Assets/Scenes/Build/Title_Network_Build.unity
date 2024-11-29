@@ -2799,11 +2799,9 @@ MonoBehaviour:
   selectedIndex: 0
   selectColor: {r: 1, g: 1, b: 1, a: 1}
   baseColor: {r: 0, g: 0, b: 0, a: 0}
-
-  Audio: {fileID: 1029645765}
-  Clip: {fileID: 8300000, guid: c56a6cc1ce5043445ab5b1d663a8fe3f, type: 3}
-  CancelClip: {fileID: 8300000, guid: 1d5efa220f0b7b4449b50578b79fa608, type: 3}
-
+  Audio: {fileID: 0}
+  Clip: {fileID: 0}
+  CancelClip: {fileID: 0}
 --- !u!1001 &286396023
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15935,6 +15933,7 @@ MonoBehaviour:
   baseColor: {r: 1, g: 1, b: 1, a: 1}
   Audio: {fileID: 0}
   Clip: {fileID: 0}
+  CancelClip: {fileID: 0}
 --- !u!224 &1075490732
 RectTransform:
   m_ObjectHideFlags: 0
@@ -16903,7 +16902,7 @@ PrefabInstance:
     - target: {fileID: 6862905053322490403, guid: 2b84b475479e98c4b8d0352ae4e1ccdd,
         type: 3}
       propertyPath: playerNum
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6862905053322490403, guid: 2b84b475479e98c4b8d0352ae4e1ccdd,
         type: 3}
