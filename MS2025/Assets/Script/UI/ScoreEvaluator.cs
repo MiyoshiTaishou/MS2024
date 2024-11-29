@@ -6,6 +6,9 @@ public class ScoreEvaluator : NetworkBehaviour
 {
     public enum ScoreRank { S, A, B }
 
+    [Networked]
+    private ScoreRank rank { get;set; }
+
     [SerializeField, Header("ƒXƒRƒA‰æ‘œ")]
     private Sprite[] images = null;
 
@@ -59,7 +62,7 @@ public class ScoreEvaluator : NetworkBehaviour
 
     public override void Spawned()
     {
-        ScoreRank rank = EvaluateScore(ScoreManager.maxCombo, ScoreManager.clearTime, ScoreManager.maxMultiAttack);
+        rank = EvaluateScore(ScoreManager.maxCombo, ScoreManager.clearTime, ScoreManager.maxMultiAttack);
 
         Debug.Log(rank);
         switch (rank)
@@ -74,5 +77,5 @@ public class ScoreEvaluator : NetworkBehaviour
                 GetComponent<Image>().sprite = images[2];
                 break;
         }
-    }
+    }   
 }
