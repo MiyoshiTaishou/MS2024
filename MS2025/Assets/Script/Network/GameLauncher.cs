@@ -259,9 +259,11 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
         foreach (var tran in transition) {
             Animator animator = tran.GetComponent<Animator>();
             if (animator != null && animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f) {
-                return true;
+                // Debug.LogWarning("アニメーション中");
+                return true;// アニメーションがまだ完了していない（再生中）場合
             }
         }
+        // Debug.LogWarning("終了!");
         return false;
     }
 }
