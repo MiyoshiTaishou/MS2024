@@ -161,6 +161,28 @@ public class ShareNumbers : NetworkBehaviour
     private IEnumerator Load()
     {
         yield return new WaitForSeconds(2f);
-        networkRunner.LoadScene(SceneName);
+        RPC_ClientSceneTransition();
+    }
+
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    private void RPC_ClientSceneTransition()
+    {
+        // クライアントは先にシーン遷移を実行
+        if (!Object.HasStateAuthority)
+        {
+            UnityEngine.SceneManagement.SceneManager.LoadScene(SceneName);
+        }
+        else
+        {
+            // ホスト側はクライアントの遷移が完了した後にシーン遷移
+            StartCoroutine(HostSceneTransition());
+        }
+    }
+
+    private IEnumerator HostSceneTransition()
+    {
+        yield return new WaitForSeconds(2); // クライアント側がシーン遷移するまでの時間を調整
+        Runner.Shutdown();
+        UnityEngine.SceneManagement.SceneManager.LoadScene(SceneName);
     }
 }
