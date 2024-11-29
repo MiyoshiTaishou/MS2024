@@ -31,6 +31,7 @@ public class SoundSliderSelect : MonoBehaviour
 
     [SerializeField] AudioSource SESource;
     [SerializeField] AudioClip SEClip;
+    [SerializeField, Tooltip("キャンセル音")] AudioClip CancelClip;
 
     // Start is called before the first frame update
     void Start()
@@ -172,6 +173,8 @@ public class SoundSliderSelect : MonoBehaviour
             {
                 // m_ActiveSound.ShowObject();
                 cancel.GetComponent<SceneChange>().Back();
+                SESource.PlayOneShot(CancelClip);
+
             }
 
         }
