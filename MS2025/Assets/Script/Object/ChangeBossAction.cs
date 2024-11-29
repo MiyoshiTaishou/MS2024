@@ -20,6 +20,10 @@ public class ChangeBossAction : NetworkBehaviour
     private GameObject TextPanel1;
     [SerializeField] private GameObject TextPanel2;
 
+    [SerializeField, Header("âÊëúêÿÇËë÷Ç¶")]
+    private Sprite imageBase;
+    [SerializeField]private Sprite imageBoss;
+    
     private void OnTriggerEnter(Collider other)
     {
         if(other.CompareTag("Player"))
@@ -36,12 +40,14 @@ public class ChangeBossAction : NetworkBehaviour
                 case 0:
                     TextPanel1.SetActive(false);
                     TextPanel2.SetActive(true);
+                    GameObject.Find("BossIcon").GetComponent<SpriteRenderer>().sprite = imageBase;
                     BossPattern = 1;
                     break;
 
                 case 1:
                     TextPanel2.SetActive(false);
                     TextPanel1.SetActive(true);
+                    GameObject.Find("BossIcon").GetComponent<SpriteRenderer>().sprite = imageBoss;
                     BossPattern = 0;
                     break;
             }
@@ -67,7 +73,6 @@ public class ChangeBossAction : NetworkBehaviour
         else
         {
             Count++;
-
         }
 
     }
