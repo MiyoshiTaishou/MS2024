@@ -102,6 +102,16 @@ public class PlayerSpecialAttackNet : NetworkBehaviour
                 SpecialTime = 0.0f;
                 SpecialTime2 = 0.0f;
                 GetComponent<PlayerMove>().isMove = false;
+
+                if (isHost)
+                {
+                    SpecialWait1P = false;
+                }
+                else
+                {
+                    SpecialWait2P = false;
+                }
+
                 RPC_SpecialAttack();
             }
 
@@ -118,6 +128,15 @@ public class PlayerSpecialAttackNet : NetworkBehaviour
 
             if(SpecialTimeDouble > 0.0f)
             {
+                if (isHost)
+                {
+                    SpecialWait1P = false;
+                }
+                else
+                {
+                    SpecialWait2P = false;
+                }
+
                 SpecialTimeDouble -= Time.deltaTime;
             }
         }
