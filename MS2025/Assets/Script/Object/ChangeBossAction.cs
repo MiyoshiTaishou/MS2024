@@ -20,6 +20,10 @@ public class ChangeBossAction : NetworkBehaviour
     private GameObject TextPanel1;
     [SerializeField] private GameObject TextPanel2;
 
+    [SerializeField, Header("説明テキストボックス")]
+    private GameObject TextBox;
+
+    
     private void OnTriggerEnter(Collider other)
     {
         if(other.CompareTag("Player"))
@@ -37,12 +41,14 @@ public class ChangeBossAction : NetworkBehaviour
                     TextPanel1.SetActive(false);
                     TextPanel2.SetActive(true);
                     BossPattern = 1;
+                    TextBox.GetComponent<TextMesh>().text = "基本操作説明";
                     break;
 
                 case 1:
                     TextPanel2.SetActive(false);
                     TextPanel1.SetActive(true);
                     BossPattern = 0;
+                    TextBox.GetComponent<TextMesh>().text = "パリィ説明";
                     break;
             }
         }
@@ -67,7 +73,6 @@ public class ChangeBossAction : NetworkBehaviour
         else
         {
             Count++;
-
         }
 
     }
