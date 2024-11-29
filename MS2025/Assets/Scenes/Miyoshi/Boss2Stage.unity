@@ -7731,7 +7731,7 @@ PrefabInstance:
     - target: {fileID: 9057512719745946127, guid: 745fd90e17809384d980f68c8c476341,
         type: 3}
       propertyPath: actionSequenceHalf.Array.size
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 9057512719745946127, guid: 745fd90e17809384d980f68c8c476341,
         type: 3}
@@ -7756,6 +7756,12 @@ PrefabInstance:
       propertyPath: actionSequenceHalf.Array.data[3]
       value: 
       objectReference: {fileID: 11400000, guid: 459e45eb2baa0f042ad43572751284a6,
+        type: 2}
+    - target: {fileID: 9057512719745946127, guid: 745fd90e17809384d980f68c8c476341,
+        type: 3}
+      propertyPath: actionSequenceHalf.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: 5163878d941ccde4d8e0501403dadb2c,
         type: 2}
     - target: {fileID: 9175377192957165516, guid: 745fd90e17809384d980f68c8c476341,
         type: 3}
