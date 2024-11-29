@@ -656,7 +656,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.1
+      scalar: 0.2
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -5825,6 +5825,7 @@ MonoBehaviour:
   attackeffect: {fileID: 4684355246126431642}
   effectRengekiTime: {fileID: 4552974503111306984}
   _isWait: 0
+  color: {r: 1, g: 1, b: 0, a: 1}
 --- !u!114 &8698337172001587246
 MonoBehaviour:
   m_ObjectHideFlags: 0
