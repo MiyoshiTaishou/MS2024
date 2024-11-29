@@ -24,29 +24,30 @@ public class FadeInText : NetworkBehaviour
 
         alpha = this.GetComponent<UnityEngine.UI.Text>().color.a;
     }
+    public override void Render()
+    {
+        
+    }
+
 
     void Update()
     {
         Count++;
-       
-        if(Count==5)
+
+        if (Count == 5)
         {
             Time.timeScale = 0.0f;
         }
-        if (Count>=FadeInCount&&Count<FadeOutCount&&alphaCheck==false) 
+        if (Count >= FadeInCount && Count < FadeOutCount && alphaCheck == false)
         {
             FadeIn();
         }
-        if(Count>=FadeOutCount)
+        if (Count >= FadeOutCount)
         {
             FadeOut();
         }
     }
 
-    public override void Render()
-    {
-
-    }
 
     void FadeIn()
     {

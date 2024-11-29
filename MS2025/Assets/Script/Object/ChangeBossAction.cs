@@ -25,13 +25,31 @@ public class ChangeBossAction : NetworkBehaviour
     [SerializeField, Header("説明テキストボックス")]
     private GameObject TextBox;
     private int ActionNo=0;
+    public bool Tach=false;
     
     private void OnTriggerEnter(Collider other)
     {
         if(other.CompareTag("Player"))
         {
+           
+            Tach=true;
+          
+        }
+    }
+
+    public override void FixedUpdateNetwork()
+    {
+    
+    }
+
+    public override void Render()
+    {
+        Tach = Tach;
+
+        if (Tach) 
+        {
             //行動入れ替え
-       
+
             BossActionSequence data = boss.GetComponent<BossAI>().actionSequence[0];
 
             boss.GetComponent<BossAI>().actionSequence[0] = bossAction;
@@ -40,7 +58,8 @@ public class ChangeBossAction : NetworkBehaviour
 
             jumpAction = data;
 
-            switch(BossPattern)
+
+            switch (BossPattern)
             {
                 case 0:
                     ParryInstrucionText.SetActive(true);
@@ -51,7 +70,7 @@ public class ChangeBossAction : NetworkBehaviour
                     break;
 
                 case 1:
-               
+
                     ParryInstrucionText.SetActive(false);
                     JumpInstrucionText.SetActive(true);
                     InstructionText.SetActive(false);
@@ -60,7 +79,7 @@ public class ChangeBossAction : NetworkBehaviour
                     break;
 
                 case 2:
-                   
+
                     ParryInstrucionText.SetActive(false);
                     JumpInstrucionText.SetActive(false);
                     InstructionText.SetActive(true);
@@ -68,7 +87,12 @@ public class ChangeBossAction : NetworkBehaviour
                     TextBox.GetComponent<TextMesh>().text = "パリィ説明";
                     break;
             }
+
+            Tach= false;
+
         }
+      
+
     }
 
     private void HPCheck()
