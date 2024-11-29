@@ -105,8 +105,12 @@ public class PlayerSpecialAttackNet : NetworkBehaviour
         {
             if (comboCountObject.GetComponent<ShareNumbers>().nCombo >= specialNum)
             {
-                Tanukiparticle.Play();
-                Debug.Log("タヌキ炎スタート");
+                if(!Tanukiparticle.isPlaying)
+                {
+                    Tanukiparticle.Play();
+                    Debug.Log("タヌキ炎スタート");
+
+                }
             }
             else
             {
@@ -121,8 +125,12 @@ public class PlayerSpecialAttackNet : NetworkBehaviour
         {
             if (comboCountObject.GetComponent<ShareNumbers>().nCombo >= specialNum)
             {
-                Kituneparticle.Play();
-                Debug.Log("キツネ炎スタート");
+                if (!Tanukiparticle.isPlaying)
+                {
+                    Kituneparticle.Play();
+                    Debug.Log("キツネ炎スタート");
+
+                }
 
             }
             else
