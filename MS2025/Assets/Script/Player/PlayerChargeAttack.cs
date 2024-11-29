@@ -1,5 +1,6 @@
 using UnityEngine;
 using Fusion;
+using UnityEditor.Rendering;
 
 public class PlayerChargeAttack : NetworkBehaviour
 {
@@ -43,6 +44,10 @@ public class PlayerChargeAttack : NetworkBehaviour
     [Networked] public bool isWait { get; private set; }
     PlayerFreeze freeze;
 
+    [SerializeField, Tooltip("チャージ完了エフェクト")] private Color color;
+
+    private SpriteRenderer sprite;
+
     // Start is called before the first frame update
     public override void Spawned()
     {
@@ -63,6 +68,8 @@ public class PlayerChargeAttack : NetworkBehaviour
             Debug.LogError("ぼすないよ");
         }
         freeze= GetComponent<PlayerFreeze>();
+
+        sprite=GetComponent<SpriteRenderer>();
     }
     public override void FixedUpdateNetwork()
     {
@@ -107,7 +114,15 @@ public class PlayerChargeAttack : NetworkBehaviour
             }
         }
 
+        if(chargeCount > maxCharge)
+        {
+            sprite.color = color;
+        }
+        else
+        {
+            sprite.color = Color.white;
 
+        }
 
     }
 
