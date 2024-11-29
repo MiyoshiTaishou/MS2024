@@ -73,12 +73,12 @@ public class ChangeBossAction : NetworkBehaviour
 
     private void HPCheck()
     {
-        if (boss.GetComponent<BossStatus>().nBossHP < boss.GetComponent<BossStatus>().InitHP / 2 && Count > 1)
-        {
-            ParryInstrucionText.SetActive(false);
-            InstructionText.SetActive(true);
-            BossPattern = 0;
-        }
+        //if (boss.GetComponent<BossStatus>().nBossHP < boss.GetComponent<BossStatus>().InitHP / 2 && Count > 1)
+        //{
+        //    ParryInstrucionText.SetActive(false);
+        //    InstructionText.SetActive(true);
+        //    BossPattern = 0;
+        //}
     }
 
     private void Update()
