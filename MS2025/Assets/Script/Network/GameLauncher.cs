@@ -11,19 +11,31 @@ using System.Linq;
 
 public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 {
-    [SerializeField] private NetworkRunner networkRunnerPrefab;   
-    [SerializeField] private NetworkPrefabRef playerAvatarPrefab;
-    [SerializeField] private NetworkPrefabRef bossAvatarPrefab;
-    [SerializeField] private NetworkPrefabRef PlayerStatePrefab;
+    [Tooltip("ネットワークオブジェクト"), Header("ネットワーク設定")]
+    [SerializeField] private NetworkRunner networkRunnerPrefab;
+
+    [Header("シーン設定")]
     [SerializeField] private InputField roomNameInputField;
     [SerializeField] private string gameScene; // SceneRef に変更
-    [SerializeField] private int numBoss = 1;
     [SerializeField] Image LoadingImage;
-    [SerializeField, Header("トランジションオブジェクト")] private GameObject[] transition;
-    [SerializeField, Header("プレイヤーを生成しないシーンリスト")] private string[] skipScenes;
-    [SerializeField, Header("開始人数")] private int playerNum;
-    [SerializeField, Header("キャラ画像")] private GameObject[] charobj;
-    [SerializeField, Header("skyBox")] private StartSkyBoxChange skyBoxChange;
+    [Tooltip("トランジションオブジェクト")]
+    [SerializeField] private GameObject[] transition;
+
+    [Tooltip("プレイヤーオブジェクト"), Header("プレイヤー設定")]
+    [SerializeField] private NetworkPrefabRef playerAvatarPrefab;
+    [SerializeField] private NetworkPrefabRef PlayerStatePrefab;
+    [Tooltip("プレイヤーを生成しないシーンリスト")]
+    [SerializeField] private string[] skipScenes;
+    [Tooltip("開始人数")]
+    [SerializeField] private int playerNum;
+    [Tooltip("キャラ画像")]
+    [SerializeField] private GameObject[] charobj;
+
+    [Tooltip("ボスオブジェクト"), Header("ボス設定")]
+    [SerializeField] private NetworkPrefabRef bossAvatarPrefab;
+    [SerializeField] private int numBoss = 1;
+    [Tooltip("skyBox")]
+    [SerializeField] private StartSkyBoxChange skyBoxChange;
 
     private NetworkRunner networkRunner;
     private bool openDelayFlag = false;
