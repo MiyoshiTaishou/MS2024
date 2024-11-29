@@ -10,14 +10,14 @@ public class ButtonSelectPlayerUI : MonoBehaviour
     private int index = 0;
 
     public ButtonSelect select;
-    
+
     private void Start()
     {
         players[index].SetActive(true);
     }
 
     private void Update()
-    {       
+    {
         if(select.selectedIndex == 0)
         {
             players[0].SetActive(true);
