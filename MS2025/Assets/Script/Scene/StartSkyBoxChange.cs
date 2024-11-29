@@ -31,8 +31,8 @@ public class StartSkyBoxChange : MonoBehaviour
     public void CancelChange() {
         UnityEngine.RenderSettings.skybox = defaltMaterial;
         light.SetActive(true);
-        light2.SetActive(false);
-        volume.SetActive(true);
+        light2.SetActive(true);
+        volume.SetActive(false);
         volume2 .SetActive(false);
     }
 
