@@ -25,11 +25,11 @@ public class FadeInText : NetworkBehaviour
 
     void Update()
     {
-       if(Count<50)
+       if(Count<40)
         {
             Count++;
         }
-       else if(alphaCheck==false&&Count==50)
+       else if(alphaCheck==false&&Count==40)
         {
             FadeOut();
         }
@@ -71,8 +71,6 @@ public class FadeInText : NetworkBehaviour
         if (color.a >= 1)
         {
             alphaCheck= true;
-          
-
         }
     }
 }

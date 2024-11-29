@@ -39,6 +39,11 @@ public class OnFadeInText : NetworkBehaviour
             Time.timeScale = 0.0f;
             FadeIn();
         }
+
+        if(Count==10)
+        {
+            Boss.GetComponent<BossAI>().enabled = false;
+        }
     }
 
     public override void Render()
