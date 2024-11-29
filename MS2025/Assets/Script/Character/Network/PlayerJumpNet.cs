@@ -59,6 +59,9 @@ public class PlayerJumpNet : NetworkBehaviour
 
     public override void FixedUpdateNetwork()
     {
+        // ����̏d�͌v�Z��K�p
+        ApplyGravity();
+
         AnimatorStateInfo landAnimStateInfo = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
 
         if (hitstop.IsHitStopActive||chargeattack.isCharge||freeze.GetIsFreeze())
@@ -110,8 +113,6 @@ public class PlayerJumpNet : NetworkBehaviour
                     transform.localScale = temp;
                 }
             }
-            // ����̏d�͌v�Z��K�p
-            ApplyGravity();
         }
     }
     public override void Render()
