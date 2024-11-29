@@ -20,7 +20,7 @@ public class PlayerFreeze : NetworkBehaviour
         }
         if(freezeFrame == 0)
         {
-            isFreeze= false;
+            isFreeze = false;
         }
     }
 
