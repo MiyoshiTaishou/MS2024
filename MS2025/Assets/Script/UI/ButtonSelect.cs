@@ -28,6 +28,8 @@ public class ButtonSelect : MonoBehaviour
 
     private float inputThreshold = 0.5f; // 入力を受け付ける最小値
 
+    [SerializeField] AudioSource Audio;
+    [SerializeField] AudioClip Clip;
 
     // Start is called before the first frame update
     void Start()
@@ -80,7 +82,7 @@ public class ButtonSelect : MonoBehaviour
         buttonObj[selectedIndex].GetComponent<Image>().color = selectColor;
 
         lastInputTime = Time.time;
-        GetComponent<AudioSource>().Play();
+        Audio.PlayOneShot(Clip);
     }
 
 
