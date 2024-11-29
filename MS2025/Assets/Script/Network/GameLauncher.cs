@@ -255,13 +255,13 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
         }
     }
 
-    // public bool IsAnimation() {
-    //     foreach (var tran in transition) {
-    //         Animator animator = tran.GetComponent<Animator>();
-    //         if (animator != null && animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f) {
-    //             return true;
-    //         }
-    //     }
-    //     return false;
-    // }
+    public bool IsAnimation() {
+        foreach (var tran in transition) {
+            Animator animator = tran.GetComponent<Animator>();
+            if (animator != null && animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

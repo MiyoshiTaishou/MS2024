@@ -6,6 +6,8 @@ using UnityEngine;
 public class PlayerHP : NetworkBehaviour
 {
     GameObject box;
+    [Networked]public bool isDamage { get; set; }
+
 
     public override void Spawned()
     {
@@ -15,8 +17,8 @@ public class PlayerHP : NetworkBehaviour
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     public void RPC_DamageAnim()
     {
-        GetComponent<Animator>().SetTrigger("Hurt");
-
+        GetComponent<Animator>().Play("APlayerHurt");
+        GetComponent<PlayerFreeze>().Freeze(120);
         GetComponent<PlayerDamageReceived>().DamageReceived();
     }
 

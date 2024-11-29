@@ -147,7 +147,10 @@ public class PlayerMove : NetworkBehaviour
 
     public override void Render()
     {
-        
+        if(GetComponent<PlayerFreeze>().GetIsFreeze())
+        {
+            return;
+        }
         AnimatorStateInfo landAnimStateInfo = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
         if (landAnimStateInfo.IsName("APlayerJumpUp") || landAnimStateInfo.IsName("APlayerJumpDown") ||
             landAnimStateInfo.IsName("APlayerParry")||landAnimStateInfo.IsName("APlayerCounter")||
