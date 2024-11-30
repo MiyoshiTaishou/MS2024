@@ -5550,6 +5550,7 @@ MonoBehaviour:
   damageFrame: 60
   knockbackDistance: 3
   knockbackSlowDistance: 1
+  _inbisibleFrame: 0
 --- !u!82 &8508605095377403547
 AudioSource:
   m_ObjectHideFlags: 0
@@ -5722,11 +5723,13 @@ MonoBehaviour:
   _specialNum: 10
   _specialDamage: 0
   specialTimeWait: 0.01
+  specialActTimeWait: 10
   specialColor: {r: 1, g: 0.98927224, b: 0, a: 0}
   ComboList: []
   Tanukiparticle: {fileID: 2996601022003781360}
   Kituneparticle: {fileID: 2382725228349261798}
   clip: {fileID: 8300000, guid: d1caadd9f3d3e5142b744d13c3631965, type: 3}
+  clipSpecial: {fileID: 8300000, guid: 75f49d0238dcc684daf6a00318e6dab6, type: 3}
 --- !u!114 &5507341137057323025
 MonoBehaviour:
   m_ObjectHideFlags: 0
