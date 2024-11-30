@@ -19,6 +19,9 @@ public class ShareNumbers : NetworkBehaviour
 
     [Networked] public bool isSpecial { get; set; }
 
+    //必殺技発動のカウントをする
+    [Networked] private int specialNum { get; set; }
+
     public GameObject Boss;
 
     [SerializeField] private GameObject[] HPUI;
@@ -184,5 +187,24 @@ public class ShareNumbers : NetworkBehaviour
         yield return new WaitForSeconds(2); // クライアント側がシーン遷移するまでの時間を調整
         Runner.Shutdown();
         UnityEngine.SceneManagement.SceneManager.LoadScene(SceneName);
+    }
+
+    public bool AddSpecialNum()
+    {
+        specialNum++;
+
+        //二人とも押したらtrueを返して必殺技を発動させる
+        if(specialNum == 2)
+        {
+            specialNum = 0;
+            return true;
+        }
+
+        return false;
+    }
+
+    public void ResetSpecialNUm()
+    {
+        specialNum = 0;
     }
 }

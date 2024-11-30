@@ -16,8 +16,19 @@ public class PlayerSpecialAttackNet : NetworkBehaviour
     private float SpecialTime = 0.0f;
     private float SpecialTime2 = 0.0f;
 
-    [Header("猶予時間"), SerializeField]
+    [Networked]
+    private bool isSpecialSound { get; set; }
+
+    /// <summary>
+    /// 発動待ち時間
+    /// </summary>
+    private float SpecialActTime = 0.0f;
+
+    [Header("入力猶予時間"), SerializeField]
     private float specialTimeWait = 0.2f;
+
+    [Header("発動猶予時間"), SerializeField]
+    private float specialActTimeWait = 10.0f;
 
     [SerializeField, Tooltip("必殺技使える時のコンボ数の色")]
     private Color specialColor;
@@ -35,15 +46,10 @@ public class PlayerSpecialAttackNet : NetworkBehaviour
     [SerializeField, Tooltip("必殺技使えるタイミングで鳴らす音")]
     private AudioClip clip;
 
-    private PlayerParryNet parry;
+    [SerializeField, Tooltip("必殺技ボタンを押した時に鳴らす音")]
+    private AudioClip clipSpecial;
 
-    [Networked]
-    private bool SpecialWait1P { get; set; }
-
-    [Networked]
-    private bool SpecialWait2P { get; set; }
-
-    private bool isHost = false;
+    private PlayerParryNet parry;  
 
     public override void Spawned()
     {
@@ -63,12 +69,7 @@ public class PlayerSpecialAttackNet : NetworkBehaviour
         }
 
         source = GetComponent<AudioSource>();
-        parry = GetComponent<PlayerParryNet>();
-
-        if (Object.HasInputAuthority)
-        {
-            isHost = true;
-        }
+        parry = GetComponent<PlayerParryNet>();      
     }
 
     public override void FixedUpdateNetwork()
@@ -88,36 +89,50 @@ public class PlayerSpecialAttackNet : NetworkBehaviour
                 SpecialTime2 = specialTimeWait;
             }
 
-            // 攻撃ボタンとスペシャルボタンが押され、コンボ数が指定数以上の場合
-            if (SpecialTime > 0.0f && SpecialTime2 > 0.0f && comboCountObject.GetComponent<ShareNumbers>().nCombo >= specialNum)
-            {
-                if (isHost)
+            // 攻撃ボタンとスペシャルボタンが押され、コンボ数が指定数以上の場合かつ必殺技待ち時間が0な場合
+            if (SpecialTime > 0.0f && SpecialTime2 > 0.0f && SpecialActTime == 0.0f && comboCountObject.GetComponent<ShareNumbers>().nCombo >= specialNum)
+            {                
+                Debug.Log("必殺技押した");
+                SpecialTime = 0.0f;
+                SpecialTime2 = 0.0f;
+                GetComponent<PlayerMove>().isMove = false; // 移動を一時停止
+
+                isSpecialSound = true;
+
+                //二人が押していたら発動可能
+                if(comboCountObject.GetComponent<ShareNumbers>().AddSpecialNum())
                 {
-                    SpecialWait1P = true;
+                    Debug.Log("必殺技出すぞ！");
+                    RPC_SpecialAttack();
+                    //カウントを0にする
+                    comboCountObject.GetComponent<ShareNumbers>().ResetSpecialNUm();
                 }
                 else
                 {
-                    SpecialWait2P = true;
+                    //発動できなかった場合相方待ち時間を追加する
+                    SpecialActTime = specialActTimeWait;
                 }
-                Debug.Log("必殺技押した");                
-            }
-
-            // 両プレイヤーが必殺技ボタンを押した場合
-            if (SpecialWait1P && SpecialWait2P)
-            {
-                SpecialTime = 0.0f;
-                SpecialTime2 = 0.0f;
-                SpecialWait1P = false;
-                SpecialWait2P = false;
-
-                GetComponent<PlayerMove>().isMove = false; // 移動を一時停止
-                Debug.Log("必殺技出すぞ！");
-                RPC_SpecialAttack();
             }
 
             // タイマー減少処理
-            if (SpecialTime > 0.0f) SpecialTime -= Time.deltaTime;
-            if (SpecialTime2 > 0.0f) SpecialTime2 -= Time.deltaTime;
+            if (SpecialTime > 0.0f)
+            {
+                SpecialTime -= Time.deltaTime;
+            }
+
+            if (SpecialTime2 > 0.0f)
+            {
+                SpecialTime2 -= Time.deltaTime;
+            }
+
+            if (SpecialActTime > 0.0f)
+            {
+                SpecialActTime -= Time.deltaTime;
+            }
+            else
+            {
+                GetComponent<PlayerMove>().isMove = true; // 移動を一時停止
+            }
         }
 
         // コンボUIの色変更処理
@@ -153,6 +168,12 @@ public class PlayerSpecialAttackNet : NetworkBehaviour
         else
         {
             StopSpecialParticles();
+        }        
+
+        if(isSpecialSound)
+        {
+            source.PlayOneShot(clipSpecial);
+            isSpecialSound = false;
         }
     }
 
