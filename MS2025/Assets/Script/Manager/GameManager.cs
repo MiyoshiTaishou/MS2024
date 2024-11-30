@@ -70,7 +70,7 @@ public class GameManager : NetworkBehaviour
         isBattleActive = true;
         isPlayed = true;
         Debug.Log("バトル開始");
-        transitionManager.TransitionStartReverse();
+        //transitionManager.TransitionStartReverse();
     }
 
     /// <summary>
