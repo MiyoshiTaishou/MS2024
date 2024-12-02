@@ -52,7 +52,7 @@ public class HitStop : NetworkBehaviour
         vel.x = 0;
         vel.y = 0;
         vel.z = 0;
-        GetComponent<NetworkRigidbody3D>().Rigidbody.velocity = vel;
+        GetComponent<Rigidbody>().velocity = vel;
         if (particleSystems != null)
         {
             foreach (var particleSystem in particleSystems)
