@@ -42,6 +42,7 @@ Transform:
   m_Children:
   - {fileID: 5471956551158229646}
   - {fileID: 1473718671845502057}
+  - {fileID: 7119741502157150059}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &9175377192957165516
@@ -119,6 +120,7 @@ MonoBehaviour:
   - {fileID: 3719288773215115062}
   - {fileID: 728711347568068367}
   - {fileID: 2444928967917834422}
+  - {fileID: 9167454041527025587}
 --- !u!54 &6753317924662398587
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -194,11 +196,13 @@ MonoBehaviour:
   _Nokezori: 0
   NokezoriLimit: 0
   animName: Leisure
+  players: []
   _currentPlayerIndex: 0
   _maxPlayerIndex: 1
   _isInterrupted: 0
   _isDown: 0
   _isAir: 0
+  _isDir: 0
   downAction: {fileID: 11400000, guid: 1041b2b8e439b384d80347ea7b971b0b, type: 2}
   parryction: {fileID: 11400000, guid: 53fabe96f94aa38478ef3d1572aecf6d, type: 2}
   AttackOmenParticle: {fileID: 0}
@@ -374,11 +378,12 @@ MonoBehaviour:
   InitHP: 0
   slider: {fileID: 0}
   Backslider: {fileID: 0}
-  Sliderimage: {fileID: 0}
+  Fill: {fileID: 0}
   HPBar2: {r: 0.09803922, g: 0.6901961, b: 0, a: 1}
   HPBar3: {r: 1, g: 0.8666667, b: 0, a: 1}
   Damageparticle: {fileID: 0}
   Deathparticle: {fileID: 0}
+  DeathCount: 0
   gameManager: {fileID: 0}
   ResultSceneName: 
   transitionManager: {fileID: 0}
@@ -395,6 +400,73 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   particleSystems: []
+--- !u!1 &1391774655375138618
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7119741502157150059}
+  - component: {fileID: 1376666669080123484}
+  - component: {fileID: 9167454041527025587}
+  m_Layer: 0
+  m_Name: UnderCollider
+  m_TagString: Enemy
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7119741502157150059
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1391774655375138618}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -1.13, z: 0}
+  m_LocalScale: {x: 0.46, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3931164594149688494}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1376666669080123484
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1391774655375138618}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &9167454041527025587
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1391774655375138618}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2cbb52c0066d50e4080fdb310a373e18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  KnockBackPower: -50
 --- !u!1001 &1111860687885315067
 PrefabInstance:
   m_ObjectHideFlags: 0
