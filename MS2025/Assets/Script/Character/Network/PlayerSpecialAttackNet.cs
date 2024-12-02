@@ -33,8 +33,7 @@ public class PlayerSpecialAttackNet : NetworkBehaviour
     [SerializeField, Tooltip("必殺技使える時のコンボ数の色")]
     private Color specialColor;
 
-    [SerializeField, ReadOnly]
-    private List<Image> ComboList = new List<Image>();
+
 
     [SerializeField, Tooltip("必殺技使える時のプレイヤーパーティクル")]
     private ParticleSystem Tanukiparticle;
@@ -49,8 +48,13 @@ public class PlayerSpecialAttackNet : NetworkBehaviour
     [SerializeField, Tooltip("必殺技ボタンを押した時に鳴らす音")]
     private AudioClip clipSpecial;
 
-    private PlayerParryNet parry;  
+    private PlayerParryNet parry;
 
+    [SerializeField, ReadOnly]
+    private List<Image> ComboList = new List<Image>();
+
+    [SerializeField, ReadOnly]
+    private List<Image> PlayerFireList = new List<Image>();
     public override void Spawned()
     {
         // 必殺技再生用オブジェクト探索
@@ -67,6 +71,18 @@ public class PlayerSpecialAttackNet : NetworkBehaviour
                 ComboList.Add(childImage);
             }
         }
+
+        // コンボUIのリストを取得
+        var playerUI = GameObject.Find("MainGameUI/Icon");
+        for (int j = 0; j < playerUI.transform.childCount; j++)
+        {
+            var childImage = playerUI.transform.GetChild(j).GetComponent<Image>();
+            if (childImage != null)
+            {
+                PlayerFireList.Add(childImage);
+            }
+        }
+
 
         source = GetComponent<AudioSource>();
         parry = GetComponent<PlayerParryNet>();      
@@ -147,6 +163,11 @@ public class PlayerSpecialAttackNet : NetworkBehaviour
             {
                 combo.color = specialColor;
             }
+
+            foreach (var player in PlayerFireList)
+            {
+                player.color= Color.white;
+            }
         }
         else
         {
@@ -155,6 +176,13 @@ public class PlayerSpecialAttackNet : NetworkBehaviour
                 var color = Color.white;
                 color.a = combo.color.a;
                 combo.color = color;
+            }
+
+            foreach (var player in PlayerFireList)
+            {
+                Color color= Color.white;
+                color.a = 0;
+                player.color = color;
             }
         }
     }

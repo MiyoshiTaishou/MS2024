@@ -12,11 +12,9 @@ public class HitStop : NetworkBehaviour
 
     private Coroutine hitStopCoroutine; // ヒットストップコルーチンのインスタンスを保持
 
-    [SerializeField] AnimationCurve hitStopCurve;
+    [SerializeField, Tooltip("ヒットストップ後のアニメーションの戻り方")] AnimationCurve hitStopCurve;
 
-    [SerializeField, Tooltip("スロー再生する秒数")] float SlowCount = 0.5f;
-    [SerializeField] float SlowSpeed = 0.1f;
-    float SlowCountnum = 0.5f;
+    float SlowCountnum = 0;
 
     public override void Spawned()
     {
@@ -26,7 +24,7 @@ public class HitStop : NetworkBehaviour
     public override void FixedUpdateNetwork()
     {
         SlowCountnum += Time.deltaTime;
-        if (hitStopCoroutine == null && SlowCountnum >= SlowCount)
+        if (hitStopCoroutine == null/* && SlowCountnum >= SlowCount*/)
         {
             animator.speed = hitStopCurve.Evaluate(SlowCountnum);
         }
@@ -35,7 +33,7 @@ public class HitStop : NetworkBehaviour
             animator.speed = 1;
         }
 
-        Debug.Log("ヒットストップ"+hitStopCurve.Evaluate(SlowCountnum));
+        //Debug.Log("ヒットストップ"+hitStopCurve.Evaluate(SlowCountnum));
     }
 
 
@@ -116,7 +114,7 @@ public class HitStop : NetworkBehaviour
                 }
             }
         }
-        animator.speed = SlowSpeed;
+        animator.speed = 0;
         SlowCountnum = 0;
         hitStopCoroutine = null; // ヒットストップ終了したのでコルーチンインスタンスをリセット
         //Debug.Log("ヒットストップ終了");
