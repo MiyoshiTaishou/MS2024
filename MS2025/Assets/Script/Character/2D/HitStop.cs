@@ -1,6 +1,5 @@
 using ExitGames.Client.Photon.StructWrapping;
 using Fusion;
-using Fusion.Addons.Physics;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -38,8 +37,8 @@ public class HitStop : NetworkBehaviour
     private IEnumerator DoHitStop(float hitStopDuration)
     {
         List<float> time = new List<float>();
-        Vector3 vel=GetComponent<NetworkRigidbody3D>().Rigidbody.velocity;
-        Vector3 hozonvel=GetComponent<NetworkRigidbody3D>().Rigidbody.velocity;
+        Vector3 vel=GetComponent<Rigidbody>().velocity;
+        Vector3 hozonvel=GetComponent<Rigidbody>().velocity;
         AnimatorStateInfo landAnimStateInfo = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
         if (animator != null)
         {
@@ -83,8 +82,7 @@ public class HitStop : NetworkBehaviour
             animator.speed = 1;
         }
 
-        GetComponent<NetworkRigidbody3D>().Rigidbody.velocity = hozonvel;
-
+        GetComponent<Rigidbody>().velocity = hozonvel;
         if (particleSystems != null)
         {
             for (int i = 0; i < particleSystems.Length; i++)
