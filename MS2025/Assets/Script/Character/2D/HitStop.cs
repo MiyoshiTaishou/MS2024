@@ -2,6 +2,7 @@ using ExitGames.Client.Photon.StructWrapping;
 using Fusion;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEngine;
 
 public class HitStop : NetworkBehaviour
@@ -11,10 +12,32 @@ public class HitStop : NetworkBehaviour
 
     private Coroutine hitStopCoroutine; // ヒットストップコルーチンのインスタンスを保持
 
+    [SerializeField] AnimationCurve hitStopCurve;
+
+    [SerializeField, Tooltip("スロー再生する秒数")] float SlowCount = 0.5f;
+    [SerializeField] float SlowSpeed = 0.1f;
+    float SlowCountnum = 0.5f;
+
     public override void Spawned()
     {
         animator = GetComponent<Animator>();
     }
+
+    public override void FixedUpdateNetwork()
+    {
+        SlowCountnum += Time.deltaTime;
+        if (hitStopCoroutine == null && SlowCountnum >= SlowCount)
+        {
+            animator.speed = hitStopCurve.Evaluate(SlowCountnum);
+        }
+        else if(hitStopCurve.Evaluate(SlowCountnum)  >= 1)
+        {
+            animator.speed = 1;
+        }
+
+        Debug.Log("ヒットストップ"+hitStopCurve.Evaluate(SlowCountnum));
+    }
+
 
     public bool IsHitStopActive
     {
@@ -93,7 +116,8 @@ public class HitStop : NetworkBehaviour
                 }
             }
         }
-
+        animator.speed = SlowSpeed;
+        SlowCountnum = 0;
         hitStopCoroutine = null; // ヒットストップ終了したのでコルーチンインスタンスをリセット
         //Debug.Log("ヒットストップ終了");
     }
