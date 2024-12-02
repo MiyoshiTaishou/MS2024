@@ -2400,6 +2400,7 @@ GameObject:
   - component: {fileID: 1206873428174664049}
   - component: {fileID: 5609307854091430392}
   - component: {fileID: 7343317704521081142}
+  - component: {fileID: 4327227749845736947}
   m_Layer: 0
   m_Name: StartWordRoot
   m_TagString: Untagged
@@ -2559,3 +2560,15 @@ MonoBehaviour:
   - {fileID: 8415985280695497429}
   - {fileID: 4786762860984310556}
   isStart: 0
+--- !u!114 &4327227749845736947
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8575965210999533186}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09233aa6ca7a98d4dbef31c4d2801b6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
