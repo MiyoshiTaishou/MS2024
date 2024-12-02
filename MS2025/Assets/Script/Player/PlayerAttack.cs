@@ -91,8 +91,10 @@ public class PlayerAttack : NetworkBehaviour
         if (Object.HasStateAuthority && GetInput(out NetworkInputData data) && !hitStop.IsHitStopActive)
         {
             AnimatorStateInfo landAnimStateInfo = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
+
             if(landAnimStateInfo.IsName("APlayerJumpUp")||landAnimStateInfo.IsName("APlayerJumpDown")
-                || freeze.GetIsFreeze())//ジャンプ中は攻撃しない
+                || freeze.GetIsFreeze() ||//ジャンプ中は攻撃しない
+                GetComponent<PlayerChargeAttack>().isCharge)//溜め中には攻撃しない
             {
                 return;
             }
