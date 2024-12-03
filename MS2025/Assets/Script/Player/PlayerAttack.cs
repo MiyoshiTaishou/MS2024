@@ -82,6 +82,10 @@ public class PlayerAttack : NetworkBehaviour
 
     public override void FixedUpdateNetwork()
     {
+        if(GetComponent<HitStop>().IsHitStopActive) 
+        {
+            return;
+        }
         Attack();
         if(freeze.GetIsFreeze())
         {
@@ -221,7 +225,7 @@ public class PlayerAttack : NetworkBehaviour
 
     void Attack()
     {
-        if(isAttack==false)
+        if(isAttack==false||GetComponent<HitStop>().IsHitStopActive )
         {
             return;
         }
