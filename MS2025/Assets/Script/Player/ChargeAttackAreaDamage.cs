@@ -39,6 +39,9 @@ public class ChargeAttackAreaDamage : NetworkBehaviour
                 Debug.Log("チャージアタック成功");
                 other.GetComponent<BossStatus>().RPC_Damage(ChargeDamege);
 
+                Camera.main.GetComponent<CameraEffectPlay>().RPC_CameraEffect();
+                Camera.main.GetComponent<CameraShake>().RPC_CameraShake(0.3f, 0.3f);
+
                 //当たった位置に撃表示
                 isGeki = true;
                 other.GetComponent<BossAI>().isInterrupted = true;

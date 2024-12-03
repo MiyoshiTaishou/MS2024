@@ -7610,7 +7610,7 @@ PrefabInstance:
     - target: {fileID: 6831667486188821985, guid: 745fd90e17809384d980f68c8c476341,
         type: 3}
       propertyPath: NetworkedBehaviours.Array.size
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 6831667486188821985, guid: 745fd90e17809384d980f68c8c476341,
         type: 3}
@@ -11969,6 +11969,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Volume
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7160131421047361222, guid: 261a044d9ceec7f4f9911d6a58ff0f71,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 9134003929742808826, guid: 261a044d9ceec7f4f9911d6a58ff0f71,
         type: 3}
