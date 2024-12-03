@@ -77,12 +77,14 @@ public class PlayerChargeAttack : NetworkBehaviour
         {
             if(GetComponent<PlayerJumpNet>().GetisJumping())
             {
+                chargeCount = 0;
                 return;
             }
             AnimatorStateInfo landAnimStateInfo = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
             if (landAnimStateInfo.IsName("APlayerJumpUp") || landAnimStateInfo.IsName("APlayerJumpDown")//ジャンプ中は攻撃しない
                 || freeze.GetIsFreeze())
             {
+                chargeCount= 0;
                 return;
             }
 
