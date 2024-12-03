@@ -69,10 +69,9 @@ public class ShareNumbers : NetworkBehaviour
         HPUI[CurrentHP].SetActive(false);
 
         if (CurrentHP == 0)
-        {
-            TryObject.SetActive(true);
+        {            
             transitionManager.TransitionStart();            
-            //StartCoroutine(Load());
+            StartCoroutine(Load());
         }
 
     }
@@ -168,7 +167,7 @@ public class ShareNumbers : NetworkBehaviour
     private IEnumerator Load()
     {
         yield return new WaitForSeconds(2f);
-        RPC_ClientSceneTransition();
+        TryObject.SetActive(true);
     }
 
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
