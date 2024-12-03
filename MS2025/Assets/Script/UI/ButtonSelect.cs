@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -41,6 +42,11 @@ public class ButtonSelect : MonoBehaviour
                                              //buttons[selectedIndex].GetComponent<Image>().color = new Vector4(1.0f, 1.0f, 1.0f, 1.0f); // 最初のボタンを選択状態にする
                                              //buttons[selectedIndex].GetComponent<Animator>().SetBool("Loop",true);
             buttonObj[selectedIndex].GetComponent<Image>().color = selectColor;
+
+            if(buttonObj[selectedIndex].GetComponent<TextMeshPro>())
+            {
+                buttonObj[selectedIndex].GetComponent<TextMeshPro>().color = selectColor;
+            }           
         }
         if (Input.GetButtonDown("Submit")) {
             aButtonTriggered = true;
@@ -62,10 +68,20 @@ public class ButtonSelect : MonoBehaviour
 
     void OnEnable() {
         buttonObj[selectedIndex].GetComponent<Image>().color = selectColor;
+
+        if (buttonObj[selectedIndex].GetComponent<TextMeshPro>())
+        {
+            buttonObj[selectedIndex].GetComponent<TextMeshPro>().color = selectColor;
+        }
     }
     void OnDisable() {
         // buttons[selectedIndex].Select();
         buttonObj[selectedIndex].GetComponent<Image>().color = baseColor;
+
+        if (buttonObj[selectedIndex].GetComponent<TextMeshPro>())
+        {
+            buttonObj[selectedIndex].GetComponent<TextMeshPro>().color = selectColor;
+        }
     }
 
     private void HandleButtonSelection()
@@ -86,9 +102,19 @@ public class ButtonSelect : MonoBehaviour
         if (Time.time - lastInputTime < inputDelay) return;
 
         buttonObj[selectedIndex].GetComponent<Image>().color = baseColor;
+
+        if (buttonObj[selectedIndex].GetComponent<TextMeshPro>())
+        {
+            buttonObj[selectedIndex].GetComponent<TextMeshPro>().color = baseColor;
+        }
         selectedIndex = (selectedIndex + direction + buttons.Length) % buttons.Length;
         buttons[selectedIndex].Select();
         buttonObj[selectedIndex].GetComponent<Image>().color = selectColor;
+
+        if (buttonObj[selectedIndex].GetComponent<TextMeshPro>())
+        {
+            buttonObj[selectedIndex].GetComponent<TextMeshPro>().color = selectColor;
+        }
 
         lastInputTime = Time.time;
         Audio.PlayOneShot(Clip);
