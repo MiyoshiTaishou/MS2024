@@ -27,16 +27,16 @@ public class BossStatus : NetworkBehaviour
     [SerializeField] private Color HPBar2= new Color32(25, 176, 0, 255);
     [SerializeField] private Color HPBar3= new Color32(255, 221, 0, 255);
 
-    [Tooltip("”íƒ_ƒ[ƒWƒGƒtƒFƒNƒg")]
+    [Tooltip("è¢«ãƒ€ãƒ¡ãƒ¼ã‚¸ã‚¨ãƒ•ã‚§ã‚¯ãƒˆ")]
    [SerializeField] private ParticleSystem Damageparticle;
 
-    [Tooltip("€–SƒGƒtƒFƒNƒg")]
+    [Tooltip("æ­»äº¡æ™‚ã‚¨ãƒ•ã‚§ã‚¯ãƒˆ")]
     [SerializeField] private ParticleSystem Deathparticle;
 
-    //‘Ì—Í‚ª0‚É‚È‚Á‚½‰ñ”‚ğ”‚¦‚é
+    //ä½“åŠ›ãŒ0ã«ãªã£ãŸå›æ•°ã‚’æ•°ãˆã‚‹
     [SerializeField] private int DeathCount = 0;
 
-    [SerializeField,Header("ƒQ[ƒ€ƒ}ƒl[ƒWƒƒ[")]
+    [SerializeField,Header("ã‚²ãƒ¼ãƒ ãƒãƒãƒ¼ã‚¸ãƒ£ãƒ¼")]
     private GameManager gameManager;
 
     [Networked] private bool isDamageEffect { get; set; }
@@ -44,10 +44,10 @@ public class BossStatus : NetworkBehaviour
     [Networked] private bool isDeathEffect { get; set; }
 
 
-    [Header("ƒŠƒUƒ‹ƒgƒV[ƒ“–¼"), SerializeField]
+    [Header("ãƒªã‚¶ãƒ«ãƒˆã‚·ãƒ¼ãƒ³å"), SerializeField]
     private String ResultSceneName;
 
-    //HP‚ÌŒ¸­‚ª~‚Ü‚Á‚½‚çÔƒQ[ƒW‚ğŒ¸‚ç‚·‚½‚ß‚ÌƒJƒEƒ“ƒg
+    //HPã®æ¸›å°‘ãŒæ­¢ã¾ã£ãŸã‚‰èµ¤ã‚²ãƒ¼ã‚¸ã‚’æ¸›ã‚‰ã™ãŸã‚ã®ã‚«ã‚¦ãƒ³ãƒˆ
     [Networked] private int HPCount  { get; set; }
 
     private NetworkRunner networkRunner;
@@ -55,7 +55,7 @@ public class BossStatus : NetworkBehaviour
     [SerializeField]
     private TransitionManager transitionManager;
 
-    // ƒV[ƒ“‘JˆÚ‚ªˆê“x‚¾‚¯Às‚³‚ê‚é‚æ‚¤‚É‚·‚é‚½‚ß‚Ìƒtƒ‰ƒO
+    // ã‚·ãƒ¼ãƒ³é·ç§»ãŒä¸€åº¦ã ã‘å®Ÿè¡Œã•ã‚Œã‚‹ã‚ˆã†ã«ã™ã‚‹ãŸã‚ã®ãƒ•ãƒ©ã‚°
     private bool hasTransitioned = false;
 
     public override void Spawned()
@@ -75,7 +75,7 @@ public class BossStatus : NetworkBehaviour
         HPCount = 0;
         isDamageEffect = true;
 
-        //// HP‚ª0ˆÈ‰º‚È‚çíœˆ—‚ğŒÄ‚Ô
+        //// HPãŒ0ä»¥ä¸‹ãªã‚‰å‰Šé™¤å‡¦ç†ã‚’å‘¼ã¶
         //if (nBossHP <= 0)
         //{
         //    HandleBossDeath();
@@ -84,13 +84,12 @@ public class BossStatus : NetworkBehaviour
 
     private void HandleBossDeath()
     {
-        // ƒV[ƒ“‘JˆÚ‚ªˆê“x‚¾‚¯s‚í‚ê‚é‚æ‚¤‚Éƒ`ƒFƒbƒN
+        // ã‚·ãƒ¼ãƒ³é·ç§»ãŒä¸€åº¦ã ã‘è¡Œã‚ã‚Œã‚‹ã‚ˆã†ã«ãƒã‚§ãƒƒã‚¯
         if (hasTransitioned) return;
 
         transitionManager.TransitionStart();
-        isDeathEffect = true;        
-        hasTransitioned = true; // ƒV[ƒ“‘JˆÚƒtƒ‰ƒO‚ğİ’è       
-
+        isDeathEffect = true;
+        hasTransitioned = true; // ã‚·ãƒ¼ãƒ³é·ç§»ãƒ•ãƒ©ã‚°ã‚’è¨­å®š
         StartCoroutine(Load());
 
         //if (Object.HasStateAuthority)
@@ -108,21 +107,21 @@ public class BossStatus : NetworkBehaviour
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     private void RPC_ClientSceneTransition()
     {
-        // ƒNƒ‰ƒCƒAƒ“ƒg‚Íæ‚ÉƒV[ƒ“‘JˆÚ‚ğÀs
+        // ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã¯å…ˆã«ã‚·ãƒ¼ãƒ³é·ç§»ã‚’å®Ÿè¡Œ
         if (!Object.HasStateAuthority)
         {
             UnityEngine.SceneManagement.SceneManager.LoadScene(ResultSceneName);
         }
         else
         {
-            // ƒzƒXƒg‘¤‚ÍƒNƒ‰ƒCƒAƒ“ƒg‚Ì‘JˆÚ‚ªŠ®—¹‚µ‚½Œã‚ÉƒV[ƒ“‘JˆÚ
+            // ãƒ›ã‚¹ãƒˆå´ã¯ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã®é·ç§»ãŒå®Œäº†ã—ãŸå¾Œã«ã‚·ãƒ¼ãƒ³é·ç§»
             StartCoroutine(HostSceneTransition());
         }
     }
 
     private IEnumerator HostSceneTransition()
     {
-        yield return new WaitForSeconds(2); // ƒNƒ‰ƒCƒAƒ“ƒg‘¤‚ªƒV[ƒ“‘JˆÚ‚·‚é‚Ü‚Å‚ÌŠÔ‚ğ’²®
+        yield return new WaitForSeconds(2); // ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆå´ãŒã‚·ãƒ¼ãƒ³é·ç§»ã™ã‚‹ã¾ã§ã®æ™‚é–“ã‚’èª¿æ•´
         Runner.Shutdown();
         UnityEngine.SceneManagement.SceneManager.LoadScene(ResultSceneName);
     }
@@ -160,7 +159,6 @@ public class BossStatus : NetworkBehaviour
             HPCount = 0;
         }
 
-        
         if (nBossHP <= 0 && Object.HasStateAuthority)
         {
 
@@ -212,11 +210,10 @@ public class BossStatus : NetworkBehaviour
 
             switch (DeathCount)
             {
-               
                 case 3:
-                    Debug.Log("ƒ{ƒX€–S‚Å‚·");
+                    Debug.Log("ãƒœã‚¹æ­»äº¡ã§ã™");
                     RPC_HandleBossDeath();
-                    // ƒNƒ‰ƒCƒAƒ“ƒg‚Éæ‚ÉƒV[ƒ“‘JˆÚ‚ğw¦
+                    // ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã«å…ˆã«ã‚·ãƒ¼ãƒ³é·ç§»ã‚’æŒ‡ç¤º
                     gameManager.RPC_EndBattle(10, 5);
                     break;
             }

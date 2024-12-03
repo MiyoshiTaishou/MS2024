@@ -3,25 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// ‰æ–Ê‘JˆÚŠÖŒW‚ğŠÇ—‚·‚é
+/// ç”»é¢é·ç§»é–¢ä¿‚ã‚’ç®¡ç†ã™ã‚‹
 /// </summary>
 public class TransitionManager : MonoBehaviour
 {
-    [SerializeField, Header("ƒgƒ‰ƒ“ƒWƒVƒ‡ƒ“ƒIƒuƒWƒFƒNƒg")] private GameObject[] transitions;
+    [SerializeField, Header("ãƒˆãƒ©ãƒ³ã‚¸ã‚·ãƒ§ãƒ³ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ")] private GameObject[] transitions;
 
-    [SerializeField, Header("ŠJn‚Éƒgƒ‰ƒ“ƒWƒVƒ‡ƒ“‚·‚é‚©")] private bool isStart = true;
+    [SerializeField, Header("é–‹å§‹æ™‚ã«ãƒˆãƒ©ãƒ³ã‚¸ã‚·ãƒ§ãƒ³ã™ã‚‹ã‹")] private bool isStart = true;
    
     // Start is called before the first frame update
     void Start()
     {
         if (isStart)
         {
-            // Šeƒgƒ‰ƒ“ƒWƒVƒ‡ƒ“ƒIƒuƒWƒFƒNƒg‚É‘Î‚µ‚ÄƒgƒŠƒK[‚ğƒZƒbƒg‚µA‹tÄ¶‚Ìİ’è‚ğs‚¤
+            // å„ãƒˆãƒ©ãƒ³ã‚¸ã‚·ãƒ§ãƒ³ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«å¯¾ã—ã¦ãƒˆãƒªã‚¬ãƒ¼ã‚’ã‚»ãƒƒãƒˆã—ã€é€†å†ç”Ÿã®è¨­å®šã‚’è¡Œã†
             for (int i = 0; i < transitions.Length; i++)
             {
                 Animator animator = transitions[i].GetComponent<Animator>();
 
-                // ƒgƒŠƒK[‚ğİ’è‚µ‚ÄƒAƒjƒ[ƒVƒ‡ƒ“‚ğŠJn
+                // ãƒˆãƒªã‚¬ãƒ¼ã‚’è¨­å®šã—ã¦ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã‚’é–‹å§‹
                 animator.SetTrigger("Reverse");
             }
         }
@@ -29,24 +29,24 @@ public class TransitionManager : MonoBehaviour
 
     public void TransitionStart()
     {
-        // Šeƒgƒ‰ƒ“ƒWƒVƒ‡ƒ“ƒIƒuƒWƒFƒNƒg‚É‘Î‚µ‚ÄƒgƒŠƒK[‚ğƒZƒbƒg‚µA‹tÄ¶‚Ìİ’è‚ğs‚¤
+        // å„ãƒˆãƒ©ãƒ³ã‚¸ã‚·ãƒ§ãƒ³ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«å¯¾ã—ã¦ãƒˆãƒªã‚¬ãƒ¼ã‚’ã‚»ãƒƒãƒˆã—ã€é€†å†ç”Ÿã®è¨­å®šã‚’è¡Œã†
         for (int i = 0; i < transitions.Length; i++)
         {
             Animator animator = transitions[i].GetComponent<Animator>();
 
-            // ƒgƒŠƒK[‚ğİ’è‚µ‚ÄƒAƒjƒ[ƒVƒ‡ƒ“‚ğŠJn
+            // ãƒˆãƒªã‚¬ãƒ¼ã‚’è¨­å®šã—ã¦ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã‚’é–‹å§‹
             animator.SetTrigger("Start");
         }
     }
 
     public void TransitionStartReverse()
     {
-        // Šeƒgƒ‰ƒ“ƒWƒVƒ‡ƒ“ƒIƒuƒWƒFƒNƒg‚É‘Î‚µ‚ÄƒgƒŠƒK[‚ğƒZƒbƒg‚µA‹tÄ¶‚Ìİ’è‚ğs‚¤
+        // å„ãƒˆãƒ©ãƒ³ã‚¸ã‚·ãƒ§ãƒ³ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«å¯¾ã—ã¦ãƒˆãƒªã‚¬ãƒ¼ã‚’ã‚»ãƒƒãƒˆã—ã€é€†å†ç”Ÿã®è¨­å®šã‚’è¡Œã†
         for (int i = 0; i < transitions.Length; i++)
         {
             Animator animator = transitions[i].GetComponent<Animator>();
 
-            // ƒgƒŠƒK[‚ğİ’è‚µ‚ÄƒAƒjƒ[ƒVƒ‡ƒ“‚ğŠJn
+            // ãƒˆãƒªã‚¬ãƒ¼ã‚’è¨­å®šã—ã¦ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã‚’é–‹å§‹
             animator.SetTrigger("Reverse");
         }
     }
