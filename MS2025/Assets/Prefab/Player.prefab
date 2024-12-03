@@ -5500,8 +5500,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.53, y: 0.74, z: 0.2}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 0.53, y: 0.8, z: 0.2}
+  m_Center: {x: 0, y: -0.045, z: 0}
 --- !u!114 &9008301308188082771
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5523,10 +5523,10 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 1da7497ed5fe7704bb8dc7f629c54e17, type: 3}
   Startup: 7
   Active: 3
-  Recovery: 40
+  Recovery: 80
   buddyStartup: 17
   buddyActive: 5
-  buddyRecovery: 50
+  buddyRecovery: 80
   effectList:
   - {fileID: 780394350727776501}
   - {fileID: 5564641895426053759}
@@ -5799,17 +5799,17 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 0
-      outSlope: 0
+      inSlope: 2
+      outSlope: 2
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 2
-      outSlope: 2
+      time: 0.72383606
+      value: 1.030459
+      inSlope: 0
+      outSlope: 0
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
@@ -5817,7 +5817,6 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  SlowCount: 0.5
 --- !u!114 &5591909908197937288
 MonoBehaviour:
   m_ObjectHideFlags: 0
