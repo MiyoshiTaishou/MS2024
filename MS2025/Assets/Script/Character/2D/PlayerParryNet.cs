@@ -217,6 +217,9 @@ public class PlayerParryNet : NetworkBehaviour
     {
         if (ParryArea.GetComponent<ParryDisplayNet>().Hit)
             ParrySystem();
+
+        Camera.main.GetComponent<CameraEffectPlay>().RPC_CameraEffect();
+        Camera.main.GetComponent<CameraShake>().RPC_CameraShake(0.3f,0.3f);
     }
 
     public void ParryStart()
