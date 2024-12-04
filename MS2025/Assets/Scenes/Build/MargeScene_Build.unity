@@ -1742,12 +1742,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 247938528}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &249385251 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4786762860984310556, guid: c71161469b6c102429892c1cead900b0,
-    type: 3}
-  m_PrefabInstance: {fileID: 538033350}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &260598956
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2006,15 +2000,13 @@ GameObject:
   - component: {fileID: 308824978}
   - component: {fileID: 308824982}
   - component: {fileID: 308824981}
-  - component: {fileID: 308824980}
-  - component: {fileID: 308824979}
   m_Layer: 0
   m_Name: 'EndWordRoot '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &308824978
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2036,34 +2028,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &308824979
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 308824977}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 09233aa6ca7a98d4dbef31c4d2801b6a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &308824980
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 308824977}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a57000e6ac72bf469086802ec7fd5cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  transitions:
-  - {fileID: 331991429}
-  - {fileID: 249385251}
-  isStart: 0
 --- !u!82 &308824981
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2425,12 +2389,6 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
---- !u!1 &331991429 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8415985280695497429, guid: c71161469b6c102429892c1cead900b0,
-    type: 3}
-  m_PrefabInstance: {fileID: 538033350}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &340905617
 PrefabInstance:
   m_ObjectHideFlags: 0
