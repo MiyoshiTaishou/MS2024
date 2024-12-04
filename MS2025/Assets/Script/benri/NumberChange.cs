@@ -32,14 +32,32 @@ public class NumberChange : NetworkBehaviour
 
     public void DisplayNumber(int number)
     {
-        // 数字を3桁の文字列として取得
-        string numberStr = number.ToString("D3"); // 例：45 -> "045"
+        // 数字を文字列として取得（例：20 -> "20"）
+        string numberStr = number.ToString();
 
-        // 各桁に対応するスプライトをImageに設定
-        for (int i = 0; i < 3; i++)
+        // 数字を右詰めで配置
+        for (int i = 0; i < digitImages.Length; i++)
         {
-            int digit = numberStr[i] - '0'; // 文字から数字に変換
-            digitImages[i].sprite = numberSprites[digit];
+            int reverseIndex = numberStr.Length - 1 - (digitImages.Length - 1 - i);
+
+            if (reverseIndex >= 0)
+            {
+                // 有効な数字を取得して表示
+                int digit = numberStr[reverseIndex] - '0'; // 文字から数字に変換
+                digitImages[i].sprite = numberSprites[digit];
+                digitImages[i].enabled = true; // スプライトを有効化
+            }
+            else
+            {
+                // 数字が無い場合は非表示
+                digitImages[i].enabled = false;
+            }
         }
     }
+
+
+
+
+
+
 }
