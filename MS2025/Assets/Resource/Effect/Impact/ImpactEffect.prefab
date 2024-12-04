@@ -202,6 +202,36 @@ PrefabInstance:
       propertyPath: m_Name
       value: Particle Shockwave4
       objectReference: {fileID: 0}
+    - target: {fileID: 2927090022500827661, guid: f67f52e39229f704283f0bbabab83398,
+        type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2927090022500827661, guid: f67f52e39229f704283f0bbabab83398,
+        type: 3}
+      propertyPath: lengthInSec
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2927090022500827661, guid: f67f52e39229f704283f0bbabab83398,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxColor.a
+      value: 0.2901961
+      objectReference: {fileID: 0}
+    - target: {fileID: 2927090022500827661, guid: f67f52e39229f704283f0bbabab83398,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2927090022500827661, guid: f67f52e39229f704283f0bbabab83398,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2927090022500827661, guid: f67f52e39229f704283f0bbabab83398,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxColor.r
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
