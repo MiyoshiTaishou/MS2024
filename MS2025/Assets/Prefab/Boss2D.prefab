@@ -206,7 +206,7 @@ MonoBehaviour:
   downAction: {fileID: 11400000, guid: 1041b2b8e439b384d80347ea7b971b0b, type: 2}
   parryction: {fileID: 11400000, guid: 53fabe96f94aa38478ef3d1572aecf6d, type: 2}
   AttackOmenParticle: {fileID: 0}
-  LimitSpeed: 0
+  LimitSpeed: 50
 --- !u!65 &-6834287320468394907
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -403,7 +403,25 @@ MonoBehaviour:
   particleSystems: []
   hitStopCurve:
     serializedVersion: 2
-    m_Curve: []
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4

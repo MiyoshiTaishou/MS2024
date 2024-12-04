@@ -17,6 +17,9 @@ public class HitStop : NetworkBehaviour
     float SlowCountnum = 0;
     bool hitstopcheck = false;
 
+    [SerializeField, Header("アニメーションカーブの速度変更")]
+    private float curveSpeed;
+
     public override void Spawned()
     {
         animator = GetComponent<Animator>();
@@ -24,7 +27,7 @@ public class HitStop : NetworkBehaviour
 
     public override void FixedUpdateNetwork()
     {
-        SlowCountnum += Time.deltaTime;
+        SlowCountnum += Time.deltaTime * curveSpeed;
         if (hitstopcheck)
         {
             animator.speed = hitStopCurve.Evaluate(SlowCountnum);

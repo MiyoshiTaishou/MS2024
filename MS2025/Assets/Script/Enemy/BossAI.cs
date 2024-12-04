@@ -112,7 +112,7 @@ public class BossAI : NetworkBehaviour
             StartNextAction(); // プレイヤーが二人以上揃っていたらアクションを開始
         }
 
-        rb = GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody>();      
     }
 
     public override void FixedUpdateNetwork()
@@ -342,8 +342,7 @@ public class BossAI : NetworkBehaviour
         if (animator != null && !string.IsNullOrEmpty((string)networkedAnimationName) && animator.GetCurrentAnimatorStateInfo(0).IsName((string)networkedAnimationName) == false)
         {
             Debug.Log($"Synchronizing animation: {networkedAnimationName}");
-            animator.Play((string)networkedAnimationName);
-               
+            animator.Play((string)networkedAnimationName);           
         }
 
         //向き変更処理
