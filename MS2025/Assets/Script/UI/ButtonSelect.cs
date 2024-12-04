@@ -48,27 +48,17 @@ public class ButtonSelect : MonoBehaviour
                                              //buttons[selectedIndex].GetComponent<Image>().color = new Vector4(1.0f, 1.0f, 1.0f, 1.0f); // 最初のボタンを選択状態にする
                                              //buttons[selectedIndex].GetComponent<Animator>().SetBool("Loop",true);
             buttonObj[selectedIndex].GetComponent<Image>().color = selectColorImage;
-
-            Transform child = buttonObj[selectedIndex].transform.GetChild(1);
-            TextMeshProUGUI textMeshPro;
-            if (child != null)
-            {
-                textMeshPro = buttonObj[selectedIndex].transform.GetChild(1).GetComponent<TextMeshProUGUI>();
-            }
-            else
-            {
-                textMeshPro = null;
-            }
             
-            if (textMeshPro != null)
+            // 子オブジェクトが1つ以上ある場合に処理を実行
+            if (buttonObj[selectedIndex].transform.childCount > 0)
             {
-                Debug.Log(textMeshPro.color+"+"+ selectColor);
-                textMeshPro.color = selectColor;
-            }
-            else
-            {
-                Debug.Log("テキストなし" + textMeshPro.name);
-            }
+                Transform child = buttonObj[selectedIndex].transform.GetChild(0); // 最初の子オブジェクトを取得
+                TextMeshProUGUI textMeshPro = child.GetComponent<TextMeshProUGUI>();
+                if (textMeshPro != null) // TextMeshProがアタッチされているか確認
+                {
+                    textMeshPro.color = selectColor; // テキストの色をベースカラーに戻す
+                }
+            }          
         }
         if (Input.GetButtonDown("Submit")) {
             aButtonTriggered = true;
