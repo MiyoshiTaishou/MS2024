@@ -259,7 +259,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &16570667
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1894,6 +1894,7 @@ MonoBehaviour:
   baseColor: {r: 1, g: 1, b: 1, a: 1}
   Audio: {fileID: 1691037279}
   Clip: {fileID: 0}
+  CancelClip: {fileID: 0}
 --- !u!1001 &630682077
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2676,7 +2677,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &958952215
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9325,7 +9326,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2140312179
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9715,6 +9716,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2166228242022595646, guid: 7e7bca2dbb9956846b17b3c1b93926ab,
         type: 3}
+      propertyPath: m_Navigation.m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2166228242022595646, guid: 7e7bca2dbb9956846b17b3c1b93926ab,
+        type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -9978,6 +9984,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: 295
       objectReference: {fileID: 0}
+    - target: {fileID: 6458164677435803176, guid: 7e7bca2dbb9956846b17b3c1b93926ab,
+        type: 3}
+      propertyPath: m_Navigation.m_Mode
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6770522831267591043, guid: 7e7bca2dbb9956846b17b3c1b93926ab,
         type: 3}
       propertyPath: m_IsActive
@@ -10162,6 +10173,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -420
+      objectReference: {fileID: 0}
+    - target: {fileID: 7891612796167842595, guid: 7e7bca2dbb9956846b17b3c1b93926ab,
+        type: 3}
+      propertyPath: m_Navigation.m_Mode
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8435580067919905994, guid: 7e7bca2dbb9956846b17b3c1b93926ab,
         type: 3}
@@ -10402,6 +10418,7 @@ MonoBehaviour:
   baseColor: {r: 1, g: 1, b: 1, a: 1}
   Audio: {fileID: 1691037279}
   Clip: {fileID: 0}
+  CancelClip: {fileID: 0}
 --- !u!114 &8916930347922865372 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2166228242022595646, guid: 7e7bca2dbb9956846b17b3c1b93926ab,
