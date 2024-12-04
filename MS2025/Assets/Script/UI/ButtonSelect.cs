@@ -49,7 +49,17 @@ public class ButtonSelect : MonoBehaviour
                                              //buttons[selectedIndex].GetComponent<Animator>().SetBool("Loop",true);
             buttonObj[selectedIndex].GetComponent<Image>().color = selectColorImage;
 
-            TextMeshProUGUI textMeshPro = buttonObj[selectedIndex].transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+            Transform child = buttonObj[selectedIndex].transform.GetChild(1);
+            TextMeshProUGUI textMeshPro;
+            if (child != null)
+            {
+                textMeshPro = buttonObj[selectedIndex].transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+            }
+            else
+            {
+                textMeshPro = null;
+            }
+            
             if (textMeshPro != null)
             {
                 Debug.Log(textMeshPro.color+"+"+ selectColor);
@@ -81,7 +91,17 @@ public class ButtonSelect : MonoBehaviour
     void OnEnable() {
         buttonObj[selectedIndex].GetComponent<Image>().color = selectColorImage;
 
-        TextMeshProUGUI textMeshPro = buttonObj[selectedIndex].transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+        Transform child = buttonObj[selectedIndex].transform.GetChild(1);
+        TextMeshProUGUI textMeshPro;
+        if (child != null)
+        {
+            textMeshPro = buttonObj[selectedIndex].transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+        }
+        else
+        {
+            textMeshPro = null;
+        }
+
         if (textMeshPro != null)
         {
             textMeshPro.color = selectColor;
@@ -91,7 +111,17 @@ public class ButtonSelect : MonoBehaviour
         // buttons[selectedIndex].Select();
         buttonObj[selectedIndex].GetComponent<Image>().color = selectColorImage;
 
-        TextMeshProUGUI textMeshPro = buttonObj[selectedIndex].transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+        Transform child = buttonObj[selectedIndex].transform.GetChild(1);
+        TextMeshProUGUI textMeshPro;
+        if (child != null)
+        {
+            textMeshPro = buttonObj[selectedIndex].transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+        }
+        else
+        {
+            textMeshPro = null;
+        }
+
         if (textMeshPro != null)
         {
             textMeshPro.color = selectColor;
@@ -117,26 +147,38 @@ public class ButtonSelect : MonoBehaviour
 
         // 現在の選択を解除
         buttonObj[selectedIndex].GetComponent<Image>().color = baseColorImage;
-        TextMeshProUGUI textMeshPro = buttonObj[selectedIndex].transform.GetChild(0).GetComponent<TextMeshProUGUI>();
-        if (textMeshPro != null)
+
+        // 子オブジェクトが1つ以上ある場合に処理を実行
+        if (buttonObj[selectedIndex].transform.childCount > 0)
         {
-            textMeshPro.color = baseColor;
+            Transform child = buttonObj[selectedIndex].transform.GetChild(0); // 最初の子オブジェクトを取得
+            TextMeshProUGUI textMeshPro = child.GetComponent<TextMeshProUGUI>();
+            if (textMeshPro != null) // TextMeshProがアタッチされているか確認
+            {
+                textMeshPro.color = baseColor; // テキストの色をベースカラーに戻す
+            }
         }
 
         // 新しい選択
         selectedIndex = (selectedIndex + direction + buttons.Length) % buttons.Length;
         buttons[selectedIndex].Select();
-       buttonObj[selectedIndex].GetComponent<Image>().color = selectColorImage;
+        buttonObj[selectedIndex].GetComponent<Image>().color = selectColorImage;
 
-        textMeshPro = buttonObj[selectedIndex].transform.GetChild(0).GetComponent<TextMeshProUGUI>();
-        if (textMeshPro != null)
+        // 子オブジェクトが1つ以上ある場合に処理を実行
+        if (buttonObj[selectedIndex].transform.childCount > 0)
         {
-            textMeshPro.color = selectColor;
+            Transform child = buttonObj[selectedIndex].transform.GetChild(0); // 最初の子オブジェクトを取得
+            TextMeshProUGUI textMeshPro = child.GetComponent<TextMeshProUGUI>();
+            if (textMeshPro != null) // TextMeshProがアタッチされているか確認
+            {
+                textMeshPro.color = selectColor; // テキストの色を選択中の色に変更
+            }
         }
 
         lastInputTime = Time.time;
         Audio.PlayOneShot(Clip);
     }
+
 
 
 
