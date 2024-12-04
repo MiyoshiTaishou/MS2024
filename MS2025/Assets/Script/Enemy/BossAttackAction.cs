@@ -51,15 +51,19 @@ public class AttackAction : BossActionData
         attackArea = boss.transform.Find(attackAreaName)?.gameObject;
         attackAreaView = boss.transform.Find("Area")?.gameObject;
         attackArea.transform.localScale = attackScale;
-        boss.GetComponent<Animator>().speed = attackAnimSpeed;     
-        
-        //攻撃の判定の強さを決める
+        boss.GetComponent<Animator>().speed = attackAnimSpeed;
+
+        // 攻撃の判定の強さを決める
         boss.GetComponent<BossAI>().isKnockBack = canKnockBack;
         boss.GetComponent<BossAI>().isParry = canParry;
 
-        attackArea.transform.position = boss.transform.position;
-        attackAreaView.transform.position = boss.transform.position;
+        // 攻撃エリアをプレイヤー方向に配置
+        Vector3 directionToPlayer = (attackTarget.position - boss.transform.position).normalized; // プレイヤーへの方向を正規化
+        Vector3 attackPosition = boss.transform.position + directionToPlayer * attackRange;      // 攻撃エリアの新しい位置
+        attackArea.transform.position = attackPosition;
+        attackAreaView.transform.position = new Vector3(attackPosition.x, 3f, attackPosition.z);
     }
+
 
     public override bool ExecuteAction(GameObject boss, Transform player)
     {       
