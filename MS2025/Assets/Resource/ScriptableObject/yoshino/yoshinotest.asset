@@ -9,11 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c1bd5bd50b755943815acdb68574d51, type: 3}
-  m_Name: K_JumpAction
+  m_Script: {fileID: 11500000, guid: 29429c0f62db2354f954e021ed15468f, type: 3}
+  m_Name: yoshinotest
   m_EditorClassIdentifier: 
-  actionName: Jump
-  jumpDuration: 5
-  jumpPower: 70
-  jumpHeight: 6
-  attackClip: {fileID: 8300000, guid: 16411d55782efe74cbc01f78389a5294, type: 3}
+  actions:
+  - {fileID: 11400000, guid: b96e022e58b44b74ab7e6983a2e45816, type: 2}

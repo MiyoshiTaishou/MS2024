@@ -5332,7 +5332,7 @@ SpriteRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5901407417179175552}
   m_Enabled: 1
-  m_CastShadows: 0
+  m_CastShadows: 1
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
@@ -5344,7 +5344,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: -876546973899608171, guid: a6af7e0a09a9fac4ca99e6f8f78d66ab, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5533,8 +5533,7 @@ MonoBehaviour:
   - {fileID: 8581314509718457269}
   effectobj: {fileID: 3776528047892386424}
   effectRengekiTime: {fileID: 4552974503111306984}
-  disX: 10
-  flashFrame: 0
+  disX: 5
 --- !u!114 &5276096551197689218
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5678,8 +5677,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jumpSE: {fileID: 8300000, guid: 7e0c3b9ed31f17d4cba22d1c5346e04d, type: 3}
-  jumpPower: 15
-  gravity: 20
+  jumpPower: 40
+  gravity: 100
   effect: {fileID: 6574216082050649755, guid: abed7fcf5665eef4ab4326f47c503b02, type: 3}
   _isEffect: 0
   _jumpstart: 0
@@ -5818,6 +5817,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  curveSpeed: 1.5
 --- !u!114 &5591909908197937288
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 using Image = UnityEngine.UI.Image;
@@ -71,8 +72,12 @@ public class BossStatus : NetworkBehaviour
     [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
     public void RPC_Damage(int _damage)
     {
-        nBossHP -= _damage;
-        HPCount = 0;
+        if (SceneManager.GetActiveScene().name != "Game")
+        {
+            nBossHP -= _damage;
+            HPCount = 0;
+        }
+
         isDamageEffect = true;
 
         //// HPが0以下なら削除処理を呼ぶ

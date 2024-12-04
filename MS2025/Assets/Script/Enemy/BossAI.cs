@@ -67,6 +67,10 @@ public class BossAI : NetworkBehaviour
 
     private ShareNumbers shareNumbers;
 
+    private Rigidbody rb;
+
+    [SerializeField,Header("速度制限")] float LimitSpeed;
+
     // アニメーション名をネットワーク同期させる
     [Networked]
     private NetworkString<_16> networkedAnimationName { get; set; }
@@ -107,10 +111,43 @@ public class BossAI : NetworkBehaviour
         {
             StartNextAction(); // プレイヤーが二人以上揃っていたらアクションを開始
         }
+
+        rb = GetComponent<Rigidbody>();      
     }
 
     public override void FixedUpdateNetwork()
     {
+        //速度制限処理
+        if (rb.velocity.x > LimitSpeed)
+        {
+            rb.velocity = new Vector3(LimitSpeed, rb.velocity.y, rb.velocity.z);
+        }
+
+        if (rb.velocity.x < -LimitSpeed)
+        {
+            rb.velocity = new Vector3(-LimitSpeed, rb.velocity.y, rb.velocity.z);
+        }
+
+        if (rb.velocity.z > LimitSpeed)
+        {
+            rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y, LimitSpeed);
+        }
+
+        if (rb.velocity.z < -LimitSpeed)
+        {
+            rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y, -LimitSpeed);
+        }
+
+        if (rb.velocity.y > LimitSpeed)
+        {
+            rb.velocity = new Vector3(rb.velocity.x, LimitSpeed, rb.velocity.z);
+        }
+
+        if (rb.velocity.y < -LimitSpeed)
+        {
+            rb.velocity = new Vector3(rb.velocity.x, -LimitSpeed, rb.velocity.z);
+        }
+
         // プレイヤーが二人以上いない場合、行動を開始せず探索を続ける
         if (players.Count < maxPlayerIndex)
         {
@@ -305,8 +342,7 @@ public class BossAI : NetworkBehaviour
         if (animator != null && !string.IsNullOrEmpty((string)networkedAnimationName) && animator.GetCurrentAnimatorStateInfo(0).IsName((string)networkedAnimationName) == false)
         {
             Debug.Log($"Synchronizing animation: {networkedAnimationName}");
-            animator.Play((string)networkedAnimationName);
-               
+            animator.Play((string)networkedAnimationName);           
         }
 
         //向き変更処理

@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -26,6 +27,12 @@ public class ButtonSelect : MonoBehaviour
     [SerializeField, Header("ベースカラー")]
     private Color baseColor;
 
+    [SerializeField, Header("選択時の色")]
+    private Color selectColorImage;
+
+    [SerializeField, Header("ベースカラー")]
+    private Color baseColorImage;
+
     private float inputThreshold = 0.5f; // 入力を受け付ける最小値
 
     [SerializeField] AudioSource Audio;
@@ -40,7 +47,18 @@ public class ButtonSelect : MonoBehaviour
             buttons[selectedIndex].Select(); // 最初のボタンを選択状態にする
                                              //buttons[selectedIndex].GetComponent<Image>().color = new Vector4(1.0f, 1.0f, 1.0f, 1.0f); // 最初のボタンを選択状態にする
                                              //buttons[selectedIndex].GetComponent<Animator>().SetBool("Loop",true);
-            buttonObj[selectedIndex].GetComponent<Image>().color = selectColor;
+            buttonObj[selectedIndex].GetComponent<Image>().color = selectColorImage;
+            
+            // 子オブジェクトが1つ以上ある場合に処理を実行
+            if (buttonObj[selectedIndex].transform.childCount > 0)
+            {
+                Transform child = buttonObj[selectedIndex].transform.GetChild(0); // 最初の子オブジェクトを取得
+                TextMeshProUGUI textMeshPro = child.GetComponent<TextMeshProUGUI>();
+                if (textMeshPro != null) // TextMeshProがアタッチされているか確認
+                {
+                    textMeshPro.color = selectColor; // テキストの色をベースカラーに戻す
+                }
+            }          
         }
         if (Input.GetButtonDown("Submit")) {
             aButtonTriggered = true;
@@ -61,11 +79,43 @@ public class ButtonSelect : MonoBehaviour
     }
 
     void OnEnable() {
-        buttonObj[selectedIndex].GetComponent<Image>().color = selectColor;
+        buttonObj[selectedIndex].GetComponent<Image>().color = selectColorImage;
+
+        Transform child = buttonObj[selectedIndex].transform.GetChild(1);
+        TextMeshProUGUI textMeshPro;
+        if (child != null)
+        {
+            textMeshPro = buttonObj[selectedIndex].transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+        }
+        else
+        {
+            textMeshPro = null;
+        }
+
+        if (textMeshPro != null)
+        {
+            textMeshPro.color = selectColor;
+        }
     }
     void OnDisable() {
         // buttons[selectedIndex].Select();
-        buttonObj[selectedIndex].GetComponent<Image>().color = baseColor;
+        buttonObj[selectedIndex].GetComponent<Image>().color = selectColorImage;
+
+        Transform child = buttonObj[selectedIndex].transform.GetChild(1);
+        TextMeshProUGUI textMeshPro;
+        if (child != null)
+        {
+            textMeshPro = buttonObj[selectedIndex].transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+        }
+        else
+        {
+            textMeshPro = null;
+        }
+
+        if (textMeshPro != null)
+        {
+            textMeshPro.color = selectColor;
+        }
     }
 
     private void HandleButtonSelection()
@@ -85,14 +135,41 @@ public class ButtonSelect : MonoBehaviour
     {
         if (Time.time - lastInputTime < inputDelay) return;
 
-        buttonObj[selectedIndex].GetComponent<Image>().color = baseColor;
+        // 現在の選択を解除
+        buttonObj[selectedIndex].GetComponent<Image>().color = baseColorImage;
+
+        // 子オブジェクトが1つ以上ある場合に処理を実行
+        if (buttonObj[selectedIndex].transform.childCount > 0)
+        {
+            Transform child = buttonObj[selectedIndex].transform.GetChild(0); // 最初の子オブジェクトを取得
+            TextMeshProUGUI textMeshPro = child.GetComponent<TextMeshProUGUI>();
+            if (textMeshPro != null) // TextMeshProがアタッチされているか確認
+            {
+                textMeshPro.color = baseColor; // テキストの色をベースカラーに戻す
+            }
+        }
+
+        // 新しい選択
         selectedIndex = (selectedIndex + direction + buttons.Length) % buttons.Length;
         buttons[selectedIndex].Select();
-        buttonObj[selectedIndex].GetComponent<Image>().color = selectColor;
+        buttonObj[selectedIndex].GetComponent<Image>().color = selectColorImage;
+
+        // 子オブジェクトが1つ以上ある場合に処理を実行
+        if (buttonObj[selectedIndex].transform.childCount > 0)
+        {
+            Transform child = buttonObj[selectedIndex].transform.GetChild(0); // 最初の子オブジェクトを取得
+            TextMeshProUGUI textMeshPro = child.GetComponent<TextMeshProUGUI>();
+            if (textMeshPro != null) // TextMeshProがアタッチされているか確認
+            {
+                textMeshPro.color = selectColor; // テキストの色を選択中の色に変更
+            }
+        }
 
         lastInputTime = Time.time;
         Audio.PlayOneShot(Clip);
     }
+
+
 
 
     // 選択中のボタンを押す処理
