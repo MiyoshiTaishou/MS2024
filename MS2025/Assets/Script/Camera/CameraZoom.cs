@@ -13,7 +13,8 @@ public class CameraZoom : NetworkBehaviour
 
     [SerializeField, Tooltip("一番ズームした時にどれぐらい離すか")] float minZ;
     [SerializeField, Tooltip("ズーム倍率")] float zoomConf;
-
+    [SerializeField, Header("ここよりカメラを引かない")] float zoomLimit;
+    [SerializeField, Header("一番近いやつからこの値だけは引く")] float zeroRangezoom;
     public override void FixedUpdateNetwork()
     {
        
@@ -51,9 +52,9 @@ public class CameraZoom : NetworkBehaviour
             Vector3 pos2 = player2.transform.position;
             Vector3 pos3 = boss.transform.position;
 
-            float minX = Mathf.Min(pos1.x, pos2.x, pos3.x);
-            float maxX = Mathf.Max(pos1.x, pos2.x, pos3.x);
-            float minZ1 = Mathf.Min(pos1.z, pos2.z);
+            float minX = Mathf.Min(pos1.x,  pos2.x, pos3.x);
+            float maxX = Mathf.Max(pos1.x,  pos2.x, pos3.x);
+            float minZ1 = Mathf.Min(pos1.z, pos2.z, pos3.z);
             float maxZ1 = Mathf.Max(pos1.z, pos2.z, pos3.z);
 
             Vector2 max = new Vector2(maxX, maxZ1);
@@ -64,7 +65,16 @@ public class CameraZoom : NetworkBehaviour
             float rangeX = maxX - minX;
             float center;
             //float newZ = Mathf.Lerp(minZ, maxZ, dd / zoomConf); // 「10f」は範囲のスケールに応じて調整可能
-            float newZ = minZ1 - (dd * zoomConf) - minZ;
+            //float newZ = minZ1 - (dd * zoomConf) - minZ;
+            float newZ = minZ1 - Mathf.Abs(rangeX);
+            if(Mathf.Abs(newZ-minZ1)<zeroRangezoom)
+            {
+                newZ -= zeroRangezoom;
+            }
+            if(newZ<zoomLimit)
+            {
+                newZ=zoomLimit;
+            }
             center = (minX + maxX) / 2;
             Vector3 pos = transform.position;
             pos.x = center;

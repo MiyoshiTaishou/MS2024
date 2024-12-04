@@ -14,14 +14,14 @@ public class SoundSliderSelect : MonoBehaviour
     [SerializeField] Sprite handleObj;
 
 
-    [SerializeField,Tooltip("ƒXƒ‰ƒCƒ_[ˆÚ“®ƒXƒs[ƒh")] float SliderInterval = 0.01f; // ˆê‰ñ‚ÌˆÚ“®ŠÔŠui•bj
+    [SerializeField,Tooltip("ã‚¹ãƒ©ã‚¤ãƒ€ãƒ¼ç§»å‹•ã‚¹ãƒ”ãƒ¼ãƒ‰")] float SliderInterval = 0.01f; // ä¸€å›ã®ç§»å‹•é–“éš”ï¼ˆç§’ï¼‰
     float slidenum = 0; 
     [SerializeField, ReadOnly] int curornum = 0;
-    [SerializeField, Tooltip("SE‚ª‚È‚éˆÚ“®—ÊƒXƒs[ƒh")] float SoundInterval = 0.1f; // ˆê‰ñ‚ÌˆÚ“®ŠÔŠui•bj
+    [SerializeField, Tooltip("SEãŒãªã‚‹ç§»å‹•é‡ã‚¹ãƒ”ãƒ¼ãƒ‰")] float SoundInterval = 0.1f; // ä¸€å›ã®ç§»å‹•é–“éš”ï¼ˆç§’ï¼‰
 
 
-    [SerializeField, Tooltip("ƒJ[ƒ\ƒ‹ˆÚ“®ƒXƒs[ƒh")] float CuorsorInterval = 0.5f; // ˆê‰ñ‚ÌˆÚ“®ŠÔŠui•bj
-    private float timer = 0f; // ƒ^ƒCƒ}[
+    [SerializeField, Tooltip("ã‚«ãƒ¼ã‚½ãƒ«ç§»å‹•ã‚¹ãƒ”ãƒ¼ãƒ‰")] float CuorsorInterval = 0.5f; // ä¸€å›ã®ç§»å‹•é–“éš”ï¼ˆç§’ï¼‰
+    private float timer = 0f; // ã‚¿ã‚¤ãƒãƒ¼
 
     SoundActive m_ActiveSound;
 
@@ -31,6 +31,7 @@ public class SoundSliderSelect : MonoBehaviour
 
     [SerializeField] AudioSource SESource;
     [SerializeField] AudioClip SEClip;
+    [SerializeField, Tooltip("ã‚­ãƒ£ãƒ³ã‚»ãƒ«éŸ³")] AudioClip CancelClip;
 
     // Start is called before the first frame update
     void Start()
@@ -43,14 +44,14 @@ public class SoundSliderSelect : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Input Manager‚©‚ç‚Ì“ü—Í‚ğæ“¾
+        // Input Managerã‹ã‚‰ã®å…¥åŠ›ã‚’å–å¾—
        
         float vertical = Input.GetAxis("Vertical");
         if (vertical == 0)
         {
             timer = CuorsorInterval;
         }
-        // ƒ^ƒCƒ}[XV
+        // ã‚¿ã‚¤ãƒãƒ¼æ›´æ–°
         timer += Time.deltaTime;
 
 
@@ -58,10 +59,10 @@ public class SoundSliderSelect : MonoBehaviour
         {
             if (vertical > 0)
             {
-                // ˆê’èŠÔ‚ªŒo‰ß‚µ‚½‚çƒJ[ƒ\ƒ‹‚ğˆÚ“®
+                // ä¸€å®šæ™‚é–“ãŒçµŒéã—ãŸã‚‰ã‚«ãƒ¼ã‚½ãƒ«ã‚’ç§»å‹•
                 if (timer >= CuorsorInterval)
                 {
-                    timer = 0f; // ƒ^ƒCƒ}[‚ğƒŠƒZƒbƒg
+                    timer = 0f; // ã‚¿ã‚¤ãƒãƒ¼ã‚’ãƒªã‚»ãƒƒãƒˆ
                     curornum--;
                     slidenum = 0; 
                 }
@@ -70,10 +71,10 @@ public class SoundSliderSelect : MonoBehaviour
 
             if (vertical < 0)
             {
-                // ˆê’èŠÔ‚ªŒo‰ß‚µ‚½‚çƒJ[ƒ\ƒ‹‚ğˆÚ“®
+                // ä¸€å®šæ™‚é–“ãŒçµŒéã—ãŸã‚‰ã‚«ãƒ¼ã‚½ãƒ«ã‚’ç§»å‹•
                 if (timer >= CuorsorInterval)
                 {
-                    timer = 0f; // ƒ^ƒCƒ}[‚ğƒŠƒZƒbƒg
+                    timer = 0f; // ã‚¿ã‚¤ãƒãƒ¼ã‚’ãƒªã‚»ãƒƒãƒˆ
                     curornum++;
                     slidenum = 0;
                 }
@@ -82,13 +83,13 @@ public class SoundSliderSelect : MonoBehaviour
         }
 
 
-        //‰ºŒÀ
+        //ä¸‹é™
         if (curornum < 0)
         {
             curornum = m_SelectSlider.Count - 1;
         }
 
-        //ãŒÀ
+        //ä¸Šé™
         if(curornum > m_SelectSlider.Count - 1)
         {
             curornum = 0;
@@ -106,7 +107,7 @@ public class SoundSliderSelect : MonoBehaviour
             isSlider = !isSlider;
         }
 
-        //‘I‘ğ‚³‚ê‚Ä‚¢‚éƒXƒ‰ƒCƒ_[ˆÚ“®
+        //é¸æŠã•ã‚Œã¦ã„ã‚‹ã‚¹ãƒ©ã‚¤ãƒ€ãƒ¼ç§»å‹•
         float horizontal = Input.GetAxis("Horizontal");
 
         if (isSlider)
@@ -160,7 +161,7 @@ public class SoundSliderSelect : MonoBehaviour
         }
 
 
-        // Bƒ{ƒ^ƒ“iXboxƒRƒ“ƒgƒ[ƒ‰[‚Ìê‡j
+        // Bãƒœã‚¿ãƒ³ï¼ˆXboxã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ãƒ¼ã®å ´åˆï¼‰
         if (Input.GetButtonDown("Cancel"))
         {
             if(isSlider)
@@ -171,7 +172,9 @@ public class SoundSliderSelect : MonoBehaviour
             else
             {
                 // m_ActiveSound.ShowObject();
-                cancel.GetComponent<SwitchActive>().DisActive(0);
+                cancel.GetComponent<SceneChange>().Back();
+                SESource.PlayOneShot(CancelClip);
+
             }
 
         }

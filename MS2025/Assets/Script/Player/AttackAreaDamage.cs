@@ -1,5 +1,7 @@
 using Fusion;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class AttackAreaDamage : NetworkBehaviour
 {
@@ -17,7 +19,12 @@ public class AttackAreaDamage : NetworkBehaviour
     [SerializeField, Header("連携攻撃ダメージ量")] int buddyDamageNum = 100;
     [SerializeField, Header("連携攻撃フィニッシュダメージ量")] int buddyFinalDamageNum = 100;
 
-    [SerializeField] GameObject Gekiobj;
+    [SerializeField,Tooltip("数字のスプライト")] List<Sprite> damagesprite;
+    [SerializeField, Tooltip("数字のスプライト")] GameObject damageobj;
+
+    [SerializeField, Tooltip("ダメージ数を表示する時の生成範囲の最小")] float MinRange = -0.2f;
+    [SerializeField, Tooltip("ダメージ数を表示する時の生成範囲の最小")] float MaxRange = 0.2f;
+
     NetworkRunner runner;
 
     [Networked] bool isGeki { get; set; } = false;
@@ -78,7 +85,8 @@ public class AttackAreaDamage : NetworkBehaviour
                 other.GetComponent<BossStatus>().RPC_Damage(DamageNum);
 
                 //当たった位置に撃表示
-                isGeki = true;
+                GekiUI(other.transform);
+                //Debug.Log(other.name);
                 sharenum.AddHitnum();
                 RPCCombo();
                 player.GetComponent<HitStop>().ApplyHitStop(stopFrame);
@@ -98,16 +106,52 @@ public class AttackAreaDamage : NetworkBehaviour
     {
         if(isGeki)
         {
-            float spawnRadius = 2.5f;
-            Vector2 randomPos = Random.insideUnitCircle * spawnRadius;
-            Debug.Log(randomPos);
-            Vector3 spawnPosition = new Vector3(player.transform.position.x + randomPos.x, (player.transform.localScale.y / 2) + player.transform.position.y + randomPos.y, player.transform.position.z);
-
-            NetworkObject geki =  runner.Spawn(Gekiobj, spawnPosition, Quaternion.identity, runner.LocalPlayer);
-            geki.GetComponent<GekiDisplay>().SetPos(spawnPosition);
+            //GekiUI();
             isGeki = false;
         }
 
 
     }
+
+    public void GekiUI(Transform pos)
+    {
+        DisplayNumber(DamageNum, pos);
+    }
+
+    public void DisplayNumber(int damage, Transform pos)
+    {
+        // ダメージ値を文字列として扱う
+        string damageStr = damage.ToString();
+
+        // ランダムなオフセットを計算
+        float randomX = Random.Range(MinRange, MaxRange); // -0.2～0.2の間でX座標をランダム化
+        float randomY = Random.Range(MinRange, MaxRange); // -0.2～0.2の間でY座標をランダム化
+
+        // 各桁の数字を生成
+        for (int i = 0; i < damageStr.Length; i++)
+        {
+            // 数字を取得
+            int digit = int.Parse(damageStr[i].ToString());
+
+            // 数字オブジェクトを生成
+            GameObject numberObj = Instantiate(damageobj, new Vector3(0,0,0), Quaternion.identity);
+
+            // スプライトを設定
+            SpriteRenderer spriteRenderer = numberObj.GetComponent<SpriteRenderer>();
+            spriteRenderer.sprite = damagesprite[digit];
+
+            // 配置を調整（桁ごとに横に並べつつ、ランダムな位置にずらす）
+            numberObj.transform.position = new Vector3(
+                 pos.position.x+(i * 1f + randomX), // 桁ごとの配置にランダムなXオフセットを追加
+                pos.position.y +(pos.localScale.y / 4), // Y座標にもランダムオフセットを追加
+                 pos.position.z
+            );
+            Debug.Log("ダメージ数" + numberObj.transform.position.y);
+
+            // 数秒後に消えるように設定
+            //Destroy(numberObj, 1.5f); // 1.5秒後にオブジェクトを削除
+        }
+    }
+
+
 }

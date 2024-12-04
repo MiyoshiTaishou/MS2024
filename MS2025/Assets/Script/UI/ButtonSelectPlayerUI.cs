@@ -4,20 +4,22 @@ using UnityEngine;
 
 public class ButtonSelectPlayerUI : MonoBehaviour
 {
-    [SerializeField, Header("表示する画像")]
+    [SerializeField, Tooltip("表示する画像")]
     private GameObject[] players;
+    [SerializeField, Tooltip("選択が外れたとき非表示にするかを決めます")]
+    private bool disActiveFlag = false;
 
     private int index = 0;
 
     public ButtonSelect select;
-    
+
     private void Start()
     {
         players[index].SetActive(true);
     }
 
     private void Update()
-    {       
+    {
         if(select.selectedIndex == 0)
         {
             players[0].SetActive(true);
@@ -38,5 +40,12 @@ public class ButtonSelectPlayerUI : MonoBehaviour
             players[1].SetActive(false);
             players[2].SetActive(true);
         }
+    }
+
+    void OnDisable() {
+        if(!disActiveFlag) return;
+            players[0].SetActive(false);
+            players[1].SetActive(false);
+            players[2].SetActive(false);
     }
 }

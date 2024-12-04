@@ -7,15 +7,15 @@ using UnityEngine.SceneManagement;
 
 public class SoundManager : MonoBehaviour
 {
-    [SerializeField] AudioSource bgmAudioSource;
-    [SerializeField] AudioSource PlayerSeAudioSource;
-    [SerializeField] AudioSource EnemySeAudioSource;
-    [SerializeField] AudioSource titleSeAudioSource;
+    AudioSource bgmAudioSource;
+    AudioSource PlayerSeAudioSource;
+    AudioSource EnemySeAudioSource;
+    AudioSource titleSeAudioSource;
 
-    [SerializeField] List<BGMSoundData> bgmSoundDatas;
-    [SerializeField] List<PlayerSESoundData> PlayerSeSoundDatas;
-    [SerializeField] List<EnemySESoundData> EnemySeSoundDatas;
-    [SerializeField] List<UtilitySESoundData> UtilitySeSoundDatas;
+    //[SerializeField] List<BGMSoundData> bgmSoundDatas;
+    //[SerializeField] List<PlayerSESoundData> PlayerSeSoundDatas;
+    //[SerializeField] List<EnemySESoundData> EnemySeSoundDatas;
+    //[SerializeField] List<UtilitySESoundData> UtilitySeSoundDatas;
 
     public float masterVolume = 1;
     public float bgmMasterVolume = 1;
@@ -26,6 +26,7 @@ public class SoundManager : MonoBehaviour
     bool bosson   = false;
     bool otheron = false;
 
+    [SerializeField, Tooltip("ミュートボタン")] bool isMute = false;
 
     //public static SoundManager Instance { get; private set; }
 
@@ -52,9 +53,25 @@ public class SoundManager : MonoBehaviour
 
     private void Update()
     {
-        masterVolume = SoundDataManager.masterVolume;
-        bgmMasterVolume = SoundDataManager.bgmMasterVolume;
-        seMasterVolume = SoundDataManager.seMasterVolume;
+        if(Input.GetKeyDown(KeyCode.M))
+        {
+            isMute = !isMute;
+        }
+
+        if(isMute)
+        {
+            masterVolume = 0;
+            //bgmMasterVolume = 0;
+            //seMasterVolume = 0;
+            
+        }
+        else
+        {
+            masterVolume = SoundDataManager.masterVolume;
+            bgmMasterVolume = SoundDataManager.bgmMasterVolume;
+            seMasterVolume = SoundDataManager.seMasterVolume;
+
+        }
 
         if (!bgmAudioSource)
         {
@@ -74,8 +91,8 @@ public class SoundManager : MonoBehaviour
             }
             else
             {
-               // Debug.LogError("プレイヤーがいないよ");
-
+                // Debug.LogError("プレイヤーがいないよ");
+                playeron = false;
             }
         }
 
@@ -89,7 +106,7 @@ public class SoundManager : MonoBehaviour
             }
             else
             {
-                //Debug.LogError("ボスがいないよ");
+                bosson= false;
             }
         }
 
@@ -104,6 +121,7 @@ public class SoundManager : MonoBehaviour
             else
             {
                 //Debug.LogError("ボスがいないよ");
+                otheron = true;
             }
         }
 
@@ -169,35 +187,35 @@ public class SoundManager : MonoBehaviour
 
     //}
 
-    public void PlayBGM(BGMSoundData.BGM bgm)
-    {
-        BGMSoundData data = bgmSoundDatas.Find(data => data.bgm == bgm);
-        bgmAudioSource.clip = data.audioClip;
-        bgmAudioSource.volume = data.volume * bgmMasterVolume * masterVolume;
-        bgmAudioSource.Play();
-    }
+    //public void PlayBGM(BGMSoundData.BGM bgm)
+    //{
+    //    BGMSoundData data = bgmSoundDatas.Find(data => data.bgm == bgm);
+    //    bgmAudioSource.clip = data.audioClip;
+    //    bgmAudioSource.volume = data.volume * bgmMasterVolume * masterVolume;
+    //    bgmAudioSource.Play();
+    //}
 
 
-    public void PlayerSE(PlayerSESoundData.SE se)
-    {
-        PlayerSESoundData data = PlayerSeSoundDatas.Find(data => data.se == se);
-        PlayerSeAudioSource.volume = data.volume * seMasterVolume * masterVolume;
-        PlayerSeAudioSource.PlayOneShot(data.audioClip);
-    }
+    //public void PlayerSE(PlayerSESoundData.SE se)
+    //{
+    //    PlayerSESoundData data = PlayerSeSoundDatas.Find(data => data.se == se);
+    //    PlayerSeAudioSource.volume = data.volume * seMasterVolume * masterVolume;
+    //    PlayerSeAudioSource.PlayOneShot(data.audioClip);
+    //}
 
-    public void EnemySE(EnemySESoundData.SE se)
-    {
-        EnemySESoundData data = EnemySeSoundDatas.Find(data => data.se == se);
-        EnemySeAudioSource.volume = data.volume * seMasterVolume * masterVolume;
-        EnemySeAudioSource.PlayOneShot(data.audioClip);
-    }
+    //public void EnemySE(EnemySESoundData.SE se)
+    //{
+    //    EnemySESoundData data = EnemySeSoundDatas.Find(data => data.se == se);
+    //    EnemySeAudioSource.volume = data.volume * seMasterVolume * masterVolume;
+    //    EnemySeAudioSource.PlayOneShot(data.audioClip);
+    //}
 
-    public void UtilitySE(UtilitySESoundData.SE se)
-    {
-        UtilitySESoundData data = UtilitySeSoundDatas.Find(data => data.se == se);
-        PlayerSeAudioSource.volume = data.volume * seMasterVolume * masterVolume;
-        PlayerSeAudioSource.PlayOneShot(data.audioClip);
-    }
+    //public void UtilitySE(UtilitySESoundData.SE se)
+    //{
+    //    UtilitySESoundData data = UtilitySeSoundDatas.Find(data => data.se == se);
+    //    PlayerSeAudioSource.volume = data.volume * seMasterVolume * masterVolume;
+    //    PlayerSeAudioSource.PlayOneShot(data.audioClip);
+    //}
 
 }
 

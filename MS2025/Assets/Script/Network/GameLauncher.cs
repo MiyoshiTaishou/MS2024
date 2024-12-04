@@ -11,30 +11,45 @@ using System.Linq;
 
 public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 {
-    [SerializeField] private NetworkRunner networkRunnerPrefab;   
-    [SerializeField] private NetworkPrefabRef playerAvatarPrefab;
-    [SerializeField] private NetworkPrefabRef bossAvatarPrefab;
-    [SerializeField] private NetworkPrefabRef PlayerStatePrefab;
+    [Tooltip("ネットワークオブジェクト"), Header("ネットワーク設定")]
+    [SerializeField] private NetworkRunner networkRunnerPrefab;
+
+    [Header("シーン設定")]
     [SerializeField] private InputField roomNameInputField;
     [SerializeField] private string gameScene; // SceneRef に変更
-    [SerializeField] private int numBoss = 1;
     [SerializeField] Image LoadingImage;
-    [SerializeField, Header("トランジションオブジェクト")] private GameObject[] transition;
-    [SerializeField, Header("プレイヤーを生成しないシーンリスト")] private string[] skipScenes;
-    [SerializeField, Header("開始人数")] private int playerNum;
-    [SerializeField, Header("キャラ画像")] private GameObject[] charobj;
+    [Tooltip("トランジションオブジェクト")]
+    [SerializeField] private GameObject[] transition;
+
+    [Tooltip("プレイヤーオブジェクト"), Header("プレイヤー設定")]
+    [SerializeField] private NetworkPrefabRef playerAvatarPrefab;
+    [SerializeField] private NetworkPrefabRef PlayerStatePrefab;
+    [Tooltip("プレイヤーを生成しないシーンリスト")]
+    [SerializeField] private string[] skipScenes;
+    [Tooltip("開始人数")]
+    [SerializeField] private int playerNum;
+    [Tooltip("キャラ画像")]
+    [SerializeField] private GameObject[] charobj;
+
+    [Tooltip("ボスオブジェクト"), Header("ボス設定")]
+    [SerializeField] private NetworkPrefabRef bossAvatarPrefab;
+    [SerializeField] private int numBoss = 1;
+    [Tooltip("skyBox")]
+    [SerializeField] private StartSkyBoxChange skyBoxChange;
 
     private NetworkRunner networkRunner;
     private bool openDelayFlag = false;
     private bool closeDelayFlag = false;
     private float openDelayTime = 0.0f;
     private float closeDelayTime = 0.0f;
+    private string roomNameTemp = "";
 
     private void Update()
     {
         // XBoxのAボタン（Submitに割り当てられている）を押したら接続を切る
         if (Input.GetButtonDown("Cancel")) {
             DisconnectFromServer();
+            skyBoxChange.CancelChange();
         }
 
         if (openDelayFlag){
@@ -86,7 +101,14 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 
     // ボタンを押してホストとしてゲームを開始する
     public void StartHost(string roomName) {
+        if (roomName == "" || roomName == null) {
+            roomName = roomNameTemp;
+        }
         StartGame(GameMode.AutoHostOrClient, roomName);
+    }
+
+    public void SetRoomName(string roomName) {
+        roomNameTemp = roomName;
     }
 
     public void StartDebug() {
@@ -259,9 +281,11 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
         foreach (var tran in transition) {
             Animator animator = tran.GetComponent<Animator>();
             if (animator != null && animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f) {
-                return true;
+                // Debug.LogWarning("アニメーション中");
+                return true;// アニメーションがまだ完了していない（再生中）場合
             }
         }
+        // Debug.LogWarning("終了!");
         return false;
     }
 }

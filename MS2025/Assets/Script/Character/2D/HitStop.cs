@@ -1,8 +1,8 @@
 using ExitGames.Client.Photon.StructWrapping;
 using Fusion;
-using Fusion.Addons.Physics;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEngine;
 
 public class HitStop : NetworkBehaviour
@@ -12,10 +12,37 @@ public class HitStop : NetworkBehaviour
 
     private Coroutine hitStopCoroutine; // ヒットストップコルーチンのインスタンスを保持
 
+    [SerializeField, Tooltip("ヒットストップ後のアニメーションの戻り方")] AnimationCurve hitStopCurve;
+
+    float SlowCountnum = 0;
+    bool hitstopcheck = false;
+
+    [SerializeField, Header("アニメーションカーブの速度変更")]
+    private float curveSpeed;
+
     public override void Spawned()
     {
         animator = GetComponent<Animator>();
     }
+
+    public override void FixedUpdateNetwork()
+    {
+        SlowCountnum += Time.deltaTime * curveSpeed;
+        if (hitstopcheck)
+        {
+            animator.speed = hitStopCurve.Evaluate(SlowCountnum);
+            if (hitStopCurve.Evaluate(SlowCountnum) >= 1)
+                hitstopcheck = false;
+
+        }
+        else 
+        {
+            animator.speed = 1;
+        }
+
+        //Debug.Log("ヒットストップ"+hitStopCurve.Evaluate(SlowCountnum));
+    }
+
 
     public bool IsHitStopActive
     {
@@ -38,8 +65,8 @@ public class HitStop : NetworkBehaviour
     private IEnumerator DoHitStop(float hitStopDuration)
     {
         List<float> time = new List<float>();
-        Vector3 vel=GetComponent<NetworkRigidbody3D>().Rigidbody.velocity;
-        Vector3 hozonvel=GetComponent<NetworkRigidbody3D>().Rigidbody.velocity;
+        Vector3 vel=GetComponent<Rigidbody>().velocity;
+        Vector3 hozonvel=GetComponent<Rigidbody>().velocity;
         AnimatorStateInfo landAnimStateInfo = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
         if (animator != null)
         {
@@ -47,12 +74,13 @@ public class HitStop : NetworkBehaviour
             {
                 Debug.Log("ストップ");
             }
+
             animator.speed = 0;
         }
         vel.x = 0;
         vel.y = 0;
         vel.z = 0;
-        GetComponent<NetworkRigidbody3D>().Rigidbody.velocity = vel;
+        GetComponent<Rigidbody>().velocity = vel;
         if (particleSystems != null)
         {
             foreach (var particleSystem in particleSystems)
@@ -83,8 +111,7 @@ public class HitStop : NetworkBehaviour
             animator.speed = 1;
         }
 
-        GetComponent<NetworkRigidbody3D>().Rigidbody.velocity = hozonvel;
-
+        GetComponent<Rigidbody>().velocity = hozonvel;
         if (particleSystems != null)
         {
             for (int i = 0; i < particleSystems.Length; i++)
@@ -95,8 +122,10 @@ public class HitStop : NetworkBehaviour
                 }
             }
         }
-
+        animator.speed = 0;
+        SlowCountnum = 0;
         hitStopCoroutine = null; // ヒットストップ終了したのでコルーチンインスタンスをリセット
+        hitstopcheck = true;
         //Debug.Log("ヒットストップ終了");
     }
 }

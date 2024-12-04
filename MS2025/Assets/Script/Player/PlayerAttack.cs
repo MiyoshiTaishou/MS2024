@@ -1,5 +1,4 @@
 using Fusion;
-using Fusion.Addons.Physics;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -82,14 +81,23 @@ public class PlayerAttack : NetworkBehaviour
 
     public override void FixedUpdateNetwork()
     {
+        if(GetComponent<HitStop>().IsHitStopActive) 
+        {
+            return;
+        }
         Attack();
-
+        if(freeze.GetIsFreeze())
+        {
+            return;
+        }
 
         if (Object.HasStateAuthority && GetInput(out NetworkInputData data) && !hitStop.IsHitStopActive)
         {
             AnimatorStateInfo landAnimStateInfo = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
+
             if(landAnimStateInfo.IsName("APlayerJumpUp")||landAnimStateInfo.IsName("APlayerJumpDown")
-                || freeze.GetIsFreeze())//ジャンプ中は攻撃しない
+                || freeze.GetIsFreeze() ||//ジャンプ中は攻撃しない
+                GetComponent<PlayerChargeAttack>().isCharge)//溜め中には攻撃しない
             {
                 return;
             }
@@ -216,7 +224,7 @@ public class PlayerAttack : NetworkBehaviour
 
     void Attack()
     {
-        if(isAttack==false)
+        if(isAttack==false||GetComponent<HitStop>().IsHitStopActive )
         {
             return;
         }
@@ -224,7 +232,6 @@ public class PlayerAttack : NetworkBehaviour
         //のけぞり状態に対しての攻撃(連携攻撃)
         if (BossObj.GetComponent<BossAI>().Nokezori > 0)
         {
-                Debug.Log("瞬間移動" + flashFlg);
             //連携フィニッシュ攻撃
             if (BossObj.GetComponent<BossAI>().Nokezori == 1)
             {
@@ -232,9 +239,7 @@ public class PlayerAttack : NetworkBehaviour
                 {
                     freeze.Freeze(buddyActive + buddyRecovery);
                     Count++;
-                }
-                else if (Count < buddyStartup + buddyActive)
-                {
+                    Debug.Log("瞬間移動");
                     //瞬間移動
                     Vector3 pos = transform.position;
                     Vector3 bosspos = BossObj.transform.position;
@@ -252,6 +257,10 @@ public class PlayerAttack : NetworkBehaviour
                         transform.position = pos;
                         flashFlg = true;
                     }
+                }
+                else if (Count < buddyStartup + buddyActive)
+                {
+
                     Count++;
                     attackArea.SetActive(true);
                 }
@@ -274,12 +283,10 @@ public class PlayerAttack : NetworkBehaviour
                 {
                     freeze.Freeze(Active + Recovery);
                     Count++;
-                }
-                else if (Count < Startup + Active)
-                {
+                    Debug.Log("瞬間移動");
                     //瞬間移動
-                    Vector3 pos =transform.position;
-                    Vector3 bosspos=BossObj.transform.position;
+                    Vector3 pos = transform.position;
+                    Vector3 bosspos = BossObj.transform.position;
                     if (!flashFlg)
                     {
                         if (pos.x < bosspos.x)
@@ -291,9 +298,13 @@ public class PlayerAttack : NetworkBehaviour
                             pos.x = bosspos.x + disX;
                         }
                         pos.z = bosspos.z;
-                        transform.position= pos;
+                        transform.position = pos;
                         flashFlg = true;
                     }
+                }
+                else if (Count < Startup + Active)
+                {
+                    
 
                     Count++;
                     attackArea.SetActive(true);
@@ -313,7 +324,7 @@ public class PlayerAttack : NetworkBehaviour
             }
         }
         //通常攻撃
-        if (Count < Startup) 
+        else if (Count < Startup) 
         {
             freeze.Freeze(Active + Recovery);
             Count++;

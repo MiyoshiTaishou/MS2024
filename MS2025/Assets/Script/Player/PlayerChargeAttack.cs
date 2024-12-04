@@ -1,5 +1,6 @@
 using UnityEngine;
 using Fusion;
+using UnityEditor.Rendering;
 
 public class PlayerChargeAttack : NetworkBehaviour
 {
@@ -43,6 +44,10 @@ public class PlayerChargeAttack : NetworkBehaviour
     [Networked] public bool isWait { get; private set; }
     PlayerFreeze freeze;
 
+    [SerializeField, Tooltip("チャージ完了エフェクト")] private Color color;
+
+    private SpriteRenderer sprite;
+
     // Start is called before the first frame update
     public override void Spawned()
     {
@@ -63,15 +68,23 @@ public class PlayerChargeAttack : NetworkBehaviour
             Debug.LogError("ぼすないよ");
         }
         freeze= GetComponent<PlayerFreeze>();
+
+        sprite=GetComponent<SpriteRenderer>();
     }
     public override void FixedUpdateNetwork()
     {
         if (Object.HasStateAuthority && GetInput(out NetworkInputData data))
         {
+            if(GetComponent<PlayerJumpNet>().GetisJumping())
+            {
+                chargeCount = 0;
+                return;
+            }
             AnimatorStateInfo landAnimStateInfo = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
             if (landAnimStateInfo.IsName("APlayerJumpUp") || landAnimStateInfo.IsName("APlayerJumpDown")//ジャンプ中は攻撃しない
                 || freeze.GetIsFreeze())
             {
+                chargeCount= 0;
                 return;
             }
 
@@ -87,7 +100,14 @@ public class PlayerChargeAttack : NetworkBehaviour
                 chargeCount++;
                 isEffect = true;
             }
-            else if (released.IsSet(NetworkInputButtons.ChargeAttack) && isCharge&&chargeCount>maxCharge)
+            else
+            {
+                isCharge = false;
+                chargeCount = 0;
+                isAttackEffect = false;
+                chargeparticle.Stop();
+            }
+            if (data.Buttons.IsSet(NetworkInputButtons.ChargeAttack) && isCharge&&chargeCount>maxCharge)
             {
                 chargeparticle.Stop();
                // attackArea.SetActive(true);
@@ -98,16 +118,17 @@ public class PlayerChargeAttack : NetworkBehaviour
                 isWait = true;
 
             }
-            else
-            {
-                isCharge = false;
-                chargeCount = 0;
-                isAttackEffect = false;
-                chargeparticle.Stop();
-            }
         }
 
+        if(chargeCount > maxCharge)
+        {
+            sprite.color = color;
+        }
+        else if (GetComponent<PlayerHP>().inbisibleFrame == 0)
+        {
+            sprite.color = Color.white;
 
+        }
 
     }
 

@@ -12,7 +12,7 @@ public class PlayerJumpNet : NetworkBehaviour
     [Networked] public NetworkButtons ButtonsPrevious { get; set; }
 
     [Networked] private bool isGround { get; set; }
-    public bool GetisGround(){return isGround; }
+    public bool GetisGround() { return isGround; }
     [Networked] private bool isOnce { get; set; }
 
     [SerializeField, Header("�W�����v�̗�")] private float jumpPower = 10.0f;
@@ -34,11 +34,12 @@ public class PlayerJumpNet : NetworkBehaviour
 
     private Vector3 scale;
     bool isReflection;
-    [Networked]public bool isAnim { get; set; }
+    [Networked] public bool isAnim { get; set; }
 
-    [Networked]  Vector3 velocity { get; set; }  // �v���C���[�̑��x
+    [Networked] Vector3 velocity { get; set; }  // �v���C���[�̑��x
     private bool isJumping;    // �W�����v�����ǂ���    
     public bool GetisJumping() { return isJumping; }
+    int count = 0;
     public override void Spawned()
     {
         animator = GetComponent<Animator>();
@@ -47,25 +48,37 @@ public class PlayerJumpNet : NetworkBehaviour
         // Unity�̎����d�͂̓I�t�ɂ��Ă���
         GetComponent<NetworkRigidbody3D>().Rigidbody.useGravity = false;
 
-        if(!particle)
+        if (!particle)
             particle = effect.GetComponent<ParticleSystem>();
-        hitstop=GetComponent<HitStop>();
+        hitstop = GetComponent<HitStop>();
         attack = GetComponent<PlayerAttack>();
         chargeattack = GetComponent<PlayerChargeAttack>();
         freeze = GetComponent<PlayerFreeze>();
-        scale=transform.localScale;
+        scale = transform.localScale;
         isAnim = false;
     }
 
     public override void FixedUpdateNetwork()
     {
+        // ����̏d�͌v�Z��K�p
+        ApplyGravity();
+
         AnimatorStateInfo landAnimStateInfo = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
 
-        if (hitstop.IsHitStopActive||chargeattack.isCharge||freeze.GetIsFreeze())
+        if (hitstop.IsHitStopActive || chargeattack.isCharge || freeze.GetIsFreeze())
         {
             return;
         }
-        if (velocity.y<0 && !landAnimStateInfo.IsName("APlayerJumpDown")&&!isGround)//ジャンプの降りアニメーション再生
+        if (count > 0)
+        {
+            count--;
+        }
+        else if (count == 0)
+        {
+            RPC_Jump();
+            count = -1;
+        }
+        if (velocity.y < 0 && !landAnimStateInfo.IsName("APlayerJumpDown") && !isGround)//ジャンプの降りアニメーション再生
         {
             //animator.Play("APlayerJumpDown");
         }
@@ -81,7 +94,8 @@ public class PlayerJumpNet : NetworkBehaviour
             {
                 Instantiate(particle, this.gameObject.transform.position, Quaternion.identity);
                 //particle.Play();
-                RPC_Jump();
+                animator.Play("APlayerJumpDown", -1, 0f);
+                count = 5;
                 isJumping = true;  // �W�����v���ɐݒ�
                 jumpstart = true;
 
@@ -101,7 +115,7 @@ public class PlayerJumpNet : NetworkBehaviour
                 {
                     Vector3 temp = scale;
                     temp.x = -scale.x;
-                    transform.localScale= temp;
+                    transform.localScale = temp;
                 }
                 else
                 {
@@ -110,8 +124,6 @@ public class PlayerJumpNet : NetworkBehaviour
                     transform.localScale = temp;
                 }
             }
-            // ����̏d�͌v�Z��K�p
-            ApplyGravity();
         }
     }
     public override void Render()
@@ -124,7 +136,7 @@ public class PlayerJumpNet : NetworkBehaviour
         }
         if (jumpstart && !landAnimStateInfo.IsName("APlayerJumpDown") && !landAnimStateInfo.IsName("APlayerJumpUp"))//ジャンプの上りアニメーション再生
         {
-            jumpstart= false;
+            jumpstart = false;
             isEffect = true;
         }
 
@@ -142,9 +154,8 @@ public class PlayerJumpNet : NetworkBehaviour
         }
         if (isGround == false && isAnim == true)
         {
-            animator.speed = 2.5f;
-            animator.Play("APlayerJumpDown", -1, 0f);
-            isAnim= false;
+
+            isAnim = false;
         }
     }
 
@@ -154,7 +165,7 @@ public class PlayerJumpNet : NetworkBehaviour
         audioSource.PlayOneShot(jumpSE);
 
         // �W�����v�̏����x��ݒ�
-        velocity = new Vector3(velocity.x,jumpPower, velocity.z);
+        velocity = new Vector3(velocity.x, jumpPower, velocity.z);
         isGround = false;  // �W�����v�����̂Œn�ʂɂ��Ȃ���Ԃɐݒ�
 
         Instantiate(particle, this.gameObject.transform.position, Quaternion.identity);
@@ -183,7 +194,6 @@ public class PlayerJumpNet : NetworkBehaviour
             isGround = true;
             isJumping = false;
             jumpstart = false;
-            animator.speed = 1.0f;
         }
     }
 

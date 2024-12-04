@@ -24,9 +24,9 @@ public class ComboSystem : NetworkBehaviour
     {
         Combo++;
         sharenum.nCombo = Combo;
-        if(Combo>sharenum.maxCombo)
+        if(sharenum.nCombo > sharenum.maxCombo)
         {
-            sharenum.maxCombo = Combo;
+            sharenum.maxCombo = sharenum.nCombo;
         }
         Count = ComboKeepframe;
         //text.text=Combo.ToString();

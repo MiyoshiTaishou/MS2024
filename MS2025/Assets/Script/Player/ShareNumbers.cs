@@ -1,4 +1,5 @@
 using Fusion;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
@@ -18,6 +19,9 @@ public class ShareNumbers : NetworkBehaviour
 
     [Networked] public bool isSpecial { get; set; }
 
+    //必殺技発動のカウントをする
+    [Networked] private int specialNum { get; set; }
+
     public GameObject Boss;
 
     [SerializeField] private GameObject[] HPUI;
@@ -26,6 +30,17 @@ public class ShareNumbers : NetworkBehaviour
 
     int magnification = 2;
     [SerializeField] int damage = 10;
+
+    [Header("死んだときの遷移先シーン名"), SerializeField]
+    private String SceneName;
+
+    private NetworkRunner networkRunner;
+
+    [SerializeField]
+    private TransitionManager transitionManager;
+
+    [SerializeField]
+    private GameObject TryObject;
 
     public override void FixedUpdateNetwork()
     {
@@ -52,6 +67,13 @@ public class ShareNumbers : NetworkBehaviour
     public void RPC_Damage()
     {              
         HPUI[CurrentHP].SetActive(false);
+
+        if (CurrentHP == 0)
+        {            
+            transitionManager.TransitionStart();            
+            StartCoroutine(Load());
+        }
+
     }
 
     public void BossDamage()
@@ -139,5 +161,53 @@ public class ShareNumbers : NetworkBehaviour
             Debug.LogError("HPUI が見つかりませんでした");
         }
 
+        networkRunner = FindObjectOfType<NetworkRunner>();
+    }
+
+    private IEnumerator Load()
+    {
+        yield return new WaitForSeconds(2f);
+        TryObject.SetActive(true);
+    }
+
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    private void RPC_ClientSceneTransition()
+    {
+        // クライアントは先にシーン遷移を実行
+        if (!Object.HasStateAuthority)
+        {
+            UnityEngine.SceneManagement.SceneManager.LoadScene(SceneName);
+        }
+        else
+        {
+            // ホスト側はクライアントの遷移が完了した後にシーン遷移
+            StartCoroutine(HostSceneTransition());
+        }
+    }
+
+    private IEnumerator HostSceneTransition()
+    {
+        yield return new WaitForSeconds(2); // クライアント側がシーン遷移するまでの時間を調整
+        Runner.Shutdown();
+        UnityEngine.SceneManagement.SceneManager.LoadScene(SceneName);
+    }
+
+    public bool AddSpecialNum()
+    {
+        specialNum++;
+
+        //二人とも押したらtrueを返して必殺技を発動させる
+        if(specialNum == 2)
+        {
+            specialNum = 0;
+            return true;
+        }
+
+        return false;
+    }
+
+    public void ResetSpecialNUm()
+    {
+        specialNum = 0;
     }
 }

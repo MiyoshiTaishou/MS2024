@@ -7,15 +7,19 @@ using UnityEngine.SceneManagement;
 
 public class StartSkyBoxChange : MonoBehaviour
 {
-    [SerializeField, Header("ƒXƒJƒCƒ{ƒbƒNƒX‚Ìƒ}ƒeƒŠƒAƒ‹")] private Material material;    
-    [SerializeField, Header("ƒ‰ƒCƒg")] private GameObject light;    
-    [SerializeField, Header("ƒ‰ƒCƒg")] private GameObject light2;    
-    [SerializeField, Header("ƒ|ƒXƒgƒvƒƒZƒX")] private GameObject volume;
-    [SerializeField, Header("ƒ|ƒXƒgƒvƒƒZƒX")] private GameObject volume2;
+    [SerializeField, Header("ã‚¹ã‚«ã‚¤ãƒœãƒƒã‚¯ã‚¹ã®ãƒãƒ†ãƒªã‚¢ãƒ«")] private Material material;
+    [SerializeField, Header("ãƒ©ã‚¤ãƒˆ")] private GameObject light;
+    [SerializeField, Header("ãƒ©ã‚¤ãƒˆ")] private GameObject light2;
+    [SerializeField, Header("ãƒã‚¹ãƒˆãƒ—ãƒ­ã‚»ã‚¹")] private GameObject volume;
+    [SerializeField, Header("ãƒã‚¹ãƒˆãƒ—ãƒ­ã‚»ã‚¹")] private GameObject volume2;
+    private Material defaltMaterial;
     
-    public  void StratChange(string name)
-    {
-        UnityEngine.RenderSettings.skybox = material;   
+    private void Start() {
+        defaltMaterial = UnityEngine.RenderSettings.skybox;
+    }
+
+    public void StratChange(string name) {
+        UnityEngine.RenderSettings.skybox = material;
         light.SetActive(false);
         light2.SetActive(true);
         volume.SetActive(false);
@@ -24,9 +28,17 @@ public class StartSkyBoxChange : MonoBehaviour
         //StartCoroutine(LoadScene(name));
     }
 
+    public void CancelChange() {
+        UnityEngine.RenderSettings.skybox = defaltMaterial;
+        light.SetActive(true);
+        light2.SetActive(true);
+        volume.SetActive(false);
+        volume2 .SetActive(false);
+    }
+
     private IEnumerator LoadScene(string name)
     {
-        // ‚Q•b‘Ò‹@
+        // ï¼’ç§’å¾…æ©Ÿ
         yield return new WaitForSeconds(2);
         SceneManager.LoadScene(name);
     }

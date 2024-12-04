@@ -144,7 +144,21 @@ MonoBehaviour:
   DamageNum: 100
   buddyDamageNum: 200
   buddyFinalDamageNum: 1000
-  Gekiobj: {fileID: 4630218144137360919, guid: b1871dfb0d725bb4497c060c1a4cea4a, type: 3}
+  damagesprite:
+  - {fileID: 21300000, guid: 0135c88579183914da6ee241e098f47b, type: 3}
+  - {fileID: 21300000, guid: dd2b3ea9c7c232241a0b7008fdc98b89, type: 3}
+  - {fileID: 21300000, guid: 287b732734d5ee64fba83f05d4bd1ad1, type: 3}
+  - {fileID: 21300000, guid: ad9165480bcf00442ab03c2f1b4df17b, type: 3}
+  - {fileID: 21300000, guid: 05e7b6d7520779440a32aeb245cb65a4, type: 3}
+  - {fileID: 21300000, guid: 0dd35da05f63ef842bec9a9ca221aa01, type: 3}
+  - {fileID: 21300000, guid: c93121868cc771c41b2bae17298a7e7e, type: 3}
+  - {fileID: 21300000, guid: 98469f3230336e94d9ae813844a0e1cf, type: 3}
+  - {fileID: 21300000, guid: dd9b491ef10729c429c162acc05b79d8, type: 3}
+  - {fileID: 21300000, guid: af41a1355105eb149a796f1fef3367f6, type: 3}
+  damageobj: {fileID: 3856411459423880853, guid: d64831138bb00f842af9664f693b9ca6,
+    type: 3}
+  MinRange: 0
+  MaxRange: 0.3
 --- !u!1 &2918473518555105603
 GameObject:
   m_ObjectHideFlags: 0
@@ -656,7 +670,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.1
+      scalar: 0.2
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -5332,7 +5346,7 @@ SpriteRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5901407417179175552}
   m_Enabled: 1
-  m_CastShadows: 0
+  m_CastShadows: 1
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
@@ -5344,7 +5358,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: -876546973899608171, guid: a6af7e0a09a9fac4ca99e6f8f78d66ab, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5500,8 +5514,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.53, y: 0.74, z: 0.2}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 0.53, y: 0.8, z: 0.2}
+  m_Center: {x: 0, y: -0.045, z: 0}
 --- !u!114 &9008301308188082771
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5523,17 +5537,17 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 1da7497ed5fe7704bb8dc7f629c54e17, type: 3}
   Startup: 7
   Active: 3
-  Recovery: 40
+  Recovery: 80
   buddyStartup: 17
   buddyActive: 5
-  buddyRecovery: 50
+  buddyRecovery: 80
   effectList:
   - {fileID: 780394350727776501}
   - {fileID: 5564641895426053759}
   - {fileID: 8581314509718457269}
   effectobj: {fileID: 3776528047892386424}
   effectRengekiTime: {fileID: 4552974503111306984}
-  disX: 10
+  disX: 5
 --- !u!114 &5276096551197689218
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5546,6 +5560,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 828e2938ddaaa124987e2cb41cf13774, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _isDamage: 0
+  damageFrame: 60
+  knockbackDistance: 3
+  knockbackSlowDistance: 1
+  _inbisibleFrame: 0
 --- !u!82 &8508605095377403547
 AudioSource:
   m_ObjectHideFlags: 0
@@ -5656,6 +5675,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   acceleration: 30
   maxSpeed: 10
+  LimitSpeed: 10
   _isReflection: 0
   _isMove: 0
 --- !u!114 &7588640461257048479
@@ -5671,8 +5691,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jumpSE: {fileID: 8300000, guid: 7e0c3b9ed31f17d4cba22d1c5346e04d, type: 3}
-  jumpPower: 15
-  gravity: 20
+  jumpPower: 40
+  gravity: 100
   effect: {fileID: 6574216082050649755, guid: abed7fcf5665eef4ab4326f47c503b02, type: 3}
   _isEffect: 0
   _jumpstart: 0
@@ -5717,10 +5737,14 @@ MonoBehaviour:
   _specialNum: 10
   _specialDamage: 0
   specialTimeWait: 0.01
+  specialActTimeWait: 10
   specialColor: {r: 1, g: 0.98927224, b: 0, a: 0}
+  Tanukiparticle: {fileID: 2996601022003781360}
+  Kituneparticle: {fileID: 2382725228349261798}
+  clip: {fileID: 8300000, guid: d1caadd9f3d3e5142b744d13c3631965, type: 3}
+  clipSpecial: {fileID: 8300000, guid: 75f49d0238dcc684daf6a00318e6dab6, type: 3}
   ComboList: []
-  Tanukiparticle: {fileID: 2382725228349261798}
-  Kituneparticle: {fileID: 2996601022003781360}
+  PlayerFireList: []
 --- !u!114 &5507341137057323025
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5783,6 +5807,31 @@ MonoBehaviour:
   - {fileID: 8581314509718457269}
   - {fileID: 4684355246126431642}
   - {fileID: 3776528047892386424}
+  hitStopCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  curveSpeed: 1.5
 --- !u!114 &5591909908197937288
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5820,6 +5869,7 @@ MonoBehaviour:
   attackeffect: {fileID: 4684355246126431642}
   effectRengekiTime: {fileID: 4552974503111306984}
   _isWait: 0
+  color: {r: 1, g: 1, b: 0, a: 1}
 --- !u!114 &8698337172001587246
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5993,6 +6043,21 @@ MonoBehaviour:
   stopFrame: 29
   ChargeDamege: 500
   Gekiobj: {fileID: 4630218144137360919, guid: b1871dfb0d725bb4497c060c1a4cea4a, type: 3}
+  damagesprite:
+  - {fileID: 21300000, guid: 0135c88579183914da6ee241e098f47b, type: 3}
+  - {fileID: 21300000, guid: dd2b3ea9c7c232241a0b7008fdc98b89, type: 3}
+  - {fileID: 21300000, guid: 287b732734d5ee64fba83f05d4bd1ad1, type: 3}
+  - {fileID: 21300000, guid: ad9165480bcf00442ab03c2f1b4df17b, type: 3}
+  - {fileID: 21300000, guid: 05e7b6d7520779440a32aeb245cb65a4, type: 3}
+  - {fileID: 21300000, guid: 0dd35da05f63ef842bec9a9ca221aa01, type: 3}
+  - {fileID: 21300000, guid: c93121868cc771c41b2bae17298a7e7e, type: 3}
+  - {fileID: 21300000, guid: 98469f3230336e94d9ae813844a0e1cf, type: 3}
+  - {fileID: 21300000, guid: dd9b491ef10729c429c162acc05b79d8, type: 3}
+  - {fileID: 21300000, guid: af41a1355105eb149a796f1fef3367f6, type: 3}
+  damageobj: {fileID: 3856411459423880853, guid: d64831138bb00f842af9664f693b9ca6,
+    type: 3}
+  MinRange: 0
+  MaxRange: 0.3
 --- !u!1001 &1603790674371511134
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6466,11 +6531,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4335282639064450, guid: eca000ab44c908d4dab395f654753038, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0.033
       objectReference: {fileID: 0}
     - target: {fileID: 4335282639064450, guid: eca000ab44c908d4dab395f654753038, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.229
       objectReference: {fileID: 0}
     - target: {fileID: 4335282639064450, guid: eca000ab44c908d4dab395f654753038, type: 3}
       propertyPath: m_LocalPosition.z
@@ -6506,8 +6571,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 198035010440344822, guid: eca000ab44c908d4dab395f654753038,
         type: 3}
+      propertyPath: lengthInSec
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 198035010440344822, guid: eca000ab44c908d4dab395f654753038,
+        type: 3}
       propertyPath: playOnAwake
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 198770916305096390, guid: eca000ab44c908d4dab395f654753038,
+        type: 3}
+      propertyPath: lengthInSec
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 198770916305096390, guid: eca000ab44c908d4dab395f654753038,
         type: 3}
@@ -6516,8 +6591,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 198788489815347688, guid: eca000ab44c908d4dab395f654753038,
         type: 3}
+      propertyPath: lengthInSec
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 198788489815347688, guid: eca000ab44c908d4dab395f654753038,
+        type: 3}
       propertyPath: playOnAwake
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 198960286276550306, guid: eca000ab44c908d4dab395f654753038,
+        type: 3}
+      propertyPath: lengthInSec
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 198960286276550306, guid: eca000ab44c908d4dab395f654753038,
         type: 3}
@@ -6532,7 +6617,7 @@ PrefabInstance:
     - target: {fileID: 198993423900235080, guid: eca000ab44c908d4dab395f654753038,
         type: 3}
       propertyPath: InitialModule.startSize.scalar
-      value: 4
+      value: 8.63
       objectReference: {fileID: 0}
     - target: {fileID: 199087449348766326, guid: eca000ab44c908d4dab395f654753038,
         type: 3}
@@ -6590,11 +6675,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4378435534538936, guid: 3d35e81bdc5955041be098ef22e82a3b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0.033
       objectReference: {fileID: 0}
     - target: {fileID: 4378435534538936, guid: 3d35e81bdc5955041be098ef22e82a3b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.229
       objectReference: {fileID: 0}
     - target: {fileID: 4378435534538936, guid: 3d35e81bdc5955041be098ef22e82a3b, type: 3}
       propertyPath: m_LocalPosition.z
@@ -6630,8 +6715,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 198025281900492468, guid: 3d35e81bdc5955041be098ef22e82a3b,
         type: 3}
+      propertyPath: lengthInSec
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 198025281900492468, guid: 3d35e81bdc5955041be098ef22e82a3b,
+        type: 3}
       propertyPath: playOnAwake
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 198114777272790932, guid: 3d35e81bdc5955041be098ef22e82a3b,
+        type: 3}
+      propertyPath: lengthInSec
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 198114777272790932, guid: 3d35e81bdc5955041be098ef22e82a3b,
         type: 3}
@@ -6646,12 +6741,22 @@ PrefabInstance:
     - target: {fileID: 198198661817966188, guid: 3d35e81bdc5955041be098ef22e82a3b,
         type: 3}
       propertyPath: InitialModule.startSize.scalar
-      value: 4
+      value: 8.63
+      objectReference: {fileID: 0}
+    - target: {fileID: 198592367852795574, guid: 3d35e81bdc5955041be098ef22e82a3b,
+        type: 3}
+      propertyPath: lengthInSec
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 198592367852795574, guid: 3d35e81bdc5955041be098ef22e82a3b,
         type: 3}
       propertyPath: playOnAwake
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 198889961251652488, guid: 3d35e81bdc5955041be098ef22e82a3b,
+        type: 3}
+      propertyPath: lengthInSec
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 198889961251652488, guid: 3d35e81bdc5955041be098ef22e82a3b,
         type: 3}

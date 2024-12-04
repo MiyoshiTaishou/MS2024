@@ -217,6 +217,9 @@ public class PlayerParryNet : NetworkBehaviour
     {
         if (ParryArea.GetComponent<ParryDisplayNet>().Hit)
             ParrySystem();
+
+        Camera.main.GetComponent<CameraEffectPlay>().RPC_CameraEffect();
+        Camera.main.GetComponent<CameraShake>().RPC_CameraShake(0.3f,0.3f);
     }
 
     public void ParryStart()
@@ -277,6 +280,7 @@ public class PlayerParryNet : NetworkBehaviour
         AnimatorStateInfo landAnimStateInfo = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
         if (isRaise)
         {
+            animator.speed = 1.0f;
             animator.Play("APlayerKachiage");
             isRaise= false;
             isParryAnimation = false; // フラグをリセット
@@ -292,6 +296,7 @@ public class PlayerParryNet : NetworkBehaviour
         {
             Debug.Log("パリィクライアント");
             NetParryeffect = true;
+            animator.speed = 1.0f;
             animator.Play("APlayerParry");
             isParryAnimation = false; // フラグをリセット
         }
