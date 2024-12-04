@@ -43,10 +43,16 @@ public class ButtonSelect : MonoBehaviour
                                              //buttons[selectedIndex].GetComponent<Animator>().SetBool("Loop",true);
             buttonObj[selectedIndex].GetComponent<Image>().color = selectColor;
 
-            if(buttonObj[selectedIndex].GetComponent<TextMeshPro>())
+            TextMeshProUGUI textMeshPro = buttonObj[selectedIndex].transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+            if (textMeshPro != null)
             {
-                buttonObj[selectedIndex].GetComponent<TextMeshPro>().color = selectColor;
-            }           
+                Debug.Log(textMeshPro.color+"+"+ selectColor);
+                textMeshPro.color = selectColor;
+            }
+            else
+            {
+                Debug.Log("テキストなし" + textMeshPro.name);
+            }
         }
         if (Input.GetButtonDown("Submit")) {
             aButtonTriggered = true;
@@ -69,18 +75,20 @@ public class ButtonSelect : MonoBehaviour
     void OnEnable() {
         buttonObj[selectedIndex].GetComponent<Image>().color = selectColor;
 
-        if (buttonObj[selectedIndex].GetComponent<TextMeshPro>())
+        TextMeshProUGUI textMeshPro = buttonObj[selectedIndex].GetComponent<TextMeshProUGUI>();
+        if (textMeshPro != null)
         {
-            buttonObj[selectedIndex].GetComponent<TextMeshPro>().color = selectColor;
+            textMeshPro.color = selectColor;
         }
     }
     void OnDisable() {
         // buttons[selectedIndex].Select();
         buttonObj[selectedIndex].GetComponent<Image>().color = baseColor;
 
-        if (buttonObj[selectedIndex].GetComponent<TextMeshPro>())
+        TextMeshProUGUI textMeshPro = buttonObj[selectedIndex].GetComponent<TextMeshProUGUI>();
+        if (textMeshPro != null)
         {
-            buttonObj[selectedIndex].GetComponent<TextMeshPro>().color = selectColor;
+            textMeshPro.color = selectColor;
         }
     }
 
@@ -101,24 +109,29 @@ public class ButtonSelect : MonoBehaviour
     {
         if (Time.time - lastInputTime < inputDelay) return;
 
+        // 現在の選択を解除
         buttonObj[selectedIndex].GetComponent<Image>().color = baseColor;
-
-        if (buttonObj[selectedIndex].GetComponent<TextMeshPro>())
+        TextMeshProUGUI textMeshPro = buttonObj[selectedIndex].GetComponent<TextMeshProUGUI>();
+        if (textMeshPro != null)
         {
-            buttonObj[selectedIndex].GetComponent<TextMeshPro>().color = baseColor;
+            textMeshPro.color = baseColor;
         }
+
+        // 新しい選択
         selectedIndex = (selectedIndex + direction + buttons.Length) % buttons.Length;
         buttons[selectedIndex].Select();
         buttonObj[selectedIndex].GetComponent<Image>().color = selectColor;
 
-        if (buttonObj[selectedIndex].GetComponent<TextMeshPro>())
+        textMeshPro = buttonObj[selectedIndex].GetComponent<TextMeshProUGUI>();
+        if (textMeshPro != null)
         {
-            buttonObj[selectedIndex].GetComponent<TextMeshPro>().color = selectColor;
+            textMeshPro.color = selectColor;
         }
 
         lastInputTime = Time.time;
         Audio.PlayOneShot(Clip);
     }
+
 
 
     // 選択中のボタンを押す処理
