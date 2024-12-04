@@ -27,6 +27,12 @@ public class ButtonSelect : MonoBehaviour
     [SerializeField, Header("ベースカラー")]
     private Color baseColor;
 
+    [SerializeField, Header("選択時の色")]
+    private Color selectColorImage;
+
+    [SerializeField, Header("ベースカラー")]
+    private Color baseColorImage;
+
     private float inputThreshold = 0.5f; // 入力を受け付ける最小値
 
     [SerializeField] AudioSource Audio;
@@ -41,7 +47,7 @@ public class ButtonSelect : MonoBehaviour
             buttons[selectedIndex].Select(); // 最初のボタンを選択状態にする
                                              //buttons[selectedIndex].GetComponent<Image>().color = new Vector4(1.0f, 1.0f, 1.0f, 1.0f); // 最初のボタンを選択状態にする
                                              //buttons[selectedIndex].GetComponent<Animator>().SetBool("Loop",true);
-            //buttonObj[selectedIndex].GetComponent<Image>().color = selectColor;
+            buttonObj[selectedIndex].GetComponent<Image>().color = selectColorImage;
 
             TextMeshProUGUI textMeshPro = buttonObj[selectedIndex].transform.GetChild(1).GetComponent<TextMeshProUGUI>();
             if (textMeshPro != null)
@@ -73,7 +79,7 @@ public class ButtonSelect : MonoBehaviour
     }
 
     void OnEnable() {
-        //buttonObj[selectedIndex].GetComponent<Image>().color = selectColor;
+        buttonObj[selectedIndex].GetComponent<Image>().color = selectColorImage;
 
         TextMeshProUGUI textMeshPro = buttonObj[selectedIndex].transform.GetChild(0).GetComponent<TextMeshProUGUI>();
         if (textMeshPro != null)
@@ -83,7 +89,7 @@ public class ButtonSelect : MonoBehaviour
     }
     void OnDisable() {
         // buttons[selectedIndex].Select();
-        //buttonObj[selectedIndex].GetComponent<Image>().color = baseColor;
+        buttonObj[selectedIndex].GetComponent<Image>().color = selectColorImage;
 
         TextMeshProUGUI textMeshPro = buttonObj[selectedIndex].transform.GetChild(0).GetComponent<TextMeshProUGUI>();
         if (textMeshPro != null)
@@ -110,7 +116,7 @@ public class ButtonSelect : MonoBehaviour
         if (Time.time - lastInputTime < inputDelay) return;
 
         // 現在の選択を解除
-        //buttonObj[selectedIndex].GetComponent<Image>().color = baseColor;
+        buttonObj[selectedIndex].GetComponent<Image>().color = baseColorImage;
         TextMeshProUGUI textMeshPro = buttonObj[selectedIndex].transform.GetChild(0).GetComponent<TextMeshProUGUI>();
         if (textMeshPro != null)
         {
@@ -120,7 +126,7 @@ public class ButtonSelect : MonoBehaviour
         // 新しい選択
         selectedIndex = (selectedIndex + direction + buttons.Length) % buttons.Length;
         buttons[selectedIndex].Select();
-       // buttonObj[selectedIndex].GetComponent<Image>().color = selectColor;
+       buttonObj[selectedIndex].GetComponent<Image>().color = selectColorImage;
 
         textMeshPro = buttonObj[selectedIndex].transform.GetChild(0).GetComponent<TextMeshProUGUI>();
         if (textMeshPro != null)
