@@ -29,6 +29,8 @@ public class BossActionKnockBack : BossActionData
 
         PBVec.y = 0;
 
+        boss.transform.Find("Area")?.gameObject.SetActive(false);
+
         isknock = false;
     }
 

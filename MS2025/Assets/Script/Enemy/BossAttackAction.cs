@@ -101,7 +101,7 @@ public class AttackAction : BossActionData
         //ƒJƒƒ‰‚ğ—h‚ç‚·ˆ—
         if(isCameraShake)
         {
-            boss.GetComponent<HitStop>().ApplyHitStop(60000);
+            boss.GetComponent<HitStop>().ApplyHitStop(30);
             Camera.main.GetComponent<CameraShake>().RPC_CameraShake(cameraDuration, magnitude);           
         }
 
