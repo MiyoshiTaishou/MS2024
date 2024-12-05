@@ -94,7 +94,6 @@ public class PlayerJumpNet : NetworkBehaviour
             {
                 Instantiate(particle, this.gameObject.transform.position, Quaternion.identity);
                 //particle.Play();
-                animator.Play("APlayerJumpDown", -1, 0f);
                 count = 5;
                 isJumping = true;  // �W�����v���ɐݒ�
                 jumpstart = true;
@@ -136,6 +135,7 @@ public class PlayerJumpNet : NetworkBehaviour
         }
         if (jumpstart && !landAnimStateInfo.IsName("APlayerJumpDown") && !landAnimStateInfo.IsName("APlayerJumpUp"))//ジャンプの上りアニメーション再生
         {
+            animator.Play("APlayerJumpDown", -1, 0f);
             jumpstart = false;
             isEffect = true;
         }

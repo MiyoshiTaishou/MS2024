@@ -28,7 +28,7 @@ public class PlayerPush : NetworkBehaviour
             Debug.Log("Œˆ‚Ü‚èè‰Ÿ‚µo‚µ" + newpos.x);
 
             newpos.x += otherPlayer.transform.position.x < playerPos.x ? 1.0f : -1.0f;
-            newpos.x = 3;
+            //newpos.x = 3;
             playerPos = newpos;
             player.transform.position = newpos;
             Debug.Log("Œˆ‚Ü‚èè‰Ÿ‚µo‚µ" + newpos.x);
