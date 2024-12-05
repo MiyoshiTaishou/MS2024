@@ -75,6 +75,8 @@ public class BossAI : NetworkBehaviour
     [Networked]
     private NetworkString<_16> networkedAnimationName { get; set; }
 
+    private HitStop hitstop;
+
     public override void Spawned()
     {
         animator = GetComponent<Animator>(); // Animator コンポーネントを取得
@@ -112,7 +114,8 @@ public class BossAI : NetworkBehaviour
             StartNextAction(); // プレイヤーが二人以上揃っていたらアクションを開始
         }
 
-        rb = GetComponent<Rigidbody>();      
+        rb = GetComponent<Rigidbody>();
+        hitstop = GetComponent<HitStop>();
     }
 
     public override void FixedUpdateNetwork()
@@ -146,6 +149,11 @@ public class BossAI : NetworkBehaviour
         if (rb.velocity.y < -LimitSpeed)
         {
             rb.velocity = new Vector3(rb.velocity.x, -LimitSpeed, rb.velocity.z);
+        }
+
+        if (hitstop.IsHitStopActive)
+        {
+            return;
         }
 
         // プレイヤーが二人以上いない場合、行動を開始せず探索を続ける
