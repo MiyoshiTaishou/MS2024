@@ -1,5 +1,7 @@
 using Fusion;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class AttackAreaDamage : NetworkBehaviour
 {
@@ -17,10 +19,19 @@ public class AttackAreaDamage : NetworkBehaviour
     [SerializeField, Header("連携攻撃ダメージ量")] int buddyDamageNum = 100;
     [SerializeField, Header("連携攻撃フィニッシュダメージ量")] int buddyFinalDamageNum = 100;
 
-    [SerializeField] GameObject Gekiobj;
-    NetworkRunner runner;
+    [SerializeField, Tooltip("数字のスプライト")] List<Sprite> damagesprite;
+    [SerializeField, Tooltip("数字のスプライト")] GameObject damageobj;
 
-    [Networked] bool isGeki { get; set; } = false;
+    [SerializeField, Tooltip("ダメージ数を表示する時の生成範囲の最小")] float MinRange = -0.2f;
+    [SerializeField, Tooltip("ダメージ数を表示する時の生成範囲の最小")] float MaxRange = 0.2f;
+
+    NetworkRunner runner;
+    [Networked] Vector3 bosspos { get; set; }
+    [Networked] Vector3 bossscale { get; set; }
+
+    [Networked,SerializeField] bool isGeki { get; set; } = false;
+
+    PlayerParryNet parry;
 
     public override void Spawned()
     {
@@ -36,6 +47,7 @@ public class AttackAreaDamage : NetworkBehaviour
         }
         sharenum = netobj.GetComponent<ShareNumbers>();
         combo = netobj.GetComponent<ComboSystem>();
+        parry = transform.parent.GetComponent<PlayerParryNet>();
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -46,7 +58,7 @@ public class AttackAreaDamage : NetworkBehaviour
                 Debug.Log("のけぞってるなう" + other.GetComponent<BossAI>().GetCurrentAction().actionName);
 
                 //
-                if (other.GetComponent<BossAI>().Nokezori>0)
+                if (other.GetComponent<BossAI>().Nokezori > 0)
                 {
                     if (other.GetComponent<BossAI>().Nokezori == 1)
                     {
@@ -65,20 +77,35 @@ public class AttackAreaDamage : NetworkBehaviour
                     RPCCombo();
                     return;
                 }
-                if(raise.GetisRaise())
+                if (raise.GetisRaise())
                 {
                     Debug.Log("龍墜閃");
                     sharenum.jumpAttackNum++;
 
                     if (other.GetComponent<BossAI>().isAir)
                     {
-                        other.GetComponent<BossAI>().isDown = true;                        
+                        other.GetComponent<BossAI>().isDown = true;
                     }
                 }
                 other.GetComponent<BossStatus>().RPC_Damage(DamageNum);
 
                 //当たった位置に撃表示
-                isGeki = true;
+                if (parry.isTanuki)
+                {
+                    GekiUI(other.transform);
+                   // Debug.Log("ホストダメージ数");
+
+                }
+                else
+                {
+                    isGeki = true;
+                    bosspos = other.transform.position;
+                    bossscale = other.transform.localScale;
+
+                    Debug.Log("ダメージ数" + bosspos);
+
+                }
+                //Debug.Log(other.name);
                 sharenum.AddHitnum();
                 RPCCombo();
                 player.GetComponent<HitStop>().ApplyHitStop(stopFrame);
@@ -96,18 +123,71 @@ public class AttackAreaDamage : NetworkBehaviour
 
     public override void Render()
     {
-        if(isGeki)
-        {
-            float spawnRadius = 2.5f;
-            Vector2 randomPos = Random.insideUnitCircle * spawnRadius;
-            Debug.Log(randomPos);
-            Vector3 spawnPosition = new Vector3(player.transform.position.x + randomPos.x, (player.transform.localScale.y / 2) + player.transform.position.y + randomPos.y, player.transform.position.z);
 
-            NetworkObject geki =  runner.Spawn(Gekiobj, spawnPosition, Quaternion.identity, runner.LocalPlayer);
-            geki.GetComponent<GekiDisplay>().SetPos(spawnPosition);
+        //ホストなら終了
+        if (Runner.IsServer)
+        {
+            //Debug.Log("ダメージ数ホストだよ");
+            return;
+        }
+       // Debug.Log("ダメージ数" + boss);
+
+        if (isGeki)
+        {
+            Debug.Log("クライアントダメージ数"+ isGeki);
+            Transform boss = transform;
+            boss.localScale = bossscale;
+            boss.position= bosspos;
+            GekiUI(boss);
+            //boss = null;
             isGeki = false;
+            Debug.Log("クライアントダメージ数2" + isGeki);
+
+            gameObject.SetActive(false);
         }
 
 
     }
+
+    public void GekiUI(Transform pos)
+    {
+        DisplayNumber(DamageNum, pos);
+    }
+
+    public void DisplayNumber(int damage, Transform pos)
+    {
+        // ダメージ値を文字列として扱う
+        string damageStr = damage.ToString();
+
+        // ランダムなオフセットを計算
+        float randomX = Random.Range(MinRange, MaxRange); // -0.2～0.2の間でX座標をランダム化
+        float randomY = Random.Range(MinRange, MaxRange); // -0.2～0.2の間でY座標をランダム化
+
+        // 各桁の数字を生成
+        for (int i = 0; i < damageStr.Length; i++)
+        {
+            // 数字を取得
+            int digit = int.Parse(damageStr[i].ToString());
+
+            // 数字オブジェクトを生成
+            GameObject numberObj = Instantiate(damageobj, new Vector3(0, 0, 0), Quaternion.identity);
+
+            // スプライトを設定
+            SpriteRenderer spriteRenderer = numberObj.GetComponent<SpriteRenderer>();
+            spriteRenderer.sprite = damagesprite[digit];
+
+            // 配置を調整（桁ごとに横に並べつつ、ランダムな位置にずらす）
+            numberObj.transform.position = new Vector3(
+                 pos.position.x + (i * 1f + randomX), // 桁ごとの配置にランダムなXオフセットを追加
+                pos.position.y + (pos.localScale.y / 4), // Y座標にもランダムオフセットを追加
+                 pos.position.z
+            );
+            Debug.Log("ダメージ数" + numberObj.transform.position.y);
+
+            // 数秒後に消えるように設定
+            //Destroy(numberObj, 1.5f); // 1.5秒後にオブジェクトを削除
+        }
+    }
+
+
 }

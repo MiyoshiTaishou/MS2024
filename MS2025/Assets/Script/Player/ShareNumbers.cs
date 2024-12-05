@@ -39,6 +39,9 @@ public class ShareNumbers : NetworkBehaviour
     [SerializeField]
     private TransitionManager transitionManager;
 
+    [SerializeField]
+    private GameObject TryObject;
+
     public override void FixedUpdateNetwork()
     {
         if(nCombo == 0)
@@ -66,8 +69,8 @@ public class ShareNumbers : NetworkBehaviour
         HPUI[CurrentHP].SetActive(false);
 
         if (CurrentHP == 0)
-        {
-            transitionManager.TransitionStart();
+        {            
+            transitionManager.TransitionStart();            
             StartCoroutine(Load());
         }
 
@@ -164,7 +167,7 @@ public class ShareNumbers : NetworkBehaviour
     private IEnumerator Load()
     {
         yield return new WaitForSeconds(2f);
-        RPC_ClientSceneTransition();
+        TryObject.SetActive(true);
     }
 
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
