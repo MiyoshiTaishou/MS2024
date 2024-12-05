@@ -3428,7 +3428,7 @@ PrefabInstance:
     - target: {fileID: 4698745772974053362, guid: c71161469b6c102429892c1cead900b0,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4772675901213302235, guid: c71161469b6c102429892c1cead900b0,
         type: 3}
@@ -4379,6 +4379,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 7c92dbc2d3efe434ca2b19fc00e847fa,
         type: 3}
+    - target: {fileID: 6207565344950133547, guid: 75272d9e04545f442ba51314bef17477,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -800
+      objectReference: {fileID: 0}
+    - target: {fileID: 6207565344950133547, guid: 75272d9e04545f442ba51314bef17477,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 380
+      objectReference: {fileID: 0}
     - target: {fileID: 6411735017946587971, guid: 75272d9e04545f442ba51314bef17477,
         type: 3}
       propertyPath: m_Name
@@ -4415,6 +4425,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_TagString
       value: Untagged
+      objectReference: {fileID: 0}
+    - target: {fileID: 7659344120330309152, guid: 75272d9e04545f442ba51314bef17477,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -800
+      objectReference: {fileID: 0}
+    - target: {fileID: 7659344120330309152, guid: 75272d9e04545f442ba51314bef17477,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 380
       objectReference: {fileID: 0}
     - target: {fileID: 7861986443129744601, guid: 75272d9e04545f442ba51314bef17477,
         type: 3}
@@ -4486,7 +4506,15 @@ PrefabInstance:
         type: 3}
       insertIndex: 4
       addedObject: {fileID: 1506146585}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4495142976494401447, guid: 75272d9e04545f442ba51314bef17477,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 617070420}
+    - targetCorrespondingSourceObject: {fileID: 4495142976494401447, guid: 75272d9e04545f442ba51314bef17477,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 617070419}
   m_SourcePrefab: {fileID: 100100000, guid: 75272d9e04545f442ba51314bef17477, type: 3}
 --- !u!114 &617070412 stripped
 MonoBehaviour:
@@ -4530,6 +4558,56 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ce82a7f76e9ed7429dc72b5a499fafc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &617070416 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7287849504665257904, guid: 75272d9e04545f442ba51314bef17477,
+    type: 3}
+  m_PrefabInstance: {fileID: 617070411}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &617070417 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5002325709893320892, guid: 75272d9e04545f442ba51314bef17477,
+    type: 3}
+  m_PrefabInstance: {fileID: 617070411}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &617070418 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4495142976494401447, guid: 75272d9e04545f442ba51314bef17477,
+    type: 3}
+  m_PrefabInstance: {fileID: 617070411}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &617070419
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 617070418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SortKey: 1251254311
+  ObjectInterest: 1
+  Flags: 1
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: 617070420}
+--- !u!114 &617070420
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 617070418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21053a436920e53499e890df64531e6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hostUI: {fileID: 617070417}
+  clientUI: {fileID: 617070416}
 --- !u!1 &628138812
 GameObject:
   m_ObjectHideFlags: 0

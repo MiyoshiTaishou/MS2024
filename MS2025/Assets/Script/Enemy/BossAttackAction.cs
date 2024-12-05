@@ -61,7 +61,7 @@ public class AttackAction : BossActionData
         Vector3 directionToPlayer = (attackTarget.position - boss.transform.position).normalized; // プレイヤーへの方向を正規化
         Vector3 attackPosition = boss.transform.position + directionToPlayer * attackRange;      // 攻撃エリアの新しい位置
         attackArea.transform.position = attackPosition;
-        attackAreaView.transform.position = new Vector3(attackPosition.x, 3f, attackPosition.z);
+        attackAreaView.transform.position = new Vector3(attackPosition.x, 1f, attackPosition.z);
     }
 
 
