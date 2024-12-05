@@ -73,10 +73,9 @@ public class ChargeAttackAreaDamage : NetworkBehaviour
                     Debug.Log("É_ÉÅÅ[ÉWêî" + bosspos);
 
                 }
-                other.GetComponent<BossAI>().isInterrupted = true;
                 RPCCombo();
                 player.GetComponent<HitStop>().ApplyHitStop(stopFrame);
-                other.GetComponent<BossAI>().RPC_AnimName();
+                other.GetComponent<BossAI>().RPC_AnimNameRegist();
             }
         }
     }
