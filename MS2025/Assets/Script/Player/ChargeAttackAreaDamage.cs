@@ -20,7 +20,13 @@ public class ChargeAttackAreaDamage : NetworkBehaviour
     [SerializeField, Tooltip("ダメージ数を表示する時の生成範囲の最小")] float MinRange = -0.2f;
     [SerializeField, Tooltip("ダメージ数を表示する時の生成範囲の最小")] float MaxRange = 0.2f;
 
+    [Networked] Vector3 bosspos { get; set; }
+    [Networked] Vector3 bossscale { get; set; }
+
+
     [Networked] bool isGeki { get; set; } = false;
+
+    PlayerParryNet parry;
 
     public override void Spawned()
     {
@@ -34,6 +40,7 @@ public class ChargeAttackAreaDamage : NetworkBehaviour
         sharenum = netobj.GetComponent<ShareNumbers>();
         combo = netobj.GetComponent<ComboSystem>();
         runner = GameObject.Find("Runner(Clone)").GetComponent<NetworkRunner>();
+        parry = transform.parent.GetComponent<PlayerParryNet>();
 
     }
 
@@ -50,11 +57,25 @@ public class ChargeAttackAreaDamage : NetworkBehaviour
                 Camera.main.GetComponent<CameraShake>().RPC_CameraShake(0.3f, 0.3f);
 
                 //当たった位置に撃表示
-                DisplayNumber(ChargeDamege, other.transform);
-                other.GetComponent<BossAI>().isInterrupted = true;
+                //当たった位置に撃表示
+                if (parry.isTanuki)
+                {
+                    GekiUI(other.transform);
+                    // Debug.Log("ホストダメージ数");
+
+                }
+                else
+                {
+                    isGeki = true;
+                    bosspos = other.transform.position;
+                    bossscale = other.transform.localScale;
+
+                    Debug.Log("ダメージ数" + bosspos);
+
+                }
                 RPCCombo();
                 player.GetComponent<HitStop>().ApplyHitStop(stopFrame);
-                other.GetComponent<BossAI>().RPC_AnimName();
+                other.GetComponent<BossAI>().RPC_AnimNameRegist();
             }
         }
     }
@@ -66,14 +87,34 @@ public class ChargeAttackAreaDamage : NetworkBehaviour
 
     public override void Render()
     {
+        //ホストなら終了
+        if (Runner.IsServer)
+        {
+            //Debug.Log("ダメージ数ホストだよ");
+            return;
+        }
+
         if (isGeki)
         {
-            NetworkObject geki = runner.Spawn(Gekiobj, player.transform.position + Gekiobj.transform.position, Quaternion.identity, runner.LocalPlayer);
-            geki.GetComponent<GekiDisplay>().SetPos(player.transform.position + Gekiobj.transform.position);
+            Debug.Log("クライアントダメージ数");
+            Transform boss = transform;
+            boss.localScale = bossscale;
+            boss.position = bosspos;
+            GekiUI(boss);
+            //boss = null;
             isGeki = false;
+
+            gameObject.SetActive(false);
         }
 
 
+
+    }
+
+
+    public void GekiUI(Transform pos)
+    {
+        DisplayNumber(ChargeDamege, pos);
     }
 
     public void DisplayNumber(int damage, Transform pos)

@@ -19,15 +19,19 @@ public class AttackAreaDamage : NetworkBehaviour
     [SerializeField, Header("連携攻撃ダメージ量")] int buddyDamageNum = 100;
     [SerializeField, Header("連携攻撃フィニッシュダメージ量")] int buddyFinalDamageNum = 100;
 
-    [SerializeField,Tooltip("数字のスプライト")] List<Sprite> damagesprite;
+    [SerializeField, Tooltip("数字のスプライト")] List<Sprite> damagesprite;
     [SerializeField, Tooltip("数字のスプライト")] GameObject damageobj;
 
     [SerializeField, Tooltip("ダメージ数を表示する時の生成範囲の最小")] float MinRange = -0.2f;
     [SerializeField, Tooltip("ダメージ数を表示する時の生成範囲の最小")] float MaxRange = 0.2f;
 
     NetworkRunner runner;
+    [Networked] Vector3 bosspos { get; set; }
+    [Networked] Vector3 bossscale { get; set; }
 
-    [Networked] bool isGeki { get; set; } = false;
+    [Networked,SerializeField] bool isGeki { get; set; } = false;
+
+    PlayerParryNet parry;
 
     public override void Spawned()
     {
@@ -43,6 +47,7 @@ public class AttackAreaDamage : NetworkBehaviour
         }
         sharenum = netobj.GetComponent<ShareNumbers>();
         combo = netobj.GetComponent<ComboSystem>();
+        parry = transform.parent.GetComponent<PlayerParryNet>();
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -53,7 +58,7 @@ public class AttackAreaDamage : NetworkBehaviour
                 Debug.Log("のけぞってるなう" + other.GetComponent<BossAI>().GetCurrentAction().actionName);
 
                 //
-                if (other.GetComponent<BossAI>().Nokezori>0)
+                if (other.GetComponent<BossAI>().Nokezori > 0)
                 {
                     if (other.GetComponent<BossAI>().Nokezori == 1)
                     {
@@ -72,20 +77,34 @@ public class AttackAreaDamage : NetworkBehaviour
                     RPCCombo();
                     return;
                 }
-                if(raise.GetisRaise())
+                if (raise.GetisRaise())
                 {
                     Debug.Log("龍墜閃");
                     sharenum.jumpAttackNum++;
 
                     if (other.GetComponent<BossAI>().isAir)
                     {
-                        other.GetComponent<BossAI>().isDown = true;                        
+                        other.GetComponent<BossAI>().isDown = true;
                     }
                 }
                 other.GetComponent<BossStatus>().RPC_Damage(DamageNum);
 
                 //当たった位置に撃表示
-                GekiUI(other.transform);
+                if (parry.isTanuki)
+                {
+                    GekiUI(other.transform);
+                   // Debug.Log("ホストダメージ数");
+
+                }
+                else
+                {
+                    isGeki = true;
+                    bosspos = other.transform.position;
+                    bossscale = other.transform.localScale;
+
+                    Debug.Log("ダメージ数" + bosspos);
+
+                }
                 //Debug.Log(other.name);
                 sharenum.AddHitnum();
                 RPCCombo();
@@ -104,10 +123,27 @@ public class AttackAreaDamage : NetworkBehaviour
 
     public override void Render()
     {
-        if(isGeki)
+
+        //ホストなら終了
+        if (Runner.IsServer)
         {
-            //GekiUI();
+            //Debug.Log("ダメージ数ホストだよ");
+            return;
+        }
+       // Debug.Log("ダメージ数" + boss);
+
+        if (isGeki)
+        {
+            Debug.Log("クライアントダメージ数"+ isGeki);
+            Transform boss = transform;
+            boss.localScale = bossscale;
+            boss.position= bosspos;
+            GekiUI(boss);
+            //boss = null;
             isGeki = false;
+            Debug.Log("クライアントダメージ数2" + isGeki);
+
+            gameObject.SetActive(false);
         }
 
 
@@ -134,7 +170,7 @@ public class AttackAreaDamage : NetworkBehaviour
             int digit = int.Parse(damageStr[i].ToString());
 
             // 数字オブジェクトを生成
-            GameObject numberObj = Instantiate(damageobj, new Vector3(0,0,0), Quaternion.identity);
+            GameObject numberObj = Instantiate(damageobj, new Vector3(0, 0, 0), Quaternion.identity);
 
             // スプライトを設定
             SpriteRenderer spriteRenderer = numberObj.GetComponent<SpriteRenderer>();
@@ -142,8 +178,8 @@ public class AttackAreaDamage : NetworkBehaviour
 
             // 配置を調整（桁ごとに横に並べつつ、ランダムな位置にずらす）
             numberObj.transform.position = new Vector3(
-                 pos.position.x+(i * 1f + randomX), // 桁ごとの配置にランダムなXオフセットを追加
-                pos.position.y +(pos.localScale.y / 4), // Y座標にもランダムオフセットを追加
+                 pos.position.x + (i * 1f + randomX), // 桁ごとの配置にランダムなXオフセットを追加
+                pos.position.y + (pos.localScale.y / 4), // Y座標にもランダムオフセットを追加
                  pos.position.z
             );
             Debug.Log("ダメージ数" + numberObj.transform.position.y);
