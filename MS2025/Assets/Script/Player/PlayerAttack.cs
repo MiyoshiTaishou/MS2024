@@ -329,17 +329,28 @@ public class PlayerAttack : NetworkBehaviour
             freeze.Freeze(Active + Recovery);
             Count++;
         }
-        else if(Count < Startup+Active)
+        else if(Count <Startup+Active)
+        {
+
+            Count++;
+        }
+        else if(Count == Startup+Active)
         {
             Count++;
             attackArea.SetActive(true);
+            attackArea.GetComponent<AttackAreaDamage>().enabled = true;
+
         }
-        else if(Count < Startup+Active+Recovery)
+        else if(Count < Startup + Active + Recovery)
+        {
+            Count++;
+        }
+        else if(Count == Startup+Active+Recovery)
         {
             Count++;
             attackArea.SetActive(false);
         }
-        else if(Count >= Startup + Active + Recovery)
+        else if(Count > Startup + Active + Recovery)
         {
             Count = 0;
             isAttack = false;

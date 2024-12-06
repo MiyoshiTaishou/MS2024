@@ -33,6 +33,10 @@ public class AttackAreaDamage : NetworkBehaviour
 
     PlayerParryNet parry;
 
+    [Networked] int damagenum { get; set; } = 0;
+
+    public void SetDamageNum(int num) { damagenum = num; }
+
     public override void Spawned()
     {
         runner = GameObject.Find("Runner(Clone)").GetComponent<NetworkRunner>();
@@ -130,19 +134,18 @@ public class AttackAreaDamage : NetworkBehaviour
             //Debug.Log("ダメージ数ホストだよ");
             return;
         }
-       // Debug.Log("ダメージ数" + boss);
 
-        if (isGeki)
+        if (isGeki && damagenum == 0)
         {
-            Debug.Log("クライアントダメージ数"+ isGeki);
+            Debug.Log("クライアントダメージ数");
             Transform boss = transform;
             boss.localScale = bossscale;
             boss.position= bosspos;
             GekiUI(boss);
             //boss = null;
             isGeki = false;
-            Debug.Log("クライアントダメージ数2" + isGeki);
-
+            damagenum++;
+            this.enabled= false;
             gameObject.SetActive(false);
         }
 
@@ -151,6 +154,7 @@ public class AttackAreaDamage : NetworkBehaviour
 
     public void GekiUI(Transform pos)
     {
+        Debug.Log("gggeeeダメージ数");
         DisplayNumber(DamageNum, pos);
     }
 
@@ -182,7 +186,7 @@ public class AttackAreaDamage : NetworkBehaviour
                 pos.position.y + (pos.localScale.y / 4), // Y座標にもランダムオフセットを追加
                  pos.position.z
             );
-            Debug.Log("ダメージ数" + numberObj.transform.position.y);
+           // Debug.Log("ダメージ数" + numberObj.transform.position.y);
 
             // 数秒後に消えるように設定
             //Destroy(numberObj, 1.5f); // 1.5秒後にオブジェクトを削除
