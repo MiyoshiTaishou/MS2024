@@ -87,18 +87,17 @@ public class BossStatus : NetworkBehaviour
     {
         // シーン遷移が一度だけ行われるようにチェック
         if (hasTransitioned) return;
+        if (gekihaAnimator == null || gekihaAnimator.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).   normalizedTime < 1.0f) return;
 
-        if (gekihaAnimator != null && gekihaAnimator.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).   normalizedTime < 1.0f) {
-            transitionManager.TransitionStart();
-            isDeathEffect = true;
-            hasTransitioned = true; // シーン遷移フラグを設定
-            StartCoroutine(Load());
+        transitionManager.TransitionStart();
+        isDeathEffect = true;
+        hasTransitioned = true; // シーン遷移フラグを設定
+        StartCoroutine(Load());
 
-            //if (Object.HasStateAuthority)
-            //{
-            //    RPC_ClientSceneTransition();
-            //}
-        }
+        //if (Object.HasStateAuthority)
+        //{
+        //    RPC_ClientSceneTransition();
+        //}
     }
 
     [Rpc(RpcSources.All, RpcTargets.All)]
