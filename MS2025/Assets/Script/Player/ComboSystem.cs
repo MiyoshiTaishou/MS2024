@@ -20,6 +20,8 @@ public class ComboSystem : NetworkBehaviour
     [Networked] int Count { get; set; } = 0;
     public int GetCount() { return Count; }
     int Combo;
+
+    GameObject change;
     public void AddCombo() 
     {
         Combo++;
@@ -31,6 +33,8 @@ public class ComboSystem : NetworkBehaviour
         Count = ComboKeepframe;
         //text.text=Combo.ToString();
         Debug.Log("コンボ数" + Combo+"ガチのコンボ数"+sharenum.nCombo);
+        change.GetComponent<ChangeBossAction>().combo=Combo;
+        change.GetComponent<ChangeBossAction>().RPC_Cange();
     }
 
     ShareNumbers sharenum;
@@ -40,7 +44,7 @@ public class ComboSystem : NetworkBehaviour
         sharenum=GetComponent<ShareNumbers>();
         Combo = 0;
         Count = 0;
-
+        change = GameObject.Find("ChangeAction");
         GameObject obj = GameObject.Find("MainGameUI");
         GameObject obj2;
         GameObject obj3;

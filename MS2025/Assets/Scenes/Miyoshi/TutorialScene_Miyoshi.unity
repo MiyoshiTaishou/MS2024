@@ -1005,8 +1005,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 114661792}
+  - component: {fileID: 114661794}
+  - component: {fileID: 114661793}
   m_Layer: 5
-  m_Name: GameObject
+  m_Name: TextSprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1030,9 +1032,47 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -329}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: 30, y: -295}
+  m_SizeDelta: {x: 1920, y: 490.01}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &114661793
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 114661791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: c8afb255eb9e35d42927011131eab96a, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &114661794
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 114661791}
+  m_CullTransparentMesh: 1
 --- !u!1 &131264865
 GameObject:
   m_ObjectHideFlags: 0
@@ -1050,7 +1090,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &131264866
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1575,11 +1615,18 @@ MonoBehaviour:
   boss: {fileID: 1128437062}
   bossAction: {fileID: 11400000, guid: 39113c47697af3a498cae5db0c4e150f, type: 2}
   jumpAction: {fileID: 11400000, guid: 0ca605b77a9619f41b260fe360252ff6, type: 2}
-  ParryInstrucionText: {fileID: 1622053}
   InstructionText: {fileID: 767991349}
-  JumpInstrucionText: {fileID: 505108903}
-  TextBox: {fileID: 912870942}
-  Tach: 0
+  TextSprite: {fileID: 114661791}
+  TextNo: 0
+  numberSprites:
+  - {fileID: 21300000, guid: c8afb255eb9e35d42927011131eab96a, type: 3}
+  - {fileID: 21300000, guid: 4be60d41cf334cd4c85a8c2789ffb19b, type: 3}
+  - {fileID: 21300000, guid: 34c3c14da318e33489a1fb56bd1b5dbf, type: 3}
+  - {fileID: 21300000, guid: 801d15381d964eb4baf84a287e924783, type: 3}
+  - {fileID: 21300000, guid: 2796a3fb4c3cde049b80e0bd8725cd1b, type: 3}
+  - {fileID: 21300000, guid: 80fdcc5ff1f98554daa1c75053b89d79, type: 3}
+  - {fileID: 21300000, guid: 9f2dab11ccadef14b959c56e6e8de161, type: 3}
+  _combo: 0
 --- !u!1 &194246242
 GameObject:
   m_ObjectHideFlags: 0
@@ -2840,7 +2887,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &316373281
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5191,12 +5238,12 @@ PrefabInstance:
     - target: {fileID: 3296907492225568748, guid: 75272d9e04545f442ba51314bef17477,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 1926.3201
+      value: 142.96
       objectReference: {fileID: 0}
     - target: {fileID: 3296907492225568748, guid: 75272d9e04545f442ba51314bef17477,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 481.6078
+      value: 86.2172
       objectReference: {fileID: 0}
     - target: {fileID: 3296907492225568748, guid: 75272d9e04545f442ba51314bef17477,
         type: 3}
@@ -5206,12 +5253,12 @@ PrefabInstance:
     - target: {fileID: 3296907492225568748, guid: 75272d9e04545f442ba51314bef17477,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -3.1015
+      value: -732.27997
       objectReference: {fileID: 0}
     - target: {fileID: 3296907492225568748, guid: 75272d9e04545f442ba51314bef17477,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 35.899406
+      value: -427.9
       objectReference: {fileID: 0}
     - target: {fileID: 3545692593916245594, guid: 75272d9e04545f442ba51314bef17477,
         type: 3}
@@ -5252,7 +5299,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 944555fd1656e1a49bb2885daed7344a,
+      objectReference: {fileID: 21300000, guid: 9cc46620440ddf744bb2275cfab2e1ce,
         type: 3}
     - target: {fileID: 6411735017946587971, guid: 75272d9e04545f442ba51314bef17477,
         type: 3}
@@ -5325,6 +5372,10 @@ PrefabInstance:
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 1886851243003225516, guid: 75272d9e04545f442ba51314bef17477,
         type: 3}
+      insertIndex: 0
+      addedObject: {fileID: 114661792}
+    - targetCorrespondingSourceObject: {fileID: 1886851243003225516, guid: 75272d9e04545f442ba51314bef17477,
+        type: 3}
       insertIndex: -1
       addedObject: {fileID: 767991350}
     - targetCorrespondingSourceObject: {fileID: 1886851243003225516, guid: 75272d9e04545f442ba51314bef17477,
@@ -5339,10 +5390,6 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 505108904}
-    - targetCorrespondingSourceObject: {fileID: 1886851243003225516, guid: 75272d9e04545f442ba51314bef17477,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 114661792}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 75272d9e04545f442ba51314bef17477, type: 3}
 --- !u!114 &680528724 stripped
@@ -7745,6 +7792,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6504779007216593304, guid: 1ee6817602fe4ab4fab1de776b4b0a06,
         type: 3}
+      propertyPath: isTutorial
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6504779007216593304, guid: 1ee6817602fe4ab4fab1de776b4b0a06,
+        type: 3}
       propertyPath: AttackParticle
       value: 
       objectReference: {fileID: 5473588508934549075, guid: 035ce8c9cfc34104991ce416daf8aebe,
@@ -8505,6 +8557,11 @@ PrefabInstance:
     - target: {fileID: 6137141220472783459, guid: 745fd90e17809384d980f68c8c476341,
         type: 3}
       propertyPath: _Type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6137141220472783459, guid: 745fd90e17809384d980f68c8c476341,
+        type: 3}
+      propertyPath: isTutorial
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6137141220472783459, guid: 745fd90e17809384d980f68c8c476341,
@@ -10624,6 +10681,11 @@ PrefabInstance:
     - target: {fileID: 6504779007216593304, guid: 1ee6817602fe4ab4fab1de776b4b0a06,
         type: 3}
       propertyPath: _Type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6504779007216593304, guid: 1ee6817602fe4ab4fab1de776b4b0a06,
+        type: 3}
+      propertyPath: isTutorial
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6504779007216593304, guid: 1ee6817602fe4ab4fab1de776b4b0a06,
@@ -16941,6 +17003,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6504779007216593304, guid: 1ee6817602fe4ab4fab1de776b4b0a06,
         type: 3}
+      propertyPath: isTutorial
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6504779007216593304, guid: 1ee6817602fe4ab4fab1de776b4b0a06,
+        type: 3}
       propertyPath: AttackParticle
       value: 
       objectReference: {fileID: 5473588508934549075, guid: 035ce8c9cfc34104991ce416daf8aebe,
@@ -17746,6 +17813,11 @@ PrefabInstance:
         type: 3}
       propertyPath: _Type
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6504779007216593304, guid: 1ee6817602fe4ab4fab1de776b4b0a06,
+        type: 3}
+      propertyPath: isTutorial
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6504779007216593304, guid: 1ee6817602fe4ab4fab1de776b4b0a06,
         type: 3}

@@ -73,7 +73,7 @@ public class ShareNumbers : NetworkBehaviour
             transitionManager.TransitionStart();            
             StartCoroutine(Load());
         }
-
+    
     }
 
     public void BossDamage()

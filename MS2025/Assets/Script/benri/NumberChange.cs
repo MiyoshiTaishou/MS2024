@@ -49,7 +49,7 @@ public class NumberChange : NetworkBehaviour
             }
             else
             {
-                // 数字が無い場合は非表示
+                // 数字が無い場合は非表示ss
                 digitImages[i].enabled = false;
             }
         }
