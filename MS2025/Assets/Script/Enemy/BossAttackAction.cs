@@ -4,16 +4,19 @@ using UnityEngine;
 public class AttackAction : BossActionData
 {
     [SerializeField,Header("攻撃が届く範囲別になくてもいいかも")]
-    private float attackRange;
+    public float attackRange;
 
     [SerializeField, Header("攻撃開始するまでの待機時間　アニメーションの速度が1なら1.4")]
     private float attackDuration;
 
-    [SerializeField, Header("アニメーションの速度　通常が1")]
+    [SerializeField, Header("アニメーションの速度　通常が2")]
     private float attackAnimSpeed;
 
+    [SerializeField, Header("攻撃範囲のアニメーションの速度　通常が1")]
+    private float attackAreaAnimSpeed;
+
     [SerializeField, Header("攻撃の当たり判定の大きさ")]
-    private Vector3 attackScale;
+    public Vector3 attackScale;
 
     [SerializeField, Header("カメラを揺らす処理を適用するかどうか")]
     public bool isCameraShake;
@@ -62,6 +65,8 @@ public class AttackAction : BossActionData
         Vector3 attackPosition = boss.transform.position + directionToPlayer * attackRange;      // 攻撃エリアの新しい位置
         attackArea.transform.position = attackPosition;
         attackAreaView.transform.position = new Vector3(attackPosition.x, 2f, attackPosition.z);
+        attackAreaView.GetComponent<PulsatingCircle>().SetMaxScale(attackScale.x);
+        attackAreaView.GetComponent<PulsatingCircle>().SetSpeed(attackAnimSpeed);
     }
 
 
