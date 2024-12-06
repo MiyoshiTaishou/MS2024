@@ -12,6 +12,7 @@ public class PulsatingCircle : NetworkBehaviour
     private Vector3 initialScale;        // å≥ÇÃÉXÉPÅ[Éã
 
     public void SetMaxScale(float _max) { maxScale = _max; }
+    public void SetSpeed(float _speed) { speed = _speed; }
 
     public override void Spawned()
     {
