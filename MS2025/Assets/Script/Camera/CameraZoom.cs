@@ -64,7 +64,7 @@ public class CameraZoom : NetworkBehaviour
             Vector2 min = new Vector2(minX, minZ1);
             float dd = Vector2.Distance(max, min);
             //float rangeX= Vector2.Distance(new Vector2(minX,maxZ),new Vector2(maxX,minZ));
-            float newY = Mathf.Abs(minY - maxY)+8.2f;
+            float newY = (Mathf.Abs(minY - maxY)/2)+8.2f;
             float rangeX = maxX - minX;
             float center;
             //float newZ = Mathf.Lerp(minZ, maxZ, dd / zoomConf); // 「10f」は範囲のスケールに応じて調整可能
