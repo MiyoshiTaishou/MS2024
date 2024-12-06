@@ -70,10 +70,10 @@ public class BossActionMoveAttack : BossActionData
 
         // 攻撃エリアの設定
         attackArea = boss.transform.Find(attackAreaName)?.gameObject;
-        attackArea.transform.position = boss.transform.position;
+        //attackArea.transform.position = boss.transform.position;
         originalPosition = attackArea.transform.position;
         attackArea.transform.localScale = attackScale;
-        attackArea.SetActive(false);
+        attackArea.GetComponent<BossAttackArea2Boss>().SetAttackActive(true);
         isMoving = false;        
 
         //長さを測る
@@ -86,11 +86,11 @@ public class BossActionMoveAttack : BossActionData
             Debug.Log("実際の距離" + dis);
             Debug.Log("設定の距離" + distance);
             isAttack = true;
-            attackArea.GetComponent<BossAttackArea>().deactivateTime = 0.5f;
+            attackArea.GetComponent<BossAttackArea2Boss>().deactivateTime = 0.5f;
         }
         else
         {
-            attackArea.GetComponent<BossAttackArea>().deactivateTime = moveAttackEndPosTime;            
+            attackArea.GetComponent<BossAttackArea2Boss>().deactivateTime = moveAttackEndPosTime;            
         }       
 
         // ボスのアニメーション設定
@@ -167,7 +167,7 @@ public class BossActionMoveAttack : BossActionData
             if (progress >= 1.0f /*|| CheckForHit(attackArea)*/)
             {
                 //ResetAttackArea();
-                attackArea.GetComponent<BossAttackArea>().deactivateTime = 0.5f;
+                attackArea.GetComponent<BossAttackArea2Boss>().deactivateTime = 0.5f;
                 return true; // アクション完了
             }
 
