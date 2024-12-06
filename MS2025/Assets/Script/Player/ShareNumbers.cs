@@ -116,7 +116,7 @@ public class ShareNumbers : NetworkBehaviour
     {
         maxHitnum = 3;
         nHitnum = 0;
-        CurrentHP =5;
+        CurrentHP =10;
         nCombo = 0;
         jumpAttackNum = 0;
         Debug.Log("ƒvƒŒƒCƒ„[‚ÌHP‚Æ‚©‰Šú‰»");
