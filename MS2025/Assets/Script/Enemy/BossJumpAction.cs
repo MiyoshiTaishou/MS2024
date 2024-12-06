@@ -15,6 +15,14 @@ public class BossJumpAction : BossActionData
 
     private Rigidbody rb;
 
+    private GameObject attackAreaView; // 既存の攻撃エリアの参照
+
+    [SerializeField,Header("次の攻撃を入れる")]
+    private AttackAction attack;
+
+    [SerializeField, Header("アニメーションの速度　通常が2")]
+    private float attackAnimSpeed;
+
     public override void InitializeAction(GameObject boss, Transform player)
     {
         rb = boss.GetComponent<Rigidbody>();
@@ -34,10 +42,25 @@ public class BossJumpAction : BossActionData
         boss.GetComponent<AudioSource>().clip = attackClip;
         boss.GetComponent<AudioSource>().Play();
         boss.GetComponent<BossAI>().isAir = true;
+
+        attackAreaView = boss.transform.Find("Area")?.gameObject;
+        // 攻撃エリアをプレイヤー方向に配置
+        Vector3 directionToPlayer = (player.position - boss.transform.position).normalized; // プレイヤーへの方向を正規化
+        Vector3 attackPosition = boss.transform.position + directionToPlayer * attack.attackRange;      // 攻撃エリアの新しい位置       
+        attackAreaView.transform.position = new Vector3(attackPosition.x, 2f, attackPosition.z);
+        attackAreaView.GetComponent<PulsatingCircle>().SetMaxScale(attack.attackScale.x);
+        attackAreaView.GetComponent<PulsatingCircle>().SetSpeed(attackAnimSpeed);
+        attackAreaView.SetActive(true);
     }
 
     public override bool ExecuteAction(GameObject boss, Transform player)
     {
+        // 攻撃エリアをプレイヤー方向に配置
+        Vector3 directionToPlayer = (player.position - boss.transform.position).normalized; // プレイヤーへの方向を正規化
+        Vector3 attackPosition = boss.transform.position + directionToPlayer * attack.attackRange;      // 攻撃エリアの新しい位置       
+        attackAreaView.transform.position = new Vector3(attackPosition.x, 2f, attackPosition.z);
+        attackAreaView.GetComponent<PulsatingCircle>().SetMaxScale(attack.attackScale.x);
+
         if (isJumping)
         {
             Vector3 nowPos = boss.transform.position;
@@ -56,7 +79,7 @@ public class BossJumpAction : BossActionData
                 boss.transform.position = new Vector3(nowPos.x, startPos.y + jumpHeight, nowPos.z); // 高さを固定
 
                 atPeak = true;         // 最高到達点に達したことを記録
-                jumpStartTime = Time.time; // 浮いている時間の計測をリセット
+                jumpStartTime = Time.time; // 浮いている時間の計測をリセット              
             }
 
             // 一定時間が経過したら、重力を元に戻して落下させる

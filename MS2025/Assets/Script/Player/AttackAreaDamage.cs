@@ -31,7 +31,13 @@ public class AttackAreaDamage : NetworkBehaviour
 
     [Networked,SerializeField] bool isGeki { get; set; } = false;
 
+    [Networked] int hitdamege { get; set; } = 0;
+        
     PlayerParryNet parry;
+
+    [Networked] bool ishitstop { get; set; } = false;
+    [Networked] int hitstoptime { get; set; } = 0;
+
 
     public override void Spawned()
     {
@@ -64,13 +70,38 @@ public class AttackAreaDamage : NetworkBehaviour
                     {
                         other.GetComponent<BossStatus>().RPC_Damage(buddyFinalDamageNum);
                         player.GetComponent<HitStop>().ApplyHitStop(buddyFinalStopFrame);
+                        hitdamege = buddyFinalDamageNum;
+                        hitstoptime = buddyFinalStopFrame;
+
                     }
                     else
                     {
                         other.GetComponent<BossStatus>().RPC_Damage(buddyDamageNum);
                         player.GetComponent<HitStop>().ApplyHitStop(buddyStopFrame);
-                    }
 
+                        hitdamege = buddyDamageNum;
+                        hitstoptime = buddyStopFrame;
+
+                    }
+                    //当たったらダメージ数表示
+                    if (parry.isTanuki)
+                    {
+                        GekiUI(other.transform);
+                        // Debug.Log("ホストダメージ数");
+
+                    }
+                    else
+                    {
+                        isGeki = true;
+                        bosspos = other.transform.position;
+                        bossscale = other.transform.localScale;
+                        //hitdamege = DamageNum;
+                        //Debug.Log("ダメージ数" + bosspos);
+
+                        //ヒットストップ
+                        ishitstop = true;
+
+                    }
                     other.GetComponent<BossAI>().Nokezori--;
                     other.GetComponent<BossAI>().isInterrupted = true;
                     Debug.Log("のけぞってるなう" + other.GetComponent<BossAI>().Nokezori);
@@ -88,27 +119,34 @@ public class AttackAreaDamage : NetworkBehaviour
                     }
                 }
                 other.GetComponent<BossStatus>().RPC_Damage(DamageNum);
+                hitdamege = DamageNum;
 
-                //当たった位置に撃表示
+                //当たったらダメージ数表示
                 if (parry.isTanuki)
                 {
                     GekiUI(other.transform);
-                   // Debug.Log("ホストダメージ数");
+                    // Debug.Log("ホストダメージ数");
+                    player.GetComponent<HitStop>().ApplyHitStop(stopFrame);
+                    Debug.Log("ヒットストップダメージ数ホスト" + stopFrame);
 
                 }
                 else
                 {
+                    //ダメージ数表示
                     isGeki = true;
                     bosspos = other.transform.position;
                     bossscale = other.transform.localScale;
+                    //Debug.Log("ダメージ数" + bosspos);
 
-                    Debug.Log("ダメージ数" + bosspos);
+                    //ヒットストップ
+                    ishitstop = true;
+                    hitstoptime = stopFrame;
 
                 }
                 //Debug.Log(other.name);
                 sharenum.AddHitnum();
                 RPCCombo();
-                player.GetComponent<HitStop>().ApplyHitStop(stopFrame);
+
             }
         }
 
@@ -124,26 +162,31 @@ public class AttackAreaDamage : NetworkBehaviour
     public override void Render()
     {
 
+
         //ホストなら終了
         if (Runner.IsServer)
         {
             //Debug.Log("ダメージ数ホストだよ");
             return;
         }
-       // Debug.Log("ダメージ数" + boss);
+
+        if (ishitstop)
+        {
+            Debug.Log("ヒットストップダメージ数"+ hitstoptime);
+            player.GetComponent<HitStop>().ApplyHitStop(hitstoptime);
+            ishitstop = false;
+        }
 
         if (isGeki)
         {
-            Debug.Log("クライアントダメージ数"+ isGeki);
+            Debug.Log("クライアントダメージ数");
             Transform boss = transform;
             boss.localScale = bossscale;
             boss.position= bosspos;
             GekiUI(boss);
             //boss = null;
             isGeki = false;
-            Debug.Log("クライアントダメージ数2" + isGeki);
-
-            gameObject.SetActive(false);
+            this.enabled= false;
         }
 
 
@@ -151,7 +194,8 @@ public class AttackAreaDamage : NetworkBehaviour
 
     public void GekiUI(Transform pos)
     {
-        DisplayNumber(DamageNum, pos);
+        Debug.Log("gggeeeダメージ数");
+        DisplayNumber(hitdamege, pos);
     }
 
     public void DisplayNumber(int damage, Transform pos)
@@ -182,7 +226,7 @@ public class AttackAreaDamage : NetworkBehaviour
                 pos.position.y + (pos.localScale.y / 4), // Y座標にもランダムオフセットを追加
                  pos.position.z
             );
-            Debug.Log("ダメージ数" + numberObj.transform.position.y);
+           // Debug.Log("ダメージ数" + numberObj.transform.position.y);
 
             // 数秒後に消えるように設定
             //Destroy(numberObj, 1.5f); // 1.5秒後にオブジェクトを削除

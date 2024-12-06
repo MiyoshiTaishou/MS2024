@@ -209,6 +209,7 @@ MonoBehaviour:
   parryction: {fileID: 11400000, guid: 53fabe96f94aa38478ef3d1572aecf6d, type: 2}
   AttackOmenParticle: {fileID: 0}
   LimitSpeed: 50
+  MaxNokezoriRegist: 600
 --- !u!65 &-6834287320468394907
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -390,6 +391,7 @@ MonoBehaviour:
   gameManager: {fileID: 0}
   ResultSceneName: 
   transitionManager: {fileID: 0}
+  isTutorial: 0
 --- !u!114 &2444928967917834422
 MonoBehaviour:
   m_ObjectHideFlags: 0

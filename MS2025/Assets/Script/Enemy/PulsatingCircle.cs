@@ -1,5 +1,6 @@
 using Fusion;
 using UnityEngine;
+using static UnityEngine.ParticleSystem;
 
 public class PulsatingCircle : NetworkBehaviour
 {
@@ -10,6 +11,9 @@ public class PulsatingCircle : NetworkBehaviour
 
     private float scaleDirection = 1.0f; // スケールの増減方向
     private Vector3 initialScale;        // 元のスケール
+
+    public void SetMaxScale(float _max) { maxScale = _max; }
+    public void SetSpeed(float _speed) { speed = _speed; }
 
     public override void Spawned()
     {
@@ -44,5 +48,11 @@ public class PulsatingCircle : NetworkBehaviour
 
         // スケールを適用
         transform.localScale = new Vector3(currentScale, currentScale, 1.0f);
+    }
+
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    public void RPC_Active(bool _active)
+    {
+       gameObject.SetActive(_active);
     }
 }

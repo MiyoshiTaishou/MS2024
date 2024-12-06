@@ -121,7 +121,7 @@ public class SoundManager : MonoBehaviour
             else
             {
                 //Debug.LogError("ƒ{ƒX‚ª‚¢‚È‚¢‚æ");
-                otheron = true;
+                otheron = false;
             }
         }
 
