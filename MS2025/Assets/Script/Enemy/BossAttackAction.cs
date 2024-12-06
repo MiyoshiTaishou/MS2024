@@ -76,7 +76,7 @@ public class AttackAction : BossActionData
         if (Time.time - attackStartTime < attackDuration)
         {
             // 攻撃待機中に何かしらの動作をしたい場合（例：アニメーションなど）、ここに処理を入れることができます
-            attackAreaView.SetActive(true);
+            attackAreaView.GetComponent<PulsatingCircle>().RPC_Active(true);          
             return false; // まだ実行中
         }
         
@@ -86,14 +86,14 @@ public class AttackAction : BossActionData
             // プレイヤーが攻撃範囲内なら攻撃
             Debug.Log("攻撃");
             attackArea.SetActive(true);
-            attackAreaView.SetActive(false);
+            attackAreaView.GetComponent<PulsatingCircle>().RPC_Active(false);
         }
         else
         {
             // 範囲外でも空振りの攻撃を行う
             Debug.Log("空振り");
             attackArea.SetActive(true);
-            attackAreaView.SetActive(false);
+            attackAreaView.GetComponent<PulsatingCircle>().RPC_Active(false);
         }
 
         // 音を再生

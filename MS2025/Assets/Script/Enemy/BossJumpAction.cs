@@ -50,7 +50,7 @@ public class BossJumpAction : BossActionData
         attackAreaView.transform.position = new Vector3(attackPosition.x, 2f, attackPosition.z);
         attackAreaView.GetComponent<PulsatingCircle>().SetMaxScale(attack.attackScale.x);
         attackAreaView.GetComponent<PulsatingCircle>().SetSpeed(attackAnimSpeed);
-        attackAreaView.SetActive(true);
+        attackAreaView.GetComponent<PulsatingCircle>().RPC_Active(true);
     }
 
     public override bool ExecuteAction(GameObject boss, Transform player)
