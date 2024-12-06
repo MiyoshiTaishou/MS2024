@@ -11,67 +11,46 @@ public class SceneChange : MonoBehaviour {
 	[SerializeField]
     private GameLauncher gameLauncher;
 
-    private bool openFlag = false;
-    private bool closeFlag = false;
+    private bool openFlag = false; //閉じてるならfalse 開いてるならtrue
     private bool animationFlag = false;
     private bool isCloseFlag = false;
+    private bool isActiveFlag;
     private float time;
 
     private void Update() {
-        // if (time <= 0.0f && gameLauncher.IsAnimation() && openFlag) {
-        if (time <= 0.0f && openFlag) {
-            // Debug.LogWarning("ドアを開けて-");
+        if (time <= 0.0f && !gameLauncher.IsAnimation() && openFlag && isActiveFlag) {
             swithcActive.IsActive();
             gameLauncher.Open();
             openFlag = false;
-            time = delayTime;
-            isCloseFlag = false;
-            // Coroutine();
         }
-        // if (time <= 0.0f && gameLauncher.IsAnimation() && closeFlag) {
-        if (time <= 0.0f && closeFlag) {
-            // Debug.LogWarning("ドアを開けて-");
+        if (time <= 0.0f && !gameLauncher.IsAnimation() && openFlag && !isActiveFlag) {
             swithcActive.DisActive();
             gameLauncher.Open();
-            closeFlag = false;
-            time = delayTime;
-            isCloseFlag = false;
-            // Coroutine();
-        }
-        if (!(time <= 0.0f) && (!openFlag && !closeFlag && !isCloseFlag) && animationFlag) {
-            // ドアが閉じて開くまでの間にAボタンを押されるとバグる
-            animationFlag = false;
+            openFlag = false;
         }
         time -= Time.deltaTime;
+
+        if (!gameLauncher.IsAnimation() && !openFlag) {
+            // アニメーションが終わったらフラグを折る
+            animationFlag = false;
+        }
     }
 
     public void Cutaway() {
-        if (openFlag && closeFlag && animationFlag == true) return;
-        // Debug.LogError("ドアを閉めて-");
-        openFlag = true;
-        time = delayTime;
+        if (openFlag && animationFlag) return;
         gameLauncher.Close();
+        time = delayTime;
+        openFlag = true;
         animationFlag = true;
-        isCloseFlag = true;
-        StartCoroutine(Coroutine());
+        isActiveFlag = true;
     }
     public void Back() {
-        if (openFlag && closeFlag && animationFlag == true) return;
-        // Debug.LogError("ドアを閉めて-");
-        closeFlag = true;
-        time = delayTime;
+        if (openFlag && animationFlag) return;
         gameLauncher.Close();
+        time = delayTime;
+        openFlag = true;
         animationFlag = true;
-        StartCoroutine(Coroutine());
+        isActiveFlag = false;
     }
 
-    public IEnumerator Coroutine() {
-        // Debug.LogWarning("強制オープン準備");
-        yield return new WaitForSeconds(5f);
-        // Debug.LogWarning("ドア強制オープン");
-        openFlag = false;
-        closeFlag = false;
-        gameLauncher.Open();
-        animationFlag = false;
-    }
 }
