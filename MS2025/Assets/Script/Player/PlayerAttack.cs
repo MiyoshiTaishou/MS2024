@@ -54,7 +54,7 @@ public class PlayerAttack : NetworkBehaviour
     GameObject BossObj = null;
     bool flashFlg = false;//連携攻撃による瞬間移動をしたか
     PlayerFreeze freeze;
-
+    [Networked]public bool aaaa { get; set; }
     public override void Spawned()
     {
         animator = GetComponent<Animator>();
@@ -81,6 +81,7 @@ public class PlayerAttack : NetworkBehaviour
 
     public override void FixedUpdateNetwork()
     {
+        Debug.Log("aaaa=" + aaaa);
         if(GetComponent<HitStop>().IsHitStopActive) 
         {
             return;
@@ -107,6 +108,7 @@ public class PlayerAttack : NetworkBehaviour
             // Attackボタンが押されたか、かつアニメーションが再生中でないかチェック
             if (pressed.IsSet(NetworkInputButtons.Attack) && !isAttack && currentCombo<2)
             {
+                aaaa = true;
                 isAttack = true; // 攻撃フラグを立てる
                 isPlayingAnimation = true;
                 isOnce = true;

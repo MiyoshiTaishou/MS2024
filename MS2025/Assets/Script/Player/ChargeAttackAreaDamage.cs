@@ -28,6 +28,7 @@ public class ChargeAttackAreaDamage : NetworkBehaviour
 
     PlayerParryNet parry;
     [Networked] bool ishitstop { get; set; } = false;
+    int Count = 0;
     public override void Spawned()
     {
         player = transform.parent.gameObject;
@@ -88,6 +89,10 @@ public class ChargeAttackAreaDamage : NetworkBehaviour
 
     public override void Render()
     {
+        if (Count > 0)
+        {
+            Count--;
+        }
         //ホストなら終了
         if (Runner.IsServer)
         {
@@ -124,6 +129,12 @@ public class ChargeAttackAreaDamage : NetworkBehaviour
 
     public void DisplayNumber(int damage, Transform pos)
     {
+        if (Count > 0)
+        {
+            return;
+        }
+        Count = 4;
+
         // ダメージ値を文字列として扱う
         string damageStr = damage.ToString();
 
