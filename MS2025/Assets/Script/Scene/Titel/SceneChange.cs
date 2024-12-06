@@ -26,7 +26,7 @@ public class SceneChange : MonoBehaviour {
             openFlag = false;
             time = delayTime;
             isCloseFlag = false;
-            BackCoroutine();
+            // Coroutine();
         }
         // if (time <= 0.0f && gameLauncher.IsAnimation() && closeFlag) {
         if (time <= 0.0f && closeFlag) {
@@ -36,6 +36,7 @@ public class SceneChange : MonoBehaviour {
             closeFlag = false;
             time = delayTime;
             isCloseFlag = false;
+            // Coroutine();
         }
         if (!(time <= 0.0f) && (!openFlag && !closeFlag && !isCloseFlag) && animationFlag) {
             // ドアが閉じて開くまでの間にAボタンを押されるとバグる
@@ -45,26 +46,28 @@ public class SceneChange : MonoBehaviour {
     }
 
     public void Cutaway() {
-        if (closeFlag && animationFlag == true) return;
+        if (openFlag && closeFlag && animationFlag == true) return;
         openFlag = true;
         time = delayTime;
         gameLauncher.Close();
         animationFlag = true;
         isCloseFlag = true;
+        Coroutine();
     }
     public void Back() {
-        if (openFlag && animationFlag == true) return;
+        if (openFlag && closeFlag && animationFlag == true) return;
         closeFlag = true;
         time = delayTime;
         gameLauncher.Close();
         animationFlag = true;
+        Coroutine();
     }
 
-    public IEnumerator BackCoroutine() {
-        yield return new WaitForSeconds(1);
-        closeFlag = true;
-        time = delayTime;
-        gameLauncher.Close();
-        animationFlag = true;
+    public IEnumerator Coroutine() {
+        yield return new WaitForSeconds(1.5f);
+        openFlag = false;
+        closeFlag = false;
+        gameLauncher.Open();
+        animationFlag = false;
     }
 }
