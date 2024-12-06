@@ -41,13 +41,7 @@ public class BossAttackArea2Boss : NetworkBehaviour
         isKitune = false;
         isAttackActive = false; // ‰Šúó‘Ô‚Í–³Œø‰»
         originalPosition = transform.position;
-    }
-
-    public void OnEnable()
-    {
-        Debug.Log("UŒ‚ƒGƒŠƒA—LŒø‰»");
-        SetAttackActive(true);
-    }
+    }  
 
     public override void Render()
     {

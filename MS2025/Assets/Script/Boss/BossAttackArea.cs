@@ -52,13 +52,7 @@ public class BossAttackArea : NetworkBehaviour
     }
 
     // SetActive(true)のたびに呼び出す
-    public void OnEnable()
-    {
-        Debug.Log("攻撃エフェクト生成");
-        isAttack = true;
-        isTanuki = false;
-        isKitune = false;
-    }
+ 
 
     public override void Render()
     {
