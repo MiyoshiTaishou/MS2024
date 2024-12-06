@@ -36,6 +36,9 @@ public class BossAttackArea : NetworkBehaviour
     [Networked] public bool isTanuki { get; set; }
     [Networked] public bool isKitune { get; set; }
 
+    [SerializeField, Header("チュートリアルモード")]
+    private bool isTutorial = false;
+
     public override void Spawned()
     {
         box = GameObject.Find("Networkbox");
@@ -139,8 +142,11 @@ public class BossAttackArea : NetworkBehaviour
             Debug.Log("攻撃ヒット");
             if (other.GetComponent<PlayerHP>().inbisibleFrame == 0)
             {
-                box.GetComponent<ShareNumbers>().CurrentHP--;
-                box.GetComponent<ShareNumbers>().RPC_Damage();
+                if(!isTutorial)
+                {
+                    box.GetComponent<ShareNumbers>().CurrentHP--;
+                    box.GetComponent<ShareNumbers>().RPC_Damage();
+                }
                 other.GetComponent<PlayerHP>().RPC_DamageAnim();
             }
             Render();
