@@ -80,6 +80,9 @@ public class BossAI : NetworkBehaviour
     [Networked] private int NokezoriRegist { get; set; }
     [Networked] private int NokezoriRegistCount { get; set; }
 
+    [SerializeField, Header("ボスが追いかけるプレイヤーに線")] GameObject Line;
+    [Networked] NetworkObject lineobj { get; set; }
+
     public override void Spawned()
     {
         NokezoriRegist = MaxNokezoriRegist;
@@ -118,6 +121,8 @@ public class BossAI : NetworkBehaviour
         {
             StartNextAction(); // プレイヤーが二人以上揃っていたらアクションを開始
         }
+
+        lineobj= Runner.Spawn(Line, new Vector3(0,0,0), Quaternion.identity, null);
 
         rb = GetComponent<Rigidbody>();
         hitstop = GetComponent<HitStop>();
@@ -229,6 +234,8 @@ public class BossAI : NetworkBehaviour
         {
             StartNextAction(); // アクション完了後に次のアクションに進む
         }
+
+
 
         //50%以下で行動変更
         if (!isHalf && GetComponent<BossStatus>().nBossHP < GetComponent<BossStatus>().InitHP / 2)
@@ -364,6 +371,11 @@ public class BossAI : NetworkBehaviour
         currentPlayerIndex = (currentPlayerIndex + 1) % players.Count;
     }
 
+    //[Rpc(RpcSources.All, RpcTargets.All)]
+    //public void LineColor()
+    //{
+
+    //}
 
     public override void Render()
     {
@@ -402,6 +414,27 @@ public class BossAI : NetworkBehaviour
                     break;
             }
 
+        }
+
+        Debug.Log(lineobj);
+        //プレイヤーへの視線
+        if(lineobj)
+        {
+
+            lineobj.GetComponent<DrawLine>().Startobj = transform;
+            lineobj.GetComponent<DrawLine>().Endobj = players[currentPlayerIndex].transform;
+            if (currentPlayerIndex == 0)
+            {
+                lineobj.GetComponent<DrawLine>().SetTanuki(true);
+            }
+            else
+            {
+                lineobj.GetComponent<DrawLine>().SetTanuki(false);
+            }
+        }
+        else
+        {
+           // lineobj = NetworkObject.Find("Line");
         }
 
         //ダウン状態が解除されたらダウンパーティクルを削除する
