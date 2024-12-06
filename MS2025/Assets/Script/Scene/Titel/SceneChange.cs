@@ -10,7 +10,7 @@ public class SceneChange : MonoBehaviour {
 	[Tooltip("ゲームランチャーを決めます")]
 	[SerializeField]
     private GameLauncher gameLauncher;
-    
+
     private bool openFlag = false;
     private bool closeFlag = false;
     private bool animationFlag = false;
@@ -47,24 +47,28 @@ public class SceneChange : MonoBehaviour {
 
     public void Cutaway() {
         if (openFlag && closeFlag && animationFlag == true) return;
+        // Debug.LogError("ドアを閉めて-");
         openFlag = true;
         time = delayTime;
         gameLauncher.Close();
         animationFlag = true;
         isCloseFlag = true;
-        Coroutine();
+        StartCoroutine(Coroutine());
     }
     public void Back() {
         if (openFlag && closeFlag && animationFlag == true) return;
+        // Debug.LogError("ドアを閉めて-");
         closeFlag = true;
         time = delayTime;
         gameLauncher.Close();
         animationFlag = true;
-        Coroutine();
+        StartCoroutine(Coroutine());
     }
 
     public IEnumerator Coroutine() {
-        yield return new WaitForSeconds(1.5f);
+        // Debug.LogWarning("強制オープン準備");
+        yield return new WaitForSeconds(5f);
+        // Debug.LogWarning("ドア強制オープン");
         openFlag = false;
         closeFlag = false;
         gameLauncher.Open();
