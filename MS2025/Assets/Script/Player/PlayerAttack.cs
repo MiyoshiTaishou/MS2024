@@ -263,6 +263,7 @@ public class PlayerAttack : NetworkBehaviour
 
                     Count++;
                     attackArea.SetActive(true);
+                    attackArea.GetComponent<AttackAreaDamage>().enabled= true;
                 }
                 else if (Count < buddyStartup + buddyActive + buddyRecovery)
                 {
@@ -304,10 +305,10 @@ public class PlayerAttack : NetworkBehaviour
                 }
                 else if (Count < Startup + Active)
                 {
-                    
-
                     Count++;
                     attackArea.SetActive(true);
+                    attackArea.GetComponent<AttackAreaDamage>().enabled = true;
+
                 }
                 else if (Count < Startup + Active + Recovery)
                 {
