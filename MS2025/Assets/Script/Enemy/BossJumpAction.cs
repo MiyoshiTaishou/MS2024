@@ -48,8 +48,8 @@ public class BossJumpAction : BossActionData
         Vector3 directionToPlayer = (player.position - boss.transform.position).normalized; // プレイヤーへの方向を正規化
         Vector3 attackPosition = boss.transform.position + directionToPlayer * attack.attackRange;      // 攻撃エリアの新しい位置       
         attackAreaView.transform.position = new Vector3(attackPosition.x, 2f, attackPosition.z);
-        attackAreaView.GetComponent<PulsatingCircle>().SetMaxScale(attack.attackScale.x);
-        attackAreaView.GetComponent<PulsatingCircle>().SetSpeed(attackAnimSpeed);
+        attackAreaView.GetComponent<PulsatingCircle>().RPC_Scale(attack.attackScale.x);
+        attackAreaView.GetComponent<PulsatingCircle>().RPC_Spedd(attackAnimSpeed);
         attackAreaView.GetComponent<PulsatingCircle>().RPC_Active(true);
     }
 
@@ -59,7 +59,7 @@ public class BossJumpAction : BossActionData
         Vector3 directionToPlayer = (player.position - boss.transform.position).normalized; // プレイヤーへの方向を正規化
         Vector3 attackPosition = boss.transform.position + directionToPlayer * attack.attackRange;      // 攻撃エリアの新しい位置       
         attackAreaView.transform.position = new Vector3(attackPosition.x, 2f, attackPosition.z);
-        attackAreaView.GetComponent<PulsatingCircle>().SetMaxScale(attack.attackScale.x);
+        attackAreaView.GetComponent<PulsatingCircle>().RPC_Scale(attack.attackScale.x);
 
         if (isJumping)
         {

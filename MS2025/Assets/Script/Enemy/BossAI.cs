@@ -198,6 +198,10 @@ public class BossAI : NetworkBehaviour
             isActionInitialized = false;
             isOnce = true;
             isParticle = 2;
+
+            GameObject attackAreaview;
+            attackAreaview = transform.Find("Area")?.gameObject;
+            attackAreaview.GetComponent<PulsatingCircle>().RPC_Active(false);
             return;
         }
 
@@ -234,9 +238,9 @@ public class BossAI : NetworkBehaviour
             currentActionIndex = 0;
             currentSequenceIndex = 0;
 
-             GameObject attackAreaView; // 既存の攻撃エリアの参照
-            attackAreaView = transform.Find("Area")?.gameObject;
-            attackAreaView.SetActive(false);
+            GameObject attackAreaview;
+            attackAreaview = transform.Find("Area")?.gameObject;
+            attackAreaview.GetComponent<PulsatingCircle>().RPC_Active(false);
 
             StartNextAction(); // プレイヤーが二人以上揃っていたらアクションを開始            
         }
@@ -250,6 +254,9 @@ public class BossAI : NetworkBehaviour
         currentSequenceIndex = 0;
         isActionInitialized = false;
         isInterrupted = false;
+        GameObject attackAreaview;
+        attackAreaview = transform.Find("Area")?.gameObject;
+        attackAreaview.GetComponent<PulsatingCircle>().RPC_Active(false);
     }
 
     private IEnumerator WaitAndStartNextAction(float waitTime)

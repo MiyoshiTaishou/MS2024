@@ -55,4 +55,16 @@ public class PulsatingCircle : NetworkBehaviour
     {
        gameObject.SetActive(_active);
     }
+
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    public void RPC_Scale(float _scale)
+    {
+        SetMaxScale(_scale);
+    }
+
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    public void RPC_Spedd(float _speed)
+    {
+        SetSpeed(_speed);
+    }
 }

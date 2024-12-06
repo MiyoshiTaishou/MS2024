@@ -65,8 +65,8 @@ public class AttackAction : BossActionData
         Vector3 attackPosition = boss.transform.position + directionToPlayer * attackRange;      // 攻撃エリアの新しい位置
         attackArea.transform.position = attackPosition;
         attackAreaView.transform.position = new Vector3(attackPosition.x, 2f, attackPosition.z);
-        attackAreaView.GetComponent<PulsatingCircle>().SetMaxScale(attackScale.x);
-        attackAreaView.GetComponent<PulsatingCircle>().SetSpeed(attackAnimSpeed);
+        attackAreaView.GetComponent<PulsatingCircle>().RPC_Scale(attackScale.x);
+        attackAreaView.GetComponent<PulsatingCircle>().RPC_Spedd(attackAnimSpeed);
     }
 
 
