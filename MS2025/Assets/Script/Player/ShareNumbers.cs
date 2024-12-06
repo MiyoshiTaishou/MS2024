@@ -142,7 +142,7 @@ public class ShareNumbers : NetworkBehaviour
         }
 
         // HPUI 配列のサイズを全ての子オブジェクト数に合わせて初期化
-        HPUI = new GameObject[5];
+        HPUI = new GameObject[10];
 
         int num = 0;
         foreach (Transform ob in allChildren)
