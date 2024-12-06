@@ -56,6 +56,9 @@ public class BossStatus : NetworkBehaviour
     [SerializeField]
     private TransitionManager transitionManager;
 
+    [SerializeField, Header("チュートリアルモード")]
+    private bool isTutorial = false;
+
     // シーン遷移が一度だけ実行されるようにするためのフラグ
     private bool hasTransitioned = false;
 
@@ -210,6 +213,11 @@ public class BossStatus : NetworkBehaviour
 
     public override void FixedUpdateNetwork()
     {
+        if(isTutorial)
+        {
+            nBossHP = InitHP;
+            return;
+        }
         if (nBossHP <= 0 && Object.HasStateAuthority)
         {
 
