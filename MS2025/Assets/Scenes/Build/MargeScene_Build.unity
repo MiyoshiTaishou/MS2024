@@ -3521,6 +3521,11 @@ PrefabInstance:
       propertyPath: isStart
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1570075750498086367, guid: c71161469b6c102429892c1cead900b0,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -400
+      objectReference: {fileID: 0}
     - target: {fileID: 1905301795919028484, guid: c71161469b6c102429892c1cead900b0,
         type: 3}
       propertyPath: baseColor.a
@@ -3545,6 +3550,16 @@ PrefabInstance:
         type: 3}
       propertyPath: selectColor.a
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1905301795919028484, guid: c71161469b6c102429892c1cead900b0,
+        type: 3}
+      propertyPath: selectColor.b
+      value: 0.39215687
+      objectReference: {fileID: 0}
+    - target: {fileID: 1905301795919028484, guid: c71161469b6c102429892c1cead900b0,
+        type: 3}
+      propertyPath: selectColor.g
+      value: 0.39215687
       objectReference: {fileID: 0}
     - target: {fileID: 1905301795919028484, guid: c71161469b6c102429892c1cead900b0,
         type: 3}

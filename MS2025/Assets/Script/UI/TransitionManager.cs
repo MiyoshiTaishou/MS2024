@@ -12,40 +12,30 @@ public class TransitionManager : MonoBehaviour
     [SerializeField, Header("開始時にトランジションするか")] private bool isStart = true;
    
     // Start is called before the first frame update
-    void Start()
-    {
-        if (isStart)
-        {
+    void Start() {
+        if (isStart) {
             // 各トランジションオブジェクトに対してトリガーをセットし、逆再生の設定を行う
-            for (int i = 0; i < transitions.Length; i++)
-            {
+            for (int i = 0; i < transitions.Length; i++) {
                 Animator animator = transitions[i].GetComponent<Animator>();
-
                 // トリガーを設定してアニメーションを開始
                 animator.SetTrigger("Reverse");
             }
         }
     }
 
-    public void TransitionStart()
-    {
+    public void TransitionStart() {
         // 各トランジションオブジェクトに対してトリガーをセットし、逆再生の設定を行う
-        for (int i = 0; i < transitions.Length; i++)
-        {
+        for (int i = 0; i < transitions.Length; i++) {
             Animator animator = transitions[i].GetComponent<Animator>();
-
             // トリガーを設定してアニメーションを開始
             animator.SetTrigger("Start");
         }
     }
 
-    public void TransitionStartReverse()
-    {
+    public void TransitionStartReverse() {
         // 各トランジションオブジェクトに対してトリガーをセットし、逆再生の設定を行う
-        for (int i = 0; i < transitions.Length; i++)
-        {
+        for (int i = 0; i < transitions.Length; i++) {
             Animator animator = transitions[i].GetComponent<Animator>();
-
             // トリガーを設定してアニメーションを開始
             animator.SetTrigger("Reverse");
         }
