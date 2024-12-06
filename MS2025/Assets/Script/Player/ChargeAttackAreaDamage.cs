@@ -27,10 +27,14 @@ public class ChargeAttackAreaDamage : NetworkBehaviour
     [Networked] bool isGeki { get; set; } = false;
 
     PlayerParryNet parry;
+    GameObject change;
+
+
     [Networked] bool ishitstop { get; set; } = false;
     int Count = 0;
     public override void Spawned()
     {
+        change = GameObject.Find("ChangeAction");
         player = transform.parent.gameObject;
         attack = player.GetComponent<PlayerChargeAttack>();
         netobj = GameObject.Find("Networkbox");
@@ -53,7 +57,10 @@ public class ChargeAttackAreaDamage : NetworkBehaviour
             {
                 Debug.Log("チャージアタック成功");
                 other.GetComponent<BossStatus>().RPC_Damage(ChargeDamege);
-
+                if (change.GetComponent<ChangeBossAction>().TextNo == 5)
+                {
+                    change.GetComponent<ChangeBossAction>().TextNo = 6;
+                }
                 Camera.main.GetComponent<CameraEffectPlay>().RPC_CameraEffect();
                 Camera.main.GetComponent<CameraShake>().RPC_CameraShake(0.3f, 0.3f);
 

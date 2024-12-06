@@ -56,6 +56,9 @@ public class BossStatus : NetworkBehaviour
     [SerializeField]
     private TransitionManager transitionManager;
 
+    [SerializeField, Header("チュートリアルモード")]
+    private bool isTutorial = false;
+
     // シーン遷移が一度だけ実行されるようにするためのフラグ
     private bool hasTransitioned = false;
 
@@ -67,6 +70,7 @@ public class BossStatus : NetworkBehaviour
         Backslider.maxValue = nBossHP;
         Backslider.value = nBossHP;
         InitHP = nBossHP;
+        DeathCount = 0;
     }
 
     [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
@@ -163,6 +167,32 @@ public class BossStatus : NetworkBehaviour
             HPCount = 0;
         }
 
+       
+
+        if (DeathCount == 1)
+        {
+            Fill.color = HPBar2;
+            Destroy(GameObject.Find("BossHPBarP"));
+        }
+        else if (DeathCount == 2)
+        {
+            Fill.color = HPBar3;
+            Destroy(GameObject.Find("BossHPBarG"));
+        }
+        else if(DeathCount==3)
+        {
+            Destroy(GameObject.Find("BossHPBarY"));
+        }
+
+    }
+
+    public override void FixedUpdateNetwork()
+    {
+        if (isTutorial)
+        {
+            nBossHP = InitHP;
+            return;
+        }
         if (nBossHP <= 0 && Object.HasStateAuthority)
         {
 
@@ -186,34 +216,6 @@ public class BossStatus : NetworkBehaviour
                 case 2:
                     DeathCount++;
                     break;
-            }
-
-        }
-
-        if (DeathCount == 1)
-        {
-            Fill.color = HPBar2;
-            Destroy(GameObject.Find("BossHPBarP"));
-        }
-        else if (DeathCount == 2)
-        {
-            Fill.color = HPBar3;
-            Destroy(GameObject.Find("BossHPBarG"));
-        }
-        else if(DeathCount==3)
-        {
-            Destroy(GameObject.Find("BossHPBarY"));
-        }
-
-    }
-
-    public override void FixedUpdateNetwork()
-    {
-        if (nBossHP <= 0 && Object.HasStateAuthority)
-        {
-
-            switch (DeathCount)
-            {
                 case 3:
                     Debug.Log("ボス死亡です");
                     // gekihaAnimator.SetActive(true);

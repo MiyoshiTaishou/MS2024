@@ -29,11 +29,14 @@ public class ChangeBossAction : NetworkBehaviour
 
     public Sprite[] numberSprites; // スプライト
 
+    BossActionSequence data;
+
     [Networked] public int combo { get; set; }
 
     public override void Spawned()
     {
-        TextNo = 0;
+
+        data = boss.GetComponent<BossAI>().actionSequence[0];
     }
 
  
@@ -50,24 +53,28 @@ public class ChangeBossAction : NetworkBehaviour
         switch (TextNo)
         {
 
+            case 1://必殺技を出してもらう
+                TextSprite.GetComponent<Image>().sprite = numberSprites[TextNo];
+                break;
+            case 2://勝ちあげ攻撃を練習してもらう
+                TextSprite.GetComponent<Image>().sprite = numberSprites[TextNo];
+                boss.GetComponent<BossAI>().actionSequence[0] = jumpAction;//ボスにひたすらジャンプさせる
+                break;
+            case 3://パリィを練習
+                TextSprite.GetComponent<Image>().sprite = numberSprites[TextNo];
+                boss.GetComponent<BossAI>().actionSequence[0] = bossAction;
+                break;
+            case 4://ダブルパリィ
+                TextSprite.GetComponent<Image>().sprite = numberSprites[TextNo];
+                break;
+            case 5://溜め攻撃
+                TextSprite.GetComponent<Image>().sprite = numberSprites[TextNo];
+                boss.GetComponent<BossAI>().actionSequence[0] = data;
+                break;
+            case 6://終わり
+                TextSprite.GetComponent<Image>().sprite = numberSprites[TextNo];
+                //下にシーン遷移処理
 
-            case 1:
-                TextSprite.GetComponent<Image>().sprite = numberSprites[TextNo];
-                break;
-            case 2:
-                TextSprite.GetComponent<Image>().sprite = numberSprites[TextNo];
-                break;
-            case 3:
-                TextSprite.GetComponent<Image>().sprite = numberSprites[TextNo];
-                break;
-            case 4:
-                TextSprite.GetComponent<Image>().sprite = numberSprites[TextNo];
-                break;
-            case 5:
-                TextSprite.GetComponent<Image>().sprite = numberSprites[TextNo];
-                break;
-            case 6:
-                TextSprite.GetComponent<Image>().sprite = numberSprites[TextNo];
                 break;
         }
 
@@ -84,6 +91,7 @@ public class ChangeBossAction : NetworkBehaviour
         
     }
 
+   
 
     private void Update()
     {
@@ -98,14 +106,13 @@ public class ChangeBossAction : NetworkBehaviour
 //{
 //    //行動入れ替え
 
-//    BossActionSequence data = boss.GetComponent<BossAI>().actionSequence[0];
+//BossActionSequence data = boss.GetComponent<BossAI>().actionSequence[0];
 
-//    boss.GetComponent<BossAI>().actionSequence[0] = bossAction;
+//boss.GetComponent<BossAI>().actionSequence[0] = bossAction;
 
-//    bossAction = jumpAction;
+//bossAction = jumpAction;
 
-//    jumpAction = data;
-
+//jumpAction = data;
 
 //    switch (BossPattern)
 //    {

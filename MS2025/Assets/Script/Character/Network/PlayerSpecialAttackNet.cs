@@ -63,7 +63,7 @@ public class PlayerSpecialAttackNet : NetworkBehaviour
         // 必殺技再生用オブジェクト探索
         director = GameObject.Find("Director");
         comboCountObject = GameObject.Find("Networkbox");
-
+        change = GameObject.Find("ChangeAction");
         // コンボUIのリストを取得
         var comboUI = GameObject.Find("MainGameUI/Combo");
         for (int j = 0; j < comboUI.transform.childCount; j++)
@@ -123,6 +123,7 @@ public class PlayerSpecialAttackNet : NetworkBehaviour
                 {
                     Debug.Log("必殺技出すぞ！");
                     RPC_SpecialAttack();
+
                     if(change.GetComponent<ChangeBossAction>().TextNo == 1)
                      {
                         change.GetComponent<ChangeBossAction>().TextNo = 2;
