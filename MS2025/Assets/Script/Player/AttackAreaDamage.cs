@@ -38,6 +38,7 @@ public class AttackAreaDamage : NetworkBehaviour
     [Networked] bool ishitstop { get; set; } = false;
     [Networked] int hitstoptime { get; set; } = 0;
 
+    int Count;
 
     public override void Spawned()
     {
@@ -136,7 +137,7 @@ public class AttackAreaDamage : NetworkBehaviour
                     isGeki = true;
                     bosspos = other.transform.position;
                     bossscale = other.transform.localScale;
-                    //Debug.Log("ダメージ数" + bosspos);
+                    Debug.Log("ダメージ数" + bosspos);
 
                     //ヒットストップ
                     ishitstop = true;
@@ -161,7 +162,10 @@ public class AttackAreaDamage : NetworkBehaviour
 
     public override void Render()
     {
-
+        if (Count > 0)
+        {
+            Count--;
+        }
 
         //ホストなら終了
         if (Runner.IsServer)
@@ -177,9 +181,10 @@ public class AttackAreaDamage : NetworkBehaviour
             ishitstop = false;
         }
 
-        if (isGeki)
+        if (attack.aaaa == true)
         {
-            Debug.Log("クライアントダメージ数");
+            Debug.Log("クライアントダメージ数aaaa"+attack.aaaa);
+            attack.aaaa = false;
             Transform boss = transform;
             boss.localScale = bossscale;
             boss.position= bosspos;
@@ -187,6 +192,8 @@ public class AttackAreaDamage : NetworkBehaviour
             //boss = null;
             isGeki = false;
             this.enabled= false;
+            Debug.Log("クライアントダメージ数aaaa" + attack.aaaa);
+
         }
 
 
@@ -200,6 +207,11 @@ public class AttackAreaDamage : NetworkBehaviour
 
     public void DisplayNumber(int damage, Transform pos)
     {
+        if(Count>0)
+        {
+            return;
+        }
+        Count = 3;
         // ダメージ値を文字列として扱う
         string damageStr = damage.ToString();
 
