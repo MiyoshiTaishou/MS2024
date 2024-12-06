@@ -194,6 +194,7 @@ public class BossStatus : NetworkBehaviour
             nBossHP = InitHP;
             return;
         }
+
         if (nBossHP <= 0 && Object.HasStateAuthority)
         {
 

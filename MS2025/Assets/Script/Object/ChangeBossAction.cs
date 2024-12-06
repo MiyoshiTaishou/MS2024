@@ -35,7 +35,6 @@ public class ChangeBossAction : NetworkBehaviour
 
     public override void Spawned()
     {
-        TextNo = 0;
 
         data = boss.GetComponent<BossAI>().actionSequence[0];
     }
@@ -54,26 +53,28 @@ public class ChangeBossAction : NetworkBehaviour
         switch (TextNo)
         {
 
-            case 1:
+            case 1://必殺技を出してもらう
                 TextSprite.GetComponent<Image>().sprite = numberSprites[TextNo];
                 break;
-            case 2:
+            case 2://勝ちあげ攻撃を練習してもらう
                 TextSprite.GetComponent<Image>().sprite = numberSprites[TextNo];
-                boss.GetComponent<BossAI>().actionSequence[0] = jumpAction;
+                boss.GetComponent<BossAI>().actionSequence[0] = jumpAction;//ボスにひたすらジャンプさせる
                 break;
-            case 3:
+            case 3://パリィを練習
                 TextSprite.GetComponent<Image>().sprite = numberSprites[TextNo];
                 boss.GetComponent<BossAI>().actionSequence[0] = bossAction;
                 break;
-            case 4:
+            case 4://ダブルパリィ
                 TextSprite.GetComponent<Image>().sprite = numberSprites[TextNo];
                 break;
-            case 5:
+            case 5://溜め攻撃
                 TextSprite.GetComponent<Image>().sprite = numberSprites[TextNo];
                 boss.GetComponent<BossAI>().actionSequence[0] = data;
                 break;
-            case 6:
+            case 6://終わり
                 TextSprite.GetComponent<Image>().sprite = numberSprites[TextNo];
+                //下にシーン遷移処理
+
                 break;
         }
 
@@ -90,6 +91,7 @@ public class ChangeBossAction : NetworkBehaviour
         
     }
 
+   
 
     private void Update()
     {

@@ -31,6 +31,8 @@ public class BossAttackArea : NetworkBehaviour
     // 元の位置を保持する
     private Vector3 originalPosition;
 
+    GameObject change;
+
     [Networked] public  PARRYTYPE Type { get; set; }
 
     [Networked] public bool isTanuki { get; set; }
@@ -100,6 +102,9 @@ public class BossAttackArea : NetworkBehaviour
                 {
                     Debug.Log("パリィ成功");
                     other.GetComponent<PlayerParryNet>().RPC_ParrySystem();
+
+
+               
 
                     // ノックバック可能かどうか
                     if (parent.GetComponent<BossAI>().isKnockBack)

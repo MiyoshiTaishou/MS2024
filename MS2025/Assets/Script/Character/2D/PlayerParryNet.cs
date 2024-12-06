@@ -56,6 +56,8 @@ public class PlayerParryNet : NetworkBehaviour
 
     Knockback back;
 
+    GameObject change;
+
     private NetworkRunner runner;
     private NetworkObject networkobject;
 
@@ -145,7 +147,7 @@ public class PlayerParryNet : NetworkBehaviour
     {
         // NetworkRunnerのインスタンスを取得
         runner = FindObjectOfType<NetworkRunner>();
-
+        change = GameObject.Find("ChangeAction");
         //SE読み込み
         //audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
         audioSource = GetComponent<AudioSource>();
@@ -207,6 +209,12 @@ public class PlayerParryNet : NetworkBehaviour
         //cinemachar.CameraZoom(this.character.transform, 5,0.5f);
         back.ApplyKnockback(transform.forward, KnockbackPower);
         ParryArea.GetComponent<ParryDisplayNet>().Init();
+
+        if (change.GetComponent<ChangeBossAction>().TextNo == 3)
+        {
+            change.GetComponent<ChangeBossAction>().TextNo = 4;
+        }
+
 
         isParrySuccess = true;
         isParry = false;

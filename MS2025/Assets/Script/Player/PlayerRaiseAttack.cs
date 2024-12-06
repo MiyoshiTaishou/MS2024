@@ -30,6 +30,8 @@ public class PlayerRaiseAttack : NetworkBehaviour
 
     int Count;
 
+    GameObject change;
+
     bool isOnce = false;
     bool isEffect = false;
     PlayerFreeze freeze;
@@ -37,6 +39,7 @@ public class PlayerRaiseAttack : NetworkBehaviour
     // Start is called before the first frame update
     public override void Spawned()
     {
+        change = GameObject.Find("ChangeAction");
         audioSource = GetComponent<AudioSource>();
         raise = GetComponent<PlayerRaise>();
         attackArea = gameObject.transform.Find("AttackArea").gameObject;
@@ -81,6 +84,10 @@ public class PlayerRaiseAttack : NetworkBehaviour
         else if (Count < Startup + Active)
         {
             Count++;
+            if (change.GetComponent<ChangeBossAction>().TextNo == 2)
+            {
+                change.GetComponent<ChangeBossAction>().TextNo = 3;
+            }
             attackArea.SetActive(true);
         }
         else if (Count < Startup + Active + Recovery)
