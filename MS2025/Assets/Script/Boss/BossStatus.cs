@@ -35,7 +35,7 @@ public class BossStatus : NetworkBehaviour
     [SerializeField] private ParticleSystem Deathparticle;
 
     //体力が0になった回数を数える
-    [SerializeField] private int DeathCount = 0;
+    [SerializeField,Networked] private int DeathCount{ get; set; };
 
     [SerializeField,Header("ゲームマネージャー")]
     private GameManager gameManager;
@@ -67,6 +67,7 @@ public class BossStatus : NetworkBehaviour
         Backslider.maxValue = nBossHP;
         Backslider.value = nBossHP;
         InitHP = nBossHP;
+        DeathCount = 0;
     }
 
     [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
