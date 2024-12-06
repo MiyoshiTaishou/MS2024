@@ -35,6 +35,11 @@ public class AttackAreaDamage : NetworkBehaviour
         
     PlayerParryNet parry;
 
+    [Networked] bool ishitstop { get; set; } = false;
+    [Networked] int hitstoptime { get; set; } = 0;
+
+    int Count;
+
     public override void Spawned()
     {
         runner = GameObject.Find("Runner(Clone)").GetComponent<NetworkRunner>();
@@ -67,6 +72,7 @@ public class AttackAreaDamage : NetworkBehaviour
                         other.GetComponent<BossStatus>().RPC_Damage(buddyFinalDamageNum);
                         player.GetComponent<HitStop>().ApplyHitStop(buddyFinalStopFrame);
                         hitdamege = buddyFinalDamageNum;
+                        hitstoptime = buddyFinalStopFrame;
 
                     }
                     else
@@ -75,6 +81,7 @@ public class AttackAreaDamage : NetworkBehaviour
                         player.GetComponent<HitStop>().ApplyHitStop(buddyStopFrame);
 
                         hitdamege = buddyDamageNum;
+                        hitstoptime = buddyStopFrame;
 
                     }
                     //当たったらダメージ数表示
@@ -89,8 +96,11 @@ public class AttackAreaDamage : NetworkBehaviour
                         isGeki = true;
                         bosspos = other.transform.position;
                         bossscale = other.transform.localScale;
-                        hitdamege = DamageNum;
+                        //hitdamege = DamageNum;
                         //Debug.Log("ダメージ数" + bosspos);
+
+                        //ヒットストップ
+                        ishitstop = true;
 
                     }
                     other.GetComponent<BossAI>().Nokezori--;
@@ -110,27 +120,34 @@ public class AttackAreaDamage : NetworkBehaviour
                     }
                 }
                 other.GetComponent<BossStatus>().RPC_Damage(DamageNum);
+                hitdamege = DamageNum;
 
                 //当たったらダメージ数表示
                 if (parry.isTanuki)
                 {
                     GekiUI(other.transform);
-                   // Debug.Log("ホストダメージ数");
+                    // Debug.Log("ホストダメージ数");
+                    player.GetComponent<HitStop>().ApplyHitStop(stopFrame);
+                    Debug.Log("ヒットストップダメージ数ホスト" + stopFrame);
 
                 }
                 else
                 {
+                    //ダメージ数表示
                     isGeki = true;
                     bosspos = other.transform.position;
                     bossscale = other.transform.localScale;
-                    hitdamege = DamageNum;
-                    //Debug.Log("ダメージ数" + bosspos);
+                    Debug.Log("ダメージ数" + bosspos);
+
+                    //ヒットストップ
+                    ishitstop = true;
+                    hitstoptime = stopFrame;
 
                 }
                 //Debug.Log(other.name);
                 sharenum.AddHitnum();
                 RPCCombo();
-                player.GetComponent<HitStop>().ApplyHitStop(stopFrame);
+
             }
         }
 
@@ -145,6 +162,10 @@ public class AttackAreaDamage : NetworkBehaviour
 
     public override void Render()
     {
+        if (Count > 0)
+        {
+            Count--;
+        }
 
         //ホストなら終了
         if (Runner.IsServer)
@@ -153,9 +174,17 @@ public class AttackAreaDamage : NetworkBehaviour
             return;
         }
 
-        if (isGeki)
+        if (ishitstop)
         {
-            Debug.Log("クライアントダメージ数");
+            Debug.Log("ヒットストップダメージ数"+ hitstoptime);
+            player.GetComponent<HitStop>().ApplyHitStop(hitstoptime);
+            ishitstop = false;
+        }
+
+        if (attack.aaaa == true)
+        {
+            Debug.Log("クライアントダメージ数aaaa"+attack.aaaa);
+            attack.aaaa = false;
             Transform boss = transform;
             boss.localScale = bossscale;
             boss.position= bosspos;
@@ -163,6 +192,8 @@ public class AttackAreaDamage : NetworkBehaviour
             //boss = null;
             isGeki = false;
             this.enabled= false;
+            Debug.Log("クライアントダメージ数aaaa" + attack.aaaa);
+
         }
 
 
@@ -176,6 +207,11 @@ public class AttackAreaDamage : NetworkBehaviour
 
     public void DisplayNumber(int damage, Transform pos)
     {
+        if(Count>0)
+        {
+            return;
+        }
+        Count = 3;
         // ダメージ値を文字列として扱う
         string damageStr = damage.ToString();
 

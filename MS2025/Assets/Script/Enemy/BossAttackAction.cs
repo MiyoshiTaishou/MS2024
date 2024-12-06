@@ -65,8 +65,8 @@ public class AttackAction : BossActionData
         Vector3 attackPosition = boss.transform.position + directionToPlayer * attackRange;      // 攻撃エリアの新しい位置
         attackArea.transform.position = attackPosition;
         attackAreaView.transform.position = new Vector3(attackPosition.x, 2f, attackPosition.z);
-        attackAreaView.GetComponent<PulsatingCircle>().SetMaxScale(attackScale.x);
-        attackAreaView.GetComponent<PulsatingCircle>().SetSpeed(attackAnimSpeed);
+        attackAreaView.GetComponent<PulsatingCircle>().RPC_Scale(attackScale.x);
+        attackAreaView.GetComponent<PulsatingCircle>().RPC_Spedd(attackAnimSpeed);
     }
 
 
@@ -76,7 +76,7 @@ public class AttackAction : BossActionData
         if (Time.time - attackStartTime < attackDuration)
         {
             // 攻撃待機中に何かしらの動作をしたい場合（例：アニメーションなど）、ここに処理を入れることができます
-            attackAreaView.SetActive(true);
+            attackAreaView.GetComponent<PulsatingCircle>().RPC_Active(true);          
             return false; // まだ実行中
         }
         
@@ -86,14 +86,14 @@ public class AttackAction : BossActionData
             // プレイヤーが攻撃範囲内なら攻撃
             Debug.Log("攻撃");
             attackArea.SetActive(true);
-            attackAreaView.SetActive(false);
+            attackAreaView.GetComponent<PulsatingCircle>().RPC_Active(false);
         }
         else
         {
             // 範囲外でも空振りの攻撃を行う
             Debug.Log("空振り");
             attackArea.SetActive(true);
-            attackAreaView.SetActive(false);
+            attackAreaView.GetComponent<PulsatingCircle>().RPC_Active(false);
         }
 
         // 音を再生

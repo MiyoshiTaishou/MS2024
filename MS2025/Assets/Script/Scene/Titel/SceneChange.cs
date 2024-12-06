@@ -10,64 +10,47 @@ public class SceneChange : MonoBehaviour {
 	[Tooltip("ゲームランチャーを決めます")]
 	[SerializeField]
     private GameLauncher gameLauncher;
-    
-    private bool openFlag = false;
-    private bool closeFlag = false;
+
+    private bool openFlag = false; //閉じてるならfalse 開いてるならtrue
     private bool animationFlag = false;
     private bool isCloseFlag = false;
+    private bool isActiveFlag;
     private float time;
 
     private void Update() {
-        // if (time <= 0.0f && gameLauncher.IsAnimation() && openFlag) {
-        if (time <= 0.0f && openFlag) {
-            // Debug.LogWarning("ドアを開けて-");
+        if (time <= 0.0f && !gameLauncher.IsAnimation() && openFlag && isActiveFlag) {
             swithcActive.IsActive();
             gameLauncher.Open();
             openFlag = false;
-            time = delayTime;
-            isCloseFlag = false;
-            // Coroutine();
         }
-        // if (time <= 0.0f && gameLauncher.IsAnimation() && closeFlag) {
-        if (time <= 0.0f && closeFlag) {
-            // Debug.LogWarning("ドアを開けて-");
+        if (time <= 0.0f && !gameLauncher.IsAnimation() && openFlag && !isActiveFlag) {
             swithcActive.DisActive();
             gameLauncher.Open();
-            closeFlag = false;
-            time = delayTime;
-            isCloseFlag = false;
-            // Coroutine();
-        }
-        if (!(time <= 0.0f) && (!openFlag && !closeFlag && !isCloseFlag) && animationFlag) {
-            // ドアが閉じて開くまでの間にAボタンを押されるとバグる
-            animationFlag = false;
+            openFlag = false;
         }
         time -= Time.deltaTime;
+
+        if (!gameLauncher.IsAnimation() && !openFlag) {
+            // アニメーションが終わったらフラグを折る
+            animationFlag = false;
+        }
     }
 
     public void Cutaway() {
-        if (openFlag && closeFlag && animationFlag == true) return;
-        openFlag = true;
-        time = delayTime;
+        if (openFlag && animationFlag) return;
         gameLauncher.Close();
+        time = delayTime;
+        openFlag = true;
         animationFlag = true;
-        isCloseFlag = true;
-        Coroutine();
+        isActiveFlag = true;
     }
     public void Back() {
-        if (openFlag && closeFlag && animationFlag == true) return;
-        closeFlag = true;
-        time = delayTime;
+        if (openFlag && animationFlag) return;
         gameLauncher.Close();
+        time = delayTime;
+        openFlag = true;
         animationFlag = true;
-        Coroutine();
+        isActiveFlag = false;
     }
 
-    public IEnumerator Coroutine() {
-        yield return new WaitForSeconds(1.5f);
-        openFlag = false;
-        closeFlag = false;
-        gameLauncher.Open();
-        animationFlag = false;
-    }
 }

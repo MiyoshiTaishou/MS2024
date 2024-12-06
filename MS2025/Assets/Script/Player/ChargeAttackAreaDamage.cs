@@ -30,6 +30,8 @@ public class ChargeAttackAreaDamage : NetworkBehaviour
     GameObject change;
 
 
+    [Networked] bool ishitstop { get; set; } = false;
+    int Count = 0;
     public override void Spawned()
     {
         change = GameObject.Find("ChangeAction");
@@ -68,6 +70,7 @@ public class ChargeAttackAreaDamage : NetworkBehaviour
                 {
                     GekiUI(other.transform);
                     // Debug.Log("ホストダメージ数");
+                    player.GetComponent<HitStop>().ApplyHitStop(stopFrame);
 
                 }
                 else
@@ -76,11 +79,11 @@ public class ChargeAttackAreaDamage : NetworkBehaviour
                     bosspos = other.transform.position;
                     bossscale = other.transform.localScale;
 
-                    Debug.Log("ダメージ数" + bosspos);
+                    //ヒットストップ
+                    ishitstop = true;
 
                 }
                 RPCCombo();
-                player.GetComponent<HitStop>().ApplyHitStop(stopFrame);
                 other.GetComponent<BossAI>().RPC_AnimNameRegist();
             }
         }
@@ -93,6 +96,10 @@ public class ChargeAttackAreaDamage : NetworkBehaviour
 
     public override void Render()
     {
+        if (Count > 0)
+        {
+            Count--;
+        }
         //ホストなら終了
         if (Runner.IsServer)
         {
@@ -113,7 +120,11 @@ public class ChargeAttackAreaDamage : NetworkBehaviour
             gameObject.SetActive(false);
         }
 
-
+        if(ishitstop)
+        {
+            player.GetComponent<HitStop>().ApplyHitStop(stopFrame);
+            ishitstop = false;
+        }
 
     }
 
@@ -125,6 +136,12 @@ public class ChargeAttackAreaDamage : NetworkBehaviour
 
     public void DisplayNumber(int damage, Transform pos)
     {
+        if (Count > 0)
+        {
+            return;
+        }
+        Count = 4;
+
         // ダメージ値を文字列として扱う
         string damageStr = damage.ToString();
 

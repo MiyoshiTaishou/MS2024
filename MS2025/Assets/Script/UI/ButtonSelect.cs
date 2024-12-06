@@ -81,41 +81,41 @@ public class ButtonSelect : MonoBehaviour
     void OnEnable() {
         buttonObj[selectedIndex].GetComponent<Image>().color = selectColorImage;
 
-        Transform child = buttonObj[selectedIndex].transform.GetChild(1);
-        TextMeshProUGUI textMeshPro;
-        if (child != null)
-        {
-            textMeshPro = buttonObj[selectedIndex].transform.GetChild(1).GetComponent<TextMeshProUGUI>();
-        }
-        else
-        {
-            textMeshPro = null;
-        }
+        //Transform child = buttonObj[selectedIndex].transform.GetChild(1);
+        //TextMeshProUGUI textMeshPro;
+        //if (child != null)
+        //{
+        //    textMeshPro = buttonObj[selectedIndex].transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+        //}
+        //else
+        //{
+        //    textMeshPro = null;
+        //}
 
-        if (textMeshPro != null)
-        {
-            textMeshPro.color = selectColor;
-        }
+        //if (textMeshPro != null)
+        //{
+        //    textMeshPro.color = selectColor;
+        //}
     }
     void OnDisable() {
         // buttons[selectedIndex].Select();
         buttonObj[selectedIndex].GetComponent<Image>().color = selectColorImage;
 
-        Transform child = buttonObj[selectedIndex].transform.GetChild(1);
-        TextMeshProUGUI textMeshPro;
-        if (child != null)
-        {
-            textMeshPro = buttonObj[selectedIndex].transform.GetChild(1).GetComponent<TextMeshProUGUI>();
-        }
-        else
-        {
-            textMeshPro = null;
-        }
+        //Transform child = buttonObj[selectedIndex].transform.GetChild(1);
+        //TextMeshProUGUI textMeshPro;
+        //if (child != null)
+        //{
+        //    textMeshPro = buttonObj[selectedIndex].transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+        //}
+        //else
+        //{
+        //    textMeshPro = null;
+        //}
 
-        if (textMeshPro != null)
-        {
-            textMeshPro.color = selectColor;
-        }
+        //if (textMeshPro != null)
+        //{
+        //    textMeshPro.color = selectColor;
+        //}
     }
 
     private void HandleButtonSelection()
