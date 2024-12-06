@@ -3,10 +3,10 @@ using UnityEngine;
 
 public class GameManager : NetworkBehaviour
 {
-    //[SerializeField, Header("ŠJnl”")]
+    //[SerializeField, Header("é–‹å§‹äººæ•°")]
     //private int playerNum = 1;
 
-    [SerializeField, Header("ƒgƒ‰ƒ“ƒWƒVƒ‡ƒ“")]
+    [SerializeField, Header("ãƒˆãƒ©ãƒ³ã‚¸ã‚·ãƒ§ãƒ³")]
     private TransitionManager transitionManager;
 
     [SerializeField]
@@ -23,7 +23,7 @@ public class GameManager : NetworkBehaviour
 
     public bool GetBattleActive() { return  isBattleActive; }
 
-    // ƒoƒgƒ‹ŠJn”»’è‚Ìƒtƒ‰ƒO
+    // ãƒãƒˆãƒ«é–‹å§‹åˆ¤å®šã®ãƒ•ãƒ©ã‚°
     [Networked]
     private bool isReadyToStartBattle { get; set; }
 
@@ -32,7 +32,7 @@ public class GameManager : NetworkBehaviour
 
     public override void Spawned()
     {
-        // ƒvƒŒƒCƒ„[”‚ğŠm”F‚µAƒoƒgƒ‹ŠJn‚Ì€”õ‚ğ‚·‚é
+        // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼æ•°ã‚’ç¢ºèªã—ã€ãƒãƒˆãƒ«é–‹å§‹ã®æº–å‚™ã‚’ã™ã‚‹
         CheckAndStartBattle();
     }
 
@@ -40,57 +40,57 @@ public class GameManager : NetworkBehaviour
     {
         if (isGameOver)
         {
-            // ƒQ[ƒ€I—¹Œã‚Í‰½‚à‚µ‚È‚¢
+            // ã‚²ãƒ¼ãƒ çµ‚äº†å¾Œã¯ä½•ã‚‚ã—ãªã„
             return;
         }
 
         if (isBattleActive)
         {
-            // ƒoƒgƒ‹‚ªƒAƒNƒeƒBƒu‚ÈŠÔAŒo‰ßŠÔ‚ğ‹L˜^
+            // ãƒãƒˆãƒ«ãŒã‚¢ã‚¯ãƒ†ã‚£ãƒ–ãªé–“ã€çµŒéæ™‚é–“ã‚’è¨˜éŒ²
             clearTime += Time.deltaTime;
         }
         else
         {
             if (!isPlayed && !isGameOver)
             {
-                // ƒQ[ƒ€I—¹Œã‚Å‚Í‚È‚­A‚Ü‚¾ƒoƒgƒ‹‚ªŠJn‚³‚ê‚Ä‚¢‚È‚¢ê‡‚Ì‚İõ“G‚·‚é
+                // ã‚²ãƒ¼ãƒ çµ‚äº†å¾Œã§ã¯ãªãã€ã¾ã ãƒãƒˆãƒ«ãŒé–‹å§‹ã•ã‚Œã¦ã„ãªã„å ´åˆã®ã¿ç´¢æ•µã™ã‚‹
                 CheckAndStartBattle();
             }
         }
 
-        Debug.Log(isPlayed + "ƒoƒOŠm”FIIIIII");
+        Debug.Log(isPlayed + "ãƒã‚°ç¢ºèªï¼ï¼ï¼ï¼ï¼ï¼");
     }
 
     /// <summary>
-    /// ƒoƒgƒ‹ŠJn‚Ìˆ—
+    /// ãƒãƒˆãƒ«é–‹å§‹æ™‚ã®å‡¦ç†
     /// </summary>
     public void StartBattle()
     {
         clearTime = 0.0f;
         isBattleActive = true;
         isPlayed = true;
-        Debug.Log("ƒoƒgƒ‹ŠJn");
+        Debug.Log("ãƒãƒˆãƒ«é–‹å§‹");
         //transitionManager.TransitionStartReverse();
     }
 
     /// <summary>
-    /// ƒoƒgƒ‹I—¹‚Ìˆ—
+    /// ãƒãƒˆãƒ«çµ‚äº†æ™‚ã®å‡¦ç†
     /// </summary>
     /// <summary>
-    /// ƒoƒgƒ‹I—¹‚Ìˆ—
+    /// ãƒãƒˆãƒ«çµ‚äº†æ™‚ã®å‡¦ç†
     /// </summary>
     public void EndBattle(int combo, int multiAttack)
     {
         isBattleActive = false;
-        isGameOver = true; // ƒoƒgƒ‹I—¹Œã‚Éõ“G‚ğ~‚ß‚é
-        isReadyToStartBattle = false; // õ“Gƒtƒ‰ƒO‚ğƒŠƒZƒbƒg
+        isGameOver = true; // ãƒãƒˆãƒ«çµ‚äº†å¾Œã«ç´¢æ•µã‚’æ­¢ã‚ã‚‹
+        isReadyToStartBattle = false; // ç´¢æ•µãƒ•ãƒ©ã‚°ã‚’ãƒªã‚»ãƒƒãƒˆ
 
-        // ‹L˜^‚µ‚½ŠÔ‚ğ ScoreManager ‚É•Û‘¶
+        // è¨˜éŒ²ã—ãŸæ™‚é–“ã‚’ ScoreManager ã«ä¿å­˜
         ScoreManager.clearTime = clearTime;
         ScoreManager.maxCombo = combo;
         ScoreManager.maxMultiAttack = multiAttack;
 
-        Debug.Log($"ƒoƒgƒ‹I—¹: ƒNƒŠƒAŠÔ = {ScoreManager.clearTime}, Å‘åƒRƒ“ƒ{ = {ScoreManager.maxCombo}, Å‘å˜AŒ‚ = {ScoreManager.maxMultiAttack}");
+        Debug.Log($"ãƒãƒˆãƒ«çµ‚äº†: ã‚¯ãƒªã‚¢æ™‚é–“ = {ScoreManager.clearTime}, æœ€å¤§ã‚³ãƒ³ãƒœ = {ScoreManager.maxCombo}, æœ€å¤§é€£æ’ƒ = {ScoreManager.maxMultiAttack}");
     }
 
     [Rpc(RpcSources.All, RpcTargets.All)]
@@ -107,12 +107,12 @@ public class GameManager : NetworkBehaviour
 
     private void CheckAndStartBattle()
     {
-        // ‚·‚Å‚ÉƒQ[ƒ€‚ğŠJn‚µ‚Ä‚¢‚éê‡A‚Ü‚½‚Íƒoƒgƒ‹’†EI—¹Œã‚Ìê‡‚Íˆ—‚ğƒXƒLƒbƒv
+        // ã™ã§ã«ã‚²ãƒ¼ãƒ ã‚’é–‹å§‹ã—ã¦ã„ã‚‹å ´åˆã€ã¾ãŸã¯ãƒãƒˆãƒ«ä¸­ãƒ»çµ‚äº†å¾Œã®å ´åˆã¯å‡¦ç†ã‚’ã‚¹ã‚­ãƒƒãƒ—
         if (isPlayed || isReadyToStartBattle || isBattleActive || isGameOver) return;
 
         isReadyToStartBattle = true;
         RPC_StartBattle();
-        //// ƒvƒŒƒCƒ„[”‚ğŠm”F (w’è‚µ‚½l”‚ª‘µ‚Á‚½ê‡)
+        //// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼æ•°ã‚’ç¢ºèª (æŒ‡å®šã—ãŸäººæ•°ãŒæƒã£ãŸå ´åˆ)
         //if (Runner.SessionInfo.PlayerCount >= playerNum)
         //{
         //    isReadyToStartBattle = true;
