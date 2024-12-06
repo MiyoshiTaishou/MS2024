@@ -27,7 +27,7 @@ public class ChargeAttackAreaDamage : NetworkBehaviour
     [Networked] bool isGeki { get; set; } = false;
 
     PlayerParryNet parry;
-
+    [Networked] bool ishitstop { get; set; } = false;
     public override void Spawned()
     {
         player = transform.parent.gameObject;
@@ -62,6 +62,7 @@ public class ChargeAttackAreaDamage : NetworkBehaviour
                 {
                     GekiUI(other.transform);
                     // Debug.Log("ホストダメージ数");
+                    player.GetComponent<HitStop>().ApplyHitStop(stopFrame);
 
                 }
                 else
@@ -70,11 +71,11 @@ public class ChargeAttackAreaDamage : NetworkBehaviour
                     bosspos = other.transform.position;
                     bossscale = other.transform.localScale;
 
-                    Debug.Log("ダメージ数" + bosspos);
+                    //ヒットストップ
+                    ishitstop = true;
 
                 }
                 RPCCombo();
-                player.GetComponent<HitStop>().ApplyHitStop(stopFrame);
                 other.GetComponent<BossAI>().RPC_AnimNameRegist();
             }
         }
@@ -107,7 +108,11 @@ public class ChargeAttackAreaDamage : NetworkBehaviour
             gameObject.SetActive(false);
         }
 
-
+        if(ishitstop)
+        {
+            player.GetComponent<HitStop>().ApplyHitStop(stopFrame);
+            ishitstop = false;
+        }
 
     }
 
