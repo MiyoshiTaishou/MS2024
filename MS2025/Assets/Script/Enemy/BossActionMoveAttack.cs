@@ -62,6 +62,7 @@ public class BossActionMoveAttack : BossActionData
     private bool isMoving;
 
     private bool isAttack = false;
+    private bool isComp = false;
 
     [SerializeField, Header("攻撃エリアに連動する画像オブジェクト")]
     private string linkedImage; // 動かしたい画像オブジェクト
@@ -78,14 +79,14 @@ public class BossActionMoveAttack : BossActionData
         // 攻撃エリアの設定
         attackArea = boss.transform.Find(attackAreaName)?.gameObject;
         attackAreaImage = boss.transform.Find(linkedImage)?.gameObject;
-        originalPosition = attackArea.transform.position;
+        originalPosition = attackArea.transform.localPosition; // ローカル座標に変更
         attackArea.transform.localScale = attackScale;
         attackArea.SetActive(true);
 
         // 画像オブジェクトの元の位置を記録
         if (linkedImage != null)
         {
-            linkedImageOriginalPosition = attackAreaImage.transform.position;
+            linkedImageOriginalPosition = attackAreaImage.transform.position; // ローカル座標に変更
         }
 
         isMoving = false;
@@ -107,6 +108,17 @@ public class BossActionMoveAttack : BossActionData
         boss.GetComponent<Animator>().speed = attackAnimSpeed;
         boss.GetComponent<BossAI>().isKnockBack = canKnockBack;
         boss.GetComponent<BossAI>().isParry = canParry;
+
+        isComp = false;
+
+        // 最後に確実に位置を元に戻す
+        attackArea.transform.position = Vector3.zero; // ローカル座標に変更
+        attackArea.SetActive(false);
+
+        if (linkedImage != null)
+        {
+            attackAreaImage.transform.localPosition = Vector3.zero; // ローカル座標に変更
+        }
     }
 
     public override bool ExecuteAction(GameObject boss, Transform player)
@@ -114,6 +126,11 @@ public class BossActionMoveAttack : BossActionData
         if (Time.time - attackStartTime < attackDuration)
         {
             return false; // 攻撃待機中
+        }
+
+        if (isComp)
+        {
+            return true;
         }
 
         if (isAttack)
@@ -149,21 +166,21 @@ public class BossActionMoveAttack : BossActionData
             float progress = elapsed / moveAttackEndPosTime;
             float curveValue = curve.Evaluate(progress);
 
-            // 攻撃エリアと画像オブジェクトの移動
-            attackArea.transform.position = Vector3.Lerp(originalPosition, moveAttackEndPos, curveValue);
+            // 攻撃エリアと画像オブジェクトの移動 (ワールド座標で計算)
+            Vector3 targetPosition = Vector3.Lerp(originalPosition, moveAttackEndPos, curveValue); // ワールド座標で計算
+            attackArea.transform.position = targetPosition; // ワールド座標に変換して設定
+
             if (linkedImage != null)
             {
-                attackAreaImage.transform.position = Vector3.Lerp(linkedImageOriginalPosition, moveAttackEndPos, curveValue);
+                Vector3 targetImagePosition = Vector3.Lerp(linkedImageOriginalPosition, moveAttackEndPos, curveValue); // ワールド座標で計算
+                attackAreaImage.transform.position = targetImagePosition; // ワールド座標に変換して設定
             }
 
-            // 当たり判定チェック
-            if (CheckForHit(attackArea))
+            // 元のローカル座標に戻す
+            //attackArea.transform.localPosition = attackArea.transform.parent.InverseTransformPoint(attackArea.transform.position);
+            if (linkedImage != null)
             {
-                if (isCameraShake)
-                {
-                    boss.GetComponent<HitStop>().ApplyHitStop(60000);
-                    Camera.main.GetComponent<CameraShake>().RPC_CameraShake(cameraDuration, magnitude);
-                }
+                attackAreaImage.transform.localPosition = attackAreaImage.transform.parent.InverseTransformPoint(attackAreaImage.transform.position);
             }
 
             if (progress >= 1.0f)
@@ -176,60 +193,44 @@ public class BossActionMoveAttack : BossActionData
         }
     }
 
-
-    // 非同期で攻撃エリアと画像を元の位置に戻す
     private IEnumerator ResetToOriginalPosition()
     {
         float resetStartTime = Time.time;
         float resetDuration = 0.5f; // 元の位置に戻るまでの時間
 
-        Vector3 attackAreaStartPosition = attackArea.transform.position;
-        Vector3 linkedImageStartPosition = linkedImage != null ? attackAreaImage.transform.position : Vector3.zero;
+        Vector3 attackAreaStartPosition = attackArea.transform.position; // ローカル座標に変更
+        Vector3 linkedImageStartPosition = linkedImage != null ? attackAreaImage.transform.localPosition : Vector3.zero; // ローカル座標に変更
 
         while (Time.time - resetStartTime < resetDuration)
         {
             float progress = (Time.time - resetStartTime) / resetDuration;
 
             // 攻撃エリアをラープで元の位置に戻す
-            attackArea.transform.position = Vector3.Lerp(attackAreaStartPosition, originalPosition, progress);
+            attackArea.transform.position = Vector3.Lerp(attackAreaStartPosition, originalPosition, progress); // ローカル座標に変更
 
             // 画像オブジェクトもラープで元の位置に戻す
             if (linkedImage != null)
             {
-                attackAreaImage.transform.position = Vector3.Lerp(linkedImageStartPosition, linkedImageOriginalPosition, progress);
+                attackAreaImage.transform.localPosition = Vector3.Lerp(linkedImageStartPosition, linkedImageOriginalPosition, progress); // ローカル座標に変更
             }
 
             yield return null;
         }
 
         // 最後に確実に位置を元に戻す
-        attackArea.transform.position = originalPosition;
+        attackArea.transform.position = Vector3.zero; // ローカル座標に変更
         attackArea.SetActive(false);
+
+        Debug.Log("完全にオワタ" + attackArea.transform.localPosition); // ローカル座標に変更
 
         if (linkedImage != null)
         {
-            attackAreaImage.transform.position = linkedImageOriginalPosition;
+            attackAreaImage.transform.localPosition = Vector3.zero; // ローカル座標に変更
         }
 
         isMoving = false;
+        isComp = true;
 
         yield return true; // 完了を通知
     }
-
-
-    // 攻撃ヒット判定
-    private bool CheckForHit(GameObject attackArea)
-    {
-        Collider[] hits = Physics.OverlapBox(attackArea.transform.position, attackArea.transform.localScale / 2);
-        foreach (var hit in hits)
-        {
-            if (hit.CompareTag("Player"))
-            {
-                Debug.Log("攻撃がヒットしました！");
-                return true;
-            }
-        }
-        return false;
-    }
-
 }
