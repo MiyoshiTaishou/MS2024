@@ -44,7 +44,7 @@ public class BossStatus : NetworkBehaviour
     [Networked] private bool isDeathEffect { get; set; }
 
 
-    [SerializeField]private GameObject gekihaAnimator;
+    [SerializeField]private CrushingGame crushingGame;
     [Header("リザルトシーン名"), SerializeField]
     private String ResultSceneName;
 
@@ -87,7 +87,7 @@ public class BossStatus : NetworkBehaviour
     {
         // シーン遷移が一度だけ行われるようにチェック
         if (hasTransitioned) return;
-        if (gekihaAnimator == null || gekihaAnimator.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).   normalizedTime < 1.0f) return;
+        if (crushingGame.IsAnimation()) return;
 
         transitionManager.TransitionStart();
         isDeathEffect = true;
@@ -103,8 +103,7 @@ public class BossStatus : NetworkBehaviour
     [Rpc(RpcSources.All, RpcTargets.All)]
     private void RPC_HandleBossDeath()
     {
-        gekihaAnimator.SetActive(true);
-        gekihaAnimator.GetComponent<Animator>().SetTrigger("EndGame");
+        crushingGame.StartAnimation();
         HandleBossDeath();
     }
 
@@ -216,8 +215,6 @@ public class BossStatus : NetworkBehaviour
             {
                 case 3:
                     Debug.Log("ボス死亡です");
-                    // gekihaAnimator.SetActive(true);
-                    // gekihaAnimator.GetComponent<Animator>().SetTrigger("EndGame");
                     RPC_HandleBossDeath();
                     // クライアントに先にシーン遷移を指示
                     gameManager.RPC_EndBattle(10, 5);
