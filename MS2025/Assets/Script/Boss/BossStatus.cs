@@ -104,6 +104,8 @@ public class BossStatus : NetworkBehaviour
     [Rpc(RpcSources.All, RpcTargets.All)]
     private void RPC_HandleBossDeath()
     {
+        gekihaAnimator.SetActive(true);
+        gekihaAnimator.GetComponent<Animator>().SetTrigger("EndGame");
         HandleBossDeath();
     }
 
@@ -215,8 +217,8 @@ public class BossStatus : NetworkBehaviour
             {
                 case 3:
                     Debug.Log("ボス死亡です");
-                    gekihaAnimator.SetActive(true);
-                    gekihaAnimator.GetComponent<Animator>().SetTrigger("EndGame");
+                    // gekihaAnimator.SetActive(true);
+                    // gekihaAnimator.GetComponent<Animator>().SetTrigger("EndGame");
                     RPC_HandleBossDeath();
                     // クライアントに先にシーン遷移を指示
                     gameManager.RPC_EndBattle(10, 5);
