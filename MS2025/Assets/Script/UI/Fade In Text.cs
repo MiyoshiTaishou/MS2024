@@ -30,26 +30,26 @@ public class FadeInText : NetworkBehaviour
     }
 
 
-    void Update()
+    public override void FixedUpdateNetwork()
     {
-        Count++;
-
-        if (Count == 5)
+       
+        if (Count == 1)
         {
             Time.timeScale = 0.0f;
         }
         if (Count >= FadeInCount && Count < FadeOutCount && alphaCheck == false)
         {
-            FadeIn();
+            RPC_FadeIn();
         }
         if (Count >= FadeOutCount)
         {
-            FadeOut();
+            RPC_FadeOut();
         }
+        Count++;
     }
 
-
-    void FadeIn()
+    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
+    void RPC_FadeIn()
     {
         Color color = this.GetComponent<UnityEngine.UI.Text>().color;
         Color outcolor = this.GetComponent<UnityEngine.UI.Outline>().effectColor;
@@ -65,7 +65,9 @@ public class FadeInText : NetworkBehaviour
 
        
     }
-    void FadeOut()
+
+    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
+    void RPC_FadeOut()
     {
         Color color = this.GetComponent<UnityEngine.UI.Text>().color;
         Color outcolor = this.GetComponent<UnityEngine.UI.Outline>().effectColor;

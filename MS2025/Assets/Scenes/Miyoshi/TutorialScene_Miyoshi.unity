@@ -8377,6 +8377,11 @@ PrefabInstance:
       objectReference: {fileID: 680528724}
     - target: {fileID: 728711347568068367, guid: 745fd90e17809384d980f68c8c476341,
         type: 3}
+      propertyPath: isTutorial
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 728711347568068367, guid: 745fd90e17809384d980f68c8c476341,
+        type: 3}
       propertyPath: Sliderimage
       value: 
       objectReference: {fileID: 680528725}
