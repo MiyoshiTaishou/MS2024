@@ -123,7 +123,11 @@ public class PlayerSpecialAttackNet : NetworkBehaviour
                 {
                     Debug.Log("必殺技出すぞ！");
                     RPC_SpecialAttack();
-                    change.GetComponent<ChangeBossAction>().RPC_Cange();
+                    if(change.GetComponent<ChangeBossAction>().TextNo == 1)
+                     {
+                        change.GetComponent<ChangeBossAction>().TextNo = 2;
+                    }
+                    
                     //カウントを0にする
                     comboCountObject.GetComponent<ShareNumbers>().ResetSpecialNUm();
                 }

@@ -25,14 +25,15 @@ public class ChangeBossAction : NetworkBehaviour
     [SerializeField, Header("切り替えテキスト")]
        private GameObject InstructionText;
     [SerializeField] private GameObject TextSprite;
-    public int TextNo=0;
+    [Networked] public int TextNo { get; set; }
+
     public Sprite[] numberSprites; // スプライト
 
     [Networked] public int combo { get; set; }
 
     public override void Spawned()
     {
-
+        TextNo = 0;
     }
 
  
@@ -40,9 +41,15 @@ public class ChangeBossAction : NetworkBehaviour
     public override void FixedUpdateNetwork()
     {
 
-        switch(TextNo)
+    }
+
+    public override void Render()
+    {
+
+
+        switch (TextNo)
         {
-      
+
 
             case 1:
                 TextSprite.GetComponent<Image>().sprite = numberSprites[TextNo];
@@ -63,12 +70,6 @@ public class ChangeBossAction : NetworkBehaviour
                 TextSprite.GetComponent<Image>().sprite = numberSprites[TextNo];
                 break;
         }
-    }
-
-    public override void Render()
-    {
-       
-      
 
     }
 
@@ -80,10 +81,7 @@ public class ChangeBossAction : NetworkBehaviour
         {
             TextNo = 1;
         }
-        else if(TextNo<2)
-        {
-            TextNo = 2;
-        }
+        
     }
 
 
