@@ -165,34 +165,6 @@ public class BossStatus : NetworkBehaviour
             HPCount = 0;
         }
 
-        
-        if (nBossHP <= 0 && Object.HasStateAuthority)
-        {
-
-            switch (DeathCount)
-            {
-                case 0:
-                    nBossHP = InitHP;
-                    slider.value = nBossHP;
-                    Backslider.value = nBossHP;
-                    DeathCount += 1;
-
-                    break;
-
-                case 1:
-                    nBossHP = InitHP;
-                    slider.value = nBossHP;
-                    Backslider.value = nBossHP;
-                    DeathCount += 1;
-                    break;
-
-                case 2:
-                    DeathCount++;
-                    break;
-            }
-
-        }
-
         if (DeathCount == 1)
         {
             Fill.color = HPBar2;
@@ -217,7 +189,24 @@ public class BossStatus : NetworkBehaviour
 
             switch (DeathCount)
             {
-               
+                case 0:
+                    nBossHP = InitHP;
+                    slider.value = nBossHP;
+                    Backslider.value = nBossHP;
+                    DeathCount += 1;
+
+                    break;
+
+                case 1:
+                    nBossHP = InitHP;
+                    slider.value = nBossHP;
+                    Backslider.value = nBossHP;
+                    DeathCount += 1;
+                    break;
+
+                case 2:
+                    DeathCount++;
+                    break;
                 case 3:
                     Debug.Log("ƒ{ƒXŽ€–S‚Å‚·");
                     RPC_HandleBossDeath();
