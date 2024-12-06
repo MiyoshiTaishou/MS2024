@@ -35,6 +35,10 @@ public class AttackAreaDamage : NetworkBehaviour
         
     PlayerParryNet parry;
 
+    [Networked] bool ishitstop { get; set; } = false;
+    [Networked] int hitstoptime { get; set; } = 0;
+
+
     public override void Spawned()
     {
         runner = GameObject.Find("Runner(Clone)").GetComponent<NetworkRunner>();
@@ -67,6 +71,7 @@ public class AttackAreaDamage : NetworkBehaviour
                         other.GetComponent<BossStatus>().RPC_Damage(buddyFinalDamageNum);
                         player.GetComponent<HitStop>().ApplyHitStop(buddyFinalStopFrame);
                         hitdamege = buddyFinalDamageNum;
+                        hitstoptime = buddyFinalStopFrame;
 
                     }
                     else
@@ -75,6 +80,7 @@ public class AttackAreaDamage : NetworkBehaviour
                         player.GetComponent<HitStop>().ApplyHitStop(buddyStopFrame);
 
                         hitdamege = buddyDamageNum;
+                        hitstoptime = buddyStopFrame;
 
                     }
                     //当たったらダメージ数表示
@@ -89,8 +95,11 @@ public class AttackAreaDamage : NetworkBehaviour
                         isGeki = true;
                         bosspos = other.transform.position;
                         bossscale = other.transform.localScale;
-                        hitdamege = DamageNum;
+                        //hitdamege = DamageNum;
                         //Debug.Log("ダメージ数" + bosspos);
+
+                        //ヒットストップ
+                        ishitstop = true;
 
                     }
                     other.GetComponent<BossAI>().Nokezori--;
@@ -110,27 +119,34 @@ public class AttackAreaDamage : NetworkBehaviour
                     }
                 }
                 other.GetComponent<BossStatus>().RPC_Damage(DamageNum);
+                hitdamege = DamageNum;
 
                 //当たったらダメージ数表示
                 if (parry.isTanuki)
                 {
                     GekiUI(other.transform);
-                   // Debug.Log("ホストダメージ数");
+                    // Debug.Log("ホストダメージ数");
+                    player.GetComponent<HitStop>().ApplyHitStop(stopFrame);
+                    Debug.Log("ヒットストップダメージ数ホスト" + stopFrame);
 
                 }
                 else
                 {
+                    //ダメージ数表示
                     isGeki = true;
                     bosspos = other.transform.position;
                     bossscale = other.transform.localScale;
-                    hitdamege = DamageNum;
                     //Debug.Log("ダメージ数" + bosspos);
+
+                    //ヒットストップ
+                    ishitstop = true;
+                    hitstoptime = stopFrame;
 
                 }
                 //Debug.Log(other.name);
                 sharenum.AddHitnum();
                 RPCCombo();
-                player.GetComponent<HitStop>().ApplyHitStop(stopFrame);
+
             }
         }
 
@@ -146,11 +162,18 @@ public class AttackAreaDamage : NetworkBehaviour
     public override void Render()
     {
 
+
         //ホストなら終了
         if (Runner.IsServer)
         {
             //Debug.Log("ダメージ数ホストだよ");
             return;
+        }
+
+        if (ishitstop)
+        {
+            Debug.Log("ヒットストップダメージ数"+ hitstoptime);
+            player.GetComponent<HitStop>().ApplyHitStop(hitstoptime);
         }
 
         if (isGeki)
