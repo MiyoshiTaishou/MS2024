@@ -43,7 +43,7 @@ public class BossAI : NetworkBehaviour
     [Networked, SerializeField] public bool isAir { get; set; }
     [Networked, SerializeField] public bool isDir { get; set; }
 
-    [SerializeField,Header("ダウン時の行動データ")]
+    [SerializeField, Header("ダウン時の行動データ")]
     public BossActionData downAction;
 
     [SerializeField, Header("のけぞり時の行動データ")]
@@ -53,7 +53,7 @@ public class BossAI : NetworkBehaviour
 
     [SerializeField, Header("攻撃の予兆に関する項目")]
     [Tooltip("攻撃予兆エフェクト")]
-     private ParticleSystem AttackOmenParticle;
+    private ParticleSystem AttackOmenParticle;
     [Tooltip("攻撃予兆エフェクトを出すまでの時間(0.3fが丁度いい気がします)")]
     private float Omentime = 0.3f;
     [Tooltip("攻撃予兆エフェクトのX座標")]
@@ -69,14 +69,21 @@ public class BossAI : NetworkBehaviour
 
     private Rigidbody rb;
 
-    [SerializeField,Header("速度制限")] float LimitSpeed;
+    [SerializeField, Header("速度制限")] float LimitSpeed;
 
     // アニメーション名をネットワーク同期させる
     [Networked]
     private NetworkString<_16> networkedAnimationName { get; set; }
 
+    private HitStop hitstop;
+    [SerializeField, Header("のけぞり耐性継続時間")] int MaxNokezoriRegist;
+    [Networked] private int NokezoriRegist { get; set; }
+    [Networked] private int NokezoriRegistCount { get; set; }
+
     public override void Spawned()
     {
+        NokezoriRegist = MaxNokezoriRegist;
+        NokezoriRegistCount = 0;
         animator = GetComponent<Animator>(); // Animator コンポーネントを取得
         currentSequenceIndex = Random.Range(0, actionSequence.Length);
 
@@ -90,7 +97,7 @@ public class BossAI : NetworkBehaviour
         //ゲームマネージャー検索
         gameManager = GameObject.FindObjectOfType<GameManager>();
 
-        if(!gameManager)
+        if (!gameManager)
         {
             Debug.LogWarning("見つかりませんでした");
         }
@@ -112,11 +119,16 @@ public class BossAI : NetworkBehaviour
             StartNextAction(); // プレイヤーが二人以上揃っていたらアクションを開始
         }
 
-        rb = GetComponent<Rigidbody>();      
+        rb = GetComponent<Rigidbody>();
+        hitstop = GetComponent<HitStop>();
     }
 
     public override void FixedUpdateNetwork()
     {
+        if (NokezoriRegistCount > 0)
+        {
+            NokezoriRegistCount--;
+        }
         //速度制限処理
         if (rb.velocity.x > LimitSpeed)
         {
@@ -148,6 +160,11 @@ public class BossAI : NetworkBehaviour
             rb.velocity = new Vector3(rb.velocity.x, -LimitSpeed, rb.velocity.z);
         }
 
+        if (hitstop.IsHitStopActive)
+        {
+            return;
+        }
+
         // プレイヤーが二人以上いない場合、行動を開始せず探索を続ける
         if (players.Count < maxPlayerIndex)
         {
@@ -156,13 +173,13 @@ public class BossAI : NetworkBehaviour
         }
 
         //ゲーム開始してなかったら動かさない
-        if(!gameManager.GetBattleActive())
+        if (!gameManager.GetBattleActive())
         {
             return;
         }
 
         //必殺技中は動かない
-        if(shareNumbers.isSpecial)
+        if (shareNumbers.isSpecial)
         {
             return;
         }
@@ -207,8 +224,8 @@ public class BossAI : NetworkBehaviour
         if (currentAction.ExecuteAction(gameObject, players[currentPlayerIndex]))
         {
             StartNextAction(); // アクション完了後に次のアクションに進む
-        }           
-        
+        }
+
         //50%以下で行動変更
         if (!isHalf && GetComponent<BossStatus>().nBossHP < GetComponent<BossStatus>().InitHP / 2)
         {
@@ -275,7 +292,7 @@ public class BossAI : NetworkBehaviour
         {
             Debug.Log($"Playing animation: {currentAction.actionName}");
             networkedAnimationName = currentAction.actionName; // ネットワーク変数にアニメーション名をセット
-            if(networkedAnimationName!="Attack")
+            if (networkedAnimationName != "Attack")
             {
                 //Attack以外ならまた攻撃時パーティクルが出るように設定する
                 isAttack = 0;
@@ -283,7 +300,7 @@ public class BossAI : NetworkBehaviour
         }
 
         //次のアニメーションが攻撃モーションならパーティクルを出す
-        if(networkedAnimationName== "Attack")
+        if (networkedAnimationName == "Attack")
         {
             Invoke("Omen", Omentime);
         }
@@ -314,7 +331,7 @@ public class BossAI : NetworkBehaviour
 
             isDown = false; // ダウン状態を解除
             isOnce = false; // フラグをリセット
-        
+
 
             return;
         }
@@ -342,7 +359,7 @@ public class BossAI : NetworkBehaviour
         if (animator != null && !string.IsNullOrEmpty((string)networkedAnimationName) && animator.GetCurrentAnimatorStateInfo(0).IsName((string)networkedAnimationName) == false)
         {
             Debug.Log($"Synchronizing animation: {networkedAnimationName}");
-            animator.Play((string)networkedAnimationName);           
+            animator.Play((string)networkedAnimationName);
         }
 
         //向き変更処理
@@ -357,9 +374,9 @@ public class BossAI : NetworkBehaviour
             transform.localScale = temp;
         }
 
-        if (isParticle==2||isParticle==3)
+        if (isParticle == 2 || isParticle == 3)
         {
-            switch(isParticle)
+            switch (isParticle)
             {
                 case 2:
                     // パーティクルシステムのインスタンスを生成
@@ -372,7 +389,7 @@ public class BossAI : NetworkBehaviour
                     isParticle = 3;
                     break;
             }
-            
+
         }
 
         //ダウン状態が解除されたらダウンパーティクルを削除する
@@ -384,7 +401,7 @@ public class BossAI : NetworkBehaviour
         //    isParticle = 1;
         //}
 
-        switch(isAttack)
+        switch (isAttack)
         {
             case 1:
                 // パーティクルシステムのインスタンスを生成
@@ -412,7 +429,7 @@ public class BossAI : NetworkBehaviour
                 isAttack = 2;
                 break;
 
-                case 2:
+            case 2:
                 break;
         }
     }
@@ -422,5 +439,17 @@ public class BossAI : NetworkBehaviour
     {
         Nokezori = NokezoriLimit;
         isInterrupted = true;
+    }
+
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    public void RPC_AnimNameRegist()
+    {
+        if (NokezoriRegistCount == 0)
+        {
+            Debug.Log("ぱられないで");
+            Nokezori = NokezoriLimit;
+            isInterrupted = true;
+            NokezoriRegistCount = NokezoriRegist;
+        }
     }
 }

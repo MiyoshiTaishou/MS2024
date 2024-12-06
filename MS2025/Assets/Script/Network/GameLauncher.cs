@@ -8,6 +8,7 @@ using Fusion.Sockets;
 using System;
 using UnityEngine.UI;
 using System.Linq;
+//using UnityEditor.Animations;
 
 public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 {
@@ -18,6 +19,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
     [SerializeField] private InputField roomNameInputField;
     [SerializeField] private string gameScene; // SceneRef に変更
     [SerializeField] Image LoadingImage;
+    [SerializeField] Image LoadingImageBack;
     [Tooltip("トランジションオブジェクト")]
     [SerializeField] private GameObject[] transition;
 
@@ -37,6 +39,9 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
     [Tooltip("skyBox")]
     [SerializeField] private StartSkyBoxChange skyBoxChange;
 
+    [SerializeField,Header("アニメーションデータ")]
+    private RuntimeAnimatorController[] animators;
+  
     private NetworkRunner networkRunner;
     private bool openDelayFlag = false;
     private bool closeDelayFlag = false;
@@ -84,6 +89,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 
             //ローディングの画像を出す
             LoadingImage.gameObject.SetActive(false);
+            LoadingImageBack.gameObject.SetActive(false);
 
             //トランジション再生開始
             foreach (var tran in transition)
@@ -129,10 +135,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 
         // このスクリプトでコールバックを処理できるようにする
         networkRunner.AddCallbacks(this);
-        networkRunner.ProvideInput = true;
-
-        //ローディングの画像を出す
-        LoadingImage.gameObject.SetActive(true);
+        networkRunner.ProvideInput = true;      
 
         //トランジション再生開始
         foreach (var tran in transition) {
@@ -154,8 +157,12 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
                     {
                         obj.SetActive(true);
                     }
-                    DisconnectFromServer();
+                    DisconnectFromServer();                    
                 }
+
+                //ローディングの画像を出す
+                LoadingImage.gameObject.SetActive(true);
+                LoadingImageBack.gameObject.SetActive(true);
             }
         }
     }
@@ -226,6 +233,8 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
             return;
         }
 
+        int num = 0;
+
         if (runner.IsServer) {
             foreach (var player in runner.ActivePlayers) {
                 // プレイヤーオブジェクトが存在しない場合にのみ生成
@@ -236,6 +245,8 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
                     // プレイヤーオブジェクト生成
                     var playerObject = runner.Spawn(playerAvatarPrefab, spawnPosition, Quaternion.identity, player);
 
+                    playerObject.GetComponent<Animator>().runtimeAnimatorController = animators[num];
+
                     // SetPlayerObject を必ず呼び出す
                     if (playerObject != null) {
                         runner.SetPlayerObject(player, playerObject);
@@ -244,6 +255,8 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
                     else {
                         Debug.LogError("Failed to spawn player object during OnSceneLoadDone.");
                     }
+
+                    num++;
                 }
             }
         }
