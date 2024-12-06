@@ -17,11 +17,14 @@ public class FadeInText : NetworkBehaviour
     private bool alphaCheck;
     [SerializeField]int FadeInCount=50;
     private int FadeOutCount = 300;
+    Color color;
+    Color outcolor;
 
     // Start is called before the first frame update
     void Start()
     {
-
+        color = this.GetComponent<UnityEngine.UI.Text>().color;
+        outcolor = this.GetComponent<UnityEngine.UI.Outline>().effectColor;
         alpha = this.GetComponent<UnityEngine.UI.Text>().color.a;
     }
     public override void Render()
@@ -30,10 +33,9 @@ public class FadeInText : NetworkBehaviour
     }
 
 
-    void Update()
+    private void Update()
     {
         Count++;
-
         if (Count == 5)
         {
             Time.timeScale = 0.0f;
@@ -48,11 +50,16 @@ public class FadeInText : NetworkBehaviour
         }
     }
 
+    public override void FixedUpdateNetwork()
+    {
+      
+    
+    }
 
+    //[Rpc(RpcSources.All, RpcTargets.StateAuthority)]
     void FadeIn()
     {
-        Color color = this.GetComponent<UnityEngine.UI.Text>().color;
-        Color outcolor = this.GetComponent<UnityEngine.UI.Outline>().effectColor;
+
         color.a = color.a <= 0 ? 1 : color.a + 0.01f;
         outcolor.a = outcolor.a <= 0 ? 1 : outcolor.a + 0.01f;
         this.GetComponent<UnityEngine.UI.Text>().color = color;
@@ -65,10 +72,11 @@ public class FadeInText : NetworkBehaviour
 
        
     }
+
+    //[Rpc(RpcSources.All, RpcTargets.StateAuthority)]
     void FadeOut()
     {
-        Color color = this.GetComponent<UnityEngine.UI.Text>().color;
-        Color outcolor = this.GetComponent<UnityEngine.UI.Outline>().effectColor;
+
         color.a = color.a <= 0 ? 1 : color.a - 0.01f;
         outcolor.a = outcolor.a <= 0 ? 1 : outcolor.a - 0.01f;
         this.GetComponent<UnityEngine.UI.Text>().color = color;

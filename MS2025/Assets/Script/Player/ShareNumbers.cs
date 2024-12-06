@@ -73,7 +73,7 @@ public class ShareNumbers : NetworkBehaviour
             transitionManager.TransitionStart();            
             StartCoroutine(Load());
         }
-
+    
     }
 
     public void BossDamage()
@@ -116,7 +116,7 @@ public class ShareNumbers : NetworkBehaviour
     {
         maxHitnum = 3;
         nHitnum = 0;
-        CurrentHP =5;
+        CurrentHP =10;
         nCombo = 0;
         jumpAttackNum = 0;
         Debug.Log("プレイヤーのHPとか初期化");
@@ -142,7 +142,7 @@ public class ShareNumbers : NetworkBehaviour
         }
 
         // HPUI 配列のサイズを全ての子オブジェクト数に合わせて初期化
-        HPUI = new GameObject[5];
+        HPUI = new GameObject[10];
 
         int num = 0;
         foreach (Transform ob in allChildren)

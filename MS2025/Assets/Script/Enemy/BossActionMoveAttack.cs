@@ -53,6 +53,7 @@ public class BossActionMoveAttack : BossActionData
     public AudioClip attackClip;
 
     private GameObject attackArea;
+    private GameObject attackAreaImage;
     private float attackStartTime;
     private float moveStartTime;
     private Transform attackTarget;
@@ -62,83 +63,80 @@ public class BossActionMoveAttack : BossActionData
 
     private bool isAttack = false;
 
+    [SerializeField, Header("攻撃エリアに連動する画像オブジェクト")]
+    private string linkedImage; // 動かしたい画像オブジェクト
+
+    private Vector3 linkedImageOriginalPosition; // 画像の元の位置
+
     public override void InitializeAction(GameObject boss, Transform player)
     {
+        // (既存の処理)
         attackTarget = boss.GetComponent<BossAI>().players[taregt];
         attackStartTime = Time.time;
         moveAttackEndPos = attackTarget.transform.position + deviate;
 
         // 攻撃エリアの設定
         attackArea = boss.transform.Find(attackAreaName)?.gameObject;
-        attackArea.transform.position = boss.transform.position;
+        attackAreaImage = boss.transform.Find(linkedImage)?.gameObject;
         originalPosition = attackArea.transform.position;
         attackArea.transform.localScale = attackScale;
-        attackArea.SetActive(false);
-        isMoving = false;        
+        attackArea.SetActive(true);
 
-        //長さを測る
-        float dis = Vector3.Distance(moveAttackEndPos, boss.transform.position);
-
-        isAttack = false;
-
-        if (distance > dis)
+        // 画像オブジェクトの元の位置を記録
+        if (linkedImage != null)
         {
-            Debug.Log("実際の距離" + dis);
-            Debug.Log("設定の距離" + distance);
-            isAttack = true;
+            linkedImageOriginalPosition = attackAreaImage.transform.position;
+        }
+
+        isMoving = false;
+
+        // 距離判定 (既存の処理)
+        float dis = Vector3.Distance(moveAttackEndPos, boss.transform.position);
+        isAttack = (distance > dis);
+
+        if (isAttack)
+        {
             attackArea.GetComponent<BossAttackArea>().deactivateTime = 0.5f;
         }
         else
         {
-            attackArea.GetComponent<BossAttackArea>().deactivateTime = moveAttackEndPosTime;            
-        }       
+            attackArea.GetComponent<BossAttackArea>().deactivateTime = moveAttackEndPosTime;
+        }
 
         // ボスのアニメーション設定
         boss.GetComponent<Animator>().speed = attackAnimSpeed;
         boss.GetComponent<BossAI>().isKnockBack = canKnockBack;
-        boss.GetComponent<BossAI>().isParry = canParry;       
+        boss.GetComponent<BossAI>().isParry = canParry;
     }
 
     public override bool ExecuteAction(GameObject boss, Transform player)
-    {      
-        // 攻撃開始までの待機
+    {
         if (Time.time - attackStartTime < attackDuration)
         {
-            //attackTarget = boss.GetComponent<BossAI>().players[boss.GetComponent<BossAI>().currentPlayerIndex];
-            ////attackStartTime = Time.time;
-            //moveAttackEndPos = player.transform.position + deviate;
-            return false;
+            return false; // 攻撃待機中
         }
 
         if (isAttack)
         {
-            Debug.Log("近すぎ");
-
             attackArea.SetActive(true);
 
-            // 音を再生
             if (boss.GetComponent<AudioSource>() != null && attackClip != null)
             {
                 boss.GetComponent<AudioSource>().clip = attackClip;
                 boss.GetComponent<AudioSource>().Play();
-            }       
+            }
 
             boss.GetComponent<Animator>().speed = 1;
-
-            
-
             return true;
         }
         else
         {
-            // 移動開始時の初期化
             if (!isMoving)
             {
                 isMoving = true;
                 moveStartTime = Time.time;
                 attackArea.SetActive(true);
 
-                // 音を再生
                 if (boss.GetComponent<AudioSource>() != null && attackClip != null)
                 {
                     boss.GetComponent<AudioSource>().clip = attackClip;
@@ -151,11 +149,16 @@ public class BossActionMoveAttack : BossActionData
             float progress = elapsed / moveAttackEndPosTime;
             float curveValue = curve.Evaluate(progress);
 
+            // 攻撃エリアと画像オブジェクトの移動
             attackArea.transform.position = Vector3.Lerp(originalPosition, moveAttackEndPos, curveValue);
-
-            if(CheckForHit(attackArea))
+            if (linkedImage != null)
             {
-                //カメラを揺らす処理
+                attackAreaImage.transform.position = Vector3.Lerp(linkedImageOriginalPosition, moveAttackEndPos, curveValue);
+            }
+
+            // 当たり判定チェック
+            if (CheckForHit(attackArea))
+            {
                 if (isCameraShake)
                 {
                     boss.GetComponent<HitStop>().ApplyHitStop(60000);
@@ -163,30 +166,60 @@ public class BossActionMoveAttack : BossActionData
                 }
             }
 
-            // プレイヤーへの攻撃がヒットしたか、移動が完了した場合
-            if (progress >= 1.0f /*|| CheckForHit(attackArea)*/)
+            if (progress >= 1.0f)
             {
-                //ResetAttackArea();
-                attackArea.GetComponent<BossAttackArea>().deactivateTime = 0.5f;
-                return true; // アクション完了
+                boss.GetComponent<MonoBehaviour>().StartCoroutine(ResetToOriginalPosition());
+                return false; // リセットが完了するまではfalseを返す
             }
 
-            return false; // アクション継続中
-        }             
+            return false;
+        }
     }
 
-    // 攻撃エリアを元の位置に戻して非アクティブ化
-    private void ResetAttackArea()
+
+    // 非同期で攻撃エリアと画像を元の位置に戻す
+    private IEnumerator ResetToOriginalPosition()
     {
+        float resetStartTime = Time.time;
+        float resetDuration = 0.5f; // 元の位置に戻るまでの時間
+
+        Vector3 attackAreaStartPosition = attackArea.transform.position;
+        Vector3 linkedImageStartPosition = linkedImage != null ? attackAreaImage.transform.position : Vector3.zero;
+
+        while (Time.time - resetStartTime < resetDuration)
+        {
+            float progress = (Time.time - resetStartTime) / resetDuration;
+
+            // 攻撃エリアをラープで元の位置に戻す
+            attackArea.transform.position = Vector3.Lerp(attackAreaStartPosition, originalPosition, progress);
+
+            // 画像オブジェクトもラープで元の位置に戻す
+            if (linkedImage != null)
+            {
+                attackAreaImage.transform.position = Vector3.Lerp(linkedImageStartPosition, linkedImageOriginalPosition, progress);
+            }
+
+            yield return null;
+        }
+
+        // 最後に確実に位置を元に戻す
         attackArea.transform.position = originalPosition;
-        //attackArea.SetActive(false);
-        //isMoving = false;
+        attackArea.SetActive(false);
+
+        if (linkedImage != null)
+        {
+            attackAreaImage.transform.position = linkedImageOriginalPosition;
+        }
+
+        isMoving = false;
+
+        yield return true; // 完了を通知
     }
 
-    // 攻撃ヒット判定の例（実際のヒット判定処理に応じて変更すること）
+
+    // 攻撃ヒット判定
     private bool CheckForHit(GameObject attackArea)
     {
-        // プレイヤーが攻撃エリア内にいるかどうかの判定
         Collider[] hits = Physics.OverlapBox(attackArea.transform.position, attackArea.transform.localScale / 2);
         foreach (var hit in hits)
         {
@@ -198,4 +231,5 @@ public class BossActionMoveAttack : BossActionData
         }
         return false;
     }
+
 }

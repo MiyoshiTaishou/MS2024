@@ -4,7 +4,6 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 using Image = UnityEngine.UI.Image;
@@ -57,9 +56,6 @@ public class BossStatus : NetworkBehaviour
     [SerializeField]
     private TransitionManager transitionManager;
 
-    [SerializeField, Header("チュートリアルモード")]
-    private bool isTutorial = false;
-
     // シーン遷移が一度だけ実行されるようにするためのフラグ
     private bool hasTransitioned = false;
 
@@ -76,12 +72,8 @@ public class BossStatus : NetworkBehaviour
     [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
     public void RPC_Damage(int _damage)
     {
-        if (SceneManager.GetActiveScene().name != "Game")
-        {
-            nBossHP -= _damage;
-            HPCount = 0;
-        }
-
+        nBossHP -= _damage;
+        HPCount = 0;
         isDamageEffect = true;
 
         //// HPが0以下なら削除処理を呼ぶ
@@ -96,7 +88,7 @@ public class BossStatus : NetworkBehaviour
         // シーン遷移が一度だけ行われるようにチェック
         if (hasTransitioned) return;
 
-        if (gekihaAnimator != null && gekihaAnimator.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f) {
+        if (gekihaAnimator != null && gekihaAnimator.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).   normalizedTime < 1.0f) {
             transitionManager.TransitionStart();
             isDeathEffect = true;
             hasTransitioned = true; // シーン遷移フラグを設定
@@ -216,11 +208,6 @@ public class BossStatus : NetworkBehaviour
 
     public override void FixedUpdateNetwork()
     {
-        if(isTutorial)
-        {
-            nBossHP = InitHP;
-            return;
-        }
         if (nBossHP <= 0 && Object.HasStateAuthority)
         {
 

@@ -3,41 +3,33 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public  enum PARRYTYPE
-{
-    ALL,
-    TANUKI,
-    KITUNE,
-    DOUBLE,
-};
-
-public class BossAttackArea : NetworkBehaviour
+public class BossAttackArea2Boss : NetworkBehaviour
 {
     GameObject box;
     GameObject parent;
 
     [SerializeField]
-    public float deactivateTime = 0.5f; // 攻撃エリアの非表示にするまでの時間
+    public float deactivateTime = 0.5f; // 攻撃エリアを無効化するまでの時間
+    [SerializeField]
+    private float returnDuration = 1.0f; // 元の位置に戻るのにかける時間
 
-    [Networked]private float timer { get; set; }
+    [Networked] private float timer { get; set; }
+    [Networked] private bool isAttackActive { get; set; } // 攻撃が有効かどうか
 
-    [Networked] private bool isAttack { get; set; }
     private ParticleSystem newParticle;
     [Tooltip("攻撃エフェクト")]
     public ParticleSystem AttackParticle;
 
     private GameObject Pare;
-
-    // 元の位置を保持する
     private Vector3 originalPosition;
 
-    [Networked] public  PARRYTYPE Type { get; set; }
-
+    [Networked] public PARRYTYPE Type { get; set; }
     [Networked] public bool isTanuki { get; set; }
     [Networked] public bool isKitune { get; set; }
 
-    [SerializeField, Header("チュートリアルモード")]
-    private bool isTutorial = false;
+    private bool isReturningToPosition = false;
+    private float returnTimer = 0f; // 元の位置に戻る際のタイマー
+    private Vector3 startPosition; // 現在の位置を記録
 
     public override void Spawned()
     {
@@ -45,22 +37,18 @@ public class BossAttackArea : NetworkBehaviour
         parent = transform.parent.gameObject;
         timer = deactivateTime;
         Pare = transform.parent.gameObject;
-        isTanuki= false;
-        isKitune= false;
-        // 元の位置を記録
+        isTanuki = false;
+        isKitune = false;
+        isAttackActive = false; // 初期状態は無効化
         originalPosition = transform.position;
-    }
-
-    // SetActive(true)のたびに呼び出す
- 
+    }  
 
     public override void Render()
     {
-        if (isAttack)
+        if (isAttackActive)
         {
             // パーティクルシステムのインスタンスを生成
             newParticle = Instantiate(AttackParticle);
-            // 攻撃方向に基づいて位置を設定
             if (Pare.transform.localScale.x >= 0)
             {
                 newParticle.transform.position = new Vector3(transform.position.x - 4.0f, transform.position.y - 2.0f, transform.position.z);
@@ -70,103 +58,123 @@ public class BossAttackArea : NetworkBehaviour
                 newParticle.transform.position = new Vector3(transform.position.x + 4.0f, transform.position.y - 2.0f, transform.position.z);
             }
 
-            // パーティクルを発生させる
             newParticle.Play();
-            // インスタンス化したパーティクルシステムのGameObjectを1秒後に削除
             Destroy(newParticle.gameObject, 1f);
-            isAttack = false;
+        }
+    }
+
+    public void SetAttackActive(bool isActive)
+    {
+        isAttackActive = isActive;
+        if (isActive)
+        {
+            timer = deactivateTime; // タイマーをリセット
+        }
+        else
+        {
+            StartReturningToPosition(); // 無効化時に元の位置に戻る処理を開始
+        }
+    }
+
+    private void StartReturningToPosition()
+    {
+        isReturningToPosition = true;
+        returnTimer = 0f;
+        startPosition = transform.position;
+    }
+
+    private void ReturnToOriginalPosition()
+    {
+        if (!isReturningToPosition) return;
+
+        returnTimer += Runner.DeltaTime;
+        float t = returnTimer / returnDuration;
+        transform.position = Vector3.Lerp(startPosition, originalPosition, t);
+
+        if (t >= 1f)
+        {
+            isReturningToPosition = false; // 完了したらフラグをリセット
+            transform.position = originalPosition; // 最終的に正確な元の位置にセット
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        //ここから
+        if (!isAttackActive) return; // 攻撃が無効なら処理をスキップ
+
         if (other.CompareTag("Player"))
         {
             timer = deactivateTime;
-            // パリィ不可攻撃かどうか
+
+            // パリィ処理
             if (!parent.GetComponent<BossAI>().isParry)
             {
-                if (other.GetComponent<PlayerParryNet>().ParryCheck()&&
-                    ((other.GetComponent<PlayerParryNet>().isTanuki&&Type==PARRYTYPE.TANUKI)||
-                    (!other.GetComponent<PlayerParryNet>().isTanuki&&Type==PARRYTYPE.KITUNE)||
-                     Type==PARRYTYPE.ALL))
+                if (other.GetComponent<PlayerParryNet>().ParryCheck() &&
+                    ((other.GetComponent<PlayerParryNet>().isTanuki && Type == PARRYTYPE.TANUKI) ||
+                    (!other.GetComponent<PlayerParryNet>().isTanuki && Type == PARRYTYPE.KITUNE) ||
+                    Type == PARRYTYPE.ALL))
                 {
                     Debug.Log("パリィ成功");
                     other.GetComponent<PlayerParryNet>().RPC_ParrySystem();
 
-                    // ノックバック可能かどうか
                     if (parent.GetComponent<BossAI>().isKnockBack)
                     {
                         parent.GetComponent<BossAI>().RPC_AnimName();
                     }
 
-                    ResetToOriginalPosition(); // 元の位置に戻す
-                    gameObject.SetActive(false);
+                    SetAttackActive(false);
                     return;
                 }
-                else if(other.GetComponent<PlayerParryNet>().ParryCheck() &&Type == PARRYTYPE.DOUBLE)
+                else if (other.GetComponent<PlayerParryNet>().ParryCheck() && Type == PARRYTYPE.DOUBLE)
                 {
-                    if(other.GetComponent<PlayerParryNet>().isTanuki) 
+                    if (other.GetComponent<PlayerParryNet>().isTanuki)
                     {
                         isTanuki = true;
                     }
-                    else if(other.GetComponent<PlayerParryNet>().isTanuki==false) 
+                    else if (!other.GetComponent<PlayerParryNet>().isTanuki)
                     {
                         isKitune = true;
                     }
-                    if(isTanuki&&isKitune)
+                    if (isTanuki && isKitune)
                     {
                         Debug.Log("パリィ成功");
                         other.GetComponent<PlayerParryNet>().RPC_ParrySystem();
 
-                        // ノックバック可能かどうか
                         if (parent.GetComponent<BossAI>().isKnockBack)
                         {
                             parent.GetComponent<BossAI>().RPC_AnimName();
                         }
 
-                        ResetToOriginalPosition(); // 元の位置に戻す
-                        gameObject.SetActive(false);
+                        SetAttackActive(false);
                         return;
                     }
                 }
             }
-            //ここまでTriggerStay
+
+            // ダメージ処理
             Debug.Log("攻撃ヒット");
             if (other.GetComponent<PlayerHP>().inbisibleFrame == 0)
             {
-                if(!isTutorial)
-                {
-                    box.GetComponent<ShareNumbers>().CurrentHP--;
-                    box.GetComponent<ShareNumbers>().RPC_Damage();
-                }
+                box.GetComponent<ShareNumbers>().CurrentHP--;
+                box.GetComponent<ShareNumbers>().RPC_Damage();
                 other.GetComponent<PlayerHP>().RPC_DamageAnim();
             }
-            Render();
-            ResetToOriginalPosition(); // 元の位置に戻す
-            gameObject.SetActive(false);
-        }
-    }
 
-    // 元の位置に戻すメソッド
-    private void ResetToOriginalPosition()
-    {
-        transform.position = originalPosition;
+            SetAttackActive(false);
+        }
     }
 
     public override void FixedUpdateNetwork()
     {
-        // タイマーを減らし、一定時間後に非表示にする
-        if (timer > 0)
+        if (isAttackActive)
         {
             timer -= Runner.DeltaTime;
             if (timer <= 0)
             {
-                ResetToOriginalPosition(); // タイムアウト時にも元の位置に戻す
-                gameObject.SetActive(false);
-                timer = deactivateTime;
+                SetAttackActive(false);
             }
         }
+
+        ReturnToOriginalPosition();
     }
 }

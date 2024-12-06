@@ -55,6 +55,9 @@ public class PlayerSpecialAttackNet : NetworkBehaviour
 
     [SerializeField, ReadOnly]
     private List<Image> PlayerFireList = new List<Image>();
+
+    GameObject change;
+
     public override void Spawned()
     {
         // 必殺技再生用オブジェクト探索
@@ -120,6 +123,11 @@ public class PlayerSpecialAttackNet : NetworkBehaviour
                 {
                     Debug.Log("必殺技出すぞ！");
                     RPC_SpecialAttack();
+                    if(change.GetComponent<ChangeBossAction>().TextNo == 1)
+                     {
+                        change.GetComponent<ChangeBossAction>().TextNo = 2;
+                    }
+                    
                     //カウントを0にする
                     comboCountObject.GetComponent<ShareNumbers>().ResetSpecialNUm();
                 }
