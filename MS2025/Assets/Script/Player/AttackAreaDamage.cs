@@ -174,6 +174,7 @@ public class AttackAreaDamage : NetworkBehaviour
         {
             Debug.Log("ヒットストップダメージ数"+ hitstoptime);
             player.GetComponent<HitStop>().ApplyHitStop(hitstoptime);
+            ishitstop = false;
         }
 
         if (isGeki)
