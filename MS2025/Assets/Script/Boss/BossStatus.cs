@@ -35,7 +35,7 @@ public class BossStatus : NetworkBehaviour
     [SerializeField] private ParticleSystem Deathparticle;
 
     //体力が0になった回数を数える
-    [SerializeField] private int DeathCount = 0;
+    [SerializeField, Networked] private int DeathCount { get; set; }
 
     [SerializeField, Header("ゲームマネージャー")]
     private GameManager gameManager;
@@ -70,6 +70,7 @@ public class BossStatus : NetworkBehaviour
         Backslider.maxValue = nBossHP;
         Backslider.value = nBossHP;
         InitHP = nBossHP;
+        DeathCount = 0;
     }
 
     [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
@@ -167,32 +168,7 @@ public class BossStatus : NetworkBehaviour
             HPCount = 0;
         }
 
-        if (nBossHP <= 0 && Object.HasStateAuthority)
-        {
-
-            switch (DeathCount)
-            {
-                case 0:
-                    nBossHP = InitHP;
-                    slider.value = nBossHP;
-                    Backslider.value = nBossHP;
-                    DeathCount += 1;
-
-                    break;
-
-                case 1:
-                    nBossHP = InitHP;
-                    slider.value = nBossHP;
-                    Backslider.value = nBossHP;
-                    DeathCount += 1;
-                    break;
-
-                case 2:
-                    DeathCount++;
-                    break;
-            }
-
-        }
+       
 
         if (DeathCount == 1)
         {
@@ -223,6 +199,24 @@ public class BossStatus : NetworkBehaviour
 
             switch (DeathCount)
             {
+                case 0:
+                    nBossHP = InitHP;
+                    slider.value = nBossHP;
+                    Backslider.value = nBossHP;
+                    DeathCount += 1;
+
+                    break;
+
+                case 1:
+                    nBossHP = InitHP;
+                    slider.value = nBossHP;
+                    Backslider.value = nBossHP;
+                    DeathCount += 1;
+                    break;
+
+                case 2:
+                    DeathCount++;
+                    break;
                 case 3:
                     Debug.Log("ボス死亡です");
                     RPC_HandleBossDeath();
