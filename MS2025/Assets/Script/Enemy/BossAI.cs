@@ -233,6 +233,11 @@ public class BossAI : NetworkBehaviour
             actionSequence = actionSequenceHalf;
             currentActionIndex = 0;
             currentSequenceIndex = 0;
+
+             GameObject attackAreaView; // 既存の攻撃エリアの参照
+            attackAreaView = transform.Find("Area")?.gameObject;
+            attackAreaView.SetActive(false);
+
             StartNextAction(); // プレイヤーが二人以上揃っていたらアクションを開始            
         }
     }
