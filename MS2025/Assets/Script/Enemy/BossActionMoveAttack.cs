@@ -52,8 +52,7 @@ public class BossActionMoveAttack : BossActionData
 
     public AudioClip attackClip;
 
-    private GameObject attackArea;
-    private GameObject attackAreaImage;
+    private GameObject attackArea;   
     private float attackStartTime;
     private float moveStartTime;
     private Transform attackTarget;
@@ -62,10 +61,7 @@ public class BossActionMoveAttack : BossActionData
     private bool isMoving;
 
     private bool isAttack = false;
-    private bool isComp = false;
-
-    [SerializeField, Header("攻撃エリアに連動する画像オブジェクト")]
-    private string linkedImage; // 動かしたい画像オブジェクト
+    private bool isComp = false;  
 
     private Vector3 linkedImageOriginalPosition; // 画像の元の位置
 
@@ -74,35 +70,18 @@ public class BossActionMoveAttack : BossActionData
         // (既存の処理)
         attackTarget = boss.GetComponent<BossAI>().players[taregt];
         attackStartTime = Time.time;
-        moveAttackEndPos = attackTarget.transform.position + deviate;
-
-        // 攻撃エリアの設定
-        attackArea = boss.transform.Find(attackAreaName)?.gameObject;
-        attackAreaImage = boss.transform.Find(linkedImage)?.gameObject;
-        originalPosition = attackArea.transform.localPosition; // ローカル座標に変更
-        attackArea.transform.localScale = attackScale;
+        moveAttackEndPos = attackTarget.transform.position + deviate;      
+      
+        attackArea = GameObject.Find(attackAreaName)?.gameObject;
+        originalPosition = attackArea.transform.position;
+        //attackArea.transform.localScale = attackScale;
         attackArea.SetActive(true);
-
-        // 画像オブジェクトの元の位置を記録
-        if (linkedImage != null)
-        {
-            linkedImageOriginalPosition = attackAreaImage.transform.position; // ローカル座標に変更
-        }
-
+       
         isMoving = false;
 
         // 距離判定 (既存の処理)
         float dis = Vector3.Distance(moveAttackEndPos, boss.transform.position);
-        isAttack = (distance > dis);
-
-        if (isAttack)
-        {
-            attackArea.GetComponent<BossAttackArea>().deactivateTime = 0.5f;
-        }
-        else
-        {
-            attackArea.GetComponent<BossAttackArea>().deactivateTime = moveAttackEndPosTime;
-        }
+        isAttack = (distance > dis);        
 
         // ボスのアニメーション設定
         boss.GetComponent<Animator>().speed = attackAnimSpeed;
@@ -111,14 +90,9 @@ public class BossActionMoveAttack : BossActionData
 
         isComp = false;
 
-        // 最後に確実に位置を元に戻す
-        attackArea.transform.position = Vector3.zero; // ローカル座標に変更
-        attackArea.SetActive(false);
+        attackArea.GetComponent<BoxCollider>().enabled = true;    
 
-        if (linkedImage != null)
-        {
-            attackAreaImage.transform.localPosition = Vector3.zero; // ローカル座標に変更
-        }
+        attackArea.GetComponent<MoveToBossObject>().SetToMove(false);      
     }
 
     public override bool ExecuteAction(GameObject boss, Transform player)
@@ -168,20 +142,7 @@ public class BossActionMoveAttack : BossActionData
 
             // 攻撃エリアと画像オブジェクトの移動 (ワールド座標で計算)
             Vector3 targetPosition = Vector3.Lerp(originalPosition, moveAttackEndPos, curveValue); // ワールド座標で計算
-            attackArea.transform.position = targetPosition; // ワールド座標に変換して設定
-
-            if (linkedImage != null)
-            {
-                Vector3 targetImagePosition = Vector3.Lerp(linkedImageOriginalPosition, moveAttackEndPos, curveValue); // ワールド座標で計算
-                attackAreaImage.transform.position = targetImagePosition; // ワールド座標に変換して設定
-            }
-
-            // 元のローカル座標に戻す
-            //attackArea.transform.localPosition = attackArea.transform.parent.InverseTransformPoint(attackArea.transform.position);
-            if (linkedImage != null)
-            {
-                attackAreaImage.transform.localPosition = attackAreaImage.transform.parent.InverseTransformPoint(attackAreaImage.transform.position);
-            }
+            attackArea.transform.position = targetPosition; // ワールド座標に変換して設定          
 
             if (progress >= 1.0f)
             {
@@ -199,34 +160,22 @@ public class BossActionMoveAttack : BossActionData
         float resetDuration = 0.5f; // 元の位置に戻るまでの時間
 
         Vector3 attackAreaStartPosition = attackArea.transform.position; // ローカル座標に変更
-        Vector3 linkedImageStartPosition = linkedImage != null ? attackAreaImage.transform.localPosition : Vector3.zero; // ローカル座標に変更
-
+       
         while (Time.time - resetStartTime < resetDuration)
         {
             float progress = (Time.time - resetStartTime) / resetDuration;
 
             // 攻撃エリアをラープで元の位置に戻す
             attackArea.transform.position = Vector3.Lerp(attackAreaStartPosition, originalPosition, progress); // ローカル座標に変更
-
-            // 画像オブジェクトもラープで元の位置に戻す
-            if (linkedImage != null)
-            {
-                attackAreaImage.transform.localPosition = Vector3.Lerp(linkedImageStartPosition, linkedImageOriginalPosition, progress); // ローカル座標に変更
-            }
-
+        
             yield return null;
         }
 
         // 最後に確実に位置を元に戻す
-        attackArea.transform.position = Vector3.zero; // ローカル座標に変更
-        attackArea.SetActive(false);
+        attackArea.transform.position = originalPosition; // ローカル座標に変更
+        attackArea.GetComponent<BoxCollider>().enabled = false;
 
-        Debug.Log("完全にオワタ" + attackArea.transform.localPosition); // ローカル座標に変更
-
-        if (linkedImage != null)
-        {
-            attackAreaImage.transform.localPosition = Vector3.zero; // ローカル座標に変更
-        }
+        attackArea.GetComponent<MoveToBossObject>().SetToMove(true);      
 
         isMoving = false;
         isComp = true;
