@@ -36,10 +36,10 @@ public class ComboSystem : NetworkBehaviour
         Debug.Log("コンボ数" + Combo+"ガチのコンボ数"+sharenum.nCombo);
         //change.GetComponent<ChangeBossAction>().combo = Combo;
         //change.GetComponent<ChangeBossAction>().RPC_Cange();
-        if (Combo>=1&&change.GetComponent<ChangeBossAction>().TextNo == 0)
-        {
-            change.GetComponent<ChangeBossAction>().TextNo = 1;
-        }
+        //if (Combo>=1&&change.GetComponent<ChangeBossAction>().TextNo == 0)
+        //{
+        //    change.GetComponent<ChangeBossAction>().TextNo = 1;
+        //}
 
     }
 
