@@ -190,7 +190,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8270a123ca69dbe42a168434b5d8d841, type: 2}
   - {fileID: 11400000, guid: 8270a123ca69dbe42a168434b5d8d841, type: 2}
   actionSequenceHalf:
-  - {fileID: 11400000, guid: a80b7f5f196531b44a7967ca7e57384a, type: 2}
+  - {fileID: 11400000, guid: 2eda814d60139944682bdb7f406a126e, type: 2}
+  - {fileID: 11400000, guid: b4831601f52ab56499e010084ae03cee, type: 2}
+  - {fileID: 11400000, guid: aa1410a48e10f17448d9b493157493dc, type: 2}
   - {fileID: 11400000, guid: b4831601f52ab56499e010084ae03cee, type: 2}
   - {fileID: 11400000, guid: aa1410a48e10f17448d9b493157493dc, type: 2}
   _isKnockBack: 0
@@ -365,7 +367,7 @@ MonoBehaviour:
   TotalWords: 1
   ApplyTiming: 2
   SyncSettings: 79
-  StateHashes: 000000004cf1e72e1eab98070d286c404e865f43cc60bdd948436b3669aa59422a046a41d3fb50db905563d8958341e27e40c91f28a981077af3fe2e4c8d6b8ea74ee3736a950e8659262bb1
+  StateHashes: 000000004cf1e72e1eab98070d286c404e865f43cc60bdd948436b3669aa59422a046a41d3fb50db905563d8958341e27e40c91f28a981077af3fe2e4c8d6b8ea74ee3736a950e8659262bb102a1c752410ff451
   TriggerHashes: 00000000b745de7f
 --- !u!114 &728711347568068367
 MonoBehaviour:
@@ -390,6 +392,7 @@ MonoBehaviour:
   Deathparticle: {fileID: 0}
   DeathCount: 0
   gameManager: {fileID: 0}
+  gekihaAnimator: {fileID: 0}
   ResultSceneName: 
   transitionManager: {fileID: 0}
   isTutorial: 0
