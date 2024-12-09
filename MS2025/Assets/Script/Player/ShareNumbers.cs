@@ -49,13 +49,29 @@ public class ShareNumbers : NetworkBehaviour
     float HPUIconf; 
     [SerializeField,Header("ƒtƒŒ[ƒ€–ˆ‚É‘‚¦‚éHPUI‚Ì‘å‚«‚³")]
     float HPUIsizeconf;
-
+    bool end = false;
     public override void FixedUpdateNetwork()
     {
-        for(int i=0;i<HPUI.Length;i++) 
+        if(end)
+        {
+                transitionManager.TransitionStart();
+                StartCoroutine(Load());
+            
+        }
+        
+        if(nCombo == 0)
+        {
+            nHitnum = 0;
+        }
+    }
+
+    public override void Render()
+    {
+        for (int i = 0; i < HPUI.Length; i++)
         {
             if (HPDestroy[i])
             {
+                Debug.Log("HPUI");
                 Color color = HPUIImage[i].color;
                 color.a -= HPUIconf;
                 RectTransform rect = HPUIImage[i].rectTransform;
@@ -64,19 +80,23 @@ public class ShareNumbers : NetworkBehaviour
                 rectsize.y += HPUIsizeconf;
                 rect.sizeDelta = rectsize;
                 HPUIImage[i].color = color;
-                if (HPUIImage[i].color.a<=0.0f)
+
+            }
+        }
+        for (int i=0;i<HPUI.Length;i++)
+        {
+            if (HPUIImage[i].color.a <= 0.0f)
+            {
+                HPDestroy[i] = false;
+                HPUI[i].SetActive(false);
+                if (i== 0)
                 {
-                    HPDestroy[i] = false;
-                    HPUI[i].SetActive(false);
+                    transitionManager.TransitionStart();
+                    StartCoroutine(Load());
                 }
             }
         }
-        if(nCombo == 0)
-        {
-            nHitnum = 0;
-        }
     }
-
     public void AddHitnum()
     {
         nHitnum++;
@@ -95,14 +115,10 @@ public class ShareNumbers : NetworkBehaviour
     {
         //HPUI[CurrentHP].SetActive(false);
         HPDestroy[CurrentHP] = true;
+        Debug.Log("HPUI‚Å‚·‚Æ‚ë‚¢" + HPDestroy[CurrentHP]);
 
-        if (CurrentHP == 0)
-        {            
-            transitionManager.TransitionStart();            
-            StartCoroutine(Load());
-        }
-    
     }
+
 
 
     public void BossDamage()
