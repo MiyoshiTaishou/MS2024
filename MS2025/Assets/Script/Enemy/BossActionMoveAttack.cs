@@ -92,7 +92,7 @@ public class BossActionMoveAttack : BossActionData
 
         attackArea.GetComponent<BoxCollider>().enabled = true;    
 
-        attackArea.GetComponent<MoveToBossObject>().SetToMove(false);      
+        attackArea.GetComponent<MoveToBossObject>().RPC_SetToMove(false);      
     }
 
     private IEnumerator resetCoroutine; // リセット処理用コルーチン
@@ -180,7 +180,7 @@ public class BossActionMoveAttack : BossActionData
         attackArea.transform.position = originalPosition;
         attackArea.GetComponent<BoxCollider>().enabled = false;
 
-        attackArea.GetComponent<MoveToBossObject>().SetToMove(true);
+        attackArea.GetComponent<MoveToBossObject>().RPC_SetToMove(true);
 
         isMoving = false;
         isComp = true;
