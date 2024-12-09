@@ -11041,6 +11041,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1543679455732522373, guid: 2d5a6b03460814e4d8ec665c744611bb,
         type: 3}
+      propertyPath: HPUIconf
+      value: 0.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 1543679455732522373, guid: 2d5a6b03460814e4d8ec665c744611bb,
+        type: 3}
       propertyPath: SceneName
       value: Title_Network_Build
       objectReference: {fileID: 0}
@@ -11049,6 +11054,11 @@ PrefabInstance:
       propertyPath: TryObject
       value: 
       objectReference: {fileID: 1862530907}
+    - target: {fileID: 1543679455732522373, guid: 2d5a6b03460814e4d8ec665c744611bb,
+        type: 3}
+      propertyPath: HPUIsizeconf
+      value: 3.5
+      objectReference: {fileID: 0}
     - target: {fileID: 1543679455732522373, guid: 2d5a6b03460814e4d8ec665c744611bb,
         type: 3}
       propertyPath: transitionManager
