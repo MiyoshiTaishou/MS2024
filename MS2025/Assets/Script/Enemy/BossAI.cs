@@ -43,6 +43,9 @@ public class BossAI : NetworkBehaviour
     [Networked, SerializeField] public bool isAir { get; set; }
     [Networked, SerializeField] public bool isDir { get; set; }
 
+    [Networked, SerializeField,Tooltip("1ボス(true)か2ボス(false)か")] public bool isBossOne { get; set; }
+
+
     [SerializeField, Header("ダウン時の行動データ")]
     public BossActionData downAction;
 
@@ -412,6 +415,24 @@ public class BossAI : NetworkBehaviour
                     newParticle.Play();
                     isParticle = 3;
                     break;
+            }
+
+        }
+
+        //追跡するプレイヤーの頭にマーク表示
+        if(isBossOne)
+        {
+            for(int i = 0; i < players.Count;i++)
+            {
+
+                if (currentPlayerIndex == i)
+                {
+                    players[i].GetComponent<PlayerBossTaget>().isTaget = true;
+                }
+                else
+                {
+                    players[i].GetComponent<PlayerBossTaget>().isTaget = false;
+                }
             }
 
         }
