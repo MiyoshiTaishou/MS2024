@@ -2515,7 +2515,7 @@ PrefabInstance:
     - target: {fileID: 6933687067549697005, guid: 9a03758142da5d740b40373ad196494c,
         type: 3}
       propertyPath: NetworkedBehaviours.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6933687067549697005, guid: 9a03758142da5d740b40373ad196494c,
         type: 3}
@@ -2527,6 +2527,11 @@ PrefabInstance:
       propertyPath: NetworkedBehaviours.Array.data[1]
       value: 
       objectReference: {fileID: 479617159}
+    - target: {fileID: 6933687067549697005, guid: 9a03758142da5d740b40373ad196494c,
+        type: 3}
+      propertyPath: NetworkedBehaviours.Array.data[2]
+      value: 
+      objectReference: {fileID: 479617162}
     m_RemovedComponents:
     - {fileID: 3515881698604877689, guid: 9a03758142da5d740b40373ad196494c, type: 3}
     - {fileID: 2563685460260573626, guid: 9a03758142da5d740b40373ad196494c, type: 3}
@@ -2550,6 +2555,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 479617161}
+    - targetCorrespondingSourceObject: {fileID: 1233216124056279819, guid: 9a03758142da5d740b40373ad196494c,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 479617162}
   m_SourcePrefab: {fileID: 100100000, guid: 9a03758142da5d740b40373ad196494c, type: 3}
 --- !u!1 &479617157 stripped
 GameObject:
@@ -2570,7 +2579,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 1343477644}
-  distance: {x: -5, y: 0, z: -5}
+  _distance: {x: -5, y: 0, z: -5}
 --- !u!114 &479617159
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2661,6 +2670,22 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &479617162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 479617157}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 158639473, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SyncScale: 0
+  SyncParent: 0
+  _autoAOIOverride: 1
+  DisableSharedModeInterpolation: 0
 --- !u!1001 &494847407
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13846,7 +13871,7 @@ PrefabInstance:
     - target: {fileID: 5473444436417612483, guid: d682a9d46780f494ca2545faaadb6301,
         type: 3}
       propertyPath: NetworkedBehaviours.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5473444436417612483, guid: d682a9d46780f494ca2545faaadb6301,
         type: 3}
@@ -13858,6 +13883,11 @@ PrefabInstance:
       propertyPath: NetworkedBehaviours.Array.data[1]
       value: 
       objectReference: {fileID: 1923190262}
+    - target: {fileID: 5473444436417612483, guid: d682a9d46780f494ca2545faaadb6301,
+        type: 3}
+      propertyPath: NetworkedBehaviours.Array.data[2]
+      value: 
+      objectReference: {fileID: 1923190265}
     - target: {fileID: 7836624340999481161, guid: d682a9d46780f494ca2545faaadb6301,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -13946,6 +13976,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1923190264}
+    - targetCorrespondingSourceObject: {fileID: 4238362883063222821, guid: d682a9d46780f494ca2545faaadb6301,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1923190265}
   m_SourcePrefab: {fileID: 100100000, guid: d682a9d46780f494ca2545faaadb6301, type: 3}
 --- !u!1 &1923190260 stripped
 GameObject:
@@ -13966,7 +14000,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 1343477644}
-  distance: {x: 5, y: 0, z: -5}
+  _distance: {x: 5, y: 0, z: -5}
 --- !u!114 &1923190262
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14057,6 +14091,22 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1923190265
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1923190260}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 158639473, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SyncScale: 0
+  SyncParent: 0
+  _autoAOIOverride: 1
+  DisableSharedModeInterpolation: 0
 --- !u!1001 &1952579210
 PrefabInstance:
   m_ObjectHideFlags: 0
