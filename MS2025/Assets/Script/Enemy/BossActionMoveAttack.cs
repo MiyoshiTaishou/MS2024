@@ -65,9 +65,10 @@ public class BossActionMoveAttack : BossActionData
 
     private Vector3 linkedImageOriginalPosition; // 画像の元の位置
 
+    private IEnumerator resetCoroutine; // リセット処理用コルーチン
+
     public override void InitializeAction(GameObject boss, Transform player)
-    {
-        // (既存の処理)
+    {       
         attackTarget = boss.GetComponent<BossAI>().players[taregt];
         attackStartTime = Time.time;
         moveAttackEndPos = attackTarget.transform.position + deviate;      
@@ -92,10 +93,10 @@ public class BossActionMoveAttack : BossActionData
 
         attackArea.GetComponent<BoxCollider>().enabled = true;    
 
-        attackArea.GetComponent<MoveToBossObject>().SetToMove(false);      
-    }
-
-    private IEnumerator resetCoroutine; // リセット処理用コルーチン
+        attackArea.GetComponent<MoveToBossObject>().RPC_SetToMove(false); 
+        
+        resetCoroutine = null;
+    }   
 
     public override bool ExecuteAction(GameObject boss, Transform player)
     {
@@ -180,7 +181,7 @@ public class BossActionMoveAttack : BossActionData
         attackArea.transform.position = originalPosition;
         attackArea.GetComponent<BoxCollider>().enabled = false;
 
-        attackArea.GetComponent<MoveToBossObject>().SetToMove(true);
+        attackArea.GetComponent<MoveToBossObject>().RPC_SetToMove(true);
 
         isMoving = false;
         isComp = true;

@@ -9,16 +9,16 @@ public class ChargeAttackAreaDamage : NetworkBehaviour
     PlayerChargeAttack attack;
     ShareNumbers sharenum;
     ComboSystem combo;
-    [SerializeField, Tooltip("ƒqƒbƒgƒXƒgƒbƒvŠÔ(f)")] int stopFrame;
+    [SerializeField, Tooltip("ãƒ’ãƒƒãƒˆã‚¹ãƒˆãƒƒãƒ—æ™‚é–“(f)")] int stopFrame;
     [SerializeField] int ChargeDamege = 500;
     [SerializeField] GameObject Gekiobj;
     NetworkRunner runner;
 
-    [SerializeField, Tooltip("”š‚ÌƒXƒvƒ‰ƒCƒg")] List<Sprite> damagesprite;
-    [SerializeField, Tooltip("”š‚ÌƒXƒvƒ‰ƒCƒg")] GameObject damageobj;
+    [SerializeField, Tooltip("æ•°å­—ã®ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆ")] List<Sprite> damagesprite;
+    [SerializeField, Tooltip("æ•°å­—ã®ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆ")] GameObject damageobj;
 
-    [SerializeField, Tooltip("ƒ_ƒ[ƒW”‚ğ•\¦‚·‚é‚Ì¶¬”ÍˆÍ‚ÌÅ¬")] float MinRange = -0.2f;
-    [SerializeField, Tooltip("ƒ_ƒ[ƒW”‚ğ•\¦‚·‚é‚Ì¶¬”ÍˆÍ‚ÌÅ¬")] float MaxRange = 0.2f;
+    [SerializeField, Tooltip("ãƒ€ãƒ¡ãƒ¼ã‚¸æ•°ã‚’è¡¨ç¤ºã™ã‚‹æ™‚ã®ç”Ÿæˆç¯„å›²ã®æœ€å°")] float MinRange = -0.2f;
+    [SerializeField, Tooltip("ãƒ€ãƒ¡ãƒ¼ã‚¸æ•°ã‚’è¡¨ç¤ºã™ã‚‹æ™‚ã®ç”Ÿæˆç¯„å›²ã®æœ€å°")] float MaxRange = 0.2f;
 
     [Networked] Vector3 bosspos { get; set; }
     [Networked] Vector3 bossscale { get; set; }
@@ -40,7 +40,7 @@ public class ChargeAttackAreaDamage : NetworkBehaviour
         netobj = GameObject.Find("Networkbox");
         if (netobj == null)
         {
-            Debug.LogError("ƒlƒbƒg‚Ì” ‚ª–³‚¢‚æ");
+            Debug.LogError("ãƒãƒƒãƒˆã®ç®±ãŒç„¡ã„ã‚ˆ");
         }
         sharenum = netobj.GetComponent<ShareNumbers>();
         combo = netobj.GetComponent<ComboSystem>();
@@ -55,7 +55,7 @@ public class ChargeAttackAreaDamage : NetworkBehaviour
         {
             if (other.GetComponent<BossStatus>())
             {
-                Debug.Log("ƒ`ƒƒ[ƒWƒAƒ^ƒbƒN¬Œ÷"+ other.transform);
+                Debug.Log("ãƒãƒ£ãƒ¼ã‚¸ã‚¢ã‚¿ãƒƒã‚¯æˆåŠŸ"+ other.transform);
                 other.GetComponent<BossStatus>().RPC_Damage(ChargeDamege);
                 //if (change.GetComponent<ChangeBossAction>().TextNo == 5)
                 //{
@@ -65,12 +65,12 @@ public class ChargeAttackAreaDamage : NetworkBehaviour
                 Camera.main.GetComponent<CameraShake>().RPC_CameraShake(0.3f, 0.3f);
 
 
-                //“–‚½‚Á‚½ˆÊ’u‚ÉŒ‚•\¦
-                //“–‚½‚Á‚½ˆÊ’u‚ÉŒ‚•\¦
+                //å½“ãŸã£ãŸä½ç½®ã«æ’ƒè¡¨ç¤º
+                //å½“ãŸã£ãŸä½ç½®ã«æ’ƒè¡¨ç¤º
                 if (parry.isTanuki)
                 {
                     DisplayNumber(ChargeDamege, other.transform);
-                    Debug.Log("ƒzƒXƒgƒ_ƒ[ƒW”");
+                    Debug.Log("ãƒ›ã‚¹ãƒˆãƒ€ãƒ¡ãƒ¼ã‚¸æ•°");
                     player.GetComponent<HitStop>().ApplyHitStop(stopFrame);
 
                 }
@@ -80,16 +80,16 @@ public class ChargeAttackAreaDamage : NetworkBehaviour
                     bosspos = other.transform.position;
                     bossscale = other.transform.localScale;
 
-                    //ƒqƒbƒgƒXƒgƒbƒv
+                    //ãƒ’ãƒƒãƒˆã‚¹ãƒˆãƒƒãƒ—
                     ishitstop = true;
 
                 }
                 RPCCombo();
-                //Debug.Log("ƒ_ƒ[ƒW”" + other.GetComponent<BossAI>().isAir);
+                //Debug.Log("ãƒ€ãƒ¡ãƒ¼ã‚¸æ•°" + other.GetComponent<BossAI>().isAir);
 
                 if (!other.GetComponent<BossAI>().isAir)
                 {
-                   // Debug.Log("‚Ì‚¯‚¼‚èƒ_ƒ[ƒW”");
+                   // Debug.Log("ã®ã‘ãã‚Šãƒ€ãƒ¡ãƒ¼ã‚¸æ•°");
 
                     other.GetComponent<BossAI>().RPC_AnimNameRegist();
                 }
@@ -109,16 +109,16 @@ public class ChargeAttackAreaDamage : NetworkBehaviour
         {
             Count--;
         }
-        //ƒzƒXƒg‚È‚çI—¹
+        //ãƒ›ã‚¹ãƒˆãªã‚‰çµ‚äº†
         if (Runner.IsServer)
         {
-            //Debug.Log("ƒ_ƒ[ƒW”ƒzƒXƒg‚¾‚æ");
+            //Debug.Log("ãƒ€ãƒ¡ãƒ¼ã‚¸æ•°ãƒ›ã‚¹ãƒˆã ã‚ˆ");
             return;
         }
 
         if (isGeki)
         {
-            Debug.Log("ƒNƒ‰ƒCƒAƒ“ƒgƒ_ƒ[ƒW”");
+            Debug.Log("ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆãƒ€ãƒ¡ãƒ¼ã‚¸æ•°");
             Transform boss = transform;
             boss.localScale = bossscale;
             boss.position = bosspos;
@@ -151,36 +151,36 @@ public class ChargeAttackAreaDamage : NetworkBehaviour
         }
         Count = 4;
 
-        // ƒ_ƒ[ƒW’l‚ğ•¶š—ñ‚Æ‚µ‚Äˆµ‚¤
+        // ãƒ€ãƒ¡ãƒ¼ã‚¸å€¤ã‚’æ–‡å­—åˆ—ã¨ã—ã¦æ‰±ã†
         string damageStr = damage.ToString();
 
-        // ƒ‰ƒ“ƒ_ƒ€‚ÈƒIƒtƒZƒbƒg‚ğŒvZ
-        float randomX = Random.Range(MinRange, MaxRange); // -0.2`0.2‚ÌŠÔ‚ÅXÀ•W‚ğƒ‰ƒ“ƒ_ƒ€‰»
-        float randomY = Random.Range(MinRange, MaxRange); // -0.2`0.2‚ÌŠÔ‚ÅYÀ•W‚ğƒ‰ƒ“ƒ_ƒ€‰»
+        // ãƒ©ãƒ³ãƒ€ãƒ ãªã‚ªãƒ•ã‚»ãƒƒãƒˆã‚’è¨ˆç®—
+        float randomX = Random.Range(MinRange, MaxRange); // -0.2ï½0.2ã®é–“ã§Xåº§æ¨™ã‚’ãƒ©ãƒ³ãƒ€ãƒ åŒ–
+        float randomY = Random.Range(MinRange, MaxRange); // -0.2ï½0.2ã®é–“ã§Yåº§æ¨™ã‚’ãƒ©ãƒ³ãƒ€ãƒ åŒ–
 
-        // ŠeŒ…‚Ì”š‚ğ¶¬
+        // å„æ¡ã®æ•°å­—ã‚’ç”Ÿæˆ
         for (int i = 0; i < damageStr.Length; i++)
         {
-            // ”š‚ğæ“¾
+            // æ•°å­—ã‚’å–å¾—
             int digit = int.Parse(damageStr[i].ToString());
 
-            // ”šƒIƒuƒWƒFƒNƒg‚ğ¶¬
+            // æ•°å­—ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç”Ÿæˆ
             GameObject numberObj = Instantiate(damageobj, new Vector3(0, 0, 0), Quaternion.identity);
 
-            // ƒXƒvƒ‰ƒCƒg‚ğİ’è
+            // ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆã‚’è¨­å®š
             SpriteRenderer spriteRenderer = numberObj.GetComponent<SpriteRenderer>();
             spriteRenderer.sprite = damagesprite[digit];
 
-            // ”z’u‚ğ’²®iŒ…‚²‚Æ‚É‰¡‚É•À‚×‚Â‚ÂAƒ‰ƒ“ƒ_ƒ€‚ÈˆÊ’u‚É‚¸‚ç‚·j
+            // é…ç½®ã‚’èª¿æ•´ï¼ˆæ¡ã”ã¨ã«æ¨ªã«ä¸¦ã¹ã¤ã¤ã€ãƒ©ãƒ³ãƒ€ãƒ ãªä½ç½®ã«ãšã‚‰ã™ï¼‰
             numberObj.transform.position = new Vector3(
-                 pos.position.x + (i * 1f + randomX), // Œ…‚²‚Æ‚Ì”z’u‚Éƒ‰ƒ“ƒ_ƒ€‚ÈXƒIƒtƒZƒbƒg‚ğ’Ç‰Á
-                pos.position.y + (pos.localScale.y / 4), // YÀ•W‚É‚àƒ‰ƒ“ƒ_ƒ€ƒIƒtƒZƒbƒg‚ğ’Ç‰Á
+                 pos.position.x + (i * 1f + randomX), // æ¡ã”ã¨ã®é…ç½®ã«ãƒ©ãƒ³ãƒ€ãƒ ãªXã‚ªãƒ•ã‚»ãƒƒãƒˆã‚’è¿½åŠ 
+                pos.position.y + (pos.localScale.y / 4), // Yåº§æ¨™ã«ã‚‚ãƒ©ãƒ³ãƒ€ãƒ ã‚ªãƒ•ã‚»ãƒƒãƒˆã‚’è¿½åŠ 
                  pos.position.z
             );
-            Debug.Log("ƒ_ƒ[ƒW”" + numberObj.transform.position.y);
+            Debug.Log("ãƒ€ãƒ¡ãƒ¼ã‚¸æ•°" + numberObj.transform.position.y);
 
-            // ”•bŒã‚ÉÁ‚¦‚é‚æ‚¤‚Éİ’è
-            //Destroy(numberObj, 1.5f); // 1.5•bŒã‚ÉƒIƒuƒWƒFƒNƒg‚ğíœ
+            // æ•°ç§’å¾Œã«æ¶ˆãˆã‚‹ã‚ˆã†ã«è¨­å®š
+            //Destroy(numberObj, 1.5f); // 1.5ç§’å¾Œã«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å‰Šé™¤
         }
     }
 }
