@@ -16,6 +16,13 @@ public class MoveToBossObject : NetworkBehaviour
 
     public void SetToMove(bool _isToMove) { isToMove = _isToMove; }
 
+    private Animator animator;
+
+    public override void Spawned()
+    {
+        animator = GetComponent<Animator>();
+    }
+
     public override void FixedUpdateNetwork()
     {
         if (isToMove)
@@ -26,6 +33,18 @@ public class MoveToBossObject : NetworkBehaviour
         if(target.GetComponent<BossAI>().isInterrupted || target.GetComponent<BossAI>().isDown)
         {
             isToMove = true;
+        }
+    }
+
+    public override void Render()
+    {
+        if(isToMove)
+        {
+            animator.SetTrigger("Hit");
+        }
+        else
+        {
+            animator.SetTrigger("Attack");
         }
     }
 }
