@@ -242,8 +242,8 @@ public class BossAI : NetworkBehaviour
         {
             isHalf = true;
             actionSequence = actionSequenceHalf;
-            currentActionIndex = 0;
-            currentSequenceIndex = 0;
+            //currentActionIndex = 0;
+            //currentSequenceIndex = 0;
 
             GameObject attackAreaview;
             attackAreaview = transform.Find("Area")?.gameObject;

@@ -95,6 +95,8 @@ public class BossActionMoveAttack : BossActionData
         attackArea.GetComponent<MoveToBossObject>().SetToMove(false);      
     }
 
+    private IEnumerator resetCoroutine; // リセット処理用コルーチン
+
     public override bool ExecuteAction(GameObject boss, Transform player)
     {
         if (Time.time - attackStartTime < attackDuration)
@@ -104,7 +106,7 @@ public class BossActionMoveAttack : BossActionData
 
         if (isComp)
         {
-            return true;
+            return true; // アクション完了
         }
 
         if (isAttack)
@@ -140,46 +142,48 @@ public class BossActionMoveAttack : BossActionData
             float progress = elapsed / moveAttackEndPosTime;
             float curveValue = curve.Evaluate(progress);
 
-            // 攻撃エリアと画像オブジェクトの移動 (ワールド座標で計算)
-            Vector3 targetPosition = Vector3.Lerp(originalPosition, moveAttackEndPos, curveValue); // ワールド座標で計算
-            attackArea.transform.position = targetPosition; // ワールド座標に変換して設定          
+            Vector3 targetPosition = Vector3.Lerp(originalPosition, moveAttackEndPos, curveValue);
+            attackArea.transform.position = targetPosition;
 
-            if (progress >= 1.0f)
+            if (progress >= 1.0f && resetCoroutine == null)
             {
-                boss.GetComponent<MonoBehaviour>().StartCoroutine(ResetToOriginalPosition());
-                return false; // リセットが完了するまではfalseを返す
+                // リセット処理開始
+                resetCoroutine = ResetToOriginalPosition();
+                boss.GetComponent<MonoBehaviour>().StartCoroutine(resetCoroutine);
             }
 
-            return false;
+            // リセット処理が完了するのを待つ
+            if (resetCoroutine != null && !isMoving)
+            {
+                resetCoroutine = null; // 完了後にコルーチンをリセット
+                return true; // 完了した場合
+            }
+
+            return false; // リセットが完了していない場合
         }
     }
 
     private IEnumerator ResetToOriginalPosition()
     {
         float resetStartTime = Time.time;
-        float resetDuration = 0.5f; // 元の位置に戻るまでの時間
+        float resetDuration = 0.5f;
 
-        Vector3 attackAreaStartPosition = attackArea.transform.position; // ローカル座標に変更
-       
+        Vector3 attackAreaStartPosition = attackArea.transform.position;
+
         while (Time.time - resetStartTime < resetDuration)
         {
             float progress = (Time.time - resetStartTime) / resetDuration;
-
-            // 攻撃エリアをラープで元の位置に戻す
-            attackArea.transform.position = Vector3.Lerp(attackAreaStartPosition, originalPosition, progress); // ローカル座標に変更
-        
+            attackArea.transform.position = Vector3.Lerp(attackAreaStartPosition, originalPosition, progress);
             yield return null;
         }
 
-        // 最後に確実に位置を元に戻す
-        attackArea.transform.position = originalPosition; // ローカル座標に変更
+        attackArea.transform.position = originalPosition;
         attackArea.GetComponent<BoxCollider>().enabled = false;
 
-        attackArea.GetComponent<MoveToBossObject>().SetToMove(true);      
+        attackArea.GetComponent<MoveToBossObject>().SetToMove(true);
 
         isMoving = false;
         isComp = true;
-
-        yield return true; // 完了を通知
     }
+
 }
