@@ -26,7 +26,7 @@ public class SoundManager : MonoBehaviour
     bool bosson   = false;
     bool otheron = false;
 
-    [SerializeField, Tooltip("ミュートボタン")] bool isMute = false;
+    //[SerializeField, Tooltip("ミュートボタン")] bool isMute = false;
 
     //public static SoundManager Instance { get; private set; }
 
@@ -47,7 +47,7 @@ public class SoundManager : MonoBehaviour
     private void Start()
     {
         masterVolume= SoundDataManager.masterVolume;
-        bgmMasterVolume= SoundDataManager.bgmMasterVolume;
+        bgmMasterVolume = SoundDataManager.bgmMasterVolume;
         seMasterVolume= SoundDataManager.seMasterVolume;
     }
 
@@ -55,29 +55,28 @@ public class SoundManager : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.M))
         {
-            isMute = !isMute;
+            SoundDataManager.isMute = !SoundDataManager.isMute;
         }
 
-        if(isMute)
+        if(SoundDataManager.isMute)
         {
-            masterVolume = 0;
-            //bgmMasterVolume = 0;
-            //seMasterVolume = 0;
-            
+            SoundDataManager.muteVolume = 0;
+
         }
         else
         {
-            masterVolume = SoundDataManager.masterVolume;
-            bgmMasterVolume = SoundDataManager.bgmMasterVolume;
-            seMasterVolume = SoundDataManager.seMasterVolume;
-
+            SoundDataManager.muteVolume = 1;
         }
+
+        masterVolume = SoundDataManager.masterVolume;
+        bgmMasterVolume = SoundDataManager.bgmMasterVolume;
+        seMasterVolume = SoundDataManager.seMasterVolume;
 
         if (!bgmAudioSource)
         {
           //  Debug.Log("呼ばれた");
             bgmAudioSource = Camera.main.GetComponent<AudioSource>();
-            bgmAudioSource.volume= masterVolume * bgmMasterVolume;
+            bgmAudioSource.volume= masterVolume * bgmMasterVolume * SoundDataManager.muteVolume;
             cameraon = true;
         }
 
@@ -86,7 +85,7 @@ public class SoundManager : MonoBehaviour
             if (GameObject.Find("Player(Clone)"))
             {
                 PlayerSeAudioSource = GameObject.Find("Player(Clone)").GetComponent<AudioSource>();
-                PlayerSeAudioSource.volume= masterVolume * seMasterVolume;
+                PlayerSeAudioSource.volume= masterVolume * seMasterVolume * SoundDataManager.muteVolume;
                 playeron = true;
             }
             else
@@ -101,7 +100,7 @@ public class SoundManager : MonoBehaviour
             if (GameObject.Find("Boss2D"))
             {
                 EnemySeAudioSource = GameObject.Find("Boss2D").GetComponent<AudioSource>();
-                EnemySeAudioSource.volume = masterVolume * seMasterVolume;
+                EnemySeAudioSource.volume = masterVolume * seMasterVolume * SoundDataManager.muteVolume;
                 bosson = true;
             }
             else
@@ -115,7 +114,7 @@ public class SoundManager : MonoBehaviour
             if (GameObject.Find("SE"))
             {
                 titleSeAudioSource = GameObject.Find("SE").GetComponent<AudioSource>();
-                titleSeAudioSource.volume = masterVolume * seMasterVolume;
+                titleSeAudioSource.volume = masterVolume * seMasterVolume * SoundDataManager.muteVolume;
                 otheron = true;
             }
             else
@@ -127,25 +126,25 @@ public class SoundManager : MonoBehaviour
 
         if(cameraon)
         {
-            bgmAudioSource.volume = masterVolume * bgmMasterVolume;
+            bgmAudioSource.volume = masterVolume * bgmMasterVolume * SoundDataManager.muteVolume;
 
         }
 
         if(playeron)
         {
-            PlayerSeAudioSource.volume = masterVolume * seMasterVolume;
+            PlayerSeAudioSource.volume = masterVolume * seMasterVolume * SoundDataManager.muteVolume;
 
         }
 
         if(bosson)
         {
-            EnemySeAudioSource.volume = masterVolume * seMasterVolume;
+            EnemySeAudioSource.volume = masterVolume * seMasterVolume * SoundDataManager.muteVolume;
 
         }
 
         if(otheron)
         {
-            titleSeAudioSource.volume = masterVolume * seMasterVolume;
+            titleSeAudioSource.volume = masterVolume * seMasterVolume * SoundDataManager.muteVolume;
 
         }
     }
