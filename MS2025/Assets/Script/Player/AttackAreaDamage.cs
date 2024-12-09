@@ -128,7 +128,7 @@ public class AttackAreaDamage : NetworkBehaviour
                     GekiUI(other.transform);
                     // Debug.Log("ホストダメージ数");
                     player.GetComponent<HitStop>().ApplyHitStop(stopFrame);
-                    Debug.Log("ヒットストップダメージ数ホスト" + stopFrame);
+                    //Debug.Log("ヒットストップダメージ数ホスト" + stopFrame);
 
                 }
                 else
