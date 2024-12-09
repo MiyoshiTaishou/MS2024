@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class DrawLine : NetworkBehaviour
 {
-    public Transform Startobj; // 線の始点オブジェクト
-    public Transform Endobj; // 線の終点オブジェクト
+    [Networked] public Vector3 Startobj { get; set; } // 線の始点オブジェクト
+    [Networked] public Vector3 Endobj { get; set; } // 線の終点オブジェクト
 
     private LineRenderer lineRenderer;
 
@@ -36,15 +36,16 @@ public class DrawLine : NetworkBehaviour
 
     public override void FixedUpdateNetwork()
     {
-        // 線の始点と終点を更新
-        lineRenderer.SetPosition(0, Startobj.position);
-        lineRenderer.SetPosition(1, Endobj.position);
+
 
         //Debug.Log("スタート"+ Startobj.position + "終点"+ Endobj.position);
     }
 
     public override void Render()
     {
+        // 線の始点と終点を更新
+        lineRenderer.SetPosition(0, Startobj);
+        lineRenderer.SetPosition(1, Endobj);
         if (isTanuki)
         {
             // Emissionカラーを設定

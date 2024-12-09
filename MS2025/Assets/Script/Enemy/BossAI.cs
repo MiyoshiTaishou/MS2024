@@ -421,8 +421,8 @@ public class BossAI : NetworkBehaviour
         if(lineobj)
         {
 
-            lineobj.GetComponent<DrawLine>().Startobj = transform;
-            lineobj.GetComponent<DrawLine>().Endobj = players[currentPlayerIndex].transform;
+            lineobj.GetComponent<DrawLine>().Startobj = transform.position;
+            lineobj.GetComponent<DrawLine>().Endobj = players[currentPlayerIndex].transform.position;
             if (currentPlayerIndex == 0)
             {
                 lineobj.GetComponent<DrawLine>().SetTanuki(true);
