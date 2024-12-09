@@ -22,5 +22,10 @@ public class MoveToBossObject : NetworkBehaviour
         {
             transform.position = target.transform.position + distance;
         }
+
+        if(target.GetComponent<BossAI>().isInterrupted || target.GetComponent<BossAI>().isDown)
+        {
+            isToMove = true;
+        }
     }
 }
