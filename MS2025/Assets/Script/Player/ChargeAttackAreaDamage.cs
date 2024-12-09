@@ -1,6 +1,7 @@
 using Fusion;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
 
 public class ChargeAttackAreaDamage : NetworkBehaviour
 {
@@ -55,21 +56,22 @@ public class ChargeAttackAreaDamage : NetworkBehaviour
         {
             if (other.GetComponent<BossStatus>())
             {
-                Debug.Log("チャージアタック成功");
+                Debug.Log("チャージアタック成功"+ other.transform);
                 other.GetComponent<BossStatus>().RPC_Damage(ChargeDamege);
-                if (change.GetComponent<ChangeBossAction>().TextNo == 5)
-                {
-                    change.GetComponent<ChangeBossAction>().TextNo = 6;
-                }
+                //if (change.GetComponent<ChangeBossAction>().TextNo == 5)
+                //{
+                //    change.GetComponent<ChangeBossAction>().TextNo = 6;
+                //}
                 Camera.main.GetComponent<CameraEffectPlay>().RPC_CameraEffect();
                 Camera.main.GetComponent<CameraShake>().RPC_CameraShake(0.3f, 0.3f);
+
 
                 //当たった位置に撃表示
                 //当たった位置に撃表示
                 if (parry.isTanuki)
                 {
-                    GekiUI(other.transform);
-                    // Debug.Log("ホストダメージ数");
+                    DisplayNumber(ChargeDamege, other.transform);
+                    Debug.Log("ホストダメージ数");
                     player.GetComponent<HitStop>().ApplyHitStop(stopFrame);
 
                 }
@@ -84,7 +86,15 @@ public class ChargeAttackAreaDamage : NetworkBehaviour
 
                 }
                 RPCCombo();
-                other.GetComponent<BossAI>().RPC_AnimNameRegist();
+                //Debug.Log("ダメージ数" + other.GetComponent<BossAI>().isAir);
+
+                if (!other.GetComponent<BossAI>().isAir)
+                {
+                   // Debug.Log("のけぞりダメージ数");
+
+                    other.GetComponent<BossAI>().RPC_AnimNameRegist();
+                }
+
             }
         }
     }

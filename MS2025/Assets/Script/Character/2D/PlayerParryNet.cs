@@ -210,10 +210,10 @@ public class PlayerParryNet : NetworkBehaviour
         back.ApplyKnockback(transform.forward, KnockbackPower);
         ParryArea.GetComponent<ParryDisplayNet>().Init();
 
-        if (change.GetComponent<ChangeBossAction>().TextNo == 3)
-        {
-            change.GetComponent<ChangeBossAction>().TextNo = 4;
-        }
+        //if (change.GetComponent<ChangeBossAction>().TextNo == 3)
+        //{
+        //    change.GetComponent<ChangeBossAction>().TextNo = 4;
+        //}
 
 
         isParrySuccess = true;
