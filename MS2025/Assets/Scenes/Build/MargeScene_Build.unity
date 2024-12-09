@@ -2394,6 +2394,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1543679455732522373, guid: 2d5a6b03460814e4d8ec665c744611bb,
         type: 3}
+      propertyPath: HPUIconf
+      value: 0.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 1543679455732522373, guid: 2d5a6b03460814e4d8ec665c744611bb,
+        type: 3}
       propertyPath: SceneName
       value: Title_Network_Build
       objectReference: {fileID: 0}
@@ -2402,6 +2407,11 @@ PrefabInstance:
       propertyPath: TryObject
       value: 
       objectReference: {fileID: 1392148367}
+    - target: {fileID: 1543679455732522373, guid: 2d5a6b03460814e4d8ec665c744611bb,
+        type: 3}
+      propertyPath: HPUIsizeconf
+      value: 3.5
+      objectReference: {fileID: 0}
     - target: {fileID: 1543679455732522373, guid: 2d5a6b03460814e4d8ec665c744611bb,
         type: 3}
       propertyPath: transitionManager
@@ -3661,6 +3671,42 @@ PrefabInstance:
       propertyPath: m_HorizontalAlignment
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 965989554107498215, guid: c71161469b6c102429892c1cead900b0,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 965989554107498215, guid: c71161469b6c102429892c1cead900b0,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 965989554107498215, guid: c71161469b6c102429892c1cead900b0,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 965989554107498215, guid: c71161469b6c102429892c1cead900b0,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 965989554107498215, guid: c71161469b6c102429892c1cead900b0,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 200.57
+      objectReference: {fileID: 0}
+    - target: {fileID: 965989554107498215, guid: c71161469b6c102429892c1cead900b0,
+        type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1187109163784619536, guid: c71161469b6c102429892c1cead900b0,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: ceb16c89ae6fb284c9080d091c5ee64b,
+        type: 3}
     - target: {fileID: 1206873428174664049, guid: c71161469b6c102429892c1cead900b0,
         type: 3}
       propertyPath: m_Enabled
@@ -3816,6 +3862,12 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5798795230211027272, guid: c71161469b6c102429892c1cead900b0,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: b5a0d60ae89405e4e96d2bbcb2e25344,
+        type: 3}
     - target: {fileID: 6990685856442751236, guid: c71161469b6c102429892c1cead900b0,
         type: 3}
       propertyPath: m_IsActive
@@ -3921,6 +3973,11 @@ PrefabInstance:
       propertyPath: NetworkedBehaviours.Array.data[0]
       value: 
       objectReference: {fileID: 1392148369}
+    - target: {fileID: 8575965210999533186, guid: c71161469b6c102429892c1cead900b0,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9057253686369652726, guid: c71161469b6c102429892c1cead900b0,
         type: 3}
       propertyPath: m_fontStyle

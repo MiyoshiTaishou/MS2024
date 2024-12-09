@@ -10418,6 +10418,11 @@ MonoBehaviour:
   selectedIndex: 0
   selectColor: {r: 1, g: 1, b: 1, a: 1}
   baseColor: {r: 0, g: 0, b: 0, a: 0}
+  selectColorImage: {r: 0, g: 0, b: 0, a: 0}
+  baseColorImage: {r: 0, g: 0, b: 0, a: 0}
+  Audio: {fileID: 0}
+  Clip: {fileID: 0}
+  CancelClip: {fileID: 0}
 --- !u!82 &685123582
 AudioSource:
   m_ObjectHideFlags: 0
@@ -11336,18 +11341,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 822228298}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &842075505 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6862905053322490403, guid: 2b84b475479e98c4b8d0352ae4e1ccdd,
-    type: 3}
-  m_PrefabInstance: {fileID: 1228329116}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ba1357c905109204e885a86a73a7b491, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &844351330
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15731,7 +15724,7 @@ PrefabInstance:
     - target: {fileID: 6862905053322490403, guid: 2b84b475479e98c4b8d0352ae4e1ccdd,
         type: 3}
       propertyPath: playerNum
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6862905053322490403, guid: 2b84b475479e98c4b8d0352ae4e1ccdd,
         type: 3}
@@ -19013,7 +19006,6 @@ MonoBehaviour:
   - {fileID: 1808417488}
   - {fileID: 2101133533}
   - {fileID: 244334631}
-  gameLauncher: {fileID: 0}
 --- !u!114 &1703238356
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19047,6 +19039,7 @@ MonoBehaviour:
   - {fileID: 1077471254}
   - {fileID: 596134736}
   - {fileID: 545684097}
+  disActiveFlag: 0
   select: {fileID: 1703238359}
 --- !u!82 &1703238358
 AudioSource:
@@ -19168,6 +19161,11 @@ MonoBehaviour:
   selectedIndex: 0
   selectColor: {r: 1, g: 1, b: 1, a: 1}
   baseColor: {r: 0, g: 0, b: 0, a: 0}
+  selectColorImage: {r: 0, g: 0, b: 0, a: 0}
+  baseColorImage: {r: 0, g: 0, b: 0, a: 0}
+  Audio: {fileID: 0}
+  Clip: {fileID: 0}
+  CancelClip: {fileID: 0}
 --- !u!224 &1703238360
 RectTransform:
   m_ObjectHideFlags: 0
@@ -19791,7 +19789,6 @@ MonoBehaviour:
   - {fileID: 1808417488}
   - {fileID: 2101133533}
   - {fileID: 244334631}
-  gameLauncher: {fileID: 842075505}
 --- !u!224 &1808417494 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2974488197679443454, guid: b6641e141eedcf943941f8ef19c92bff,
@@ -22625,7 +22622,6 @@ MonoBehaviour:
   - {fileID: 2101133533}
   - {fileID: 244334631}
   - {fileID: 685123580}
-  gameLauncher: {fileID: 842075505}
 --- !u!224 &2101133539 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6127104559096594943, guid: b6641e141eedcf943941f8ef19c92bff,

@@ -122,7 +122,7 @@ public class BossAI : NetworkBehaviour
             StartNextAction(); // プレイヤーが二人以上揃っていたらアクションを開始
         }
 
-        lineobj= Runner.Spawn(Line, new Vector3(0,0,0), Quaternion.identity, null);
+        //lineobj= Runner.Spawn(Line, new Vector3(0,0,0), Quaternion.identity, null);
 
         rb = GetComponent<Rigidbody>();
         hitstop = GetComponent<HitStop>();
@@ -242,8 +242,8 @@ public class BossAI : NetworkBehaviour
         {
             isHalf = true;
             actionSequence = actionSequenceHalf;
-            currentActionIndex = 0;
-            currentSequenceIndex = 0;
+            //currentActionIndex = 0;
+            //currentSequenceIndex = 0;
 
             GameObject attackAreaview;
             attackAreaview = transform.Find("Area")?.gameObject;
@@ -416,26 +416,26 @@ public class BossAI : NetworkBehaviour
 
         }
 
-        Debug.Log(lineobj);
-        //プレイヤーへの視線
-        if(lineobj)
-        {
+        //Debug.Log(lineobj);
+        ////プレイヤーへの視線
+        //if(lineobj)
+        //{
 
-            lineobj.GetComponent<DrawLine>().Startobj = transform;
-            lineobj.GetComponent<DrawLine>().Endobj = players[currentPlayerIndex].transform;
-            if (currentPlayerIndex == 0)
-            {
-                lineobj.GetComponent<DrawLine>().SetTanuki(true);
-            }
-            else
-            {
-                lineobj.GetComponent<DrawLine>().SetTanuki(false);
-            }
-        }
-        else
-        {
-           // lineobj = NetworkObject.Find("Line");
-        }
+        //    lineobj.GetComponent<DrawLine>().Startobj = transform.position;
+        //    lineobj.GetComponent<DrawLine>().Endobj = players[currentPlayerIndex].transform.position;
+        //    if (currentPlayerIndex == 0)
+        //    {
+        //        lineobj.GetComponent<DrawLine>().SetTanuki(true);
+        //    }
+        //    else
+        //    {
+        //        lineobj.GetComponent<DrawLine>().SetTanuki(false);
+        //    }
+        //}
+        //else
+        //{
+        //   // lineobj = NetworkObject.Find("Line");
+        //}
 
         //ダウン状態が解除されたらダウンパーティクルを削除する
         //if (!isDown)

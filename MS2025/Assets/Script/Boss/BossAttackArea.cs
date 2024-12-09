@@ -44,10 +44,10 @@ public class BossAttackArea : NetworkBehaviour
     public override void Spawned()
     {
         box = GameObject.Find("Networkbox");
-        parent = transform.parent.gameObject;
+        parent = GameObject.Find("Boss2D");
         timer = deactivateTime;
-        Pare = transform.parent.gameObject;
-        isTanuki= false;
+        Pare = GameObject.Find("Boss2D");
+        isTanuki = false;
         isKitune= false;
         // Œ³‚ÌˆÊ’u‚ð‹L˜^
         originalPosition = transform.position;
