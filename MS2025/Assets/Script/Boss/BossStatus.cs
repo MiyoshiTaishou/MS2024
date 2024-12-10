@@ -107,9 +107,39 @@ public class BossStatus : NetworkBehaviour
     [Rpc(RpcSources.All, RpcTargets.All)]
     private void RPC_HandleBossDeath()
     {
-        gekihaAnimator.SetActive(true);
-        gekihaAnimator.GetComponent<Animator>().SetTrigger("EndGame");
-        HandleBossDeath();
+
+        switch (DeathCount)
+        {
+            case 0:
+                nBossHP = InitHP;
+                slider.value = nBossHP;
+                Backslider.value = nBossHP;
+                DeathCount += 1;
+
+                break;
+
+            case 1:
+                nBossHP = InitHP;
+                slider.value = nBossHP;
+                Backslider.value = nBossHP;
+                DeathCount += 1;
+                break;
+
+            case 2:
+                DeathCount++;
+                break;
+            case 3:
+                Debug.Log("ボス死亡です");
+                // gekihaAnimator.SetActive(true);
+                // gekihaAnimator.GetComponent<Animator>().SetTrigger("EndGame");
+                gekihaAnimator.SetActive(true);
+                gekihaAnimator.GetComponent<Animator>().SetTrigger("EndGame");
+                HandleBossDeath();
+                // クライアントに先にシーン遷移を指示
+                gameManager.RPC_EndBattle(10, 5);
+                break;
+        }
+      
     }
 
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
@@ -196,35 +226,9 @@ public class BossStatus : NetworkBehaviour
         if (nBossHP <= 0 && Object.HasStateAuthority)
         {
 
-            switch (DeathCount)
-            {
-                case 0:
-                    nBossHP = InitHP;
-                    slider.value = nBossHP;
-                    Backslider.value = nBossHP;
-                    DeathCount += 1;
+            RPC_HandleBossDeath();
 
-                    break;
-
-                case 1:
-                    nBossHP = InitHP;
-                    slider.value = nBossHP;
-                    Backslider.value = nBossHP;
-                    DeathCount += 1;
-                    break;
-
-                case 2:
-                    DeathCount++;
-                    break;
-                case 3:
-                    Debug.Log("ボス死亡です");
-                    // gekihaAnimator.SetActive(true);
-                    // gekihaAnimator.GetComponent<Animator>().SetTrigger("EndGame");
-                    RPC_HandleBossDeath();
-                    // クライアントに先にシーン遷移を指示
-                    gameManager.RPC_EndBattle(10, 5);
-                    break;
-            }
+          
 
         }
     }
