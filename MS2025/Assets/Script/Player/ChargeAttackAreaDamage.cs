@@ -67,9 +67,9 @@ public class ChargeAttackAreaDamage : NetworkBehaviour
                 switch(Tutorial)
                 {
                     case 1:
-                        if (change.GetComponent<ChangeBossAction>().TextNo == 5)
+                        if (change.GetComponent<ChangeBossAction>().TextNo == 4)
                         {
-                            change.GetComponent<ChangeBossAction>().TextNo = 6;
+                            change.GetComponent<ChangeBossAction>().TextNo = 5;
                         }
                         break;
                 }

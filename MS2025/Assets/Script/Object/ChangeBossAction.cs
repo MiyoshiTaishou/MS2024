@@ -56,22 +56,19 @@ public class ChangeBossAction : NetworkBehaviour
             case 1://必殺技を出してもらう
                 TextSprite.GetComponent<Image>().sprite = numberSprites[TextNo];
                 break;
-            case 2://勝ちあげ攻撃を練習してもらう
+            case 2://かちあげ攻撃を練習してもらう
                 TextSprite.GetComponent<Image>().sprite = numberSprites[TextNo];
                 boss.GetComponent<BossAI>().actionSequence[0] = jumpAction;//ボスにひたすらジャンプさせる
                 break;
             case 3://パリィを練習
-                TextSprite.GetComponent<Image>().sprite = numberSprites[TextNo];
+                TextSprite.GetComponent<Image>().sprite = numberSprites[TextNo];//目の前に攻撃
                 boss.GetComponent<BossAI>().actionSequence[0] = bossAction;
                 break;
-            case 4://ダブルパリィ
+            case 4://溜め攻撃
                 TextSprite.GetComponent<Image>().sprite = numberSprites[TextNo];
+                boss.GetComponent<BossAI>().actionSequence[0] = data;//何もしなくなる
                 break;
-            case 5://溜め攻撃
-                TextSprite.GetComponent<Image>().sprite = numberSprites[TextNo];
-                boss.GetComponent<BossAI>().actionSequence[0] = data;
-                break;
-            case 6://終わり
+            case 5://終わり
                 TextSprite.GetComponent<Image>().sprite = numberSprites[TextNo];
                 //下にシーン遷移処理
 
