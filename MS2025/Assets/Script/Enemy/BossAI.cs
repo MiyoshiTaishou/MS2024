@@ -86,6 +86,9 @@ public class BossAI : NetworkBehaviour
     [SerializeField, Header("ボスが追いかけるプレイヤーに線")] GameObject Line;
     [Networked] NetworkObject lineobj { get; set; }
 
+    [SerializeField, Header("チュートリアルモード")]
+    private bool isTutorial = false;
+
     public override void Spawned()
     {
         NokezoriRegist = MaxNokezoriRegist;
@@ -343,7 +346,7 @@ public class BossAI : NetworkBehaviour
             return;
         }
 
-        if (isDown)
+        if (isDown&&isTutorial==false)
         {
             Debug.Log("ダウン完了");
             currentActionIndex = 0;
@@ -401,6 +404,7 @@ public class BossAI : NetworkBehaviour
             transform.localScale = temp;
         }
 
+        //ダウンパーティクル
         if (isParticle == 2 || isParticle == 3)
         {
             switch (isParticle)
