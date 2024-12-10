@@ -27,6 +27,20 @@ public class ChangeBossAction : NetworkBehaviour
     [SerializeField] private GameObject TextSprite;
     [Networked] public int TextNo { get; set; }
 
+
+
+    [SerializeField]
+    private string nextSceneName; // 遷移先のシーン名
+
+    [SerializeField]
+    private TransitionManager transitionManager;
+
+    private NetworkRunner networkRunner;
+
+    private bool isOnce = false;
+
+
+
     public Sprite[] numberSprites; // スプライト
 
     BossActionSequence data;
@@ -35,7 +49,7 @@ public class ChangeBossAction : NetworkBehaviour
 
     public override void Spawned()
     {
-
+        networkRunner = FindObjectOfType<NetworkRunner>();
         data = boss.GetComponent<BossAI>().actionSequence[0];
     }
 
@@ -43,7 +57,22 @@ public class ChangeBossAction : NetworkBehaviour
 
     public override void FixedUpdateNetwork()
     {
+        switch (TextNo)
+        {
 
+            case 5://終わり
+                // シーン遷移の処理
+                if (!isOnce)
+                {
+                    transitionManager.TransitionStart();
+
+                    StartCoroutine(Load());
+
+                    isOnce = true;
+                }
+
+                break;
+        }
     }
 
     public override void Render()
@@ -70,8 +99,7 @@ public class ChangeBossAction : NetworkBehaviour
                 break;
             case 5://終わり
                 TextSprite.GetComponent<Image>().sprite = numberSprites[TextNo];
-                //下にシーン遷移処理
-
+              
                 break;
         }
 
@@ -88,7 +116,11 @@ public class ChangeBossAction : NetworkBehaviour
         
     }
 
-   
+    private IEnumerator Load()
+    {
+        yield return new WaitForSeconds(2f);
+        networkRunner.LoadScene(nextSceneName);
+    }
 
     private void Update()
     {
