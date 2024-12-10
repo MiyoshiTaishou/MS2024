@@ -48,6 +48,8 @@ public class PulsatingCircle : NetworkBehaviour
 
         // スケールを適用
         transform.localScale = new Vector3(currentScale, currentScale, 1.0f);
+
+        transform.position = new Vector3(transform.position.x, 2f, transform.position.z);
     }
 
     [Rpc(RpcSources.All, RpcTargets.All)]
