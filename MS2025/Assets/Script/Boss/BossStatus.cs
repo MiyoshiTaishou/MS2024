@@ -186,8 +186,6 @@ public class BossStatus : NetworkBehaviour
 
         slider.value = nBossHP;
 
-        HPCount++;
-
         if (Backslider.value > nBossHP && HPCount > 50)
         {
             Backslider.value -= 1f;
@@ -228,7 +226,11 @@ public class BossStatus : NetworkBehaviour
             RPC_HandleBossDeath();
 
         }
+
+        HPCount++;
     }
+
+
 
     private IEnumerator Load()
     {
