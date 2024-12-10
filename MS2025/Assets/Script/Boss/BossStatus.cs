@@ -49,7 +49,7 @@ public class BossStatus : NetworkBehaviour
     private String ResultSceneName;
 
     //HPの減少が止まったら赤ゲージを減らすためのカウント
-    [Networked] private int HPCount  { get; set; }
+    [Networked] public int HPCount  { get; set; }
 
     private NetworkRunner networkRunner;
 
