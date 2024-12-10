@@ -16,7 +16,8 @@ MonoBehaviour:
   attackRange: 6.16
   attackDuration: 1.275
   attackAnimSpeed: 1.75
-  attackScale: {x: 2, y: 1, z: 1}
+  attackAreaAnimSpeed: 0
+  attackScale: {x: 1, y: 1, z: 1}
   isCameraShake: 0
   cameraDuration: 0
   magnitude: 0

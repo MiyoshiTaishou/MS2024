@@ -142,7 +142,7 @@ MonoBehaviour:
   buddyStopFrame: 30
   buddyFinalStopFrame: 30
   DamageNum: 100
-  buddyDamageNum: 200
+  buddyDamageNum: 500
   buddyFinalDamageNum: 1000
   damagesprite:
   - {fileID: 21300000, guid: 0135c88579183914da6ee241e098f47b, type: 3}
@@ -6234,7 +6234,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   netobj: {fileID: 6048116181023338960, guid: 2d5a6b03460814e4d8ec665c744611bb, type: 3}
   stopFrame: 30
-  ChargeDamege: 500
+  ChargeDamege: 300
   Gekiobj: {fileID: 4630218144137360919, guid: b1871dfb0d725bb4497c060c1a4cea4a, type: 3}
   damagesprite:
   - {fileID: 21300000, guid: 0135c88579183914da6ee241e098f47b, type: 3}
