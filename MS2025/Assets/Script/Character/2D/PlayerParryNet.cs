@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 using static UnityEngine.ParticleSystem;
 
@@ -101,6 +102,8 @@ public class PlayerParryNet : NetworkBehaviour
     [Networked]public bool isTanuki { get; set; }
     [Networked] public bool isRaise { get; set; }
 
+    private int Tutorial = 0;
+
     public bool ParryCheck()
     {
         //Debug.Log("パリィ!!!");
@@ -160,7 +163,10 @@ public class PlayerParryNet : NetworkBehaviour
             if (transform.GetChild(i).gameObject.name == "ParryArea")
                 ParryArea = transform.GetChild(i).gameObject;
         }
-
+        if (SceneManager.GetActiveScene().name == "TutorialScene_Miyoshi")
+        {
+            Tutorial = 1;
+        }
         ParryArea.gameObject.SetActive(false);
 
         ParryActivetimeFrame = ParryActivetime / 60;
@@ -210,10 +216,17 @@ public class PlayerParryNet : NetworkBehaviour
         back.ApplyKnockback(transform.forward, KnockbackPower);
         ParryArea.GetComponent<ParryDisplayNet>().Init();
 
-        //if (change.GetComponent<ChangeBossAction>().TextNo == 3)
-        //{
-        //    change.GetComponent<ChangeBossAction>().TextNo = 4;
-        //}
+        switch(Tutorial)
+        {
+            case 1:
+                if (change.GetComponent<ChangeBossAction>().TextNo == 3)
+                {
+                    change.GetComponent<ChangeBossAction>().TextNo = 4;
+                }
+
+                break;
+        }
+    
 
 
         isParrySuccess = true;

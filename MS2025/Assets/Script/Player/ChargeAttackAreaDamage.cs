@@ -1,6 +1,8 @@
 using Fusion;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
 
 public class ChargeAttackAreaDamage : NetworkBehaviour
 {
@@ -28,7 +30,7 @@ public class ChargeAttackAreaDamage : NetworkBehaviour
 
     PlayerParryNet parry;
     GameObject change;
-
+    private int Tutorial=0;
 
     [Networked] bool ishitstop { get; set; } = false;
     int Count = 0;
@@ -41,6 +43,11 @@ public class ChargeAttackAreaDamage : NetworkBehaviour
         if (netobj == null)
         {
             Debug.LogError("ネットの箱が無いよ");
+        }
+
+        if (SceneManager.GetActiveScene().name == "TutorialScene_Miyoshi")
+        {
+            Tutorial = 1;
         }
         sharenum = netobj.GetComponent<ShareNumbers>();
         combo = netobj.GetComponent<ComboSystem>();
@@ -57,10 +64,16 @@ public class ChargeAttackAreaDamage : NetworkBehaviour
             {
                 Debug.Log("チャージアタック成功"+ other.transform);
                 other.GetComponent<BossStatus>().RPC_Damage(ChargeDamege);
-                //if (change.GetComponent<ChangeBossAction>().TextNo == 5)
-                //{
-                //    change.GetComponent<ChangeBossAction>().TextNo = 6;
-                //}
+                switch(Tutorial)
+                {
+                    case 1:
+                        if (change.GetComponent<ChangeBossAction>().TextNo == 5)
+                        {
+                            change.GetComponent<ChangeBossAction>().TextNo = 6;
+                        }
+                        break;
+                }
+              
                 Camera.main.GetComponent<CameraEffectPlay>().RPC_CameraEffect();
                 Camera.main.GetComponent<CameraShake>().RPC_CameraShake(0.3f, 0.3f);
 
