@@ -364,14 +364,14 @@ public class BossAI : NetworkBehaviour
             Debug.Log("All actions completed");
             currentActionIndex = 0;
             currentSequenceIndex = Random.Range(0, actionSequence.Length);
+            currentPlayerIndex = (currentPlayerIndex + 1) % players.Count;
         }
 
         currentAction = actionSequence[currentSequenceIndex].actions[currentActionIndex];
         isActionInitialized = false;
         currentActionIndex++;
 
-        Debug.Log($"Starting Action: {currentAction.name}");
-        currentPlayerIndex = (currentPlayerIndex + 1) % players.Count;
+        Debug.Log($"Starting Action: {currentAction.name}");        
     }
 
     //[Rpc(RpcSources.All, RpcTargets.All)]
