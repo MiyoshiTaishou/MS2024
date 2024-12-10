@@ -197,8 +197,7 @@ public class BossStatus : NetworkBehaviour
             HPCount = 0;
         }
 
-       
-
+        // 体力が0になるたびに色を変えてHPバーを減らす
         if (DeathCount == 1)
         {
             Fill.color = HPBar2;
@@ -227,8 +226,6 @@ public class BossStatus : NetworkBehaviour
         {
 
             RPC_HandleBossDeath();
-
-          
 
         }
     }
