@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class ComboSystem : NetworkBehaviour
@@ -22,6 +23,8 @@ public class ComboSystem : NetworkBehaviour
     int Combo;
 
     GameObject change;
+    private int Tutorial = 0;
+
     public void AddCombo() 
     {
         Combo++;
@@ -33,8 +36,20 @@ public class ComboSystem : NetworkBehaviour
         Count = ComboKeepframe;
         //text.text=Combo.ToString();
         Debug.Log("コンボ数" + Combo+"ガチのコンボ数"+sharenum.nCombo);
-        change.GetComponent<ChangeBossAction>().combo=Combo;
-        change.GetComponent<ChangeBossAction>().RPC_Cange();
+
+        switch(Tutorial)
+        {
+            case 1:
+                change.GetComponent<ChangeBossAction>().combo = Combo;
+                change.GetComponent<ChangeBossAction>().RPC_Cange();
+                if (Combo >= 10 && change.GetComponent<ChangeBossAction>().TextNo == 0)
+                {
+                    change.GetComponent<ChangeBossAction>().TextNo = 1;
+                }
+                break;
+        }
+     
+
     }
 
     ShareNumbers sharenum;
@@ -45,6 +60,10 @@ public class ComboSystem : NetworkBehaviour
         Combo = 0;
         Count = 0;
         change = GameObject.Find("ChangeAction");
+        if (SceneManager.GetActiveScene().name == "TutorialScene_Miyoshi")
+        {
+            Tutorial = 1;
+        }
         GameObject obj = GameObject.Find("MainGameUI");
         GameObject obj2;
         GameObject obj3;

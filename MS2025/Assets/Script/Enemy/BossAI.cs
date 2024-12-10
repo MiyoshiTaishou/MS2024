@@ -43,13 +43,16 @@ public class BossAI : NetworkBehaviour
     [Networked, SerializeField] public bool isAir { get; set; }
     [Networked, SerializeField] public bool isDir { get; set; }
 
+    [Networked, SerializeField,Tooltip("1ボス(true)か2ボス(false)か")] public bool isBossOne { get; set; }
+
+
     [SerializeField, Header("ダウン時の行動データ")]
     public BossActionData downAction;
 
     [SerializeField, Header("のけぞり時の行動データ")]
     public BossActionData parryction;
     [Tooltip("ダウン時エフェクト")]
-    private ParticleSystem Dawnparticle;
+    public ParticleSystem Dawnparticle;
 
     [SerializeField, Header("攻撃の予兆に関する項目")]
     [Tooltip("攻撃予兆エフェクト")]
@@ -79,6 +82,12 @@ public class BossAI : NetworkBehaviour
     [SerializeField, Header("のけぞり耐性継続時間")] int MaxNokezoriRegist;
     [Networked] private int NokezoriRegist { get; set; }
     [Networked] private int NokezoriRegistCount { get; set; }
+
+    [SerializeField, Header("ボスが追いかけるプレイヤーに線")] GameObject Line;
+    [Networked] NetworkObject lineobj { get; set; }
+
+    [SerializeField, Header("チュートリアルモード")]
+    private bool isTutorial = false;
 
     public override void Spawned()
     {
@@ -118,6 +127,8 @@ public class BossAI : NetworkBehaviour
         {
             StartNextAction(); // プレイヤーが二人以上揃っていたらアクションを開始
         }
+
+        //lineobj= Runner.Spawn(Line, new Vector3(0,0,0), Quaternion.identity, null);
 
         rb = GetComponent<Rigidbody>();
         hitstop = GetComponent<HitStop>();
@@ -230,13 +241,15 @@ public class BossAI : NetworkBehaviour
             StartNextAction(); // アクション完了後に次のアクションに進む
         }
 
+
+
         //50%以下で行動変更
         if (!isHalf && GetComponent<BossStatus>().nBossHP < GetComponent<BossStatus>().InitHP / 2)
         {
             isHalf = true;
             actionSequence = actionSequenceHalf;
-            currentActionIndex = 0;
-            currentSequenceIndex = 0;
+            //currentActionIndex = 0;
+            //currentSequenceIndex = 0;
 
             GameObject attackAreaview;
             attackAreaview = transform.Find("Area")?.gameObject;
@@ -333,7 +346,7 @@ public class BossAI : NetworkBehaviour
             return;
         }
 
-        if (isDown)
+        if (isDown&&isTutorial==false)
         {
             Debug.Log("ダウン完了");
             currentActionIndex = 0;
@@ -354,16 +367,21 @@ public class BossAI : NetworkBehaviour
             Debug.Log("All actions completed");
             currentActionIndex = 0;
             currentSequenceIndex = Random.Range(0, actionSequence.Length);
+            currentPlayerIndex = (currentPlayerIndex + 1) % players.Count;
         }
 
         currentAction = actionSequence[currentSequenceIndex].actions[currentActionIndex];
         isActionInitialized = false;
         currentActionIndex++;
 
-        Debug.Log($"Starting Action: {currentAction.name}");
-        currentPlayerIndex = (currentPlayerIndex + 1) % players.Count;
+        Debug.Log($"Starting Action: {currentAction.name}");        
     }
 
+    //[Rpc(RpcSources.All, RpcTargets.All)]
+    //public void LineColor()
+    //{
+
+    //}
 
     public override void Render()
     {
@@ -386,6 +404,7 @@ public class BossAI : NetworkBehaviour
             transform.localScale = temp;
         }
 
+        //ダウンパーティクル
         if (isParticle == 2 || isParticle == 3)
         {
             switch (isParticle)
@@ -403,6 +422,45 @@ public class BossAI : NetworkBehaviour
             }
 
         }
+
+        //追跡するプレイヤーの頭にマーク表示
+        if(isBossOne)
+        {
+            for(int i = 0; i < players.Count;i++)
+            {
+
+                if (currentPlayerIndex == i)
+                {
+                    players[i].GetComponent<PlayerBossTaget>().isTaget = true;
+                }
+                else
+                {
+                    players[i].GetComponent<PlayerBossTaget>().isTaget = false;
+                }
+            }
+
+        }
+
+        //Debug.Log(lineobj);
+        ////プレイヤーへの視線
+        //if(lineobj)
+        //{
+
+        //    lineobj.GetComponent<DrawLine>().Startobj = transform.position;
+        //    lineobj.GetComponent<DrawLine>().Endobj = players[currentPlayerIndex].transform.position;
+        //    if (currentPlayerIndex == 0)
+        //    {
+        //        lineobj.GetComponent<DrawLine>().SetTanuki(true);
+        //    }
+        //    else
+        //    {
+        //        lineobj.GetComponent<DrawLine>().SetTanuki(false);
+        //    }
+        //}
+        //else
+        //{
+        //   // lineobj = NetworkObject.Find("Line");
+        //}
 
         //ダウン状態が解除されたらダウンパーティクルを削除する
         //if (!isDown)

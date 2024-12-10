@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 using static UnityEngine.ParticleSystem;
 
@@ -56,6 +57,8 @@ public class PlayerParryNet : NetworkBehaviour
 
     Knockback back;
 
+    GameObject change;
+
     private NetworkRunner runner;
     private NetworkObject networkobject;
 
@@ -98,6 +101,8 @@ public class PlayerParryNet : NetworkBehaviour
     PlayerFreeze freeze;
     [Networked]public bool isTanuki { get; set; }
     [Networked] public bool isRaise { get; set; }
+
+    private int Tutorial = 0;
 
     public bool ParryCheck()
     {
@@ -145,7 +150,7 @@ public class PlayerParryNet : NetworkBehaviour
     {
         // NetworkRunnerのインスタンスを取得
         runner = FindObjectOfType<NetworkRunner>();
-
+        change = GameObject.Find("ChangeAction");
         //SE読み込み
         //audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
         audioSource = GetComponent<AudioSource>();
@@ -158,7 +163,10 @@ public class PlayerParryNet : NetworkBehaviour
             if (transform.GetChild(i).gameObject.name == "ParryArea")
                 ParryArea = transform.GetChild(i).gameObject;
         }
-
+        if (SceneManager.GetActiveScene().name == "TutorialScene_Miyoshi")
+        {
+            Tutorial = 1;
+        }
         ParryArea.gameObject.SetActive(false);
 
         ParryActivetimeFrame = ParryActivetime / 60;
@@ -207,6 +215,19 @@ public class PlayerParryNet : NetworkBehaviour
         //cinemachar.CameraZoom(this.character.transform, 5,0.5f);
         back.ApplyKnockback(transform.forward, KnockbackPower);
         ParryArea.GetComponent<ParryDisplayNet>().Init();
+
+        switch(Tutorial)
+        {
+            case 1:
+                if (change.GetComponent<ChangeBossAction>().TextNo == 3)
+                {
+                    change.GetComponent<ChangeBossAction>().TextNo = 4;
+                }
+
+                break;
+        }
+    
+
 
         isParrySuccess = true;
         isParry = false;

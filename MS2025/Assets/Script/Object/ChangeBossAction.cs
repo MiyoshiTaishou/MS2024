@@ -27,20 +27,52 @@ public class ChangeBossAction : NetworkBehaviour
     [SerializeField] private GameObject TextSprite;
     [Networked] public int TextNo { get; set; }
 
+
+
+    [SerializeField]
+    private string nextSceneName; // 遷移先のシーン名
+
+    [SerializeField]
+    private TransitionManager transitionManager;
+
+    private NetworkRunner networkRunner;
+
+    private bool isOnce = false;
+
+
+
     public Sprite[] numberSprites; // スプライト
+
+    BossActionSequence data;
 
     [Networked] public int combo { get; set; }
 
     public override void Spawned()
     {
-        TextNo = 0;
+        networkRunner = FindObjectOfType<NetworkRunner>();
+        data = boss.GetComponent<BossAI>().actionSequence[0];
     }
 
  
 
     public override void FixedUpdateNetwork()
     {
+        switch (TextNo)
+        {
 
+            case 5://終わり
+                // シーン遷移の処理
+                if (!isOnce)
+                {
+                    transitionManager.TransitionStart();
+
+                    StartCoroutine(Load());
+
+                    isOnce = true;
+                }
+
+                break;
+        }
     }
 
     public override void Render()
@@ -50,24 +82,24 @@ public class ChangeBossAction : NetworkBehaviour
         switch (TextNo)
         {
 
-
-            case 1:
+            case 1://必殺技を出してもらう
                 TextSprite.GetComponent<Image>().sprite = numberSprites[TextNo];
                 break;
-            case 2:
+            case 2://かちあげ攻撃を練習してもらう
                 TextSprite.GetComponent<Image>().sprite = numberSprites[TextNo];
+                boss.GetComponent<BossAI>().actionSequence[0] = jumpAction;//ボスにひたすらジャンプさせる
                 break;
-            case 3:
-                TextSprite.GetComponent<Image>().sprite = numberSprites[TextNo];
+            case 3://パリィを練習
+                TextSprite.GetComponent<Image>().sprite = numberSprites[TextNo];//目の前に攻撃
+                boss.GetComponent<BossAI>().actionSequence[0] = bossAction;
                 break;
-            case 4:
+            case 4://溜め攻撃
                 TextSprite.GetComponent<Image>().sprite = numberSprites[TextNo];
+                boss.GetComponent<BossAI>().actionSequence[0] = data;//何もしなくなる
                 break;
-            case 5:
+            case 5://終わり
                 TextSprite.GetComponent<Image>().sprite = numberSprites[TextNo];
-                break;
-            case 6:
-                TextSprite.GetComponent<Image>().sprite = numberSprites[TextNo];
+              
                 break;
         }
 
@@ -84,6 +116,11 @@ public class ChangeBossAction : NetworkBehaviour
         
     }
 
+    private IEnumerator Load()
+    {
+        yield return new WaitForSeconds(2f);
+        networkRunner.LoadScene(nextSceneName);
+    }
 
     private void Update()
     {
@@ -98,14 +135,13 @@ public class ChangeBossAction : NetworkBehaviour
 //{
 //    //行動入れ替え
 
-//    BossActionSequence data = boss.GetComponent<BossAI>().actionSequence[0];
+//BossActionSequence data = boss.GetComponent<BossAI>().actionSequence[0];
 
-//    boss.GetComponent<BossAI>().actionSequence[0] = bossAction;
+//boss.GetComponent<BossAI>().actionSequence[0] = bossAction;
 
-//    bossAction = jumpAction;
+//bossAction = jumpAction;
 
-//    jumpAction = data;
-
+//jumpAction = data;
 
 //    switch (BossPattern)
 //    {

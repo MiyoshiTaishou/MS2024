@@ -49,12 +49,15 @@ public class BossStatus : NetworkBehaviour
     private String ResultSceneName;
 
     //HPの減少が止まったら赤ゲージを減らすためのカウント
-    [Networked] private int HPCount  { get; set; }
+    [Networked] public int HPCount  { get; set; }
 
     private NetworkRunner networkRunner;
 
     [SerializeField]
     private TransitionManager transitionManager;
+
+    [SerializeField, Header("チュートリアルモード")]
+    private bool isTutorial = false;
 
     // シーン遷移が一度だけ実行されるようにするためのフラグ
     private bool hasTransitioned = false;
@@ -67,6 +70,7 @@ public class BossStatus : NetworkBehaviour
         Backslider.maxValue = nBossHP;
         Backslider.value = nBossHP;
         InitHP = nBossHP;
+        DeathCount = 0;
     }
 
     [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
@@ -105,6 +109,39 @@ public class BossStatus : NetworkBehaviour
     {
         crushingGame.StartAnimation();
         HandleBossDeath();
+
+        switch (DeathCount)
+        {
+            case 0:
+                nBossHP = InitHP;
+                slider.value = nBossHP;
+                Backslider.value = nBossHP;
+                DeathCount += 1;
+
+                break;
+
+            case 1:
+                nBossHP = InitHP;
+                slider.value = nBossHP;
+                Backslider.value = nBossHP;
+                DeathCount += 1;
+                break;
+
+            case 2:
+                DeathCount++;
+                break;
+            case 3:
+                Debug.Log("ボス死亡です");
+                // gekihaAnimator.SetActive(true);
+                // gekihaAnimator.GetComponent<Animator>().SetTrigger("EndGame");
+                gekihaAnimator.SetActive(true);
+                gekihaAnimator.GetComponent<Animator>().SetTrigger("EndGame");
+                HandleBossDeath();
+                // クライアントに先にシーン遷移を指示
+                gameManager.RPC_EndBattle(10, 5);
+                break;
+        }
+      
     }
 
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
@@ -151,8 +188,6 @@ public class BossStatus : NetworkBehaviour
 
         slider.value = nBossHP;
 
-        HPCount++;
-
         if (Backslider.value > nBossHP && HPCount > 50)
         {
             Backslider.value -= 1f;
@@ -162,33 +197,7 @@ public class BossStatus : NetworkBehaviour
             HPCount = 0;
         }
 
-        if (nBossHP <= 0 && Object.HasStateAuthority)
-        {
-
-            switch (DeathCount)
-            {
-                case 0:
-                    nBossHP = InitHP;
-                    slider.value = nBossHP;
-                    Backslider.value = nBossHP;
-                    DeathCount += 1;
-
-                    break;
-
-                case 1:
-                    nBossHP = InitHP;
-                    slider.value = nBossHP;
-                    Backslider.value = nBossHP;
-                    DeathCount += 1;
-                    break;
-
-                case 2:
-                    DeathCount++;
-                    break;
-            }
-
-        }
-
+        // 体力が0になるたびに色を変えてHPバーを減らす
         if (DeathCount == 1)
         {
             Fill.color = HPBar2;
@@ -208,6 +217,11 @@ public class BossStatus : NetworkBehaviour
 
     public override void FixedUpdateNetwork()
     {
+        if (isTutorial)
+        {
+            nBossHP = InitHP;
+            return;
+        }
         if (nBossHP <= 0 && Object.HasStateAuthority)
         {
 
@@ -220,9 +234,14 @@ public class BossStatus : NetworkBehaviour
                     gameManager.RPC_EndBattle(10, 5);
                     break;
             }
+            RPC_HandleBossDeath();
 
         }
+
+        HPCount++;
     }
+
+
 
     private IEnumerator Load()
     {

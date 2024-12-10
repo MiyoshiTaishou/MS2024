@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
 using static UnityEngine.ParticleSystem;
+using UnityEngine.UI;
 
 public class ShareNumbers : NetworkBehaviour
 {
@@ -42,14 +43,60 @@ public class ShareNumbers : NetworkBehaviour
     [SerializeField]
     private GameObject TryObject;
 
+    bool[] HPDestroy;
+    Image[] HPUIImage;
+    [SerializeField,Header("フレーム毎に減るHPUIのアルファ値")]
+    float HPUIconf; 
+    [SerializeField,Header("フレーム毎に増えるHPUIの大きさ")]
+    float HPUIsizeconf;
+    bool end = false;
     public override void FixedUpdateNetwork()
     {
+        if(end)
+        {
+                transitionManager.TransitionStart();
+                StartCoroutine(Load());
+            
+        }
+        
         if(nCombo == 0)
         {
             nHitnum = 0;
         }
     }
 
+    public override void Render()
+    {
+        for (int i = 0; i < HPUI.Length; i++)
+        {
+            if (HPDestroy[i])
+            {
+                Debug.Log("HPUI");
+                Color color = HPUIImage[i].color;
+                color.a -= HPUIconf;
+                RectTransform rect = HPUIImage[i].rectTransform;
+                Vector2 rectsize = rect.sizeDelta;
+                rectsize.x += HPUIsizeconf;
+                rectsize.y += HPUIsizeconf;
+                rect.sizeDelta = rectsize;
+                HPUIImage[i].color = color;
+
+            }
+        }
+        for (int i=0;i<HPUI.Length;i++)
+        {
+            if (HPUIImage[i].color.a <= 0.0f)
+            {
+                HPDestroy[i] = false;
+                HPUI[i].SetActive(false);
+                if (i== 0)
+                {
+                    transitionManager.TransitionStart();
+                    StartCoroutine(Load());
+                }
+            }
+        }
+    }
     public void AddHitnum()
     {
         nHitnum++;
@@ -65,16 +112,14 @@ public class ShareNumbers : NetworkBehaviour
     /// </summary>
     [Rpc(RpcSources.All, RpcTargets.All)]
     public void RPC_Damage()
-    {              
-        HPUI[CurrentHP].SetActive(false);
+    {
+        //HPUI[CurrentHP].SetActive(false);
+        HPDestroy[CurrentHP] = true;
+        Debug.Log("HPUIですとろい" + HPDestroy[CurrentHP]);
 
-        if (CurrentHP == 0)
-        {            
-            transitionManager.TransitionStart();            
-            StartCoroutine(Load());
-        }
-    
     }
+
+
 
     public void BossDamage()
     {
@@ -143,7 +188,12 @@ public class ShareNumbers : NetworkBehaviour
 
         // HPUI 配列のサイズを全ての子オブジェクト数に合わせて初期化
         HPUI = new GameObject[10];
-
+        HPDestroy = new bool[10];
+        HPUIImage = new Image[10];
+        for(int i = 0; i<CurrentHP;i++)
+        {
+            HPDestroy[i] = false;
+        }
         int num = 0;
         foreach (Transform ob in allChildren)
         {
@@ -151,6 +201,7 @@ public class ShareNumbers : NetworkBehaviour
             {
                 Debug.Log("HPUI オブジェクト発見");
                 HPUI[num] = ob.gameObject;
+                HPUIImage[num] = HPUI[num].GetComponent<Image>();
                 num++;
             }
         }
@@ -163,6 +214,8 @@ public class ShareNumbers : NetworkBehaviour
 
         networkRunner = FindObjectOfType<NetworkRunner>();
     }
+
+    
 
     private IEnumerator Load()
     {
