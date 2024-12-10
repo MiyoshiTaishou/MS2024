@@ -52,7 +52,7 @@ public class BossAI : NetworkBehaviour
     [SerializeField, Header("のけぞり時の行動データ")]
     public BossActionData parryction;
     [Tooltip("ダウン時エフェクト")]
-    private ParticleSystem Dawnparticle;
+    public ParticleSystem Dawnparticle;
 
     [SerializeField, Header("攻撃の予兆に関する項目")]
     [Tooltip("攻撃予兆エフェクト")]
