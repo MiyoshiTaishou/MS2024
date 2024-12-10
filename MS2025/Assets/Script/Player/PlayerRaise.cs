@@ -12,16 +12,16 @@ public class PlayerRaise : NetworkBehaviour
 
     [Networked] private bool isRaise { get; set; }
     public bool GetisRaise() { return isRaise; }
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
+
+    ShareNumbers sharenum;
 
     public override void Spawned()
     {
         isRaise = false;
         jump= GetComponent<PlayerJumpNet>();
         audioSource = GetComponent<AudioSource>();
+        sharenum = GameObject.Find("Networkbox").GetComponent<ShareNumbers>();
+
     }
 
     public override void FixedUpdateNetwork()
@@ -34,6 +34,10 @@ public class PlayerRaise : NetworkBehaviour
 
     private void OnTriggerEnter(UnityEngine.Collider other)
     {
+        if (sharenum.CurrentHP == 0)
+        {
+            return;
+        }
         if (jump.GetisJumping() && other.GetComponent<ParryDisplayNet>()&&!isRaise)
         {
             audioSource.PlayOneShot(jumpSE);

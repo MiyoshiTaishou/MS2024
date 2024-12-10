@@ -73,6 +73,10 @@ public class PlayerChargeAttack : NetworkBehaviour
     }
     public override void FixedUpdateNetwork()
     {
+        if(sharenum.CurrentHP == 0)
+        {
+            return;
+        }
         if (Object.HasStateAuthority && GetInput(out NetworkInputData data))
         {
             if(GetComponent<PlayerJumpNet>().GetisJumping())

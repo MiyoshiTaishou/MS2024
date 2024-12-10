@@ -57,9 +57,10 @@ public class PlayerSpecialAttackNet : NetworkBehaviour
     private List<Image> PlayerFireList = new List<Image>();
 
     GameObject change;
-
+    ShareNumbers sharenum;
     public override void Spawned()
     {
+        sharenum = GameObject.Find("Networkbox").GetComponent<ShareNumbers>();
         // 必殺技再生用オブジェクト探索
         director = GameObject.Find("Director");
         comboCountObject = GameObject.Find("Networkbox");
@@ -93,6 +94,10 @@ public class PlayerSpecialAttackNet : NetworkBehaviour
 
     public override void FixedUpdateNetwork()
     {
+        if(sharenum.CurrentHP == 0)
+        {
+            return;
+        }
         if (Object.HasStateAuthority && GetInput(out NetworkInputData data))
         {
             var pressed = data.Buttons.GetPressed(ButtonsPrevious);
@@ -198,6 +203,10 @@ public class PlayerSpecialAttackNet : NetworkBehaviour
 
     public override void Render()
     {
+        if (sharenum.CurrentHP == 0)
+        {
+            return;
+        }
         if (comboCountObject.GetComponent<ShareNumbers>().nCombo >= specialNum)
         {
             PlaySpecialParticles();
