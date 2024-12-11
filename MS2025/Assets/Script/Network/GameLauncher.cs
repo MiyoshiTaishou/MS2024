@@ -235,10 +235,13 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 
         int num = 0;
 
-        if (runner.IsServer) {
-            foreach (var player in runner.ActivePlayers) {
+        if (runner.IsServer)
+        {
+            foreach (var player in runner.ActivePlayers)
+            {
                 // プレイヤーオブジェクトが存在しない場合にのみ生成
-                if (!runner.TryGetPlayerObject(player, out _)) {
+                if (!runner.TryGetPlayerObject(player, out _))
+                {
                     var randomValue = UnityEngine.Random.insideUnitCircle * 2f;
                     var spawnPosition = new Vector3(randomValue.x, 5f, 0f);
 
@@ -248,14 +251,28 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
                     playerObject.GetComponent<Animator>().runtimeAnimatorController = animators[num];
 
                     // SetPlayerObject を必ず呼び出す
-                    if (playerObject != null) {
+                    if (playerObject != null)
+                    {
                         runner.SetPlayerObject(player, playerObject);
                         Debug.Log($"Player object assigned for player {player.RawEncoded}");
                     }
-                    else {
+                    else
+                    {
                         Debug.LogError("Failed to spawn player object during OnSceneLoadDone.");
                     }
 
+                    num++;
+                }
+            }
+        }
+        else
+        {
+            // クライアント側でもアニメーターの同期を確認
+            foreach (var player in runner.ActivePlayers)
+            {
+                if (runner.TryGetPlayerObject(player, out var playerObject))
+                {
+                    playerObject.GetComponent<Animator>().runtimeAnimatorController = animators[num];
                     num++;
                 }
             }
