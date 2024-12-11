@@ -1,6 +1,7 @@
 using UnityEngine;
 using Fusion;
 using UnityEditor.Rendering;
+using UnityEngine.SceneManagement;
 
 public class PlayerChargeAttack : NetworkBehaviour
 {
@@ -61,8 +62,17 @@ public class PlayerChargeAttack : NetworkBehaviour
         sharenum = netobj.GetComponent<ShareNumbers>();
         chargeparticle = chargeeffect.GetComponent<ParticleSystem>();
         attackparticle = attackeffect.GetComponent<ParticleSystem>();
-
-        BossObj = GameObject.Find("Boss2D");
+        Scene scene=SceneManager.GetActiveScene();
+        GameObject[] allobj=scene.GetRootGameObjects();
+        foreach (GameObject obj in allobj)
+        {
+            if(obj.CompareTag("Enemy"))
+            {
+                BossObj = obj;
+                Debug.Log("ぼすの名前" + obj.name);
+                break;
+            }
+        }
         if (BossObj == null)
         {
             Debug.LogError("ぼすないよ");
@@ -139,7 +149,6 @@ public class PlayerChargeAttack : NetworkBehaviour
     public override void Render()
     {
         Attack();
-
 
         if (freeze.GetIsFreeze())
         {

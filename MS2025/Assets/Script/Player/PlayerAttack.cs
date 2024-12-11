@@ -2,6 +2,7 @@ using Fusion;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerAttack : NetworkBehaviour
 {
@@ -70,12 +71,22 @@ public class PlayerAttack : NetworkBehaviour
 
         particle = effectobj.GetComponent<ParticleSystem>();
         hitStop = GetComponent<HitStop>();
-        BossObj = GameObject.Find("Boss2D");
-        if(BossObj==null)
+        Scene scene = SceneManager.GetActiveScene();
+        GameObject[] allobj = scene.GetRootGameObjects();
+        foreach (GameObject obj in allobj)
+        {
+            if (obj.CompareTag("Enemy"))
+            {
+                BossObj = obj;
+                Debug.Log("ぼすの名前" + obj.name);
+                break;
+            }
+        }
+        if (BossObj == null)
         {
             Debug.LogError("ぼすないよ");
         }
-        flashFlg= false;
+        flashFlg = false;
         freeze = GetComponent<PlayerFreeze>();
     }
 
@@ -91,14 +102,14 @@ public class PlayerAttack : NetworkBehaviour
         {
             return;
         }
-
         if (Object.HasStateAuthority && GetInput(out NetworkInputData data) && !hitStop.IsHitStopActive)
         {
             AnimatorStateInfo landAnimStateInfo = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
 
             if(landAnimStateInfo.IsName("APlayerJumpUp")||landAnimStateInfo.IsName("APlayerJumpDown")
                 || freeze.GetIsFreeze() ||//ジャンプ中は攻撃しない
-                GetComponent<PlayerChargeAttack>().isCharge)//溜め中には攻撃しない
+                GetComponent<PlayerChargeAttack>().isCharge ||//溜め中には攻撃しない
+                (BossObj.GetComponent<BossAI>().isNokezoriTanuki==GetComponent<PlayerParryNet>().isTanuki))//連携攻撃が一人では発動しない
             {
                 return;
             }

@@ -17,7 +17,7 @@ public class BossAI : NetworkBehaviour
 
     //パリィ可能な状態か
     [Networked] public bool isParry { get; set; }
-    [Networked] public int Nokezori { get; set; }
+    [Networked] public int Nokezori { get; set; } = 0;
     [SerializeField, Tooltip("パリィ連携攻撃でのけぞる回数")] public int NokezoriLimit;
     private int currentActionIndex = 0;
     private BossActionData currentAction;
@@ -89,6 +89,7 @@ public class BossAI : NetworkBehaviour
     [SerializeField, Header("チュートリアルモード")]
     private bool isTutorial = false;
 
+    [Networked]public bool isNokezoriTanuki { get; set; }
     public override void Spawned()
     {
         NokezoriRegist = MaxNokezoriRegist;
