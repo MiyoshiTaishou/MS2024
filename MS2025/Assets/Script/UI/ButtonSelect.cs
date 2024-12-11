@@ -37,8 +37,13 @@ public class ButtonSelect : MonoBehaviour
 
     [SerializeField] AudioSource Audio;
     [SerializeField,Tooltip("決定音")] AudioClip Clip;
+    [SerializeField, Tooltip("決定音")] AudioClip ketteiClip;
     [SerializeField, Tooltip("キャンセル音")] AudioClip CancelClip;
 
+    [SerializeField, Tooltip("一回決定した後直ぐに動かせないようにする")] float movetime = 0.5f;
+
+    float time = 0;
+    TitleCountSelect timecount;
     // Start is called before the first frame update
     void Start()
     {
@@ -67,15 +72,29 @@ public class ButtonSelect : MonoBehaviour
             bButtonTriggered = true;
         }
 
+        timecount = GameObject.Find("Counttime").GetComponent<TitleCountSelect>();
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        HandleButtonSelection();
-        HandleButtonPress();
-        CanselButtonPress();       
+        //if (Input.GetButtonDown("Submit"))
+        //{
+        //    aButtonTriggered = true;
+        //    timecount.time = 0;
+        //}
+
+        if(!timecount.aButtonTriggered)
+        {
+            HandleButtonSelection();
+            HandleButtonPress();
+            CanselButtonPress();
+
+        }
+
+
+
     }
 
     void OnEnable() {
