@@ -87,6 +87,7 @@ public class MoveToBossObject : NetworkBehaviour
         {
             transform.position = target.transform.position + distance;
             transform.localScale = scale;
+            GetComponent<BoxCollider>().enabled = false;
         }
         else
         {
