@@ -159,7 +159,7 @@ public class BossStatus : NetworkBehaviour
         }
         else if (Backslider.value == nBossHP)
         {
-            HPCount = 0;
+            //HPCount = 0;
         }
 
         if (nBossHP <= 0 && Object.HasStateAuthority)
