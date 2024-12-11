@@ -40,7 +40,7 @@ public class ButtonSelect : MonoBehaviour
     [SerializeField, Tooltip("決定音")] AudioClip ketteiClip;
     [SerializeField, Tooltip("キャンセル音")] AudioClip CancelClip;
 
-    [SerializeField, Tooltip("一回決定した後直ぐに動かせないようにする")] float movetime = 0.5f;
+    [SerializeField, Tooltip("決定したときにストップするかどうか")] bool isStop = false;
 
     float time = 0;
     TitleCountSelect timecount;
@@ -85,7 +85,7 @@ public class ButtonSelect : MonoBehaviour
         //    timecount.time = 0;
         //}
 
-        if(!timecount.aButtonTriggered)
+        if(!timecount.aButtonTriggered || isStop)
         {
             HandleButtonSelection();
             HandleButtonPress();
