@@ -97,7 +97,8 @@ public class PlayerAttack : NetworkBehaviour
 
             if(landAnimStateInfo.IsName("APlayerJumpUp")||landAnimStateInfo.IsName("APlayerJumpDown")
                 || freeze.GetIsFreeze() ||//ジャンプ中は攻撃しない
-                GetComponent<PlayerChargeAttack>().isCharge )//溜め中には攻撃しない
+                GetComponent<PlayerChargeAttack>().isCharge)//溜め中には攻撃しない
+                //(BossObj.GetComponent<BossAI>().Nokezori>0&&BossObj.GetComponent<BossAI>().isNokezoriTanuki==GetComponent<PlayerParryNet>().isTanuki))//連携攻撃が一人では発動しない
             {
                 return;
             }

@@ -2501,6 +2501,52 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 245815099}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &253826479
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 253826481}
+  - component: {fileID: 253826480}
+  m_Layer: 0
+  m_Name: Counttime
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &253826480
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 253826479}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a02d6d0e5eee81646a57e2053ae80c88, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <aButtonTriggered>k__BackingField: 0
+  movetime: 2
+--- !u!4 &253826481
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 253826479}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 936.5331, y: 394.22272, z: -56.50769}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &262837402
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2804,7 +2850,9 @@ MonoBehaviour:
   baseColorImage: {r: 0, g: 0, b: 0, a: 0}
   Audio: {fileID: 1029645765}
   Clip: {fileID: 8300000, guid: 1d5efa220f0b7b4449b50578b79fa608, type: 3}
+  ketteiClip: {fileID: 0}
   CancelClip: {fileID: 8300000, guid: ebfb1bd46805e1c4b812d202f72a5217, type: 3}
+  isStop: 0
 --- !u!1001 &286396023
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12676,7 +12724,9 @@ MonoBehaviour:
   baseColorImage: {r: 0, g: 0, b: 0, a: 0}
   Audio: {fileID: 1029645765}
   Clip: {fileID: 8300000, guid: 1d5efa220f0b7b4449b50578b79fa608, type: 3}
+  ketteiClip: {fileID: 0}
   CancelClip: {fileID: 8300000, guid: ebfb1bd46805e1c4b812d202f72a5217, type: 3}
+  isStop: 0
 --- !u!224 &830982885
 RectTransform:
   m_ObjectHideFlags: 0
@@ -16207,7 +16257,9 @@ MonoBehaviour:
   baseColorImage: {r: 1, g: 1, b: 1, a: 1}
   Audio: {fileID: 1029645765}
   Clip: {fileID: 8300000, guid: 1d5efa220f0b7b4449b50578b79fa608, type: 3}
+  ketteiClip: {fileID: 0}
   CancelClip: {fileID: 8300000, guid: ebfb1bd46805e1c4b812d202f72a5217, type: 3}
+  isStop: 1
 --- !u!224 &1075490732
 RectTransform:
   m_ObjectHideFlags: 0
@@ -23479,3 +23531,4 @@ SceneRoots:
   - {fileID: 684843891}
   - {fileID: 1937960265}
   - {fileID: 1029645766}
+  - {fileID: 253826481}
