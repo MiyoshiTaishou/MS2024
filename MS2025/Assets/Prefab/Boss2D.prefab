@@ -207,12 +207,15 @@ MonoBehaviour:
   _isDown: 0
   _isAir: 0
   _isDir: 0
+  _isBossOne: 0
   downAction: {fileID: 11400000, guid: 1041b2b8e439b384d80347ea7b971b0b, type: 2}
   parryction: {fileID: 11400000, guid: 53fabe96f94aa38478ef3d1572aecf6d, type: 2}
+  Dawnparticle: {fileID: 0}
   AttackOmenParticle: {fileID: 0}
   LimitSpeed: 50
   MaxNokezoriRegist: 600
   Line: {fileID: 6013458586082825786, guid: 34e0cc4b93253be4a932458122fcafdb, type: 3}
+  isTutorial: 0
 --- !u!65 &-6834287320468394907
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -392,10 +395,9 @@ MonoBehaviour:
   Deathparticle: {fileID: 0}
   DeathCount: 0
   gameManager: {fileID: 0}
-  gekihaAnimator: {fileID: 0}
+  crushingGame: {fileID: 0}
   ResultSceneName: 
   transitionManager: {fileID: 0}
-  isTutorial: 0
 --- !u!114 &2444928967917834422
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -701,7 +703,7 @@ PrefabInstance:
     - target: {fileID: 6504779007216593304, guid: 1ee6817602fe4ab4fab1de776b4b0a06,
         type: 3}
       propertyPath: deactivateTime
-      value: 5
+      value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
