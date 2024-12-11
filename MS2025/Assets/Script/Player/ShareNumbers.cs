@@ -220,7 +220,7 @@ public class ShareNumbers : NetworkBehaviour
     private IEnumerator Load()
     {
         yield return new WaitForSeconds(2f);
-        TryObject.SetActive(true);
+        transitionManager.gameObject.GetComponent<UIController>().RPC_ShowUI();
     }
 
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
