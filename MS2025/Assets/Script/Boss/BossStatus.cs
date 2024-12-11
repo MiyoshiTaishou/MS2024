@@ -103,8 +103,31 @@ public class BossStatus : NetworkBehaviour
     [Rpc(RpcSources.All, RpcTargets.All)]
     private void RPC_HandleBossDeath()
     {
-        crushingGame.StartAnimation();
-        HandleBossDeath();
+        DeathCount += 1;
+        switch (DeathCount)
+        {
+            case 1:
+                nBossHP = InitHP;
+                slider.value = nBossHP;
+                Backslider.value = nBossHP;
+
+                break;
+            case 2:
+                nBossHP = InitHP;
+                slider.value = nBossHP;
+                Backslider.value = nBossHP;
+
+                break;
+            case 3:
+                Debug.Log("ボス死亡です");
+                crushingGame.StartAnimation();
+                HandleBossDeath();
+                // クライアントに先にシーン遷移を指示
+                gameManager.RPC_EndBattle(10, 5);
+                break;
+        }
+
+     
     }
 
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
@@ -162,32 +185,7 @@ public class BossStatus : NetworkBehaviour
             //HPCount = 0;
         }
 
-        if (nBossHP <= 0 && Object.HasStateAuthority)
-        {
-
-            switch (DeathCount)
-            {
-                case 0:
-                    nBossHP = InitHP;
-                    slider.value = nBossHP;
-                    Backslider.value = nBossHP;
-                    DeathCount += 1;
-
-                    break;
-
-                case 1:
-                    nBossHP = InitHP;
-                    slider.value = nBossHP;
-                    Backslider.value = nBossHP;
-                    DeathCount += 1;
-                    break;
-
-                case 2:
-                    DeathCount++;
-                    break;
-            }
-
-        }
+       
 
         if (DeathCount == 1)
         {
@@ -210,17 +208,9 @@ public class BossStatus : NetworkBehaviour
     {
         if (nBossHP <= 0 && Object.HasStateAuthority)
         {
+            RPC_HandleBossDeath();
 
-            switch (DeathCount)
-            {
-                case 3:
-                    Debug.Log("ボス死亡です");
-                    RPC_HandleBossDeath();
-                    // クライアントに先にシーン遷移を指示
-                    gameManager.RPC_EndBattle(10, 5);
-                    break;
-            }
-
+           
         }
     }
 
