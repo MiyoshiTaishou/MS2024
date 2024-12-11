@@ -96,6 +96,16 @@ public class BossActionMoveAttack : BossActionData
         attackArea.GetComponent<MoveToBossObject>().RPC_SetToMove(false); 
         
         resetCoroutine = null;
+
+        //Œü‚«•ÏXˆ—
+        if (boss.transform.position.x > attackTarget.position.x)
+        {
+            attackArea.GetComponent<MoveToBossObject>().RPC_SetDir(true);
+        }
+        else if (boss.transform.position.x < attackTarget.position.x)
+        {
+            attackArea.GetComponent<MoveToBossObject>().RPC_SetDir(false);
+        }
     }   
 
     public override bool ExecuteAction(GameObject boss, Transform player)
