@@ -5137,6 +5137,7 @@ GameObject:
   - component: {fileID: 860505836}
   - component: {fileID: 860505838}
   - component: {fileID: 860505837}
+  - component: {fileID: 860505839}
   m_Layer: 0
   m_Name: 'EndWordRoot '
   m_TagString: Untagged
@@ -5282,6 +5283,20 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &860505839
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 860505835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aced199d02ca51a4f8de190f9b73c551, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gekihaAnimator: {fileID: 860505835}
+  SEClip: {fileID: 8300000, guid: 302d45e4efb255e4eb7cb66b003d0bc1, type: 3}
 --- !u!1001 &860597004
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9635,6 +9650,11 @@ PrefabInstance:
       propertyPath: gameManager
       value: 
       objectReference: {fileID: 1214809068}
+    - target: {fileID: 5700040066636932612, guid: ab5f2db3258b46342b08d5c5f4b471e6,
+        type: 3}
+      propertyPath: crushingGame
+      value: 
+      objectReference: {fileID: 860505839}
     - target: {fileID: 5700040066636932612, guid: ab5f2db3258b46342b08d5c5f4b471e6,
         type: 3}
       propertyPath: transitionManager
