@@ -9649,6 +9649,17 @@ PrefabInstance:
       propertyPath: SortKey
       value: 2275615734
       objectReference: {fileID: 0}
+    - target: {fileID: 8968601947389266194, guid: ab5f2db3258b46342b08d5c5f4b471e6,
+        type: 3}
+      propertyPath: actionSequenceHalf.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8968601947389266194, guid: ab5f2db3258b46342b08d5c5f4b471e6,
+        type: 3}
+      propertyPath: actionSequenceHalf.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: cfe9a9d8ba0f3a845b9076d91d7e758b,
+        type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -13092,7 +13103,7 @@ PrefabInstance:
     - target: {fileID: 4698745772974053362, guid: c71161469b6c102429892c1cead900b0,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4772675901213302235, guid: c71161469b6c102429892c1cead900b0,
         type: 3}
@@ -13229,6 +13240,11 @@ PrefabInstance:
       propertyPath: NetworkedBehaviours.Array.data[0]
       value: 
       objectReference: {fileID: 1862530905}
+    - target: {fileID: 8614940593413471202, guid: c71161469b6c102429892c1cead900b0,
+        type: 3}
+      propertyPath: nextSceneName
+      value: Boss2Stage
+      objectReference: {fileID: 0}
     - target: {fileID: 9057253686369652726, guid: c71161469b6c102429892c1cead900b0,
         type: 3}
       propertyPath: m_fontStyle
