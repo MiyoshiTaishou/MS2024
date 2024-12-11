@@ -2,7 +2,6 @@ using Fusion;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class PlayerAttack : NetworkBehaviour
 {
@@ -71,17 +70,7 @@ public class PlayerAttack : NetworkBehaviour
 
         particle = effectobj.GetComponent<ParticleSystem>();
         hitStop = GetComponent<HitStop>();
-        Scene scene = SceneManager.GetActiveScene();
-        GameObject[] allobj = scene.GetRootGameObjects();
-        foreach (GameObject obj in allobj)
-        {
-            if (obj.CompareTag("Enemy"))
-            {
-                BossObj = obj;
-                Debug.Log("ぼすの名前" + obj.name);
-                break;
-            }
-        }
+        BossObj = GameObject.Find("Boss2D");
         if (BossObj == null)
         {
             Debug.LogError("ぼすないよ");
