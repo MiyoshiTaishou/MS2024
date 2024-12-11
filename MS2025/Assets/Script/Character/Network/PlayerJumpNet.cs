@@ -1,6 +1,7 @@
 using Fusion;
 using Fusion.Addons.Physics;
 using UnityEngine;
+using AIE2D;
 
 public class PlayerJumpNet : NetworkBehaviour
 {
@@ -16,12 +17,7 @@ public class PlayerJumpNet : NetworkBehaviour
     [Networked] private bool isOnce { get; set; }
 
     [SerializeField, Header("�W�����v�̗�")] private float jumpPower = 10.0f;
-    [SerializeField, Header("�d��")] private float gravity = 9.8f;
-
-    [SerializeField, Tooltip("エフェクトオブジェクト")]
-    GameObject effect;
-
-    ParticleSystem particle;
+    [SerializeField, Header("�d��")] private float gravity = 9.8f;  
 
     [Networked] public bool isEffect { get; set; } = false;
 
@@ -40,6 +36,8 @@ public class PlayerJumpNet : NetworkBehaviour
     private bool isJumping;    // �W�����v�����ǂ���    
     public bool GetisJumping() { return isJumping; }
     int count = 0;
+
+    StaticAfterImageEffect2DPlayer afterImage;
     public override void Spawned()
     {
         animator = GetComponent<Animator>();
@@ -47,15 +45,15 @@ public class PlayerJumpNet : NetworkBehaviour
 
         // Unity�̎����d�͂̓I�t�ɂ��Ă���
         GetComponent<NetworkRigidbody3D>().Rigidbody.useGravity = false;
-
-        if (!particle)
-            particle = effect.GetComponent<ParticleSystem>();
+     
         hitstop = GetComponent<HitStop>();
         attack = GetComponent<PlayerAttack>();
         chargeattack = GetComponent<PlayerChargeAttack>();
         freeze = GetComponent<PlayerFreeze>();
         scale = transform.localScale;
         isAnim = false;
+
+        afterImage = GetComponent<StaticAfterImageEffect2DPlayer>();
     }
 
     public override void FixedUpdateNetwork()
@@ -64,6 +62,8 @@ public class PlayerJumpNet : NetworkBehaviour
         ApplyGravity();
 
         AnimatorStateInfo landAnimStateInfo = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
+
+        afterImage.SetActive(isJumping);
 
         if (hitstop.IsHitStopActive || chargeattack.isCharge || freeze.GetIsFreeze())
         {
@@ -91,8 +91,7 @@ public class PlayerJumpNet : NetworkBehaviour
 
             // �W�����v�{�^����������A���n�ʂɂ���Ƃ��W�����v����
             if (pressed.IsSet(NetworkInputButtons.Jump) && isGround && !isJumping)
-            {
-                Instantiate(particle, this.gameObject.transform.position, Quaternion.identity);
+            {                
                 //particle.Play();
                 count = 5;
                 isJumping = true;  // �W�����v���ɐݒ�
@@ -148,8 +147,7 @@ public class PlayerJumpNet : NetworkBehaviour
         }
 
         if (isEffect)
-        {
-            Instantiate(particle, this.gameObject.transform.position, Quaternion.identity);
+        {            
             isEffect = false;
         }
         if (isGround == false && isAnim == true)
@@ -166,9 +164,7 @@ public class PlayerJumpNet : NetworkBehaviour
 
         // �W�����v�̏����x��ݒ�
         velocity = new Vector3(velocity.x, jumpPower, velocity.z);
-        isGround = false;  // �W�����v�����̂Œn�ʂɂ��Ȃ���Ԃɐݒ�
-
-        Instantiate(particle, this.gameObject.transform.position, Quaternion.identity);
+        isGround = false;  // �W�����v�����̂Œn�ʂɂ��Ȃ���Ԃɐݒ�       
     }
 
     // �d�͂��蓮�Ōv�Z���ēK�p���郁�\�b�h
