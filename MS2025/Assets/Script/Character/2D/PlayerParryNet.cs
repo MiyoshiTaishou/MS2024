@@ -103,7 +103,8 @@ public class PlayerParryNet : NetworkBehaviour
     [Networked] public bool isRaise { get; set; }
 
     private int Tutorial = 0;
-
+    private GameObject netobj;
+    ShareNumbers sharenum;
     public bool ParryCheck()
     {
         //Debug.Log("パリィ!!!");
@@ -151,6 +152,8 @@ public class PlayerParryNet : NetworkBehaviour
         // NetworkRunnerのインスタンスを取得
         runner = FindObjectOfType<NetworkRunner>();
         change = GameObject.Find("ChangeAction");
+        netobj = GameObject.Find("Networkbox");
+        sharenum= netobj.GetComponent<ShareNumbers>();
         //SE読み込み
         //audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
         audioSource = GetComponent<AudioSource>();
@@ -257,7 +260,7 @@ public class PlayerParryNet : NetworkBehaviour
     public override void FixedUpdateNetwork()
     {
         //パリィ中は動かせないようにする
-        if (freeze.GetIsFreeze())
+        if (freeze.GetIsFreeze() || sharenum.CurrentHP == 0)
         {
             return;
         }

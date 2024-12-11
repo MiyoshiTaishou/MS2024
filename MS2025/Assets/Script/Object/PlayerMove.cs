@@ -28,11 +28,11 @@ public class PlayerMove : NetworkBehaviour
 
     private HitStop hitstop;
     PlayerFreeze freeze;
-
+    ShareNumbers sharenum;
     public override void Spawned()
     {
         animator = GetComponent<Animator>();
-
+        sharenum = GameObject.Find("Networkbox").GetComponent<ShareNumbers>();
         rb = GetComponent<Rigidbody>();
         if (rb == null)
         {
@@ -51,6 +51,10 @@ public class PlayerMove : NetworkBehaviour
   
     public override void FixedUpdateNetwork()
     {
+        if(sharenum.CurrentHP == 0)
+        {
+            return;
+        }
         //速度制限処理
         if (rb.velocity.x > LimitSpeed)
         {
@@ -148,7 +152,7 @@ public class PlayerMove : NetworkBehaviour
 
     public override void Render()
     {
-        if(GetComponent<PlayerFreeze>().GetIsFreeze())
+        if(GetComponent<PlayerFreeze>().GetIsFreeze() || sharenum.CurrentHP == 0)
         {
             return;
         }

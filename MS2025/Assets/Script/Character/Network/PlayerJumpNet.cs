@@ -40,11 +40,13 @@ public class PlayerJumpNet : NetworkBehaviour
     private bool isJumping;    // �W�����v�����ǂ���    
     public bool GetisJumping() { return isJumping; }
     int count = 0;
+
+    ShareNumbers sharenum;
     public override void Spawned()
     {
         animator = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
-
+        sharenum=GameObject.Find("Networkbox").GetComponent<ShareNumbers>();
         // Unity�̎����d�͂̓I�t�ɂ��Ă���
         GetComponent<NetworkRigidbody3D>().Rigidbody.useGravity = false;
 
@@ -65,7 +67,7 @@ public class PlayerJumpNet : NetworkBehaviour
 
         AnimatorStateInfo landAnimStateInfo = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
 
-        if (hitstop.IsHitStopActive || chargeattack.isCharge || freeze.GetIsFreeze())
+        if (hitstop.IsHitStopActive || chargeattack.isCharge || freeze.GetIsFreeze() || sharenum.CurrentHP == 0)
         {
             return;
         }
@@ -129,7 +131,7 @@ public class PlayerJumpNet : NetworkBehaviour
     {
         AnimatorStateInfo landAnimStateInfo = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
 
-        if (hitstop.IsHitStopActive)
+        if (hitstop.IsHitStopActive || sharenum.CurrentHP == 0)
         {
             return;
         }
