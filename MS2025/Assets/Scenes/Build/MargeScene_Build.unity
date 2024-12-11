@@ -4005,6 +4005,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: -400
       objectReference: {fileID: 0}
+    - target: {fileID: 5407962704528124637, guid: c71161469b6c102429892c1cead900b0,
+        type: 3}
+      propertyPath: isStart
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5668711010749242280, guid: c71161469b6c102429892c1cead900b0,
         type: 3}
       propertyPath: m_IsActive
@@ -5323,6 +5328,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hostUI: {fileID: 617070417}
   clientUI: {fileID: 617070416}
+  isStart: 1
 --- !u!1 &628138812
 GameObject:
   m_ObjectHideFlags: 0
