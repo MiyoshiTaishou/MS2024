@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: RoundAction
   m_EditorClassIdentifier: 
   actionName: Idol
-  moveSpeed: 10
-  radius: 15
-  angularSpeed: 3
-  centerPoint: {x: 0, y: 5, z: -5}
-  moveTime: 3
+  moveSpeed: 20
+  range: 30
+  minBounds: {x: -30, y: 0, z: -30}
+  maxBounds: {x: 30, y: 0, z: 30}
+  moveTime: 5
