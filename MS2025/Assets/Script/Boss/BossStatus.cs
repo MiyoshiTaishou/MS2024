@@ -185,8 +185,6 @@ public class BossStatus : NetworkBehaviour
             //HPCount = 0;
         }
 
-       
-
         if (DeathCount == 1)
         {
             Fill.color = HPBar2;
