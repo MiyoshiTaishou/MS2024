@@ -192,7 +192,7 @@ public class BossStatus : NetworkBehaviour
         }
         else if (Backslider.value == nBossHP)
         {
-            HPCount = 0;
+            //HPCount = 0;
         }
 
         // 体力が0になるたびに色を変えてHPバーを減らす
