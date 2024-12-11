@@ -2802,9 +2802,9 @@ MonoBehaviour:
   baseColor: {r: 1, g: 1, b: 1, a: 1}
   selectColorImage: {r: 0, g: 0, b: 0, a: 0}
   baseColorImage: {r: 0, g: 0, b: 0, a: 0}
-  Audio: {fileID: 0}
-  Clip: {fileID: 0}
-  CancelClip: {fileID: 0}
+  Audio: {fileID: 1029645765}
+  Clip: {fileID: 8300000, guid: 1d5efa220f0b7b4449b50578b79fa608, type: 3}
+  CancelClip: {fileID: 8300000, guid: ebfb1bd46805e1c4b812d202f72a5217, type: 3}
 --- !u!1001 &286396023
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16192,9 +16192,9 @@ MonoBehaviour:
   baseColor: {r: 1, g: 1, b: 1, a: 1}
   selectColorImage: {r: 1, g: 0.39215687, b: 0.39215687, a: 1}
   baseColorImage: {r: 1, g: 1, b: 1, a: 1}
-  Audio: {fileID: 0}
-  Clip: {fileID: 0}
-  CancelClip: {fileID: 0}
+  Audio: {fileID: 1029645765}
+  Clip: {fileID: 8300000, guid: 1d5efa220f0b7b4449b50578b79fa608, type: 3}
+  CancelClip: {fileID: 8300000, guid: ebfb1bd46805e1c4b812d202f72a5217, type: 3}
 --- !u!224 &1075490732
 RectTransform:
   m_ObjectHideFlags: 0
@@ -17176,7 +17176,7 @@ PrefabInstance:
     - target: {fileID: 6862905053322490403, guid: 2b84b475479e98c4b8d0352ae4e1ccdd,
         type: 3}
       propertyPath: gameScene
-      value: Boss2Stage
+      value: MargeScene_Build
       objectReference: {fileID: 0}
     - target: {fileID: 6862905053322490403, guid: 2b84b475479e98c4b8d0352ae4e1ccdd,
         type: 3}
