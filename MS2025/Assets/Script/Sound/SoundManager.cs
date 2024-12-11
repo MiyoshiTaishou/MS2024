@@ -12,8 +12,7 @@ public class SoundManager : MonoBehaviour
     AudioSource EnemySeAudioSource;
     AudioSource titleSeAudioSource;
 
-    //[SerializeField] List<BGMSoundData> bgmSoundDatas;
-    //[SerializeField] List<PlayerSESoundData> PlayerSeSoundDatas;
+    [SerializeField,Tooltip("プレイヤーについてるもの以外のSEを鳴らすためのAudioSourceをすべて入れる")] List<AudioSource> SeSoundDataList;
     //[SerializeField] List<EnemySESoundData> EnemySeSoundDatas;
     //[SerializeField] List<UtilitySESoundData> UtilitySeSoundDatas;
 
@@ -71,6 +70,15 @@ public class SoundManager : MonoBehaviour
         masterVolume = SoundDataManager.masterVolume;
         bgmMasterVolume = SoundDataManager.bgmMasterVolume;
         seMasterVolume = SoundDataManager.seMasterVolume;
+
+        //シーンごとに個別で作っているAudioSourceの管理
+        if(SeSoundDataList.Count > 0)
+        {
+            for(int i = 0;i < SeSoundDataList.Count;i++)
+            {
+                SeSoundDataList[i].volume = masterVolume * seMasterVolume * SoundDataManager.muteVolume;
+            }
+        }
 
         if (!bgmAudioSource)
         {
