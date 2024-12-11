@@ -97,15 +97,7 @@ public class BossAttackArea : NetworkBehaviour
                     Debug.Log("パリィ成功");
                     other.GetComponent<PlayerParryNet>().RPC_ParrySystem();
 
-                    //一人で連携攻撃対策
-                    if (other.GetComponent<PlayerParryNet>().isTanuki)
-                    {
-                        parent.GetComponent<BossAI>().isNokezoriTanuki = true;
-                    }
-                    else if (other.GetComponent<PlayerParryNet>().isTanuki == false)
-                    {
-                        parent.GetComponent<BossAI>().isNokezoriTanuki = false;
-                    }
+
 
                     // ノックバック可能かどうか
                     if (parent.GetComponent<BossAI>().isKnockBack)
@@ -122,14 +114,12 @@ public class BossAttackArea : NetworkBehaviour
                     if(other.GetComponent<PlayerParryNet>().isTanuki) 
                     {
                         isTanuki = true;
-                        parent.GetComponent<BossAI>().isNokezoriTanuki= true;
                     }
                     else if(other.GetComponent<PlayerParryNet>().isTanuki==false) 
                     {
-                        isKitune = true;
-                        parent.GetComponent<BossAI>().isNokezoriTanuki = false;
+                        isKitune = true;                       
                     }
-                    if (isTanuki&&isKitune)
+                    if(isTanuki&&isKitune)
                     {
                         Debug.Log("パリィ成功");
                         other.GetComponent<PlayerParryNet>().RPC_ParrySystem();

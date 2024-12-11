@@ -2,7 +2,6 @@ using Fusion;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class PlayerAttack : NetworkBehaviour
 {
@@ -71,17 +70,7 @@ public class PlayerAttack : NetworkBehaviour
 
         particle = effectobj.GetComponent<ParticleSystem>();
         hitStop = GetComponent<HitStop>();
-        Scene scene = SceneManager.GetActiveScene();
-        GameObject[] allobj = scene.GetRootGameObjects();
-        foreach (GameObject obj in allobj)
-        {
-            if (obj.CompareTag("Enemy"))
-            {
-                BossObj = obj;
-                Debug.Log("ぼすの名前" + obj.name);
-                break;
-            }
-        }
+        BossObj = GameObject.Find("Boss2D");
         if (BossObj == null)
         {
             Debug.LogError("ぼすないよ");
@@ -108,8 +97,7 @@ public class PlayerAttack : NetworkBehaviour
 
             if(landAnimStateInfo.IsName("APlayerJumpUp")||landAnimStateInfo.IsName("APlayerJumpDown")
                 || freeze.GetIsFreeze() ||//ジャンプ中は攻撃しない
-                GetComponent<PlayerChargeAttack>().isCharge ||//溜め中には攻撃しない
-                (BossObj.GetComponent<BossAI>().Nokezori>0&&BossObj.GetComponent<BossAI>().isNokezoriTanuki==GetComponent<PlayerParryNet>().isTanuki))//連携攻撃が一人では発動しない
+                GetComponent<PlayerChargeAttack>().isCharge )//溜め中には攻撃しない
             {
                 return;
             }

@@ -79,7 +79,6 @@ public class AttackAreaDamage : NetworkBehaviour
                     {
                         other.GetComponent<BossStatus>().RPC_Damage(buddyDamageNum);
                         player.GetComponent<HitStop>().ApplyHitStop(buddyStopFrame);
-                        other.GetComponent<BossAI>().isNokezoriTanuki = parry.isTanuki;  
                         hitdamege = buddyDamageNum;
                         hitstoptime = buddyStopFrame;
 

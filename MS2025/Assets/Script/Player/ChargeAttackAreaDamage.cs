@@ -63,7 +63,6 @@ public class ChargeAttackAreaDamage : NetworkBehaviour
             if (other.GetComponent<BossStatus>())
             {
                 Debug.Log("チャージアタック成功"+ other.transform);
-                other.GetComponent<BossAI>().isNokezoriTanuki = parry.isTanuki;
                 other.GetComponent<BossStatus>().RPC_Damage(ChargeDamege);
                 switch(Tutorial)
                 {
