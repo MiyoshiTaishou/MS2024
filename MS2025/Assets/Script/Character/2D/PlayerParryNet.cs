@@ -250,8 +250,8 @@ public class PlayerParryNet : NetworkBehaviour
     {
         audioSource.PlayOneShot(ParrySE);
         // animator.SetTrigger("Parry"); // アニメーションのトリガー
-       
-        animator.Play("APlayerParry");
+
+        GetComponent<PlayerAnimChange>().RPC_InitAction("APlayerParry");
         ParryArea.SetActive(true);
         NetParryeffect = true;
     }
@@ -305,7 +305,7 @@ public class PlayerParryNet : NetworkBehaviour
         if (isRaise)
         {
             animator.speed = 1.0f;
-            animator.Play("APlayerKachiage");
+            GetComponent<PlayerAnimChange>().RPC_InitAction("APlayerKachiage");
             isRaise= false;
             isParryAnimation = false; // フラグをリセット
             NetParryeffect = true;
@@ -321,7 +321,7 @@ public class PlayerParryNet : NetworkBehaviour
             Debug.Log("パリィクライアント");
             NetParryeffect = true;
             animator.speed = 1.0f;
-            animator.Play("APlayerParry");
+            GetComponent<PlayerAnimChange>().RPC_InitAction("APlayerParry");
             isParryAnimation = false; // フラグをリセット
         }
 
