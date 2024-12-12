@@ -5,8 +5,9 @@ using UnityEngine;
 public class TitleCountSelect : MonoBehaviour
 {
     [field:SerializeField,ReadOnly]  public bool aButtonTriggered { get; private set; } = false;
+    [field: SerializeField, ReadOnly] public float time { get; set; } = 0;
+
     [SerializeField, Tooltip("ˆê‰ñŒˆ’è‚µ‚½Œã’¼‚®‚É“®‚©‚¹‚È‚¢‚æ‚¤‚É‚·‚é")] float movetime = 2.0f;
-    [SerializeField] public float time { get; set; } = 0;
 
     // Start is called before the first frame update
     void Start()
