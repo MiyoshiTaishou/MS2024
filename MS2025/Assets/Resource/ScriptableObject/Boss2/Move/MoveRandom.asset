@@ -9,10 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 063a02199b097b5429547bca2763136d, type: 3}
-  m_Name: Boss2DoubleAttackAction
+  m_Script: {fileID: 11500000, guid: 2362f019bfcb0bd49b3f2b148fb8694a, type: 3}
+  m_Name: MoveRandom
   m_EditorClassIdentifier: 
-  actionName: Attack
-  actionDatas:
-  - {fileID: 11400000, guid: dc58f82e913ce27479b175da7b177262, type: 2}
-  - {fileID: 11400000, guid: 692c3c06bbfd3374484be49a0b186f04, type: 2}
+  actionName: Idol
+  moveSpeed: 10
+  range: 30
+  minBounds: {x: -30, y: 0, z: -30}
+  maxBounds: {x: 30, y: 0, z: 30}
+  moveTime: 10
