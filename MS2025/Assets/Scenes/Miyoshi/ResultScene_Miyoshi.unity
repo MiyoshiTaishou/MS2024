@@ -2086,7 +2086,9 @@ MonoBehaviour:
   baseColorImage: {r: 1, g: 1, b: 1, a: 1}
   Audio: {fileID: 1691037279}
   Clip: {fileID: 8300000, guid: 1d5efa220f0b7b4449b50578b79fa608, type: 3}
+  ketteiClip: {fileID: 0}
   CancelClip: {fileID: 8300000, guid: ebfb1bd46805e1c4b812d202f72a5217, type: 3}
+  isStop: 1
 --- !u!1 &519063825
 GameObject:
   m_ObjectHideFlags: 0
@@ -10994,7 +10996,9 @@ MonoBehaviour:
   baseColorImage: {r: 0, g: 0, b: 0, a: 0}
   Audio: {fileID: 1691037279}
   Clip: {fileID: 0}
+  ketteiClip: {fileID: 0}
   CancelClip: {fileID: 0}
+  isStop: 0
 --- !u!114 &8916930347922865372 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2166228242022595646, guid: 7e7bca2dbb9956846b17b3c1b93926ab,

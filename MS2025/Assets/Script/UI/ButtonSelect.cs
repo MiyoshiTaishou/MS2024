@@ -72,20 +72,21 @@ public class ButtonSelect : MonoBehaviour
             bButtonTriggered = true;
         }
 
-        timecount = GameObject.Find("Counttime").GetComponent<TitleCountSelect>();
+        if(GameObject.Find("Counttime"))
+            timecount = GameObject.Find("Counttime").GetComponent<TitleCountSelect>();
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        //if (Input.GetButtonDown("Submit"))
-        //{
-        //    aButtonTriggered = true;
-        //    timecount.time = 0;
-        //}
+        if (timecount)
+        {
+            aButtonTriggered = timecount.aButtonTriggered;
+            timecount.time = 0;
+        }
 
-        if(!timecount.aButtonTriggered || isStop)
+        if (!aButtonTriggered || isStop)
         {
             HandleButtonSelection();
             HandleButtonPress();
