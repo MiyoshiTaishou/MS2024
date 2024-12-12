@@ -136,7 +136,8 @@ public class PlayerJumpNet : NetworkBehaviour
         }
         if (jumpstart && !landAnimStateInfo.IsName("APlayerJumpDown") && !landAnimStateInfo.IsName("APlayerJumpUp"))//ジャンプの上りアニメーション再生
         {
-            animator.Play("APlayerJumpDown", -1, 0f);
+            animator.Play("APlayerIdle");
+            GetComponent<PlayerAnimChange>().RPC_InitAction("APlayerJumpDown");
             jumpstart = false;
             isEffect = true;
         }

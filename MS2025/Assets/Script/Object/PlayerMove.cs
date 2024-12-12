@@ -172,26 +172,37 @@ public class PlayerMove : NetworkBehaviour
 
         if (dir.magnitude == 0 && !landAnimStateInfo.IsName("APlayerIdle"))
         {
-            animator.Play("APlayerIdle");
+            GetComponent<PlayerAnimChange>().RPC_InitAction("APlayerIdle");
         }
         else if(dir.magnitude!=0)
         {
             if (isReflection == false)
             {
-                animator.Play("APlayerWalk");
+                Debug.Log("ああああ");
+                if (!GetComponent<PlayerJumpNet>().GetisJumping()&& !GetComponent<PlayerAttack>().isAttack)
+                {
+                    GetComponent<PlayerAnimChange>().RPC_InitAction("APlayerWalk");
+                }
                 transform.localScale = scale;
             }
             else if (isReflection == true)
             {
-                animator.Play("APlayerWalk");
-        
+                Debug.Log("ああああ");
+                if (!GetComponent<PlayerJumpNet>().GetisJumping() && !GetComponent<PlayerAttack>().isAttack)
+                {
+                    GetComponent<PlayerAnimChange>().RPC_InitAction("APlayerWalk");
+                }
                 Vector3 temp = scale;
                 temp.x = -scale.x;
                 transform.localScale = temp;
             }
             else
             {
-                animator.Play("APlayerWalk");
+                Debug.Log("ああああ");
+                if (!GetComponent<PlayerJumpNet>().GetisJumping() && !GetComponent<PlayerAttack>().isAttack)
+                {
+                    GetComponent<PlayerAnimChange>().RPC_InitAction("APlayerWalk");
+                }
             }
         }
         

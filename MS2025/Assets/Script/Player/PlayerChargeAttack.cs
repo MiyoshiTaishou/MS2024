@@ -186,7 +186,12 @@ public class PlayerChargeAttack : NetworkBehaviour
             return;
         }
         Debug.Log("溜め攻撃");
-        if (Count < Startup)
+        if(Count==1)
+        {
+            Count++;
+            GetComponent<PlayerAnimChange>().RPC_InitAction("APlayerAttack");
+        }
+        else if (Count < Startup)
         {
             Count++;
             freeze.Freeze(Active + Recovery);
