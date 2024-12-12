@@ -4053,7 +4053,7 @@ PrefabInstance:
     - target: {fileID: 4698745772974053362, guid: c71161469b6c102429892c1cead900b0,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4772675901213302235, guid: c71161469b6c102429892c1cead900b0,
         type: 3}
@@ -9188,6 +9188,11 @@ PrefabInstance:
       propertyPath: textures.Array.data[10]
       value: 
       objectReference: {fileID: 2800000, guid: c30efe0a2fc0f954b920a8eefbc4fa5d, type: 3}
+    - target: {fileID: 2152918236070633442, guid: 745fd90e17809384d980f68c8c476341,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3719288773215115062, guid: 745fd90e17809384d980f68c8c476341,
         type: 3}
       propertyPath: StateHashes.Array.data[15]
@@ -9293,6 +9298,11 @@ PrefabInstance:
         type: 3}
       propertyPath: SortKey
       value: 1926975669
+      objectReference: {fileID: 0}
+    - target: {fileID: 8090691620821980403, guid: 745fd90e17809384d980f68c8c476341,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8741851002100511084, guid: 745fd90e17809384d980f68c8c476341,
         type: 3}
