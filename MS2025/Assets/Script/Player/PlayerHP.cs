@@ -50,7 +50,6 @@ public class PlayerHP : NetworkBehaviour
         if(inbisibleFrame!=0)
         {
             inbisibleFrame--;
-            Debug.Log("‚Þ‚Ä‚«‚¢‚¢‚¢‚¢‚¢" + inbisibleFrame);
             if (inbisibleFrame%4==0) 
             {
                 Color color = sprite.color;
