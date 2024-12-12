@@ -2544,6 +2544,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <aButtonTriggered>k__BackingField: 0
+  <time>k__BackingField: 0
   movetime: 2
 --- !u!4 &253826481
 Transform:
@@ -17267,7 +17268,7 @@ PrefabInstance:
     - target: {fileID: 6862905053322490403, guid: 2b84b475479e98c4b8d0352ae4e1ccdd,
         type: 3}
       propertyPath: gameScene
-      value: MargeScene_Build
+      value: Boss2Stage
       objectReference: {fileID: 0}
     - target: {fileID: 6862905053322490403, guid: 2b84b475479e98c4b8d0352ae4e1ccdd,
         type: 3}
