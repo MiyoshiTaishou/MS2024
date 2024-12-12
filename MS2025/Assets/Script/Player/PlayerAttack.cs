@@ -71,11 +71,11 @@ public class PlayerAttack : NetworkBehaviour
         particle = effectobj.GetComponent<ParticleSystem>();
         hitStop = GetComponent<HitStop>();
         BossObj = GameObject.Find("Boss2D");
-        if(BossObj==null)
+        if (BossObj == null)
         {
             Debug.LogError("ぼすないよ");
         }
-        flashFlg= false;
+        flashFlg = false;
         freeze = GetComponent<PlayerFreeze>();
     }
 
@@ -91,7 +91,6 @@ public class PlayerAttack : NetworkBehaviour
         {
             return;
         }
-
         if (Object.HasStateAuthority && GetInput(out NetworkInputData data) && !hitStop.IsHitStopActive)
         {
             AnimatorStateInfo landAnimStateInfo = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
@@ -99,6 +98,7 @@ public class PlayerAttack : NetworkBehaviour
             if(landAnimStateInfo.IsName("APlayerJumpUp")||landAnimStateInfo.IsName("APlayerJumpDown")
                 || freeze.GetIsFreeze() ||//ジャンプ中は攻撃しない
                 GetComponent<PlayerChargeAttack>().isCharge)//溜め中には攻撃しない
+                //(BossObj.GetComponent<BossAI>().Nokezori>0&&BossObj.GetComponent<BossAI>().isNokezoriTanuki==GetComponent<PlayerParryNet>().isTanuki))//連携攻撃が一人では発動しない
             {
                 return;
             }
@@ -149,7 +149,7 @@ public class PlayerAttack : NetworkBehaviour
         if (isOnce&&BossObj.GetComponent<BossAI>().Nokezori>0)
         {
             Debug.Log("連携攻撃いいいい");
-            animator.Play("APlayerCoordinatedAttack");
+            GetComponent<PlayerAnimChange>().RPC_InitAction("APlayerCoordinatedAttack");
             isEffect = true;
             isOnce = false; // フラグをリセット
         }
@@ -157,7 +157,7 @@ public class PlayerAttack : NetworkBehaviour
         {
             //Debug.LogError("壱の秘剣");
             //animator.SetTrigger("Attack"); // アニメーションのトリガー
-            animator.Play("APlayerAttack");
+            GetComponent<PlayerAnimChange>().RPC_InitAction("APlayerAttack");
             //effectList[0].GetComponent<ParticleSystem>().Play();
             isOnce = false; // フラグをリセット
         }
@@ -165,7 +165,7 @@ public class PlayerAttack : NetworkBehaviour
         {
             //Debug.LogError("弐の秘剣");
             //animator.SetTrigger("Attack2"); // アニメーションのトリガー
-            animator.Play("APlayerAttack2");
+            GetComponent<PlayerAnimChange>().RPC_InitAction("APlayerAttack2");
             //effectList[1].GetComponent<ParticleSystem>().Play();
             isOnce = false; // フラグをリセット
 
@@ -174,7 +174,7 @@ public class PlayerAttack : NetworkBehaviour
         {
             //Debug.LogError("終の秘剣");
             //animator.SetTrigger("Attack3"); // アニメーションのトリガー
-            animator.Play("APlayerAttack3");
+            GetComponent<PlayerAnimChange>().RPC_InitAction("APlayerAttack3");
            // effectList[2].GetComponent<ParticleSystem>().Play();
             isOnce = false; // フラグをリセット
            

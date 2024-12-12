@@ -37,7 +37,7 @@ public class PlayerHP : NetworkBehaviour
             Count = damageFrame;
             inbisibleFrame = damageFrame * 3;
             isDamage = true;
-            GetComponent<Animator>().Play("APlayerHurt");
+            GetComponent<PlayerAnimChange>().RPC_InitAction("APlayerHurt");
             GetComponent<PlayerFreeze>().Freeze(damageFrame);
             GetComponent<PlayerDamageReceived>().DamageReceived();
             frame4_3 = (damageFrame / 4) * 3;
@@ -50,7 +50,6 @@ public class PlayerHP : NetworkBehaviour
         if(inbisibleFrame!=0)
         {
             inbisibleFrame--;
-            Debug.Log("‚Þ‚Ä‚«‚¢‚¢‚¢‚¢‚¢" + inbisibleFrame);
             if (inbisibleFrame%4==0) 
             {
                 Color color = sprite.color;

@@ -22,6 +22,9 @@ public class MoveToBossObject : NetworkBehaviour
     // 前回の状態を保持
     private bool previousIsToMove;
 
+    [Networked, SerializeField]
+    private bool initDir { get; set; }
+
     private Vector3 scale;
 
     public void SetToMove(bool _isToMove)
@@ -34,13 +37,13 @@ public class MoveToBossObject : NetworkBehaviour
         isDir = _isDir;
     }
 
-    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
+    [Rpc(RpcSources.All, RpcTargets.All)]
     public void RPC_SetToMove(bool _toMove)
     {
         SetToMove(_toMove);
     }
 
-    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
+    [Rpc(RpcSources.All, RpcTargets.All)]
     public void RPC_SetDir(bool _isDir)
     {
         SetDir(_isDir);
@@ -91,16 +94,37 @@ public class MoveToBossObject : NetworkBehaviour
         }
         else
         {
-            //向き変更処理
-            if (isDir)
+            if (initDir)
             {
-                transform.localScale = scale;
+                //向き変更処理
+                if (!isDir)
+                {
+                    transform.localScale = scale;
+                    Debug.Log("向き正常");
+                }
+                else
+                {
+                    Vector3 temp = scale;
+                    temp.x = -scale.x;
+                    transform.localScale = temp;
+                    Debug.Log("向き反対");
+                }
             }
             else
             {
-                Vector3 temp = scale;
-                temp.x = -scale.x;
-                transform.localScale = temp;
+                //向き変更処理
+                if (!isDir)
+                {
+                    Vector3 temp = scale;
+                    temp.x = -scale.x;
+                    transform.localScale = temp;
+                    Debug.Log("向き反対");
+                }
+                else
+                {
+                    transform.localScale = scale;
+                    Debug.Log("向き正常");                  
+                }
             }
         }   
     }

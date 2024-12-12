@@ -17,18 +17,18 @@ public class BossAttackArea : NetworkBehaviour
     GameObject parent;
 
     [SerializeField]
-    public float deactivateTime = 0.5f; // UŒ‚ƒGƒŠƒA‚Ì”ñ•\¦‚É‚·‚é‚Ü‚Å‚ÌŠÔ
+    public float deactivateTime = 0.5f; // æ”»æ’ƒã‚¨ãƒªã‚¢ã®éè¡¨ç¤ºã«ã™ã‚‹ã¾ã§ã®æ™‚é–“
 
     [Networked]private float timer { get; set; }
 
     [Networked] private bool isAttack { get; set; }
     private ParticleSystem newParticle;
-    [Tooltip("UŒ‚ƒGƒtƒFƒNƒg")]
+    [Tooltip("æ”»æ’ƒã‚¨ãƒ•ã‚§ã‚¯ãƒˆ")]
     public ParticleSystem AttackParticle;
 
     private GameObject Pare;
 
-    // Œ³‚ÌˆÊ’u‚ğ•Û‚·‚é
+    // å…ƒã®ä½ç½®ã‚’ä¿æŒã™ã‚‹
     private Vector3 originalPosition;
 
     GameObject change;
@@ -38,7 +38,7 @@ public class BossAttackArea : NetworkBehaviour
     [Networked] public bool isTanuki { get; set; }
     [Networked] public bool isKitune { get; set; }
 
-    [SerializeField, Header("ƒ`ƒ…[ƒgƒŠƒAƒ‹ƒ‚[ƒh")]
+    [SerializeField, Header("ãƒãƒ¥ãƒ¼ãƒˆãƒªã‚¢ãƒ«ãƒ¢ãƒ¼ãƒ‰")]
     private bool isTutorial = false;
 
     public override void Spawned()
@@ -49,20 +49,20 @@ public class BossAttackArea : NetworkBehaviour
         Pare = GameObject.Find("Boss2D");
         isTanuki = false;
         isKitune= false;
-        // Œ³‚ÌˆÊ’u‚ğ‹L˜^
+        // å…ƒã®ä½ç½®ã‚’è¨˜éŒ²
         originalPosition = transform.position;
     }
 
-    // SetActive(true)‚Ì‚½‚Ñ‚ÉŒÄ‚Ño‚·
+    // SetActive(true)ã®ãŸã³ã«å‘¼ã³å‡ºã™
  
 
     public override void Render()
     {
         if (isAttack)
         {
-            // ƒp[ƒeƒBƒNƒ‹ƒVƒXƒeƒ€‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğ¶¬
+            // ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«ã‚·ã‚¹ãƒ†ãƒ ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ç”Ÿæˆ
             newParticle = Instantiate(AttackParticle);
-            // UŒ‚•ûŒü‚ÉŠî‚Ã‚¢‚ÄˆÊ’u‚ğİ’è
+            // æ”»æ’ƒæ–¹å‘ã«åŸºã¥ã„ã¦ä½ç½®ã‚’è¨­å®š
             if (Pare.transform.localScale.x >= 0)
             {
                 newParticle.transform.position = new Vector3(transform.position.x - 4.0f, transform.position.y - 2.0f, transform.position.z);
@@ -72,9 +72,9 @@ public class BossAttackArea : NetworkBehaviour
                 newParticle.transform.position = new Vector3(transform.position.x + 4.0f, transform.position.y - 2.0f, transform.position.z);
             }
 
-            // ƒp[ƒeƒBƒNƒ‹‚ğ”­¶‚³‚¹‚é
+            // ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«ã‚’ç™ºç”Ÿã•ã›ã‚‹
             newParticle.Play();
-            // ƒCƒ“ƒXƒ^ƒ“ƒX‰»‚µ‚½ƒp[ƒeƒBƒNƒ‹ƒVƒXƒeƒ€‚ÌGameObject‚ğ1•bŒã‚Éíœ
+            // ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹åŒ–ã—ãŸãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«ã‚·ã‚¹ãƒ†ãƒ ã®GameObjectã‚’1ç§’å¾Œã«å‰Šé™¤
             Destroy(newParticle.gameObject, 1f);
             isAttack = false;
         }
@@ -82,11 +82,11 @@ public class BossAttackArea : NetworkBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        //‚±‚±‚©‚ç
+        //ã“ã“ã‹ã‚‰
         if (other.CompareTag("Player"))
         {
             timer = deactivateTime;
-            // ƒpƒŠƒB•s‰ÂUŒ‚‚©‚Ç‚¤‚©
+            // ãƒ‘ãƒªã‚£ä¸å¯æ”»æ’ƒã‹ã©ã†ã‹
             if (!parent.GetComponent<BossAI>().isParry)
             {
                 if (other.GetComponent<PlayerParryNet>().ParryCheck()&&
@@ -94,19 +94,26 @@ public class BossAttackArea : NetworkBehaviour
                     (!other.GetComponent<PlayerParryNet>().isTanuki&&Type==PARRYTYPE.KITUNE)||
                      Type==PARRYTYPE.ALL))
                 {
-                    Debug.Log("ƒpƒŠƒB¬Œ÷");
+                    Debug.Log("ãƒ‘ãƒªã‚£æˆåŠŸ");
                     other.GetComponent<PlayerParryNet>().RPC_ParrySystem();
 
+                    ////ä¸€äººã§é€£æºæ”»æ’ƒå¯¾ç­–
+                    //if (other.GetComponent<PlayerParryNet>().isTanuki)
+                    //{
+                    //    parent.GetComponent<BossAI>().isNokezoriTanuki = true;
+                    //}
+                    //else if (other.GetComponent<PlayerParryNet>().isTanuki == false)
+                    //{
+                    //    parent.GetComponent<BossAI>().isNokezoriTanuki = false;
+                    //}
 
-               
-
-                    // ƒmƒbƒNƒoƒbƒN‰Â”\‚©‚Ç‚¤‚©
+                    // ãƒãƒƒã‚¯ãƒãƒƒã‚¯å¯èƒ½ã‹ã©ã†ã‹
                     if (parent.GetComponent<BossAI>().isKnockBack)
                     {
                         parent.GetComponent<BossAI>().RPC_AnimName();
                     }
 
-                    ResetToOriginalPosition(); // Œ³‚ÌˆÊ’u‚É–ß‚·
+                    ResetToOriginalPosition(); // å…ƒã®ä½ç½®ã«æˆ»ã™
                     gameObject.SetActive(false);
                     return;
                 }
@@ -118,27 +125,27 @@ public class BossAttackArea : NetworkBehaviour
                     }
                     else if(other.GetComponent<PlayerParryNet>().isTanuki==false) 
                     {
-                        isKitune = true;
+                        isKitune = true;                       
                     }
                     if(isTanuki&&isKitune)
                     {
-                        Debug.Log("ƒpƒŠƒB¬Œ÷");
+                        Debug.Log("ãƒ‘ãƒªã‚£æˆåŠŸ");
                         other.GetComponent<PlayerParryNet>().RPC_ParrySystem();
 
-                        // ƒmƒbƒNƒoƒbƒN‰Â”\‚©‚Ç‚¤‚©
+                        // ãƒãƒƒã‚¯ãƒãƒƒã‚¯å¯èƒ½ã‹ã©ã†ã‹
                         if (parent.GetComponent<BossAI>().isKnockBack)
                         {
                             parent.GetComponent<BossAI>().RPC_AnimName();
                         }
 
-                        ResetToOriginalPosition(); // Œ³‚ÌˆÊ’u‚É–ß‚·
+                        ResetToOriginalPosition(); // å…ƒã®ä½ç½®ã«æˆ»ã™
                         gameObject.SetActive(false);
                         return;
                     }
                 }
             }
-            //‚±‚±‚Ü‚ÅTriggerStay
-            Debug.Log("UŒ‚ƒqƒbƒg");
+            //ã“ã“ã¾ã§TriggerStay
+            Debug.Log("æ”»æ’ƒãƒ’ãƒƒãƒˆ");
             if (other.GetComponent<PlayerHP>().inbisibleFrame == 0)
             {
                 if(!isTutorial)
@@ -149,12 +156,12 @@ public class BossAttackArea : NetworkBehaviour
                 other.GetComponent<PlayerHP>().RPC_DamageAnim();
             }
             Render();
-            ResetToOriginalPosition(); // Œ³‚ÌˆÊ’u‚É–ß‚·
+            ResetToOriginalPosition(); // å…ƒã®ä½ç½®ã«æˆ»ã™
             gameObject.SetActive(false);
         }
     }
 
-    // Œ³‚ÌˆÊ’u‚É–ß‚·ƒƒ\ƒbƒh
+    // å…ƒã®ä½ç½®ã«æˆ»ã™ãƒ¡ã‚½ãƒƒãƒ‰
     private void ResetToOriginalPosition()
     {
         transform.position = originalPosition;
@@ -162,13 +169,13 @@ public class BossAttackArea : NetworkBehaviour
 
     public override void FixedUpdateNetwork()
     {
-        // ƒ^ƒCƒ}[‚ğŒ¸‚ç‚µAˆê’èŠÔŒã‚É”ñ•\¦‚É‚·‚é
+        // ã‚¿ã‚¤ãƒãƒ¼ã‚’æ¸›ã‚‰ã—ã€ä¸€å®šæ™‚é–“å¾Œã«éè¡¨ç¤ºã«ã™ã‚‹
         if (timer > 0)
         {
             timer -= Runner.DeltaTime;
             if (timer <= 0)
             {
-                ResetToOriginalPosition(); // ƒ^ƒCƒ€ƒAƒEƒg‚É‚àŒ³‚ÌˆÊ’u‚É–ß‚·
+                ResetToOriginalPosition(); // ã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆæ™‚ã«ã‚‚å…ƒã®ä½ç½®ã«æˆ»ã™
                 gameObject.SetActive(false);
                 timer = deactivateTime;
             }

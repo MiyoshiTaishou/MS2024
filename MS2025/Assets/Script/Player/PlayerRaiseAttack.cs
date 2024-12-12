@@ -115,7 +115,7 @@ public class PlayerRaiseAttack : NetworkBehaviour
         // 攻撃フラグが立っている場合にアニメーションをトリガー
         if (isOnce)
         {
-            animator.Play("APlayerAttack");
+            GetComponent<PlayerAnimChange>().RPC_InitAction("APlayerAttack");
             isOnce = false; // フラグをリセット
             isEffect = true;
         }

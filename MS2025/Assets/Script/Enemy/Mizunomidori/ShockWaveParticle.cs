@@ -10,10 +10,12 @@ class ShockWaveParticle : MonoBehaviour{
     private int layerIndex = 0;          // 監視するレイヤーのインデックス
 
     private  TextureAnimation textureAnimation;
+    private Animator anim;
     private bool isInTargetState = false;
 
     private void Start() {
         textureAnimation = GetComponent<TextureAnimation>();
+        anim = GetComponent<Animator>();
     }
 
     private void Update() {
@@ -23,9 +25,14 @@ class ShockWaveParticle : MonoBehaviour{
         // 特定のステートに入ったことを検知
         if (stateInfo.IsName(targetStateName)) {
             if (!isInTargetState) {
-                // gameObject.SetActive(true);
-                textureAnimation.StartAnimation();
-                isInTargetState = true;
+                if (textureAnimation != null) {
+                    textureAnimation.StartAnimation();
+                    isInTargetState = true;
+                }
+                else if (anim != null) {
+                    anim.SetTrigger("StartAnimation");
+                    isInTargetState = true;
+                }
             }
         }
         else {

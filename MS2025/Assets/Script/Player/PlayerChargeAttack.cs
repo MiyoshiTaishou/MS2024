@@ -61,7 +61,6 @@ public class PlayerChargeAttack : NetworkBehaviour
         sharenum = netobj.GetComponent<ShareNumbers>();
         chargeparticle = chargeeffect.GetComponent<ParticleSystem>();
         attackparticle = attackeffect.GetComponent<ParticleSystem>();
-
         BossObj = GameObject.Find("Boss2D");
         if (BossObj == null)
         {
@@ -140,7 +139,6 @@ public class PlayerChargeAttack : NetworkBehaviour
     {
         Attack();
 
-
         if (freeze.GetIsFreeze())
         {
             Debug.Log("硬直中");
@@ -188,7 +186,12 @@ public class PlayerChargeAttack : NetworkBehaviour
             return;
         }
         Debug.Log("溜め攻撃");
-        if (Count < Startup)
+        if(Count==1)
+        {
+            Count++;
+            GetComponent<PlayerAnimChange>().RPC_InitAction("APlayerAttack");
+        }
+        else if (Count < Startup)
         {
             Count++;
             freeze.Freeze(Active + Recovery);
