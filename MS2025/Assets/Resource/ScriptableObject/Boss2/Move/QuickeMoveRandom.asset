@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: QuickeMoveRandom
   m_EditorClassIdentifier: 
   actionName: Idol
-  moveSpeed: 30
+  moveSpeed: 100
   range: 30
   minBounds: {x: -30, y: 0, z: -30}
   maxBounds: {x: 30, y: 0, z: 30}
-  moveTime: 10
+  moveTime: 5

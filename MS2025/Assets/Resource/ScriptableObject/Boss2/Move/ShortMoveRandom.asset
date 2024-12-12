@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: ShortMoveRandom
   m_EditorClassIdentifier: 
   actionName: Idol
-  moveSpeed: 15
+  moveSpeed: 60
   range: 30
   minBounds: {x: -30, y: 0, z: -30}
   maxBounds: {x: 30, y: 0, z: 30}
-  moveTime: 3
+  moveTime: 2
