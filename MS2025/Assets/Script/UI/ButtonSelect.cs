@@ -83,7 +83,6 @@ public class ButtonSelect : MonoBehaviour
         if (timecount)
         {
             aButtonTriggered = timecount.aButtonTriggered;
-            timecount.time = 0;
         }
 
         if (!aButtonTriggered || isStop)
