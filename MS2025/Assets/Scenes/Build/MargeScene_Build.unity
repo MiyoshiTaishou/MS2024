@@ -2869,26 +2869,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 388717241}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &414819393 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1108991527652782900, guid: 745fd90e17809384d980f68c8c476341,
-    type: 3}
-  m_PrefabInstance: {fileID: 1152751668}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &414819399
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 414819393}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 63813c3f24cc87f408fb1e8ccf552263, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animStart: 0
-  textureAnimation: {fileID: 0}
 --- !u!1 &444020587
 GameObject:
   m_ObjectHideFlags: 0
@@ -4073,7 +4053,7 @@ PrefabInstance:
     - target: {fileID: 4698745772974053362, guid: c71161469b6c102429892c1cead900b0,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4772675901213302235, guid: c71161469b6c102429892c1cead900b0,
         type: 3}
@@ -5172,6 +5152,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: MainGameUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 6411735017946587971, guid: 75272d9e04545f442ba51314bef17477,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6496054810915026121, guid: 75272d9e04545f442ba51314bef17477,
         type: 3}
@@ -6993,13 +6978,14 @@ GameObject:
   - component: {fileID: 891104034}
   - component: {fileID: 891104036}
   - component: {fileID: 891104035}
+  - component: {fileID: 891104037}
   m_Layer: 0
   m_Name: Shockwave
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &891104034
 Transform:
   m_ObjectHideFlags: 0
@@ -7077,7 +7063,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 1ddd2074be4c2904f900163a2751e4d8, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -7085,9 +7071,23 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &891104037
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 891104033}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b6d172aa1ac3234ba8f4c31e5965142, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parentAnimator: {fileID: 1152751686}
+  targetStateName: JumpAttack
 --- !u!1 &920238547
 GameObject:
   m_ObjectHideFlags: 0
@@ -9415,11 +9415,7 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 891104034}
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1108991527652782900, guid: 745fd90e17809384d980f68c8c476341,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 414819399}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 745fd90e17809384d980f68c8c476341, type: 3}
 --- !u!1 &1152751669 stripped
 GameObject:
@@ -9442,6 +9438,12 @@ MonoBehaviour:
 --- !u!4 &1152751681 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3931164594149688494, guid: 745fd90e17809384d980f68c8c476341,
+    type: 3}
+  m_PrefabInstance: {fileID: 1152751668}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &1152751686 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 788142181416184284, guid: 745fd90e17809384d980f68c8c476341,
     type: 3}
   m_PrefabInstance: {fileID: 1152751668}
   m_PrefabAsset: {fileID: 0}
