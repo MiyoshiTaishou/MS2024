@@ -1037,6 +1037,64 @@ PrefabInstance:
       propertyPath: Dawnparticle
       value: 
       objectReference: {fileID: 335367398}
+    - target: {fileID: 425097688951034234, guid: f0b736e8f31e0904c916d2a27a43a2c6,
+        type: 3}
+      propertyPath: actionSequence.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 425097688951034234, guid: f0b736e8f31e0904c916d2a27a43a2c6,
+        type: 3}
+      propertyPath: actionSequence.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: be788f8c5261c1f4cb79e3d768e7269a,
+        type: 2}
+    - target: {fileID: 425097688951034234, guid: f0b736e8f31e0904c916d2a27a43a2c6,
+        type: 3}
+      propertyPath: actionSequence.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 7b3aa0944d4bf6b47b44e8e992adf662,
+        type: 2}
+    - target: {fileID: 425097688951034234, guid: f0b736e8f31e0904c916d2a27a43a2c6,
+        type: 3}
+      propertyPath: actionSequence.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 5b9cac3902a60fa4190e404cd9cb88b2,
+        type: 2}
+    - target: {fileID: 425097688951034234, guid: f0b736e8f31e0904c916d2a27a43a2c6,
+        type: 3}
+      propertyPath: actionSequence.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 25c4dc7ba6fd4c44db844ec9895d6e9b,
+        type: 2}
+    - target: {fileID: 425097688951034234, guid: f0b736e8f31e0904c916d2a27a43a2c6,
+        type: 3}
+      propertyPath: actionSequenceHalf.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 425097688951034234, guid: f0b736e8f31e0904c916d2a27a43a2c6,
+        type: 3}
+      propertyPath: actionSequenceHalf.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: be788f8c5261c1f4cb79e3d768e7269a,
+        type: 2}
+    - target: {fileID: 425097688951034234, guid: f0b736e8f31e0904c916d2a27a43a2c6,
+        type: 3}
+      propertyPath: actionSequenceHalf.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 7b3aa0944d4bf6b47b44e8e992adf662,
+        type: 2}
+    - target: {fileID: 425097688951034234, guid: f0b736e8f31e0904c916d2a27a43a2c6,
+        type: 3}
+      propertyPath: actionSequenceHalf.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 5b9cac3902a60fa4190e404cd9cb88b2,
+        type: 2}
+    - target: {fileID: 425097688951034234, guid: f0b736e8f31e0904c916d2a27a43a2c6,
+        type: 3}
+      propertyPath: actionSequenceHalf.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 25c4dc7ba6fd4c44db844ec9895d6e9b,
+        type: 2}
     - target: {fileID: 1168172056840206161, guid: f0b736e8f31e0904c916d2a27a43a2c6,
         type: 3}
       propertyPath: SortKey
