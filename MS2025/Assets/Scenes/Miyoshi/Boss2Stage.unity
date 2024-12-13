@@ -10422,6 +10422,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2327003651560815539, guid: bea0edfbc69070344a250854d718b1ce,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7117696973905743514, guid: bea0edfbc69070344a250854d718b1ce,
         type: 3}
       propertyPath: SortKey
@@ -15467,6 +15472,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BossAttackAreaKitune
+      objectReference: {fileID: 0}
+    - target: {fileID: 8901993326109340094, guid: 148370a1e275c634daded54d0d1dda04,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
