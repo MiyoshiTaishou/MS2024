@@ -9,11 +9,12 @@ public class FadeInScript : MonoBehaviour
 	[SerializeField]
 	private float fadeInTime;
 	// 背景Image
+	[SerializeField]
 	private Image image;
 
 	void Start()
 	{
-		image = transform.Find("Panel").GetComponent<Image>();
+		// image = transform.Find("Panel").GetComponent<Image>();
 		// コルーチンで使用する待ち時間を計測
 		fadeInTime = 1f * fadeInTime / 10f;
 		StartCoroutine("FadeIn");
