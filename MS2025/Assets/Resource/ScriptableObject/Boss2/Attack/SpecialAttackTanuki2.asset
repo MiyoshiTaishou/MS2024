@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68e5143abf015bc4990772e0b6864832, type: 3}
+  m_Name: SpecialAttackTanuki2
+  m_EditorClassIdentifier: 
+  actionName: attack
+  moveAttackEndPosTime: 3
+  EndPosition: {x: -5, y: 2, z: 0}
+  rotPunch: {x: 0, y: 0, z: -0.70710677, w: 0.70710677}
+  curve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  attackAnimSpeed: 50
+  attackScale: {x: 2, y: 40, z: 40}
+  isCameraShake: 1
+  cameraDuration: 3
+  magnitude: 1
+  attackAreaName: BossAttackAreaTanuki
+  canParry: 0
+  canKnockBack: 1
+  canMove: 1
+  parryType: 3
+  attackClip: {fileID: 8300000, guid: 9041a2f5a46a0a94aa3d617ef8582742, type: 3}
