@@ -134,9 +134,9 @@ public class ChangeBossAction : NetworkBehaviour
     public void RPC_Cange()
     {
        
-        if(combo>=1&&TextNo<1)
+        if(combo>=10&&TextNo<1)
         {
-            TextNo = 5;
+            TextNo = 1;
         }
         
     }
