@@ -815,7 +815,7 @@ GameObject:
   - component: {fileID: 6973228806307170655}
   - component: {fileID: 1905301795919028484}
   m_Layer: 0
-  m_Name: TryRoot
+  m_Name: Host
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -842,7 +842,7 @@ Transform:
   - {fileID: 6124202137748066548}
   - {fileID: 6067483998071458981}
   - {fileID: 9119400033787661568}
-  m_Father: {fileID: 57736020208704188}
+  m_Father: {fileID: 2641529977675472699}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1905301795919028484
 MonoBehaviour:
@@ -870,7 +870,9 @@ MonoBehaviour:
   baseColorImage: {r: 0, g: 0, b: 0, a: 0}
   Audio: {fileID: 0}
   Clip: {fileID: 0}
+  ketteiClip: {fileID: 0}
   CancelClip: {fileID: 0}
+  isStop: 0
 --- !u!1 &2940447307008597187
 GameObject:
   m_ObjectHideFlags: 0
@@ -1652,6 +1654,77 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1 &4013213686177358077
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2641529977675472699}
+  - component: {fileID: 8286839750728159425}
+  - component: {fileID: 8148549488619153891}
+  m_Layer: 0
+  m_Name: TryRoot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2641529977675472699
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4013213686177358077}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 6973228806307170655}
+  - {fileID: 254046853025201182}
+  m_Father: {fileID: 57736020208704188}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &8286839750728159425
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4013213686177358077}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 2f2f4b8d00396024eb21cf2eb0debcf4, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &8148549488619153891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4013213686177358077}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21053a436920e53499e890df64531e6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hostUI: {fileID: 2172584555307953538}
+  clientUI: {fileID: 5197754183237391794}
+  isStart: 0
 --- !u!1 &4288587691024750094
 GameObject:
   m_ObjectHideFlags: 0
@@ -1852,8 +1925,7 @@ RectTransform:
   - {fileID: 5292072434473962425}
   - {fileID: 2402176138791914814}
   - {fileID: 5064794945669572093}
-  - {fileID: 6973228806307170655}
-  - {fileID: 254046853025201182}
+  - {fileID: 2641529977675472699}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -2043,7 +2115,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4698745772974053362}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 21053a436920e53499e890df64531e6b, type: 3}
   m_Name: 
@@ -2071,6 +2143,7 @@ MonoBehaviour:
   - {fileID: 7644432539891551106}
   NetworkedBehaviours:
   - {fileID: 5407962704528124637}
+  - {fileID: 8148549488619153891}
 --- !u!1 &4772675901213302235
 GameObject:
   m_ObjectHideFlags: 0
@@ -2428,7 +2501,7 @@ GameObject:
   - component: {fileID: 254046853025201182}
   - component: {fileID: 1705554879154985378}
   m_Layer: 0
-  m_Name: TryRoot (1)
+  m_Name: Client
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2453,7 +2526,7 @@ Transform:
   - {fileID: 8258078744363523851}
   - {fileID: 5287026414669774033}
   - {fileID: 3930117135404268558}
-  m_Father: {fileID: 57736020208704188}
+  m_Father: {fileID: 2641529977675472699}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1705554879154985378
 MonoBehaviour:
@@ -2481,7 +2554,9 @@ MonoBehaviour:
   baseColorImage: {r: 0, g: 0, b: 0, a: 0}
   Audio: {fileID: 0}
   Clip: {fileID: 0}
+  ketteiClip: {fileID: 0}
   CancelClip: {fileID: 0}
+  isStop: 0
 --- !u!1 &5668711010749242280
 GameObject:
   m_ObjectHideFlags: 0

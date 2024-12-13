@@ -72,7 +72,7 @@ public class PlayerChargeAttack : NetworkBehaviour
     }
     public override void FixedUpdateNetwork()
     {
-        if(sharenum.CurrentHP == 0)
+        if(sharenum.CurrentHP == 0 || BossObj.GetComponent<BossStatus>().nBossHP <= 0)
         {
             return;
         }

@@ -22,6 +22,10 @@ public class PlayerPush : NetworkBehaviour
 
     public override void Render()
     {
+        if(!onPlayer)
+        {
+            return;
+        }
         if (onPlayer)
         {
             Vector3 newpos = playerPos;
