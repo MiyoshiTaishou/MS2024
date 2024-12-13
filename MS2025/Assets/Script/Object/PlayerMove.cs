@@ -165,12 +165,12 @@ public class PlayerMove : NetworkBehaviour
             return;
         }
 
-        if(hitstop.IsHitStopActive) 
+        if(hitstop.IsHitStopActive)     
         {
             return;
         }
 
-        if (dir.magnitude == 0 && !landAnimStateInfo.IsName("APlayerIdle"))
+        if (dir.magnitude == 0 && (!landAnimStateInfo.IsName("APlayerIdle")|| landAnimStateInfo.IsName("APlayerWalk")))
         {
             GetComponent<PlayerAnimChange>().RPC_InitAction("APlayerIdle");
         }
@@ -179,7 +179,7 @@ public class PlayerMove : NetworkBehaviour
             if (isReflection == false)
             {
                 Debug.Log("ああああ");
-                if (!GetComponent<PlayerJumpNet>().GetisJumping()&& !GetComponent<PlayerAttack>().isAttack)
+                if (landAnimStateInfo.IsName("APlayerIdle")&&!GetComponent<PlayerJumpNet>().GetisJumping()&& !GetComponent<PlayerAttack>().isAttack)
                 {
                     GetComponent<PlayerAnimChange>().RPC_InitAction("APlayerWalk");
                 }
@@ -188,7 +188,7 @@ public class PlayerMove : NetworkBehaviour
             else if (isReflection == true)
             {
                 Debug.Log("ああああ");
-                if (!GetComponent<PlayerJumpNet>().GetisJumping() && !GetComponent<PlayerAttack>().isAttack)
+                if (landAnimStateInfo.IsName("APlayerIdle")&&!GetComponent<PlayerJumpNet>().GetisJumping() && !GetComponent<PlayerAttack>().isAttack)
                 {
                     GetComponent<PlayerAnimChange>().RPC_InitAction("APlayerWalk");
                 }
@@ -199,7 +199,7 @@ public class PlayerMove : NetworkBehaviour
             else
             {
                 Debug.Log("ああああ");
-                if (!GetComponent<PlayerJumpNet>().GetisJumping() && !GetComponent<PlayerAttack>().isAttack)
+                if (landAnimStateInfo.IsName("APlayerIdle")&&!GetComponent<PlayerJumpNet>().GetisJumping() && !GetComponent<PlayerAttack>().isAttack)
                 {
                     GetComponent<PlayerAnimChange>().RPC_InitAction("APlayerWalk");
                 }
