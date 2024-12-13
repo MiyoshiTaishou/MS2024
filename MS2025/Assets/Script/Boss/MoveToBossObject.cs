@@ -96,9 +96,12 @@ public class MoveToBossObject : NetworkBehaviour
             transform.localRotation = Quaternion.identity;
             GetComponent<BoxCollider>().enabled = false;
             GetComponent<BossAttackArea2Boss>().Type = type;
+            target.GetComponent<BossAI>().isDirCheck = true;
         }
         else
         {
+            target.GetComponent<BossAI>().isDirCheck = false;
+
             if (initDir)
             {
                 //Œü‚«•ÏXˆ—
