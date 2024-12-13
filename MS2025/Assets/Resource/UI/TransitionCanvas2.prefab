@@ -1664,6 +1664,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2641529977675472699}
   - component: {fileID: 8286839750728159425}
+  - component: {fileID: 8148549488619153891}
   m_Layer: 0
   m_Name: TryRoot
   m_TagString: Untagged
@@ -1709,6 +1710,21 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &8148549488619153891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4013213686177358077}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21053a436920e53499e890df64531e6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hostUI: {fileID: 2172584555307953538}
+  clientUI: {fileID: 5197754183237391794}
+  isStart: 0
 --- !u!1 &4288587691024750094
 GameObject:
   m_ObjectHideFlags: 0
@@ -2099,7 +2115,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4698745772974053362}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 21053a436920e53499e890df64531e6b, type: 3}
   m_Name: 
@@ -2127,6 +2143,7 @@ MonoBehaviour:
   - {fileID: 7644432539891551106}
   NetworkedBehaviours:
   - {fileID: 5407962704528124637}
+  - {fileID: 8148549488619153891}
 --- !u!1 &4772675901213302235
 GameObject:
   m_ObjectHideFlags: 0
