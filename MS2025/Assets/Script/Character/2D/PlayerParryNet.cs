@@ -166,7 +166,7 @@ public class PlayerParryNet : NetworkBehaviour
             if (transform.GetChild(i).gameObject.name == "ParryArea")
                 ParryArea = transform.GetChild(i).gameObject;
         }
-        if (SceneManager.GetActiveScene().name == "TutorialScene_Miyoshi")
+        if (SceneManager.GetActiveScene().name == "TutorialScene_Miyoshi" || SceneManager.GetActiveScene().name == "TutorialScene_Build")
         {
             Tutorial = 1;
         }
