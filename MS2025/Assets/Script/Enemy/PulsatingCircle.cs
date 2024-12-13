@@ -5,7 +5,7 @@ using static UnityEngine.ParticleSystem;
 public class PulsatingCircle : NetworkBehaviour
 {
     [Header("スケール設定")]
-    [SerializeField] private float minScale = 0.5f; // 最小スケール
+    [SerializeField] private float minScale = 1.0f; // 最小スケール
     [SerializeField] private float maxScale = 2.0f; // 最大スケール
     [SerializeField] private float speed = 1.0f;    // スケール変化速度
 
@@ -29,7 +29,7 @@ public class PulsatingCircle : NetworkBehaviour
     public override void Render()
     {
         // 現在のスケール
-        float currentScale = transform.localScale.x;
+        float currentScale = transform.localScale.x * 1.5f;
 
         // スケールを更新
         currentScale += scaleDirection * speed * Time.deltaTime;
