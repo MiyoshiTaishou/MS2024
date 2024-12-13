@@ -42,6 +42,7 @@ public class BossAI : NetworkBehaviour
     [Networked, SerializeField] public bool isDown { get; set; }
     [Networked, SerializeField] public bool isAir { get; set; }
     [Networked, SerializeField] public bool isDir { get; set; }
+    [Networked, SerializeField] public bool isDirCheck { get; set; }
 
     [Networked, SerializeField,Tooltip("1ボス(true)か2ボス(false)か")] public bool isBossOne { get; set; }
 
@@ -392,16 +393,19 @@ public class BossAI : NetworkBehaviour
             animator.Play((string)networkedAnimationName);
         }
 
-        //向き変更処理
-        if (isDir)
+        if (isDirCheck)
         {
-            transform.localScale = scale;
-        }
-        else
-        {
-            Vector3 temp = scale;
-            temp.x = -scale.x;
-            transform.localScale = temp;
+            //向き変更処理
+            if (isDir)
+            {
+                transform.localScale = scale;
+            }
+            else
+            {
+                Vector3 temp = scale;
+                temp.x = -scale.x;
+                transform.localScale = temp;
+            }
         }
 
         //ダウンパーティクル

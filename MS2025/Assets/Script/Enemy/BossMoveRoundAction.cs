@@ -25,11 +25,19 @@ public class BossMoveRoundAction : BossActionData
 
     public override bool ExecuteAction(GameObject boss, Transform player)
     {
+        // Fusion の NetworkRunner を取得
+        var runner = boss.GetComponent<NetworkObject>().Runner;
+        if (runner == null)
+        {
+            Debug.LogError("NetworkRunner が見つかりません");
+            return false;
+        }
+
         // 経過時間を更新
-        elapsedTime += Time.deltaTime;
+        elapsedTime += runner.DeltaTime;
 
         // ボスを目標地点に移動させる
-        boss.transform.position = Vector3.MoveTowards(boss.transform.position, targetPosition, moveSpeed * Time.deltaTime);
+        boss.transform.position = Vector3.MoveTowards(boss.transform.position, targetPosition, moveSpeed * runner.DeltaTime);
 
         // 範囲制限を適用
         boss.transform.position = ApplyBounds(boss.transform.position);

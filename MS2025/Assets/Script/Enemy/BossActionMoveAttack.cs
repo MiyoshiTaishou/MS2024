@@ -75,7 +75,7 @@ public class BossActionMoveAttack : BossActionData
       
         attackArea = GameObject.Find(attackAreaName)?.gameObject;
         originalPosition = attackArea.transform.position;
-        //attackArea.transform.localScale = attackScale;
+        attackArea.GetComponent<BoxCollider>().size = attackScale;
         attackArea.SetActive(true);
        
         isMoving = false;
