@@ -230,7 +230,7 @@ public class PlayerAttack : NetworkBehaviour
         {
             return;
         }
-        
+        float bosssize = (BossObj.transform.lossyScale.x / 2) * (BossObj.GetComponent<BoxCollider>().size.x / 2);
         //のけぞり状態に対しての攻撃(連携攻撃)
         if (BossObj.GetComponent<BossAI>().Nokezori > 0)
         {
@@ -251,11 +251,11 @@ public class PlayerAttack : NetworkBehaviour
                     {
                         if (pos.x < bosspos.x)
                         {
-                            pos.x = bosspos.x - disX;
+                            pos.x = bosspos.x - disX- bosssize;
                         }
                         else if (pos.x > bosspos.x)
                         {
-                            pos.x = bosspos.x + disX;
+                            pos.x = bosspos.x + disX+ bosssize;
                         }
 
                         pos.z = bosspos.z-3.0f;
@@ -270,7 +270,28 @@ public class PlayerAttack : NetworkBehaviour
                 }
                 else if (Count < buddyStartup + buddyActive)
                 {
+                    //瞬間移動
+                    Vector3 pos = transform.position;
+                    Vector3 bosspos = BossObj.transform.position;
+                    bool isTanuki = GetComponent<PlayerParryNet>().isTanuki;
 
+                        if (pos.x < bosspos.x)
+                        {
+                            pos.x = bosspos.x - disX - bosssize;
+                        }
+                        else if (pos.x > bosspos.x)
+                        {
+                            pos.x = bosspos.x + disX + bosssize;
+                        }
+
+                        pos.z = bosspos.z - 3.0f;
+                        if (!isTanuki)
+                        {
+                            pos.z = bosspos.z + 3.0f;
+                            Debug.Log("奥");
+                        }
+                        transform.position = pos;
+                        
                     Count++;
                     attackArea.SetActive(true);
                     attackArea.GetComponent<AttackAreaDamage>().enabled= true;
@@ -292,23 +313,31 @@ public class PlayerAttack : NetworkBehaviour
             {
                 if (Count < Startup)
                 {
-                    freeze.Freeze(Active + Recovery);
+                    freeze.Freeze(buddyActive + buddyRecovery);
                     Count++;
                     Debug.Log("瞬間移動");
                     //瞬間移動
                     Vector3 pos = transform.position;
                     Vector3 bosspos = BossObj.transform.position;
+                    bool isTanuki = GetComponent<PlayerParryNet>().isTanuki;
+
                     if (!flashFlg)
                     {
                         if (pos.x < bosspos.x)
                         {
-                            pos.x = bosspos.x - disX;
+                            pos.x = bosspos.x - disX- bosssize;
                         }
                         else if (pos.x > bosspos.x)
                         {
-                            pos.x = bosspos.x + disX;
+                            pos.x = bosspos.x + disX+ bosssize;
                         }
-                        pos.z = bosspos.z;
+
+                        pos.z = bosspos.z - 3.0f;
+                        if (!isTanuki)
+                        {
+                            pos.z = bosspos.z + 3.0f;
+                            Debug.Log("奥");
+                        }
                         transform.position = pos;
                         flashFlg = true;
                     }
@@ -316,6 +345,29 @@ public class PlayerAttack : NetworkBehaviour
                 else if (Count < Startup + Active)
                 {
                     Count++;
+
+                    //瞬間移動
+                    Vector3 pos = transform.position;
+                    Vector3 bosspos = BossObj.transform.position;
+                    bool isTanuki = GetComponent<PlayerParryNet>().isTanuki;
+
+                    if (pos.x < bosspos.x)
+                    {
+                        pos.x = bosspos.x - disX-bosssize;
+                    }
+                    else if (pos.x > bosspos.x)
+                    {
+                        pos.x = bosspos.x + disX + bosssize;
+                    }
+
+                    pos.z = bosspos.z - 3.0f;
+                    if (!isTanuki)
+                    {
+                        pos.z = bosspos.z + 3.0f;
+                        Debug.Log("奥");
+                    }
+                    transform.position = pos;
+
                     attackArea.SetActive(true);
                     attackArea.GetComponent<AttackAreaDamage>().enabled = true;
 
