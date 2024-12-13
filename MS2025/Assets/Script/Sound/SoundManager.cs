@@ -41,12 +41,12 @@ public class SoundManager : MonoBehaviour
         if (SoundDataManager.isMute)
         {
             SoundDataManager.muteVolume = 0;
-            Debug.Log("サウンドミュート");
+           // Debug.Log("サウンドミュート");
         }
         else
         {
             SoundDataManager.muteVolume = 1;
-            Debug.Log("サウンドミュート解除");
+            //Debug.Log("サウンドミュート解除");
 
         }
 

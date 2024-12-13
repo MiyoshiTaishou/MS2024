@@ -161,6 +161,7 @@ public class PlayerSpecialAttackNet : NetworkBehaviour
             }
             else
             {
+                SpecialActTime = 0.0f;
                 GetComponent<PlayerMove>().isMove = true; // ˆÚ“®‚ðˆêŽž’âŽ~
             }
         }

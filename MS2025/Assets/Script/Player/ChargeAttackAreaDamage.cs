@@ -45,7 +45,7 @@ public class ChargeAttackAreaDamage : NetworkBehaviour
             Debug.LogError("ネットの箱が無いよ");
         }
 
-        if (SceneManager.GetActiveScene().name == "TutorialScene_Miyoshi")
+        if (SceneManager.GetActiveScene().name == "TutorialScene_Miyoshi" || SceneManager.GetActiveScene().name == "TutorialScene_Build")
         {
             Tutorial = 1;
         }
