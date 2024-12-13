@@ -71,7 +71,7 @@ public class PlayerAnimChange : NetworkBehaviour
             animator.Play((string)networkedAnimationName);
         }
         AnimatorStateInfo landAnimStateInfo = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
-        if (landAnimStateInfo.normalizedTime>=0.9f&&
+        if (landAnimStateInfo.normalizedTime>=1.0f&&
             (landAnimStateInfo.IsName("APlayerJumpUp") || landAnimStateInfo.IsName("APlayerJumpDown") ||
             landAnimStateInfo.IsName("APlayerParry") || landAnimStateInfo.IsName("APlayerCounter") ||
             landAnimStateInfo.IsName("APlayerAttack") || landAnimStateInfo.IsName("APlayerAttack2") || landAnimStateInfo.IsName("APlayerAttack3") ||
