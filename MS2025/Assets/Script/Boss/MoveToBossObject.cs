@@ -93,6 +93,7 @@ public class MoveToBossObject : NetworkBehaviour
         {
             transform.position = target.transform.position + distance;
             transform.localScale = scale;
+            transform.localRotation = Quaternion.identity;
             GetComponent<BoxCollider>().enabled = false;
             GetComponent<BossAttackArea2Boss>().Type = type;
         }
