@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: SpecialAttackTanuki2
   m_EditorClassIdentifier: 
   actionName: attack
-  moveAttackEndPosTime: 5
-  EndPosition: {x: -5, y: 0, z: 0}
+  moveAttackEndPosTime: 3
+  EndPosition: {x: -5, y: 2, z: 0}
+  rotPunch: {x: 0, y: 0, z: -0.70710677, w: 0.70710677}
   curve:
     serializedVersion: 2
     m_Curve:
@@ -28,15 +29,6 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 0.6742596
-      value: 0.72311926
-      inSlope: 1.404489
-      outSlope: 1.404489
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
       time: 1
       value: 1
       inSlope: 2
@@ -49,7 +41,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   attackAnimSpeed: 50
-  attackScale: {x: 40, y: 2, z: 40}
+  attackScale: {x: 2, y: 40, z: 40}
   isCameraShake: 1
   cameraDuration: 3
   magnitude: 1

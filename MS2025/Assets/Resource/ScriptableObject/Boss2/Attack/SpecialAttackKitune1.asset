@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: SpecialAttackKitune1
   m_EditorClassIdentifier: 
   actionName: attack
-  moveAttackEndPosTime: 5
+  moveAttackEndPosTime: 3
   EndPosition: {x: 5, y: 50, z: 0}
+  rotPunch: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
   curve:
     serializedVersion: 2
     m_Curve:
@@ -27,15 +28,6 @@ MonoBehaviour:
       weightedMode: 0
       inWeight: 0
       outWeight: 0
-    - serializedVersion: 3
-      time: 0.6742596
-      value: 0.72311926
-      inSlope: 1.404489
-      outSlope: 1.404489
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
     - serializedVersion: 3
       time: 1
       value: 1

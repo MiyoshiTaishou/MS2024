@@ -14,6 +14,9 @@ public class BossMoveAttackPos : BossActionData
     [SerializeField, Header("到着時間")]
     private Vector3 EndPosition = Vector3.zero;
 
+    [SerializeField, Header("拳向き")]
+    private Quaternion rotPunch;
+
     [SerializeField, Header("アニメーションカーブで移動をリッチにする")]
     private AnimationCurve curve; 
 
@@ -72,6 +75,7 @@ public class BossMoveAttackPos : BossActionData
         originalPosition = attackArea.transform.position;
         attackArea.GetComponent<BoxCollider>().size = attackScale;
         attackArea.SetActive(true);
+        attackArea.transform.localRotation = rotPunch;
 
         isMoving = false;
 
@@ -94,7 +98,7 @@ public class BossMoveAttackPos : BossActionData
 
         Camera.main.GetComponent<CameraShake>().RPC_CameraShake(cameraDuration, magnitude);
         attackAreaView.transform.position = new Vector3(EndPosition.x, 2f, EndPosition.z);
-        attackAreaView.GetComponent<PulsatingCircle>().RPC_Scale(attackScale.x);
+        attackAreaView.GetComponent<PulsatingCircle>().RPC_Scale(attackScale.z);
         attackAreaView.GetComponent<PulsatingCircle>().RPC_Spedd(attackAnimSpeed);
         attackAreaView.GetComponent<PulsatingCircle>().RPC_Active(true);
     }
@@ -130,8 +134,11 @@ public class BossMoveAttackPos : BossActionData
             if (progress >= 1.0f && resetCoroutine == null && canMove)
             {
                 // リセット処理開始
-                resetCoroutine = ResetToOriginalPosition();
-                boss.GetComponent<MonoBehaviour>().StartCoroutine(resetCoroutine);
+                //resetCoroutine = ResetToOriginalPosition();
+                //boss.GetComponent<MonoBehaviour>().StartCoroutine(resetCoroutine);
+                attackArea.GetComponent<MoveToBossObject>().RPC_SetToMove(true);
+                attackAreaView.GetComponent<PulsatingCircle>().RPC_Active(false);
+                return true;
             }
             else if(progress >= 1.0f && resetCoroutine == null && !canMove)
             {
