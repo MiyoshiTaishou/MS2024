@@ -33,7 +33,7 @@ public class PlayerJumpNet : NetworkBehaviour
     [Networked] public bool isAnim { get; set; }
 
     [Networked] Vector3 velocity { get; set; }  // �v���C���[�̑��x
-    private bool isJumping;    // �W�����v�����ǂ���    
+    [Networked] private bool isJumping { get; set; }    // �W�����v�����ǂ���    
     public bool GetisJumping() { return isJumping; }
     int count = 0;
 

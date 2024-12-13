@@ -42,9 +42,9 @@ public class ComboSystem : NetworkBehaviour
             case 1:
                 change.GetComponent<ChangeBossAction>().combo = Combo;
                 change.GetComponent<ChangeBossAction>().RPC_Cange();
-                if (Combo >= 1 && change.GetComponent<ChangeBossAction>().TextNo == 0)
+                if (Combo >= 10 && change.GetComponent<ChangeBossAction>().TextNo == 0)
                 {
-                    change.GetComponent<ChangeBossAction>().TextNo = 5;
+                    change.GetComponent<ChangeBossAction>().TextNo = 1;
                 }
                 break;
         }
@@ -60,7 +60,7 @@ public class ComboSystem : NetworkBehaviour
         Combo = 0;
         Count = 0;
         change = GameObject.Find("ChangeAction");
-        if (SceneManager.GetActiveScene().name == "TutorialScene_Miyoshi")
+        if (SceneManager.GetActiveScene().name == "TutorialScene_Miyoshi"||SceneManager.GetActiveScene().name== "TutorialScene_Build")
         {
             Tutorial = 1;
         }
