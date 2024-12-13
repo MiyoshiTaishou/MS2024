@@ -149,7 +149,7 @@ public class PlayerAttack : NetworkBehaviour
         if (isOnce&&BossObj.GetComponent<BossAI>().Nokezori>0)
         {
             Debug.Log("連携攻撃いいいい");
-            GetComponent<PlayerAnimChange>().RPC_InitAction("APlayerCoordinatedAttack");
+            GetComponent<PlayerAnimChange>().RPC_InitAction("APlayerAttack");
             isEffect = true;
             isOnce = false; // フラグをリセット
         }
