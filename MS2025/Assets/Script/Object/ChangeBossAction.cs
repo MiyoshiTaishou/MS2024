@@ -27,9 +27,10 @@ public class ChangeBossAction : NetworkBehaviour
     [SerializeField] private GameObject TextSprite;
     [Networked] public int TextNo { get; set; }
 
+    [SerializeField, Header("ゲームマネージャー")]
+    private GameManager gameManager;
 
-
-    [SerializeField]
+    [Header("次のシーン名"),SerializeField]
     private string nextSceneName; // 遷移先のシーン名
 
     [SerializeField]
@@ -39,7 +40,10 @@ public class ChangeBossAction : NetworkBehaviour
 
     private bool isOnce = false;
 
+    // シーン遷移が一度だけ実行されるようにするためのフラグ
+    private bool hasTransitioned = false;
 
+    [SerializeField] private CrushingGame crushingGame;
 
     public Sprite[] numberSprites; // スプライト
 
@@ -64,15 +68,33 @@ public class ChangeBossAction : NetworkBehaviour
                 // シーン遷移の処理
                 if (!isOnce)
                 {
-                    transitionManager.TransitionStart();
+                    //if (crushingGame.IsAnimation()) return;
+                    //transitionManager.TransitionStart();
+                    //// クライアントに先にシーン遷移を指示
+                    //gameManager.RPC_EndBattle(10, 5);
+                    //StartCoroutine(Load());
 
-                    StartCoroutine(Load());
-
-                    isOnce = true;
+                    //isOnce = true;
                 }
 
                 break;
         }
+    }
+
+    private void EndTutorial()
+    {
+        // シーン遷移が一度だけ行われるようにチェック
+        if (hasTransitioned) return;
+        if (crushingGame.IsAnimation()) return;
+
+        transitionManager.TransitionStart();
+        hasTransitioned = true; // シーン遷移フラグを設定
+        StartCoroutine(Load());
+
+        //if (Object.HasStateAuthority)
+        //{
+        //    RPC_ClientSceneTransition();
+        //}
     }
 
     public override void Render()
@@ -99,7 +121,10 @@ public class ChangeBossAction : NetworkBehaviour
                 break;
             case 5://終わり
                 TextSprite.GetComponent<Image>().sprite = numberSprites[TextNo];
-              
+                crushingGame.StartAnimation();
+                EndTutorial();
+                // クライアントに先にシーン遷移を指示
+                gameManager.RPC_EndBattle(10, 5);
                 break;
         }
 
