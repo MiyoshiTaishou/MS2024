@@ -1,18 +1,17 @@
-using Fusion;
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class SoundManager : MonoBehaviour
 {
+    //プレイヤー取得
+    GameObject[] players;
+
     AudioSource bgmAudioSource;
     AudioSource PlayerSeAudioSource;
     AudioSource EnemySeAudioSource;
     AudioSource titleSeAudioSource;
 
-    [SerializeField,Tooltip("プレイヤーについてるもの以外のSEを鳴らすためのAudioSourceをすべて入れる")] List<AudioSource> SeSoundDataList;
+    [SerializeField, Tooltip("プレイヤーについてるもの以外のSEを鳴らすためのAudioSourceをすべて入れる")] List<AudioSource> SeSoundDataList;
     //[SerializeField] List<EnemySESoundData> EnemySeSoundDatas;
     //[SerializeField] List<UtilitySESoundData> UtilitySeSoundDatas;
 
@@ -22,49 +21,33 @@ public class SoundManager : MonoBehaviour
 
     bool cameraon = false;
     bool playeron = false;
-    bool bosson   = false;
+    bool bosson = false;
     bool otheron = false;
-
-    //[SerializeField, Tooltip("ミュートボタン")] bool isMute = false;
-
-    //public static SoundManager Instance { get; private set; }
-
-    //void Awake()
-    //{
-    //    if (Instance == null)
-    //    {
-    //        Instance = this;
-    //        DontDestroyOnLoad(gameObject);
-
-    //    }
-    //    else
-    //    {
-    //        Destroy(gameObject);
-    //    }
-    //}
 
     private void Start()
     {
-        masterVolume= SoundDataManager.masterVolume;
+        masterVolume = SoundDataManager.masterVolume;
         bgmMasterVolume = SoundDataManager.bgmMasterVolume;
-        seMasterVolume= SoundDataManager.seMasterVolume;
+        seMasterVolume = SoundDataManager.seMasterVolume;
     }
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.M))
+        if (Input.GetKeyDown(KeyCode.M))
         {
             SoundDataManager.isMute = !SoundDataManager.isMute;
         }
 
-        if(SoundDataManager.isMute)
+        if (SoundDataManager.isMute)
         {
             SoundDataManager.muteVolume = 0;
-
+            Debug.Log("サウンドミュート");
         }
         else
         {
             SoundDataManager.muteVolume = 1;
+            Debug.Log("サウンドミュート解除");
+
         }
 
         masterVolume = SoundDataManager.masterVolume;
@@ -72,9 +55,9 @@ public class SoundManager : MonoBehaviour
         seMasterVolume = SoundDataManager.seMasterVolume;
 
         //シーンごとに個別で作っているAudioSourceの管理
-        if(SeSoundDataList.Count > 0)
+        if (SeSoundDataList.Count > 0)
         {
-            for(int i = 0;i < SeSoundDataList.Count;i++)
+            for (int i = 0; i < SeSoundDataList.Count; i++)
             {
                 SeSoundDataList[i].volume = masterVolume * seMasterVolume * SoundDataManager.muteVolume;
             }
@@ -82,25 +65,34 @@ public class SoundManager : MonoBehaviour
 
         if (!bgmAudioSource)
         {
-          //  Debug.Log("呼ばれた");
+            //  Debug.Log("呼ばれた");
             bgmAudioSource = Camera.main.GetComponent<AudioSource>();
-            bgmAudioSource.volume= masterVolume * bgmMasterVolume * SoundDataManager.muteVolume;
+            bgmAudioSource.volume = masterVolume * bgmMasterVolume * SoundDataManager.muteVolume;
             cameraon = true;
         }
 
         if (!PlayerSeAudioSource)
         {
-            if (GameObject.Find("Player(Clone)"))
+            // タグを利用して特定のオブジェクトを取得
+             players = GameObject.FindGameObjectsWithTag("Player"); // タグ "Player" を使用
+            if (players.Length > 0)
             {
-                PlayerSeAudioSource = GameObject.Find("Player(Clone)").GetComponent<AudioSource>();
-                PlayerSeAudioSource.volume= masterVolume * seMasterVolume * SoundDataManager.muteVolume;
+                Debug.Log("サウンドプレイヤーの個数"+ players.Length);
+                foreach (GameObject player in players)
+                {
+                    AudioSource playerSeAudioSource = player.GetComponent<AudioSource>();
+                    if (playerSeAudioSource != null)
+                    {
+                        playerSeAudioSource.volume = masterVolume * seMasterVolume * SoundDataManager.muteVolume;
+                    }
+                }
                 playeron = true;
             }
             else
             {
-                // Debug.LogError("プレイヤーがいないよ");
                 playeron = false;
             }
+
         }
 
         if (!EnemySeAudioSource)
@@ -113,11 +105,11 @@ public class SoundManager : MonoBehaviour
             }
             else
             {
-                bosson= false;
+                bosson = false;
             }
         }
 
-        if(!titleSeAudioSource)
+        if (!titleSeAudioSource)
         {
             if (GameObject.Find("SE"))
             {
@@ -132,97 +124,36 @@ public class SoundManager : MonoBehaviour
             }
         }
 
-        if(cameraon)
+        if (cameraon)
         {
             bgmAudioSource.volume = masterVolume * bgmMasterVolume * SoundDataManager.muteVolume;
 
         }
 
-        if(playeron)
+        if (playeron)
         {
-            PlayerSeAudioSource.volume = masterVolume * seMasterVolume * SoundDataManager.muteVolume;
-
+            foreach (GameObject player in players)
+            {
+                AudioSource playerSeAudioSource = player.GetComponent<AudioSource>();
+                if (playerSeAudioSource != null)
+                {
+                    playerSeAudioSource.volume = masterVolume * seMasterVolume * SoundDataManager.muteVolume;
+                }
+            }
         }
 
-        if(bosson)
+        if (bosson)
         {
             EnemySeAudioSource.volume = masterVolume * seMasterVolume * SoundDataManager.muteVolume;
 
         }
 
-        if(otheron)
+        if (otheron)
         {
             titleSeAudioSource.volume = masterVolume * seMasterVolume * SoundDataManager.muteVolume;
 
         }
     }
-
-    //public override void FixedUpdateNetwork()
-    //{
-    //    if (!bgmAudioSource)
-    //    {
-    //        Debug.Log("呼ばれた");
-    //        bgmAudioSource = Camera.main.GetComponent<AudioSource>();
-    //    }
-
-    //    if (!PlayerSeAudioSource)
-    //    {
-    //        if (GameObject.Find("Player(Clone)"))
-    //        {
-    //            PlayerSeAudioSource = GameObject.Find("Player(Clone)").GetComponent<AudioSource>();
-
-    //        }
-    //        else
-    //        {
-    //            Debug.LogError("プレイヤーがいないよ");
-
-    //        }
-    //    }
-
-    //    if (!EnemySeAudioSource)
-    //    {
-    //        if (GameObject.Find("Boss2D"))
-    //        {
-    //            EnemySeAudioSource = GameObject.Find("Boss2D").GetComponent<AudioSource>();
-
-    //        }
-    //        else
-    //        {
-    //            Debug.LogError("ボスがいないよ");
-    //        }
-    //    }
-
-    //}
-
-    //public void PlayBGM(BGMSoundData.BGM bgm)
-    //{
-    //    BGMSoundData data = bgmSoundDatas.Find(data => data.bgm == bgm);
-    //    bgmAudioSource.clip = data.audioClip;
-    //    bgmAudioSource.volume = data.volume * bgmMasterVolume * masterVolume;
-    //    bgmAudioSource.Play();
-    //}
-
-
-    //public void PlayerSE(PlayerSESoundData.SE se)
-    //{
-    //    PlayerSESoundData data = PlayerSeSoundDatas.Find(data => data.se == se);
-    //    PlayerSeAudioSource.volume = data.volume * seMasterVolume * masterVolume;
-    //    PlayerSeAudioSource.PlayOneShot(data.audioClip);
-    //}
-
-    //public void EnemySE(EnemySESoundData.SE se)
-    //{
-    //    EnemySESoundData data = EnemySeSoundDatas.Find(data => data.se == se);
-    //    EnemySeAudioSource.volume = data.volume * seMasterVolume * masterVolume;
-    //    EnemySeAudioSource.PlayOneShot(data.audioClip);
-    //}
-
-    //public void UtilitySE(UtilitySESoundData.SE se)
-    //{
-    //    UtilitySESoundData data = UtilitySeSoundDatas.Find(data => data.se == se);
-    //    PlayerSeAudioSource.volume = data.volume * seMasterVolume * masterVolume;
-    //    PlayerSeAudioSource.PlayOneShot(data.audioClip);
-    //}
 
 }
 
