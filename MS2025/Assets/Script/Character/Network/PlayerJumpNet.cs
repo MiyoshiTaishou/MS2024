@@ -64,10 +64,11 @@ public class PlayerJumpNet : NetworkBehaviour
         ApplyGravity();
 
         AnimatorStateInfo landAnimStateInfo = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
-
+        GameObject BossObj = GameObject.Find("Boss2D");
         afterImage.SetActive(isJumping);
 
-        if (hitstop.IsHitStopActive || chargeattack.isCharge || freeze.GetIsFreeze() || sharenum.CurrentHP == 0)
+        if (hitstop.IsHitStopActive || chargeattack.isCharge || freeze.GetIsFreeze() || sharenum.CurrentHP == 0 ||
+            BossObj.GetComponent<BossStatus>().nBossHP <= 0)
         {
             return;
         }

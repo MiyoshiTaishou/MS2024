@@ -259,8 +259,9 @@ public class PlayerParryNet : NetworkBehaviour
 
     public override void FixedUpdateNetwork()
     {
+        GameObject BossObj = GameObject.Find("Boss2D");
         //パリィ中は動かせないようにする
-        if (freeze.GetIsFreeze() || sharenum.CurrentHP == 0)
+        if (freeze.GetIsFreeze() || sharenum.CurrentHP == 0 || BossObj.GetComponent<BossStatus>().nBossHP <= 0)
         {
             return;
         }
