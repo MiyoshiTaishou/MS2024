@@ -264,8 +264,8 @@ public class BossAI : NetworkBehaviour
     {
         Debug.Log("ぱられたあああああああ");
         currentAction = parryction;
-        currentActionIndex = 0;
-        currentSequenceIndex = 0;
+        //currentActionIndex = 0;
+        //currentSequenceIndex = 0;
         isActionInitialized = false;
         isInterrupted = false;
         GameObject attackAreaview;
