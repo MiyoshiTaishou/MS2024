@@ -245,6 +245,8 @@ public class PlayerAttack : NetworkBehaviour
                     //瞬間移動
                     Vector3 pos = transform.position;
                     Vector3 bosspos = BossObj.transform.position;
+                    bool isTanuki = GetComponent<PlayerParryNet>().isTanuki;
+
                     if (!flashFlg)
                     {
                         if (pos.x < bosspos.x)
@@ -255,7 +257,13 @@ public class PlayerAttack : NetworkBehaviour
                         {
                             pos.x = bosspos.x + disX;
                         }
-                        pos.z = bosspos.z;
+
+                        pos.z = bosspos.z-3.0f;
+                        if(!isTanuki)
+                        {
+                            pos.z=bosspos.z+3.0f;
+                            Debug.Log("奥");
+                        }
                         transform.position = pos;
                         flashFlg = true;
                     }
