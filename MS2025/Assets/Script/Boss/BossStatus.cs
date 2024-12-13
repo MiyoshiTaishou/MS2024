@@ -181,16 +181,15 @@ public class BossStatus : NetworkBehaviour
 
         slider.value = nBossHP;
 
-        HPCount++;
+     
 
-        if (Backslider.value > nBossHP && HPCount > 50)
+        if (Backslider.value > slider.value)
         {
             Backslider.value -= 1f;
+            Debug.Log("HP赤ゲージを減らす");
+    
         }
-        else if (Backslider.value == nBossHP)
-        {
-            //HPCount = 0;
-        }
+
 
         if (DeathCount == 1)
         {
