@@ -116,7 +116,7 @@ public class ShareNumbers : NetworkBehaviour
         //HPUI[CurrentHP].SetActive(false);
         for(int i=0;i<HPUI.Length;i++)
         {
-            if(i > CurrentHP)
+            if(i >= CurrentHP)
             {
                 HPDestroy[i] = true;
                 Debug.Log("HPUI‚Å‚·‚Æ‚ë‚¢" + HPDestroy[i]);
