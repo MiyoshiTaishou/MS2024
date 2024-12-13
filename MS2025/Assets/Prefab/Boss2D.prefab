@@ -397,6 +397,7 @@ MonoBehaviour:
   gameManager: {fileID: 0}
   crushingGame: {fileID: 0}
   ResultSceneName: 
+  isTutorial: 0
   transitionManager: {fileID: 0}
 --- !u!114 &2444928967917834422
 MonoBehaviour:
@@ -515,6 +516,7 @@ GameObject:
   - component: {fileID: 421660053111592547}
   - component: {fileID: 5921268985087686165}
   - component: {fileID: 8741851002100511084}
+  - component: {fileID: 4355301279088332438}
   m_Layer: 0
   m_Name: Area
   m_TagString: Untagged
@@ -622,6 +624,23 @@ MonoBehaviour:
   NestedObjects: []
   NetworkedBehaviours:
   - {fileID: 5921268985087686165}
+  - {fileID: 4355301279088332438}
+--- !u!114 &4355301279088332438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8090691620821980403}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 158639473, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SyncScale: 0
+  SyncParent: 0
+  _autoAOIOverride: 1
+  DisableSharedModeInterpolation: 0
 --- !u!1001 &1111860687885315067
 PrefabInstance:
   m_ObjectHideFlags: 0

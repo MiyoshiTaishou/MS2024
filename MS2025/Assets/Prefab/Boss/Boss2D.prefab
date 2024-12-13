@@ -399,6 +399,7 @@ MonoBehaviour:
   gameManager: {fileID: 0}
   crushingGame: {fileID: 0}
   ResultSceneName: ResultScene_Miyoshi
+  isTutorial: 0
   transitionManager: {fileID: 0}
 --- !u!114 &2601622296934347290
 MonoBehaviour:
@@ -517,6 +518,7 @@ GameObject:
   - component: {fileID: 4102033113130870378}
   - component: {fileID: 1725093668760734008}
   - component: {fileID: 1168172056840206161}
+  - component: {fileID: 7513312979216164008}
   m_Layer: 0
   m_Name: Area
   m_TagString: Untagged
@@ -624,6 +626,23 @@ MonoBehaviour:
   NestedObjects: []
   NetworkedBehaviours:
   - {fileID: 1725093668760734008}
+  - {fileID: 7513312979216164008}
+--- !u!114 &7513312979216164008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7781677958421229091}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 158639473, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SyncScale: 0
+  SyncParent: 0
+  _autoAOIOverride: 1
+  DisableSharedModeInterpolation: 0
 --- !u!1001 &305143543367089222
 PrefabInstance:
   m_ObjectHideFlags: 0
