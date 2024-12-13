@@ -42,9 +42,9 @@ public class ComboSystem : NetworkBehaviour
             case 1:
                 change.GetComponent<ChangeBossAction>().combo = Combo;
                 change.GetComponent<ChangeBossAction>().RPC_Cange();
-                if (Combo >= 10 && change.GetComponent<ChangeBossAction>().TextNo == 0)
+                if (Combo >= 1 && change.GetComponent<ChangeBossAction>().TextNo == 0)
                 {
-                    change.GetComponent<ChangeBossAction>().TextNo = 1;
+                    change.GetComponent<ChangeBossAction>().TextNo = 5;
                 }
                 break;
         }
