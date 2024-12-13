@@ -82,7 +82,7 @@ public class PlayerAttack : NetworkBehaviour
     public override void FixedUpdateNetwork()
     {
         Debug.Log("aaaa=" + aaaa);
-        if(GetComponent<HitStop>().IsHitStopActive||sharenum.CurrentHP==0) 
+        if(GetComponent<HitStop>().IsHitStopActive||sharenum.CurrentHP==0||BossObj.GetComponent<BossStatus>().nBossHP<=0) 
         {
             return;
         }
