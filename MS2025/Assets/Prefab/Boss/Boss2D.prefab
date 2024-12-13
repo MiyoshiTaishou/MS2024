@@ -20,7 +20,6 @@ GameObject:
   - component: {fileID: 4774286239459801296}
   - component: {fileID: 8531325055617208617}
   - component: {fileID: 2601622296934347290}
-  - component: {fileID: 3201915058113858874}
   m_Layer: 0
   m_Name: Boss2D
   m_TagString: Enemy
@@ -186,9 +185,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   actionSequence:
-  - {fileID: 11400000, guid: cfe9a9d8ba0f3a845b9076d91d7e758b, type: 2}
+  - {fileID: 11400000, guid: be788f8c5261c1f4cb79e3d768e7269a, type: 2}
+  - {fileID: 11400000, guid: 7b3aa0944d4bf6b47b44e8e992adf662, type: 2}
+  - {fileID: 11400000, guid: 5b9cac3902a60fa4190e404cd9cb88b2, type: 2}
+  - {fileID: 11400000, guid: 25c4dc7ba6fd4c44db844ec9895d6e9b, type: 2}
   actionSequenceHalf:
-  - {fileID: 11400000, guid: cfe9a9d8ba0f3a845b9076d91d7e758b, type: 2}
+  - {fileID: 11400000, guid: be788f8c5261c1f4cb79e3d768e7269a, type: 2}
+  - {fileID: 11400000, guid: 7b3aa0944d4bf6b47b44e8e992adf662, type: 2}
+  - {fileID: 11400000, guid: 5b9cac3902a60fa4190e404cd9cb88b2, type: 2}
+  - {fileID: 11400000, guid: 25c4dc7ba6fd4c44db844ec9895d6e9b, type: 2}
   _isKnockBack: 0
   _isParry: 0
   _Nokezori: 0
@@ -211,7 +216,6 @@ MonoBehaviour:
   MaxNokezoriRegist: 600
   Line: {fileID: 6013458586082825786, guid: 34e0cc4b93253be4a932458122fcafdb, type: 3}
   isTutorial: 0
-  _isNokezoriTanuki: 0
 --- !u!65 &3034932492724989842
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -366,7 +370,7 @@ MonoBehaviour:
   TotalWords: 0
   ApplyTiming: 2
   SyncSettings: 79
-  StateHashes: 000000004cf1e72e1eab9807
+  StateHashes: 000000004cf1e72e1eab98073b2dc0477883f344cc60bdd948436b36d1a0a8ac3a632051
   TriggerHashes: 00000000
 --- !u!114 &8531325055617208617
 MonoBehaviour:
@@ -434,20 +438,6 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   curveSpeed: 4
---- !u!114 &3201915058113858874
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2304751412741461227}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1541381998, guid: e725a070cec140c4caffb81624c8c787, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Guid:
-    RawGuidValue: ab5f2db3258b46342b08d5c5f4b471e6
 --- !u!1 &4399538652992798829
 GameObject:
   m_ObjectHideFlags: 0

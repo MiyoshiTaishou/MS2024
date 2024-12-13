@@ -9,14 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 55d4b93695643ca41945309d46a25c32, type: 3}
-  m_Name: QuickRocketPunchTanuki
+  m_Script: {fileID: 11500000, guid: 68e5143abf015bc4990772e0b6864832, type: 3}
+  m_Name: SpecialAttackTanuki2
   m_EditorClassIdentifier: 
   actionName: attack
-  taregt: 0
-  moveAttackEndPosTime: 1
-  distance: 0
-  deviate: {x: 0, y: 0, z: 0}
+  moveAttackEndPosTime: 5
+  EndPosition: {x: -5, y: 0, z: 0}
   curve:
     serializedVersion: 2
     m_Curve:
@@ -30,6 +28,15 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
+      time: 0.6742596
+      value: 0.72311926
+      inSlope: 1.404489
+      outSlope: 1.404489
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
       time: 1
       value: 1
       inSlope: 2
@@ -41,13 +48,14 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  attackDuration: 0
-  attackAnimSpeed: 1
-  attackScale: {x: 2, y: 2, z: 2}
-  isCameraShake: 0
-  cameraDuration: 0
-  magnitude: 0
+  attackAnimSpeed: 50
+  attackScale: {x: 40, y: 2, z: 40}
+  isCameraShake: 1
+  cameraDuration: 3
+  magnitude: 1
+  attackAreaName: BossAttackAreaTanuki
   canParry: 0
   canKnockBack: 1
-  attackAreaName: BossAttackAreaTanuki
-  attackClip: {fileID: 8300000, guid: 1b591394cce1dbf41b5bf55d676ff7b0, type: 3}
+  canMove: 1
+  parryType: 3
+  attackClip: {fileID: 8300000, guid: 9041a2f5a46a0a94aa3d617ef8582742, type: 3}
