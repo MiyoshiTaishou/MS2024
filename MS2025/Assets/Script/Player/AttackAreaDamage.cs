@@ -18,6 +18,8 @@ public class AttackAreaDamage : NetworkBehaviour
     [SerializeField, Header("ダメージ量")] int DamageNum = 100;
     [SerializeField, Header("連携攻撃ダメージ量")] int buddyDamageNum = 100;
     [SerializeField, Header("連携攻撃フィニッシュダメージ量")] int buddyFinalDamageNum = 100;
+    [SerializeField, Header("基本ジャンプ攻撃ダメージ量")] int RaiseDamageNum = 100;
+    [SerializeField, Header("最大ジャンプ攻撃ダメージ量")] int MaxRaiseDamageNum = 100;
 
     [SerializeField, Tooltip("数字のスプライト")] List<Sprite> damagesprite;
     [SerializeField, Tooltip("数字のスプライト")] GameObject damageobj;
@@ -118,7 +120,60 @@ public class AttackAreaDamage : NetworkBehaviour
                     if (other.GetComponent<BossAI>().isAir)
                     {
                         other.GetComponent<BossAI>().isDown = true;
+                        other.GetComponent<BossStatus>().RPC_Damage(MaxRaiseDamageNum);
+                        hitdamege = MaxRaiseDamageNum;
+                        RPCCombo();
+                        //当たったらダメージ数表示
+                        if (parry.isTanuki)
+                        {
+                            GekiUI(other.transform);
+                            // Debug.Log("ホストダメージ数");
+                            player.GetComponent<HitStop>().ApplyHitStop(stopFrame);
+                            //Debug.Log("ヒットストップダメージ数ホスト" + stopFrame);
+
+                        }
+                        else
+                        {
+                            //ダメージ数表示
+                            isGeki = true;
+                            bosspos = other.transform.position;
+                            bossscale = other.transform.localScale;
+                            Debug.Log("ダメージ数" + bosspos);
+
+                            //ヒットストップ
+                            ishitstop = true;
+                            hitstoptime = stopFrame;
+
+                        }
+                        return;
                     }
+
+                    other.GetComponent<BossStatus>().RPC_Damage(RaiseDamageNum);
+                    hitdamege = RaiseDamageNum;
+                    RPCCombo();
+                    //当たったらダメージ数表示
+                    if (parry.isTanuki)
+                    {
+                        GekiUI(other.transform);
+                        // Debug.Log("ホストダメージ数");
+                        player.GetComponent<HitStop>().ApplyHitStop(stopFrame);
+                        //Debug.Log("ヒットストップダメージ数ホスト" + stopFrame);
+
+                    }
+                    else
+                    {
+                        //ダメージ数表示
+                        isGeki = true;
+                        bosspos = other.transform.position;
+                        bossscale = other.transform.localScale;
+                        Debug.Log("ダメージ数" + bosspos);
+
+                        //ヒットストップ
+                        ishitstop = true;
+                        hitstoptime = stopFrame;
+
+                    }
+                    return;
                 }
                 other.GetComponent<BossStatus>().RPC_Damage(DamageNum);
                 hitdamege = DamageNum;
