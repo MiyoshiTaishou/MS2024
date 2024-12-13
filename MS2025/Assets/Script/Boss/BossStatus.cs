@@ -53,6 +53,9 @@ public class BossStatus : NetworkBehaviour
 
     private NetworkRunner networkRunner;
 
+    [SerializeField, Header("チュートリアルモード")]
+    private bool isTutorial = false;
+
     [SerializeField]
     private TransitionManager transitionManager;
 
@@ -72,10 +75,14 @@ public class BossStatus : NetworkBehaviour
     [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
     public void RPC_Damage(int _damage)
     {
-        nBossHP -= _damage;
-        HPCount = 0;
-        isDamageEffect = true;
+        if(!isTutorial)
+        {
+            nBossHP -= _damage;
+            HPCount = 0;
+ 
+        }
 
+        isDamageEffect = true;
         //// HPが0以下なら削除処理を呼ぶ
         //if (nBossHP <= 0)
         //{

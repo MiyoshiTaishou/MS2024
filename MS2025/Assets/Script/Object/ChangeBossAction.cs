@@ -136,7 +136,7 @@ public class ChangeBossAction : NetworkBehaviour
        
         if(combo>=1&&TextNo<1)
         {
-            TextNo = 1;
+            TextNo = 5;
         }
         
     }

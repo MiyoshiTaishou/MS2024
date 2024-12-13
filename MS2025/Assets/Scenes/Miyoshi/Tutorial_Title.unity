@@ -2804,7 +2804,9 @@ MonoBehaviour:
   baseColorImage: {r: 0, g: 0, b: 0, a: 0}
   Audio: {fileID: 0}
   Clip: {fileID: 0}
+  ketteiClip: {fileID: 0}
   CancelClip: {fileID: 0}
+  isStop: 0
 --- !u!1001 &286396023
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12676,7 +12678,9 @@ MonoBehaviour:
   baseColorImage: {r: 0, g: 0, b: 0, a: 0}
   Audio: {fileID: 1029645765}
   Clip: {fileID: 8300000, guid: 1d5efa220f0b7b4449b50578b79fa608, type: 3}
+  ketteiClip: {fileID: 0}
   CancelClip: {fileID: 8300000, guid: ebfb1bd46805e1c4b812d202f72a5217, type: 3}
+  isStop: 0
 --- !u!224 &830982885
 RectTransform:
   m_ObjectHideFlags: 0
@@ -16194,7 +16198,9 @@ MonoBehaviour:
   baseColorImage: {r: 1, g: 1, b: 1, a: 1}
   Audio: {fileID: 0}
   Clip: {fileID: 0}
+  ketteiClip: {fileID: 0}
   CancelClip: {fileID: 0}
+  isStop: 0
 --- !u!224 &1075490732
 RectTransform:
   m_ObjectHideFlags: 0
