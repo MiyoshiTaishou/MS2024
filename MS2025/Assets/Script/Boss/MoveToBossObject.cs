@@ -27,6 +27,9 @@ public class MoveToBossObject : NetworkBehaviour
 
     private Vector3 scale;
 
+    [SerializeField]
+    private PARRYTYPE type { get; set; }
+
     public void SetToMove(bool _isToMove)
     {
         isToMove = _isToMove;
@@ -91,6 +94,7 @@ public class MoveToBossObject : NetworkBehaviour
             transform.position = target.transform.position + distance;
             transform.localScale = scale;
             GetComponent<BoxCollider>().enabled = false;
+            GetComponent<BossAttackArea2Boss>().Type = type;
         }
         else
         {
