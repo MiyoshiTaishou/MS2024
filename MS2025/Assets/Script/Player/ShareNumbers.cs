@@ -225,7 +225,8 @@ public class ShareNumbers : NetworkBehaviour
 
     private IEnumerator Load()
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1.0f);
+        TryObject.SetActive(true);
         transitionManager.gameObject.GetComponent<UIController>().RPC_ShowUI();
     }
 
