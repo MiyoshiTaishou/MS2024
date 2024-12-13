@@ -11724,12 +11724,12 @@ PrefabInstance:
       addedObject: {fileID: 6054955}
     - targetCorrespondingSourceObject: {fileID: 3793532893666685453, guid: b6641e141eedcf943941f8ef19c92bff,
         type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1110948577}
+      insertIndex: 17
+      addedObject: {fileID: 11362211}
     - targetCorrespondingSourceObject: {fileID: 3793532893666685453, guid: b6641e141eedcf943941f8ef19c92bff,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 11362211}
+      addedObject: {fileID: 1110948577}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 7805975338590367253, guid: b6641e141eedcf943941f8ef19c92bff,
         type: 3}
@@ -12820,6 +12820,7 @@ MonoBehaviour:
   - {fileID: 711229467}
   - {fileID: 736396538}
   - {fileID: 2077346718}
+  - {fileID: 11362210}
 --- !u!82 &830982887
 AudioSource:
   m_ObjectHideFlags: 0
