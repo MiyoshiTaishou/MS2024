@@ -2354,6 +2354,10 @@ PlayableDirector:
     value: {fileID: 1202442329}
   - key: {fileID: 6496626991680099776, guid: 4846bc8bf616c3a489dd254915fbe5a7, type: 2}
     value: {fileID: 1562728657}
+  - key: {fileID: 8233981909504052643, guid: 4846bc8bf616c3a489dd254915fbe5a7, type: 2}
+    value: {fileID: 1202442338}
+  - key: {fileID: 4733905202051907510, guid: 4846bc8bf616c3a489dd254915fbe5a7, type: 2}
+    value: {fileID: 1202442338}
   m_ExposedReferences:
     m_References: []
 --- !u!4 &157527535
@@ -12523,7 +12527,7 @@ PrefabInstance:
     - target: {fileID: 736280441253342196, guid: b66858073cf77574f81842a89badbdff,
         type: 3}
       propertyPath: SeSoundDataList.Array.size
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 736280441253342196, guid: b66858073cf77574f81842a89badbdff,
         type: 3}
@@ -12540,6 +12544,16 @@ PrefabInstance:
       propertyPath: SeSoundDataList.Array.data[2]
       value: 
       objectReference: {fileID: 410283819}
+    - target: {fileID: 736280441253342196, guid: b66858073cf77574f81842a89badbdff,
+        type: 3}
+      propertyPath: SeSoundDataList.Array.data[3]
+      value: 
+      objectReference: {fileID: 814055686}
+    - target: {fileID: 736280441253342196, guid: b66858073cf77574f81842a89badbdff,
+        type: 3}
+      propertyPath: SeSoundDataList.Array.data[4]
+      value: 
+      objectReference: {fileID: 814055686}
     - target: {fileID: 7277575446554646053, guid: b66858073cf77574f81842a89badbdff,
         type: 3}
       propertyPath: m_Name
