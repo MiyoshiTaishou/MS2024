@@ -228,6 +228,7 @@ public class ShareNumbers : NetworkBehaviour
         yield return new WaitForSeconds(1.0f);
         TryObject.SetActive(true);
         transitionManager.gameObject.GetComponent<UIController>().RPC_ShowUI();
+        Camera.main.GetComponent<ChangeBGM>().RPC_ChangeBGM();     
     }
 
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]

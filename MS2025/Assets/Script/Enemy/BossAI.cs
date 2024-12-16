@@ -190,6 +190,12 @@ public class BossAI : NetworkBehaviour
             return;
         }
 
+        //ゲーム開始してなかったら動かさない
+        if (gameManager.isGameOver)
+        {
+            return;
+        }
+
         //必殺技中は動かない
         if (shareNumbers.isSpecial)
         {

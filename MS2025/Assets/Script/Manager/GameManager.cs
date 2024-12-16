@@ -28,7 +28,7 @@ public class GameManager : NetworkBehaviour
     private bool isReadyToStartBattle { get; set; }
 
     [Networked]
-    private bool isGameOver { get; set; }
+    public bool isGameOver { get; set; }
 
     public override void Spawned()
     {
