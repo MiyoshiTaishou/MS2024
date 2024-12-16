@@ -32,8 +32,8 @@ public class PlayerRaiseAttack : NetworkBehaviour
 
     GameObject change;
 
-    bool isOnce = false;
-    bool isEffect = false;
+    [Networked] bool isOnce  { get; set; } = false;
+    [Networked] bool isEffect{ get; set; } = false;
     PlayerFreeze freeze;
 
     // Start is called before the first frame update

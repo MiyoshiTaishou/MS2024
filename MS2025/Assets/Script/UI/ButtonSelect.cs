@@ -47,6 +47,8 @@ public class ButtonSelect : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
+
         if (buttons != null || buttons.Length >= 0)
         {
             buttons[selectedIndex].Select(); // 最初のボタンを選択状態にする
