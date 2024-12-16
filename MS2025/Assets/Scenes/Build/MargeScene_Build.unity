@@ -12200,7 +12200,7 @@ PrefabInstance:
     - target: {fileID: 736280441253342196, guid: b66858073cf77574f81842a89badbdff,
         type: 3}
       propertyPath: SeSoundDataList.Array.size
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 736280441253342196, guid: b66858073cf77574f81842a89badbdff,
         type: 3}
@@ -12217,6 +12217,11 @@ PrefabInstance:
       propertyPath: SeSoundDataList.Array.data[2]
       value: 
       objectReference: {fileID: 308824981}
+    - target: {fileID: 736280441253342196, guid: b66858073cf77574f81842a89badbdff,
+        type: 3}
+      propertyPath: SeSoundDataList.Array.data[3]
+      value: 
+      objectReference: {fileID: 1315147762}
     - target: {fileID: 7277575446554646053, guid: b66858073cf77574f81842a89badbdff,
         type: 3}
       propertyPath: m_Name
