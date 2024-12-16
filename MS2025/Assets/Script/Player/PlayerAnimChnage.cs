@@ -75,7 +75,8 @@ public class PlayerAnimChange : NetworkBehaviour
             (landAnimStateInfo.IsName("APlayerJumpUp") || landAnimStateInfo.IsName("APlayerJumpDown") ||
             landAnimStateInfo.IsName("APlayerParry") || landAnimStateInfo.IsName("APlayerCounter") ||
             landAnimStateInfo.IsName("APlayerAttack") || landAnimStateInfo.IsName("APlayerAttack2") || landAnimStateInfo.IsName("APlayerAttack3") ||
-            landAnimStateInfo.IsName("APlayerCoordinatedAttack") || landAnimStateInfo.IsName("APlayerKachiage")))
+            landAnimStateInfo.IsName("APlayerCoordinatedAttack") || landAnimStateInfo.IsName("APlayerKachiage"))&&
+            !landAnimStateInfo.IsName("APlayerCharge"))
         {
            RPC_InitAction("APlayerIdle");
            Debug.Log($"‚ ‚é‚©‚È‚¢‚Å {networkedAnimationName}"+landAnimStateInfo.normalizedTime);
