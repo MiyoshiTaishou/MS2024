@@ -159,7 +159,7 @@ public class PlayerSpecialAttackNet : NetworkBehaviour
             {
                 SpecialActTime -= Time.deltaTime;
             }
-            else
+            else if (SpecialActTime < 0.0f)
             {
                 SpecialActTime = 0.0f;
                 GetComponent<PlayerMove>().isMove = true; // ˆÚ“®‚ðˆêŽž’âŽ~
