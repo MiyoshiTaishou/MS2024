@@ -22,7 +22,7 @@ public class PlayerChargeAttack : NetworkBehaviour
     [SerializeField, Tooltip("溜めに必要なフレーム")]
     int maxCharge;
     int Count;
-    int chargeCount;
+    [Networked] private int chargeCount { get; set; }
 
     [SerializeField, Tooltip("溜めエフェクト")]
     GameObject chargeeffect;
@@ -138,7 +138,16 @@ public class PlayerChargeAttack : NetworkBehaviour
     public override void Render()
     {
         Attack();
+        AnimatorStateInfo landAnimStateInfo = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0);
 
+        if (chargeCount>0)
+        {
+            GetComponent<PlayerAnimChange>().RPC_InitAction("APlayerCharge");
+        }
+        else if(chargeCount==0&&landAnimStateInfo.IsName("APlayerCharge"))
+        {
+            GetComponent<PlayerAnimChange>().RPC_InitAction("APlayerIdle");
+        }
         if (freeze.GetIsFreeze())
         {
             Debug.Log("硬直中");

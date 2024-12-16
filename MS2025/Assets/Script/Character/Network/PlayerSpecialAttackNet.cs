@@ -163,6 +163,8 @@ public class PlayerSpecialAttackNet : NetworkBehaviour
             {
                 SpecialActTime = 0.0f;
                 GetComponent<PlayerMove>().isMove = true; // ˆÚ“®‚ðˆêŽž’âŽ~
+                                                          //ƒJƒEƒ“ƒg‚ð0‚É‚·‚é
+                comboCountObject.GetComponent<ShareNumbers>().ResetSpecialNUm();
             }
         }
 

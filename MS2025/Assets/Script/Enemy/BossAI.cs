@@ -190,6 +190,12 @@ public class BossAI : NetworkBehaviour
             return;
         }
 
+        //ゲーム開始してなかったら動かさない
+        if (gameManager.isGameOver)
+        {
+            return;
+        }
+
         //必殺技中は動かない
         if (shareNumbers.isSpecial)
         {
@@ -526,4 +532,16 @@ public class BossAI : NetworkBehaviour
             NokezoriRegistCount = NokezoriRegist;
         }
     }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.contacts[0].normal.y < 0) // 下からの衝突を検出
+        {
+            Rigidbody rb = GetComponent<Rigidbody>();
+            Vector3 velocity = rb.velocity;
+            velocity.y = 0; // Y軸方向の速度をリセット
+            rb.velocity = velocity;
+        }
+    }
+
 }
