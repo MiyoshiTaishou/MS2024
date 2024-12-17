@@ -144,7 +144,13 @@ MonoBehaviour:
   DamageNum: 100
   buddyDamageNum: 200
   buddyFinalDamageNum: 1000
-  Gekiobj: {fileID: 4630218144137360919, guid: b1871dfb0d725bb4497c060c1a4cea4a, type: 3}
+  RaiseDamageNum: 100
+  MaxRaiseDamageNum: 100
+  damagesprite: []
+  damageobj: {fileID: 0}
+  MinRange: -0.2
+  MaxRange: 0.2
+  _isGeki: 0
 --- !u!1 &4083518577069052084
 GameObject:
   m_ObjectHideFlags: 0
@@ -175,7 +181,6 @@ GameObject:
   - component: {fileID: 5871400171372381559}
   - component: {fileID: 8683577124668327029}
   - component: {fileID: 3268397755699133584}
-  - component: {fileID: 5175404585820679279}
   m_Layer: 0
   m_Name: PlayerDot
   m_TagString: Player
@@ -420,6 +425,7 @@ MonoBehaviour:
   effectobj: {fileID: 125183443023101498}
   effectRengekiTime: {fileID: 8204202340712368863}
   disX: 10
+  _aaaa: 0
 --- !u!114 &460048684259311895
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -432,6 +438,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 828e2938ddaaa124987e2cb41cf13774, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _isDamage: 0
+  damageFrame: 0
+  knockbackDistance: 0
+  knockbackSlowDistance: 0
+  _inbisibleFrame: 0
 --- !u!82 &550152675654488287
 AudioSource:
   m_ObjectHideFlags: 0
@@ -542,6 +553,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   acceleration: 30
   maxSpeed: 10
+  LimitSpeed: 0
   _isReflection: 0
   _isMove: 0
 --- !u!114 &1903704887893057848
@@ -559,9 +571,9 @@ MonoBehaviour:
   jumpSE: {fileID: 8300000, guid: 7e0c3b9ed31f17d4cba22d1c5346e04d, type: 3}
   jumpPower: 15
   gravity: 20
-  effect: {fileID: 6574216082050649755, guid: abed7fcf5665eef4ab4326f47c503b02, type: 3}
   _isEffect: 0
   _jumpstart: 0
+  _isAnim: 0
 --- !u!114 &4680610125200213111
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -586,6 +598,7 @@ MonoBehaviour:
     type: 3}
   Countereffect: {fileID: 3446999729361076648}
   _isTanuki: 0
+  _isRaise: 0
 --- !u!114 &7205871692880595001
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -601,6 +614,14 @@ MonoBehaviour:
   _specialNum: 3
   _specialDamage: 0
   specialTimeWait: 0.01
+  specialActTimeWait: 10
+  specialColor: {r: 0, g: 0, b: 0, a: 0}
+  Tanukiparticle: {fileID: 0}
+  Kituneparticle: {fileID: 0}
+  clip: {fileID: 0}
+  clipSpecial: {fileID: 0}
+  ComboList: []
+  PlayerFireList: []
 --- !u!114 &3590205621352011468
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -663,6 +684,13 @@ MonoBehaviour:
   - {fileID: 4271833642955709297}
   - {fileID: 2819849539169360632}
   - {fileID: 125183443023101498}
+  hitStopCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  curveSpeed: 0
 --- !u!114 &5810928223041051971
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -700,6 +728,7 @@ MonoBehaviour:
   attackeffect: {fileID: 2819849539169360632}
   effectRengekiTime: {fileID: 8204202340712368863}
   _isWait: 0
+  color: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &8683577124668327029
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -725,20 +754,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eeacbe8fd72343e449ec72ec9d2b2607, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &5175404585820679279
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4083518577069052084}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1541381998, guid: e725a070cec140c4caffb81624c8c787, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Guid:
-    RawGuidValue: f0bb5cfe23f104049b72aaf9d49a9d2c
 --- !u!1 &5173901754404151646
 GameObject:
   m_ObjectHideFlags: 0
@@ -769,7 +784,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 3.42, y: 0.002839493, z: -0.044939782}
-  m_LocalScale: {x: 6.41, y: 6.27, z: 3.11}
+  m_LocalScale: {x: 2, y: 6, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8852350529506225476}
@@ -861,6 +876,10 @@ MonoBehaviour:
   stopFrame: 29
   ChargeDamege: 500
   Gekiobj: {fileID: 4630218144137360919, guid: b1871dfb0d725bb4497c060c1a4cea4a, type: 3}
+  damagesprite: []
+  damageobj: {fileID: 0}
+  MinRange: -0.2
+  MaxRange: 0.2
 --- !u!1 &7639620073885479761
 GameObject:
   m_ObjectHideFlags: 0
@@ -5972,6 +5991,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 4680610125200213111}
   _Hit: 0
+  _isRaaise: 0
 --- !u!1001 &294230445138278799
 PrefabInstance:
   m_ObjectHideFlags: 0
