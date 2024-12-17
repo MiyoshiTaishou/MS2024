@@ -416,27 +416,22 @@ public class BossAI : NetworkBehaviour
             }
         }
 
-        //ダウンパーティクル
+        // ダウンパーティクル
         if (isParticle == 2 || isParticle == 3)
         {
             switch (isParticle)
             {
                 case 2:
-                    // パーティクルシステムのインスタンスを生成
-                    newParticle = Instantiate(Dawnparticle);
 
-                    //パーティクルを生成
-                    newParticle.transform.position = this.transform.position;
-                    // パーティクルを発生させる
-                    newParticle.Play();
+                    RPC_Particle();
                     isParticle = 3;
                     break;
             }
-
         }
 
+
         //追跡するプレイヤーの頭にマーク表示
-        if(isBossOne)
+        if (isBossOne)
         {
             for(int i = 0; i < players.Count;i++)
             {
@@ -521,6 +516,23 @@ public class BossAI : NetworkBehaviour
     {
         Nokezori = NokezoriLimit;
         isInterrupted = true;
+    }
+
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    public void RPC_Particle()
+    {
+        // パーティクルシステムのインスタンスを生成
+        newParticle = Instantiate(Dawnparticle, this.transform);
+
+        // パーティクルを生成（親オブジェクトの子にする）
+        newParticle.transform.parent = this.transform;
+        newParticle.transform.position = this.transform.position + new Vector3(0, 0.5f, 0); // 頭の上に配置 (y方向に1単位)
+
+        // パーティクルを発生させる
+        newParticle.Play();
+
+        // 10秒後に削除
+        Destroy(newParticle.gameObject, 10f);
     }
 
     [Rpc(RpcSources.All, RpcTargets.All)]
