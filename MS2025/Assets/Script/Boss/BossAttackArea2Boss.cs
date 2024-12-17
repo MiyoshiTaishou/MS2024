@@ -55,46 +55,90 @@ public class BossAttackArea2Boss : NetworkBehaviour
     private void OnTriggerEnter(Collider other)
     {        
         if (other.CompareTag("Player"))
-        {           
+        {
             // パリィ処理
             if (!parent.GetComponent<BossAI>().isParry)
             {
-                if (other.GetComponent<PlayerParryNet>().ParryCheck() &&
-                    ((other.GetComponent<PlayerParryNet>().isTanuki && Type == PARRYTYPE.TANUKI) ||
-                    (!other.GetComponent<PlayerParryNet>().isTanuki && Type == PARRYTYPE.KITUNE) ||
-                    Type == PARRYTYPE.ALL))
+                // パリィ不可攻撃かどうか
+                if (!parent.GetComponent<BossAI>().isParry)
                 {
-                    Debug.Log("パリィ成功");
-                    other.GetComponent<PlayerParryNet>().RPC_ParrySystem();
-
-                    if (parent.GetComponent<BossAI>().isKnockBack)
+                    //パリィ成功したかどうか
+                    if (other.GetComponent<PlayerParryNet>().ParryCheck())
                     {
-                        parent.GetComponent<BossAI>().RPC_AnimName();
-                    }
-                    
-                    return;
-                }
-                else if (other.GetComponent<PlayerParryNet>().ParryCheck() && Type == PARRYTYPE.DOUBLE)
-                {
-                    if (other.GetComponent<PlayerParryNet>().isTanuki)
-                    {
-                        isTanuki = true;
-                    }
-                    else if (!other.GetComponent<PlayerParryNet>().isTanuki)
-                    {
-                        isKitune = true;
-                    }
-                    if (isTanuki && isKitune)
-                    {
-                        Debug.Log("パリィ成功");
-                        other.GetComponent<PlayerParryNet>().RPC_ParrySystem();
-
-                        if (parent.GetComponent<BossAI>().isKnockBack)
+                        //狸で攻撃も狸ならパリィ成功
+                        if (other.GetComponent<PlayerParryNet>().isTanuki && Type == PARRYTYPE.TANUKI)
                         {
-                            parent.GetComponent<BossAI>().RPC_AnimName();
+                            Debug.Log("パリィ成功");
+                            other.GetComponent<PlayerParryNet>().RPC_ParrySystem();
+
+                            // ノックバック可能かどうか
+                            if (parent.GetComponent<BossAI>().isKnockBack)
+                            {
+                                parent.GetComponent<BossAI>().RPC_AnimName();
+                            }
+                           
+                            //gameObject.SetActive(false);
+                            return;
                         }
-                       
-                        return;
+
+                        //狐で攻撃も狐ならパリィ成功
+                        if (!other.GetComponent<PlayerParryNet>().isTanuki && Type == PARRYTYPE.KITUNE)
+                        {
+                            Debug.Log("パリィ成功");
+                            other.GetComponent<PlayerParryNet>().RPC_ParrySystem();
+
+                            // ノックバック可能かどうか
+                            if (parent.GetComponent<BossAI>().isKnockBack)
+                            {
+                                parent.GetComponent<BossAI>().RPC_AnimName();
+                            }
+                           
+                            //gameObject.SetActive(false);
+                            return;
+                        }
+
+                        //どれでもパリィ可能攻撃
+                        if (Type == PARRYTYPE.ALL)
+                        {
+                            Debug.Log("パリィ成功");
+                            other.GetComponent<PlayerParryNet>().RPC_ParrySystem();
+
+                            // ノックバック可能かどうか
+                            if (parent.GetComponent<BossAI>().isKnockBack)
+                            {
+                                parent.GetComponent<BossAI>().RPC_AnimName();
+                            }
+                          
+                            //gameObject.SetActive(false);
+                            return;
+                        }
+
+                        //ダブルパリィ
+                        if (Type == PARRYTYPE.DOUBLE)
+                        {
+                            if (other.GetComponent<PlayerParryNet>().isTanuki)
+                            {
+                                isTanuki = true;
+                            }
+                            else if (other.GetComponent<PlayerParryNet>().isTanuki == false)
+                            {
+                                isKitune = true;
+                            }
+                            if (isTanuki && isKitune)
+                            {
+                                Debug.Log("パリィ成功");
+                                other.GetComponent<PlayerParryNet>().RPC_ParrySystem();
+
+                                // ノックバック可能かどうか
+                                if (parent.GetComponent<BossAI>().isKnockBack)
+                                {
+                                    parent.GetComponent<BossAI>().RPC_AnimName();
+                                }
+                                
+                                //gameObject.SetActive(false);
+                                return;
+                            }
+                        }
                     }
                 }
             }

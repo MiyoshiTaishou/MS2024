@@ -16,7 +16,7 @@ public class ChangeBGM : NetworkBehaviour
         once = true;
     }
 
-    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    [Rpc(RpcSources.All, RpcTargets.All)]
     public void RPC_ChangeBGM()
     {
         if (once)
