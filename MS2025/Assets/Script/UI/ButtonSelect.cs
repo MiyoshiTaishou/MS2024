@@ -42,6 +42,9 @@ public class ButtonSelect : MonoBehaviour
 
     [SerializeField, Tooltip("決定したときにストップするかどうか")] bool isStop = false;
 
+    [SerializeField, Tooltip("タイトルからシーン移動するときの処理か")] bool isStart = false;
+    bool start = false;
+
     float time = 0;
     TitleCountSelect timecount;
     // Start is called before the first frame update
@@ -87,7 +90,7 @@ public class ButtonSelect : MonoBehaviour
             aButtonTriggered = timecount.aButtonTriggered;
         }
 
-        if (!aButtonTriggered || isStop)
+        if ((!aButtonTriggered || isStop )&& !start)
         {
             HandleButtonSelection();
             HandleButtonPress();
@@ -194,7 +197,16 @@ public class ButtonSelect : MonoBehaviour
 
 
     // 選択中のボタンを押す処理
-    private void HandleButtonPress() {        
+    private void HandleButtonPress() {
+        if (Input.GetButtonDown("Submit"))
+        {
+            if (isStart)
+            {
+                start = true;
+            }
+
+        }
+
         //if (Input.GetButtonDown("Submit")/* && !aButtonTriggered*/)
         //{
         //    Debug.Log(selectedIndex + "インデックス");
@@ -221,7 +233,10 @@ public class ButtonSelect : MonoBehaviour
             Debug.Log("キャンセル" + CancelClip);
 
             Audio.PlayOneShot(CancelClip);
-
+            if (isStart)
+            {
+                start = false;
+            }
             // buttonObj[selectedIndex].GetComponent<Image>().color = baseColor;
 
         }
