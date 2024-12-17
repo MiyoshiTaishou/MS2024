@@ -217,6 +217,8 @@ public class BossAI : NetworkBehaviour
             isOnce = true;
             isParticle = 2;
 
+            rb.constraints = RigidbodyConstraints.FreezeRotation;
+
             GameObject attackAreaview;
             attackAreaview = transform.Find("Area")?.gameObject;
             attackAreaview.GetComponent<PulsatingCircle>().RPC_Active(false);

@@ -20,7 +20,7 @@ public class WaitAction : BossActionData
        
         if (Time.time - waitStartTime >= waitDuration)
         {
-           
+            boss.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY;
             return true; // ƒAƒNƒVƒ‡ƒ“Š®—¹
         }
 
