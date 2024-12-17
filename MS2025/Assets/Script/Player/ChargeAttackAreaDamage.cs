@@ -163,7 +163,7 @@ public class ChargeAttackAreaDamage : NetworkBehaviour
         {
             return;
         }
-        Count = 4;
+        Count = 1;
 
         // ダメージ値を文字列として扱う
         string damageStr = damage.ToString();
