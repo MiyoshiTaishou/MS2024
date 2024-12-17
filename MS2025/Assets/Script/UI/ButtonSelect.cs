@@ -90,10 +90,13 @@ public class ButtonSelect : MonoBehaviour
             aButtonTriggered = timecount.aButtonTriggered;
         }
 
-        if ((!aButtonTriggered || isStop )&& !start)
+        if (!aButtonTriggered || isStop )
         {
-            HandleButtonSelection();
-            HandleButtonPress();
+            if(!start)
+            {
+                HandleButtonSelection();
+                HandleButtonPress();
+            }
             CanselButtonPress();
 
         }
