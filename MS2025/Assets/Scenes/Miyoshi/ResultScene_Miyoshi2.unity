@@ -10371,7 +10371,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 4277ba660b2c2fa4a96f1b039c33aaaa,
+      objectReference: {fileID: 21300000, guid: 98734c2cb7af6d24daa8fcb938cd79f1,
         type: 3}
     - target: {fileID: 3703452971457021538, guid: 7e7bca2dbb9956846b17b3c1b93926ab,
         type: 3}
@@ -10777,7 +10777,7 @@ PrefabInstance:
     - target: {fileID: 7885986787900862916, guid: 7e7bca2dbb9956846b17b3c1b93926ab,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -420
+      value: -415
       objectReference: {fileID: 0}
     - target: {fileID: 7891612796167842595, guid: 7e7bca2dbb9956846b17b3c1b93926ab,
         type: 3}
@@ -10793,6 +10793,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Mode
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7891612796167842595, guid: 7e7bca2dbb9956846b17b3c1b93926ab,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7891612796167842595, guid: 7e7bca2dbb9956846b17b3c1b93926ab,
         type: 3}
@@ -10915,6 +10920,11 @@ PrefabInstance:
         type: 3}
       propertyPath: buttonObj.Array.size
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 9011007786437135852, guid: 7e7bca2dbb9956846b17b3c1b93926ab,
+        type: 3}
+      propertyPath: buttons.Array.data[0]
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 9011007786437135852, guid: 7e7bca2dbb9956846b17b3c1b93926ab,
         type: 3}
