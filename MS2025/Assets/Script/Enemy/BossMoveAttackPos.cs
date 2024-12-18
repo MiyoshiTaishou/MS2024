@@ -76,9 +76,9 @@ public class BossMoveAttackPos : BossActionData
         attackArea.GetComponent<BoxCollider>().size = attackScale;
         attackArea.SetActive(true);
 
-        attackArea.transform.rotation = Quaternion.identity;             
-        attackArea.transform.rotation = Quaternion.Euler(0, 0, rotPunch);
         attackArea.transform.localScale = new Vector3(-2f, 2f, 2f);
+        attackArea.transform.rotation = Quaternion.identity;             
+        attackArea.transform.rotation = Quaternion.Euler(0, 0, rotPunch);       
 
         //attackArea.transform.localRotation = rotPunch2;
 
