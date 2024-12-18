@@ -17,6 +17,9 @@ public class BossMoveAttackPos : BossActionData
     [SerializeField, Header("拳向き")]
     private float rotPunch;
 
+    [SerializeField, Header("拳向きbool")]
+    private bool isPunche;
+
     [SerializeField, Header("アニメーションカーブで移動をリッチにする")]
     private AnimationCurve curve; 
 
@@ -76,7 +79,14 @@ public class BossMoveAttackPos : BossActionData
         attackArea.GetComponent<BoxCollider>().size = attackScale;
         attackArea.SetActive(true);
 
-        attackArea.transform.localScale = new Vector3(-2f, 2f, 2f);
+        if (isPunche)
+        {
+            attackArea.transform.localScale = new Vector3(2f, -2f, -2f);
+        }
+        else
+        {
+            attackArea.transform.localScale = new Vector3(2f, 2f, 2f);
+        }
         attackArea.transform.rotation = Quaternion.identity;             
         attackArea.transform.rotation = Quaternion.Euler(0, 0, rotPunch);       
 
