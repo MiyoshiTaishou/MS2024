@@ -15,7 +15,7 @@ MonoBehaviour:
   actionName: attack
   moveAttackEndPosTime: 3
   EndPosition: {x: -5, y: 50, z: 0}
-  rotPunch: {x: 0, y: 0, z: 0.70710677, w: -0.70710677}
+  rotPunch: 90
   curve:
     serializedVersion: 2
     m_Curve:
@@ -43,7 +43,7 @@ MonoBehaviour:
   attackAnimSpeed: 50
   attackScale: {x: 0, y: 0, z: 0}
   isCameraShake: 1
-  cameraDuration: 3
+  cameraDuration: 0.1
   magnitude: 0.5
   attackAreaName: BossAttackAreaTanuki
   canParry: 0

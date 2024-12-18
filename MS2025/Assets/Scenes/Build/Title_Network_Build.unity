@@ -2942,6 +2942,7 @@ MonoBehaviour:
   ketteiClip: {fileID: 0}
   CancelClip: {fileID: 8300000, guid: ebfb1bd46805e1c4b812d202f72a5217, type: 3}
   isStop: 0
+  isStart: 0
 --- !u!1001 &286396023
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11724,12 +11725,12 @@ PrefabInstance:
       addedObject: {fileID: 6054955}
     - targetCorrespondingSourceObject: {fileID: 3793532893666685453, guid: b6641e141eedcf943941f8ef19c92bff,
         type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1110948577}
+      insertIndex: 17
+      addedObject: {fileID: 11362211}
     - targetCorrespondingSourceObject: {fileID: 3793532893666685453, guid: b6641e141eedcf943941f8ef19c92bff,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 11362211}
+      addedObject: {fileID: 1110948577}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 7805975338590367253, guid: b6641e141eedcf943941f8ef19c92bff,
         type: 3}
@@ -12777,6 +12778,7 @@ MonoBehaviour:
   ketteiClip: {fileID: 0}
   CancelClip: {fileID: 8300000, guid: ebfb1bd46805e1c4b812d202f72a5217, type: 3}
   isStop: 1
+  isStart: 0
 --- !u!224 &830982885
 RectTransform:
   m_ObjectHideFlags: 0
@@ -12820,6 +12822,7 @@ MonoBehaviour:
   - {fileID: 711229467}
   - {fileID: 736396538}
   - {fileID: 2077346718}
+  - {fileID: 11362210}
 --- !u!82 &830982887
 AudioSource:
   m_ObjectHideFlags: 0
@@ -16709,6 +16712,7 @@ MonoBehaviour:
   ketteiClip: {fileID: 0}
   CancelClip: {fileID: 8300000, guid: ebfb1bd46805e1c4b812d202f72a5217, type: 3}
   isStop: 1
+  isStart: 1
 --- !u!224 &1075490732
 RectTransform:
   m_ObjectHideFlags: 0
@@ -17690,7 +17694,7 @@ PrefabInstance:
     - target: {fileID: 6862905053322490403, guid: 2b84b475479e98c4b8d0352ae4e1ccdd,
         type: 3}
       propertyPath: gameScene
-      value: TutorialScene_Build
+      value: MargeScene_Build
       objectReference: {fileID: 0}
     - target: {fileID: 6862905053322490403, guid: 2b84b475479e98c4b8d0352ae4e1ccdd,
         type: 3}
@@ -17747,7 +17751,7 @@ PrefabInstance:
     - target: {fileID: 6862905053322490403, guid: 2b84b475479e98c4b8d0352ae4e1ccdd,
         type: 3}
       propertyPath: skipScenes.Array.size
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6862905053322490403, guid: 2b84b475479e98c4b8d0352ae4e1ccdd,
         type: 3}
@@ -17782,7 +17786,12 @@ PrefabInstance:
     - target: {fileID: 6862905053322490403, guid: 2b84b475479e98c4b8d0352ae4e1ccdd,
         type: 3}
       propertyPath: skipScenes.Array.data[1]
-      value: 
+      value: ResultScene_Miyoshi2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6862905053322490403, guid: 2b84b475479e98c4b8d0352ae4e1ccdd,
+        type: 3}
+      propertyPath: skipScenes.Array.data[2]
+      value: EndCredits
       objectReference: {fileID: 0}
     - target: {fileID: 6862905053322490403, guid: 2b84b475479e98c4b8d0352ae4e1ccdd,
         type: 3}

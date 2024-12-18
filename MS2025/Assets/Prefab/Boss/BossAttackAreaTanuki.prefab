@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 1981709039172640491}
   - component: {fileID: 2327003651560815539}
   - component: {fileID: 7117696973905743514}
-  - component: {fileID: 4422450937438935945}
   - component: {fileID: 1235555480963775753}
   - component: {fileID: 2820098325535076162}
   - component: {fileID: 8120061693453743036}
@@ -80,20 +79,6 @@ MonoBehaviour:
   - {fileID: 1235555480963775753}
   - {fileID: 8120061693453743036}
   - {fileID: 1246306572655003775}
---- !u!114 &4422450937438935945
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8628594214815459845}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1541381998, guid: e725a070cec140c4caffb81624c8c787, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Guid:
-    RawGuidValue: 9a03758142da5d740b40373ad196494c
 --- !u!114 &1235555480963775753
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -109,6 +94,8 @@ MonoBehaviour:
   target: {fileID: 0}
   _distance: {x: -5, y: 0, z: -5}
   _initDir: 0
+  _TypeBoss: 1
+  _Tanuki: 0
 --- !u!212 &2820098325535076162
 SpriteRenderer:
   m_ObjectHideFlags: 0

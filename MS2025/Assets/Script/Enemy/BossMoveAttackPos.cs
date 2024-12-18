@@ -15,7 +15,7 @@ public class BossMoveAttackPos : BossActionData
     private Vector3 EndPosition = Vector3.zero;
 
     [SerializeField, Header("拳向き")]
-    private Quaternion rotPunch;
+    private float rotPunch;
 
     [SerializeField, Header("アニメーションカーブで移動をリッチにする")]
     private AnimationCurve curve; 
@@ -75,7 +75,11 @@ public class BossMoveAttackPos : BossActionData
         originalPosition = attackArea.transform.position;
         attackArea.GetComponent<BoxCollider>().size = attackScale;
         attackArea.SetActive(true);
-        attackArea.transform.localRotation = rotPunch;
+
+             
+        attackArea.transform.rotation = Quaternion.Euler(0, 0, rotPunch);
+
+        //attackArea.transform.localRotation = rotPunch2;
 
         isMoving = false;
 

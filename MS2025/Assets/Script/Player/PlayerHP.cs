@@ -69,6 +69,12 @@ public class PlayerHP : NetworkBehaviour
                 sprite.color = color;
             }
         }
+        else if(inbisibleFrame==0)
+        {
+            Color color = sprite.color;
+            color.a = 1.0f;
+            sprite.color = color;
+        }
         if(isDamage)
         {
             Vector3 bosspos=boss.transform.position;

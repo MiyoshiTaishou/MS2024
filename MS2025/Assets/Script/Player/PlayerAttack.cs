@@ -55,6 +55,9 @@ public class PlayerAttack : NetworkBehaviour
     bool flashFlg = false;//連携攻撃による瞬間移動をしたか
     PlayerFreeze freeze;
     [Networked]public bool aaaa { get; set; }
+    Vector3 scale;
+
+    [Header("忍者っぽい瞬間移動"),SerializeField] bool isNinja;
     public override void Spawned()
     {
         animator = GetComponent<Animator>();
@@ -77,6 +80,7 @@ public class PlayerAttack : NetworkBehaviour
         }
         flashFlg = false;
         freeze = GetComponent<PlayerFreeze>();
+        scale=transform.localScale;
     }
 
     public override void FixedUpdateNetwork()
@@ -251,11 +255,27 @@ public class PlayerAttack : NetworkBehaviour
                     {
                         if (pos.x < bosspos.x)
                         {
-                            pos.x = bosspos.x - disX- bosssize;
+                            pos.x = bosspos.x - disX - bosssize;
+                            Vector3 temp = transform.localScale;
+                            temp.x = scale.x;
+                            if (isNinja)
+                            {
+                                temp.z = -scale.z;
+                            }
+                            transform.localScale = temp;
+                            Debug.Log("瞬間移動してちょ");
                         }
                         else if (pos.x > bosspos.x)
                         {
-                            pos.x = bosspos.x + disX+ bosssize;
+                            pos.x = bosspos.x + disX + bosssize;
+                            Vector3 temp = transform.localScale;
+                            temp.x = -scale.x;
+                            if (isNinja)
+                            {
+                                temp.z = -scale.z;
+                            }
+                            transform.localScale = temp;
+                            Debug.Log("瞬間移動してちょ反転");
                         }
 
                         pos.z = bosspos.z-3.0f;
@@ -275,16 +295,32 @@ public class PlayerAttack : NetworkBehaviour
                     Vector3 bosspos = BossObj.transform.position;
                     bool isTanuki = GetComponent<PlayerParryNet>().isTanuki;
 
-                        if (pos.x < bosspos.x)
+                    if (pos.x < bosspos.x)
+                    {
+                        pos.x = bosspos.x - disX - bosssize;
+                        Vector3 temp = transform.localScale;
+                        temp.x = scale.x;
+                        if (isNinja)
                         {
-                            pos.x = bosspos.x - disX - bosssize;
+                            temp.z = -scale.z;
                         }
-                        else if (pos.x > bosspos.x)
+                        transform.localScale = temp;
+                        Debug.Log("瞬間移動してちょ");
+                    }
+                    else if (pos.x > bosspos.x)
+                    {
+                        pos.x = bosspos.x + disX + bosssize;
+                        Vector3 temp = transform.localScale;
+                        temp.x = -scale.x;
+                        if (isNinja)
                         {
-                            pos.x = bosspos.x + disX + bosssize;
+                            temp.z = -scale.z;
                         }
+                        transform.localScale = temp;
+                        Debug.Log("瞬間移動してちょ反転");
+                    }
 
-                        pos.z = bosspos.z - 3.0f;
+                    pos.z = bosspos.z - 3.0f;
                         if (!isTanuki)
                         {
                             pos.z = bosspos.z + 3.0f;
@@ -325,11 +361,27 @@ public class PlayerAttack : NetworkBehaviour
                     {
                         if (pos.x < bosspos.x)
                         {
-                            pos.x = bosspos.x - disX- bosssize;
+                            pos.x = bosspos.x - disX - bosssize;
+                            Vector3 temp = transform.localScale;
+                            temp.x = scale.x;
+                            if (isNinja)
+                            {
+                                temp.z = -scale.z;
+                            }
+                            transform.localScale = temp;
+                            Debug.Log("瞬間移動してちょ");
                         }
                         else if (pos.x > bosspos.x)
                         {
-                            pos.x = bosspos.x + disX+ bosssize;
+                            pos.x = bosspos.x + disX + bosssize;
+                            Vector3 temp = transform.localScale;
+                            temp.x = -scale.x;
+                            if (isNinja)
+                            {
+                                temp.z = -scale.z;
+                            }
+                            transform.localScale = temp;
+                            Debug.Log("瞬間移動してちょ反転");
                         }
 
                         pos.z = bosspos.z - 3.0f;
@@ -354,10 +406,26 @@ public class PlayerAttack : NetworkBehaviour
                     if (pos.x < bosspos.x)
                     {
                         pos.x = bosspos.x - disX-bosssize;
+                        Vector3 temp = transform.localScale;
+                        temp.x = scale.x;
+                        if (isNinja)
+                        {
+                            temp.z = -scale.z;
+                        }
+                        transform.localScale = temp;
+                        Debug.Log("瞬間移動してちょ");
                     }
                     else if (pos.x > bosspos.x)
                     {
                         pos.x = bosspos.x + disX + bosssize;
+                        Vector3 temp = transform.localScale;
+                        temp.x = -scale.x;
+                        if (isNinja)
+                        {
+                            temp.z = -scale.z;
+                        }
+                        transform.localScale = temp;
+                        Debug.Log("瞬間移動してちょ反転");
                     }
 
                     pos.z = bosspos.z - 3.0f;

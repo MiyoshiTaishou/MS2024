@@ -207,6 +207,7 @@ MonoBehaviour:
   _isDown: 0
   _isAir: 0
   _isDir: 0
+  _isDirCheck: 1
   _isBossOne: 0
   downAction: {fileID: 11400000, guid: 1041b2b8e439b384d80347ea7b971b0b, type: 2}
   parryction: {fileID: 11400000, guid: 53fabe96f94aa38478ef3d1572aecf6d, type: 2}
@@ -370,7 +371,7 @@ MonoBehaviour:
   TotalWords: 1
   ApplyTiming: 2
   SyncSettings: 79
-  StateHashes: 000000004cf1e72e1eab98070d286c404e865f43cc60bdd948436b3669aa59422a046a41d3fb50db905563d8958341e27e40c91f28a981077af3fe2e4c8d6b8ea74ee3736a950e8659262bb102a1c752410ff451
+  StateHashes: 000000004cf1e72e1eab98070d286c404e865f43cc60bdd948436b3669aa59422a046a41d3fb50db905563d8958341e27e40c91f28a981077af3fe2e7222592e99e1d1d36a950e8659262bb102a1c752410ff451
   TriggerHashes: 00000000b745de7f
 --- !u!114 &728711347568068367
 MonoBehaviour:

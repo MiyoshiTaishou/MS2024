@@ -27,8 +27,11 @@ public class MoveToBossObject : NetworkBehaviour
 
     private Vector3 scale;
 
-    [SerializeField]
-    private PARRYTYPE type { get; set; }
+    [SerializeField,Networked]
+    public PARRYTYPE TypeBoss { get; set; }
+
+    [SerializeField, Networked]
+    public bool Tanuki { get; set; }
 
     public void SetToMove(bool _isToMove)
     {
@@ -95,7 +98,8 @@ public class MoveToBossObject : NetworkBehaviour
             transform.localScale = scale;
             transform.localRotation = Quaternion.identity;
             GetComponent<BoxCollider>().enabled = false;
-            GetComponent<BossAttackArea2Boss>().Type = type;
+
+            GetComponent<BossAttackArea2Boss>().Type = TypeBoss;            
             target.GetComponent<BossAI>().isDirCheck = true;
         }
         else

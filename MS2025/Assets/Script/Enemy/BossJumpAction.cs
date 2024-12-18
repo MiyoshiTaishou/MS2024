@@ -13,11 +13,9 @@ public class BossJumpAction : BossActionData
     private bool atPeak;        // 最高到達点に達したかどうか
     private Vector3 startPos;
 
-    private Rigidbody rb;
-
     private GameObject attackAreaView; // 既存の攻撃エリアの参照
 
-    [SerializeField,Header("次の攻撃を入れる")]
+    [SerializeField, Header("次の攻撃を入れる")]
     private AttackAction attack;
 
     [SerializeField, Header("アニメーションの速度　通常が2")]
@@ -25,25 +23,23 @@ public class BossJumpAction : BossActionData
 
     public override void InitializeAction(GameObject boss, Transform player)
     {
-        rb = boss.GetComponent<Rigidbody>();
-
         // ジャンプ開始時刻を記録
         jumpStartTime = Time.time;
         isJumping = true;
         atPeak = false;
 
-        // ジャンプ力を瞬時に適用
-        Vector3 jumpForce = Vector3.up * jumpPower;
-        rb.AddForce(jumpForce, ForceMode.Impulse);
-
         // 開始地点の記録
         startPos = boss.transform.position;
+
+        // ジャンプ力を計算
+        float targetY = startPos.y + jumpHeight;
 
         boss.GetComponent<AudioSource>().clip = attackClip;
         boss.GetComponent<AudioSource>().Play();
         boss.GetComponent<BossAI>().isAir = true;
 
         attackAreaView = boss.transform.Find("Area")?.gameObject;
+
         // 攻撃エリアをプレイヤー方向に配置
         Vector3 directionToPlayer = (player.position - boss.transform.position).normalized; // プレイヤーへの方向を正規化
         Vector3 attackPosition = boss.transform.position + directionToPlayer * attack.attackRange;      // 攻撃エリアの新しい位置       
@@ -55,53 +51,55 @@ public class BossJumpAction : BossActionData
 
     public override bool ExecuteAction(GameObject boss, Transform player)
     {
+        Vector3 position = boss.transform.position;
+
         // 攻撃エリアをプレイヤー方向に配置
-        Vector3 directionToPlayer = (player.position - boss.transform.position).normalized; // プレイヤーへの方向を正規化
-        Vector3 attackPosition = boss.transform.position + directionToPlayer * attack.attackRange;      // 攻撃エリアの新しい位置       
+        Vector3 directionToPlayer = (player.position - position).normalized; // プレイヤーへの方向を正規化
+        Vector3 attackPosition = position + directionToPlayer * attack.attackRange;      // 攻撃エリアの新しい位置       
         attackAreaView.transform.position = new Vector3(attackPosition.x, 2f, attackPosition.z);
         attackAreaView.GetComponent<PulsatingCircle>().RPC_Scale(attack.attackScale.x);
 
         if (isJumping)
         {
-            Vector3 nowPos = boss.transform.position;
+            float currentHeight = position.y - startPos.y;
 
-            // Yの距離を計測
-            float currentHeight = nowPos.y - startPos.y;
-
-            //Debug.Log(currentHeight + "今の高さ" + jumpHeight + "目標の高さ");
-
-            // 指定した高さに達したら
-            if (currentHeight >= jumpHeight && !atPeak)
-            {                
-                // 最高到達点に達したので速度をゼロにし、フワフワと空中で留まる
-                rb.velocity = Vector3.zero;
-                rb.useGravity = false; // 重力を無効化して空中に留まる
-                boss.transform.position = new Vector3(nowPos.x, startPos.y + jumpHeight, nowPos.z); // 高さを固定
-
-                atPeak = true;         // 最高到達点に達したことを記録
-                jumpStartTime = Time.time; // 浮いている時間の計測をリセット              
-            }
-
-            // 一定時間が経過したら、重力を元に戻して落下させる
-            if (atPeak && Time.time - jumpStartTime >= jumpDuration)
+            if (!atPeak)
             {
-                rb.useGravity = true; // 重力を有効にして再び落下
-                isJumping = false;    // ジャンプ終了
-            }
+                // 上昇中の処理
+                position.y += jumpPower * Time.deltaTime;
 
-            return false;
-        }
-        else
-        {
-            if(rb.velocity.y == 0.0f)
-            {
-                boss.GetComponent<BossAI>().isAir = false;
-                return true; // ジャンプが終了したら true を返す
+                if (currentHeight >= jumpHeight)
+                {
+                    position.y = startPos.y + jumpHeight; // 高さを制限
+                    atPeak = true;
+                    jumpStartTime = Time.time; // 空中滞在時間の計測を開始
+                }
             }
             else
             {
-                return false;
+                // 空中滞在中の処理
+                if (Time.time - jumpStartTime >= jumpDuration)
+                {
+                    isJumping = false; // 落下開始
+                }
             }
-        }       
+        }
+        else
+        {
+            // 落下中の処理
+            position.y -= jumpPower * Time.deltaTime;
+
+            if (position.y <= startPos.y)
+            {
+                position.y = startPos.y; // 地面で停止
+                boss.GetComponent<BossAI>().isAir = false;
+                return true; // ジャンプ完了
+            }
+        }
+
+        // ボスの位置を更新
+        boss.transform.position = position;
+
+        return false;
     }
 }
