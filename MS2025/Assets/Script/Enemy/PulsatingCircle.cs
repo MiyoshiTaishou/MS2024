@@ -12,7 +12,7 @@ public class PulsatingCircle : NetworkBehaviour
     private float scaleDirection = 1.0f; // スケールの増減方向
     private Vector3 initialScale;        // 元のスケール
 
-    public void SetMaxScale(float _max) { maxScale = _max; }
+    public void SetMaxScale(float _max) { maxScale = _max * 2f; }
     public void SetSpeed(float _speed) { speed = _speed; }
 
     public override void Spawned()
@@ -29,7 +29,7 @@ public class PulsatingCircle : NetworkBehaviour
     public override void Render()
     {
         // 現在のスケール
-        float currentScale = transform.localScale.x * 1.5f;
+        float currentScale = transform.localScale.x * 2.0f;
 
         // スケールを更新
         currentScale += scaleDirection * speed * Time.deltaTime;

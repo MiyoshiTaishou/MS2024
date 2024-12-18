@@ -79,23 +79,7 @@ public class ChangeBossAction : NetworkBehaviour
 
                 break;
         }
-    }
-
-    private void EndTutorial()
-    {
-        // シーン遷移が一度だけ行われるようにチェック
-        if (hasTransitioned) return;
-        if (crushingGame.IsAnimation()) return;
-
-        transitionManager.TransitionStart();
-        hasTransitioned = true; // シーン遷移フラグを設定
-        StartCoroutine(Load());
-
-        //if (Object.HasStateAuthority)
-        //{
-        //    RPC_ClientSceneTransition();
-        //}
-    }
+    }   
 
     public override void Render()
     {
@@ -121,8 +105,14 @@ public class ChangeBossAction : NetworkBehaviour
                 break;
             case 5://終わり
                 TextSprite.GetComponent<Image>().sprite = numberSprites[TextNo];
+               
                 crushingGame.StartAnimation();
-                EndTutorial();
+
+                // シーン遷移が一度だけ行われるようにチェック
+                if (hasTransitioned) return;
+                if (crushingGame.IsAnimation()) return;
+
+                StartCoroutine(EndTutorial());                
                 // クライアントに先にシーン遷移を指示
                 gameManager.RPC_EndBattle(10, 5);
                 break;
@@ -145,6 +135,20 @@ public class ChangeBossAction : NetworkBehaviour
     {
         yield return new WaitForSeconds(2f);
         networkRunner.LoadScene(nextSceneName);
+    }
+
+    private IEnumerator EndTutorial()
+    {
+        yield return new WaitForSeconds(2f);       
+
+        transitionManager.TransitionStart();
+        hasTransitioned = true; // シーン遷移フラグを設定
+        StartCoroutine(Load());
+
+        //if (Object.HasStateAuthority)
+        //{
+        //    RPC_ClientSceneTransition();
+        //}
     }
 
     private void Update()

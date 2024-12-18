@@ -76,8 +76,9 @@ public class BossMoveAttackPos : BossActionData
         attackArea.GetComponent<BoxCollider>().size = attackScale;
         attackArea.SetActive(true);
 
-             
+        attackArea.transform.rotation = Quaternion.identity;             
         attackArea.transform.rotation = Quaternion.Euler(0, 0, rotPunch);
+        attackArea.transform.localScale = new Vector3(-2f, 2f, 2f);
 
         //attackArea.transform.localRotation = rotPunch2;
 
@@ -142,11 +143,13 @@ public class BossMoveAttackPos : BossActionData
                 //boss.GetComponent<MonoBehaviour>().StartCoroutine(resetCoroutine);
                 attackArea.GetComponent<MoveToBossObject>().RPC_SetToMove(true);
                 attackAreaView.GetComponent<PulsatingCircle>().RPC_Active(false);
-                return true;
+            attackArea.transform.rotation = Quaternion.identity;
+            return true;
             }
             else if(progress >= 1.0f && resetCoroutine == null && !canMove)
             {
-                return true;
+            attackArea.transform.rotation = Quaternion.identity;
+            return true;
             }
 
             // ƒŠƒZƒbƒgˆ—‚ªŠ®—¹‚·‚é‚Ì‚ğ‘Ò‚Â
