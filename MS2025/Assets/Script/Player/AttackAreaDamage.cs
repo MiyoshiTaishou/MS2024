@@ -147,7 +147,7 @@ public class AttackAreaDamage : NetworkBehaviour
                         }
                         return;
                     }
-
+                    other.GetComponent<BossAI>().isDown = true;
                     other.GetComponent<BossStatus>().RPC_Damage(RaiseDamageNum);
                     hitdamege = RaiseDamageNum;
                     RPCCombo();

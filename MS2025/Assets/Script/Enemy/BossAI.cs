@@ -52,8 +52,8 @@ public class BossAI : NetworkBehaviour
 
     [SerializeField, Header("のけぞり時の行動データ")]
     public BossActionData parryction;
-    [Tooltip("ダウン時エフェクト")]
-    public ParticleSystem Dawnparticle;
+    //[Tooltip("ダウン時エフェクト")]
+    //public ParticleSystem Dawnparticle;
 
     [SerializeField, Header("攻撃の予兆に関する項目")]
     [Tooltip("攻撃予兆エフェクト")]
@@ -90,13 +90,16 @@ public class BossAI : NetworkBehaviour
     [SerializeField, Header("チュートリアルモード")]
     private bool isTutorial = false;
 
+    //ダウンパーティクル
+    GameObject DawnParticle;
+
     public override void Spawned()
     {
         NokezoriRegist = MaxNokezoriRegist;
         NokezoriRegistCount = 0;
         animator = GetComponent<Animator>(); // Animator コンポーネントを取得
         currentSequenceIndex = Random.Range(0, actionSequence.Length);
-
+        DawnParticle=gameObject.transform.Find("DawnParticle").gameObject;
         Nokezori = 0;
         // プレイヤーオブジェクトをすべて取得してリストに保存
         players = new List<Transform>();
@@ -416,14 +419,14 @@ public class BossAI : NetworkBehaviour
             }
         }
 
-        // ダウンパーティクル
-        if (isParticle == 2 || isParticle == 3)
+        //ダウンパーティクル
+        if (isParticle == 2)
         {
             switch (isParticle)
             {
                 case 2:
-
-                    RPC_Particle();
+                    DawnParticle.SetActive(true);
+                    //RPC_Particle();
                     isParticle = 3;
                     break;
             }
@@ -521,8 +524,8 @@ public class BossAI : NetworkBehaviour
     [Rpc(RpcSources.All, RpcTargets.All)]
     public void RPC_Particle()
     {
-        // パーティクルシステムのインスタンスを生成
-        newParticle = Instantiate(Dawnparticle, this.transform);
+        //// パーティクルシステムのインスタンスを生成
+        //newParticle = Instantiate(Dawnparticle, this.transform);
 
         // パーティクルを生成（親オブジェクトの子にする）
         newParticle.transform.parent = this.transform;
