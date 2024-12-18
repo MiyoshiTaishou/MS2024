@@ -93,6 +93,7 @@ public class MoveToBossObject : NetworkBehaviour
             if (isToMove)
             {
                 animator.SetTrigger("Hit");
+                isToSpecial = false;
             }
             else
             {
