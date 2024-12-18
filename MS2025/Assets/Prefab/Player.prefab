@@ -5806,7 +5806,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94aec40b389c3924da34de646216722b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _specialNum: 1
+  _specialNum: 10
   _specialDamage: 0
   specialTimeWait: 0.01
   specialActTimeWait: 10
@@ -5818,11 +5818,11 @@ MonoBehaviour:
   ComboList: []
   PlayerFireList: []
   Normal:
-  - {fileID: 21300000, guid: a0077262cc6bd5b4cb97ea5cfb358984, type: 3}
-  - {fileID: 21300000, guid: dc9afbf17b440de4e89e55079f92aee4, type: 3}
+  - {fileID: 21300000, guid: da8246ae39bd39e4e97817953f936f52, type: 3}
+  - {fileID: 21300000, guid: 0e5ba3431af6970438572261c5927f76, type: 3}
   Special:
-  - {fileID: 21300000, guid: 68634806cda104a4d95b0297f76fa046, type: 3}
-  - {fileID: 21300000, guid: c5b4d053c876220449261d5a3dba890a, type: 3}
+  - {fileID: 21300000, guid: 641f411e938a1544a806e2f1f2245eb5, type: 3}
+  - {fileID: 21300000, guid: c1ec858bb6e3d1344a7221c9f3d78e6b, type: 3}
 --- !u!114 &5507341137057323025
 MonoBehaviour:
   m_ObjectHideFlags: 0
