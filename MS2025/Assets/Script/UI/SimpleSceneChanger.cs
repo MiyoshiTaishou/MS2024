@@ -5,10 +5,14 @@ public class SimpleSceneChanger : MonoBehaviour
 {
     [Header("設定")]
     public string targetScene; // 切り替えるシーン名
+    public bool itIsPossibleToChangeScene;
     public bool useAButtonInput = true; // Submitで反応するかどうか
     public bool useBButtonInput = false; // Cancelで反応するかどうか
 
     void Update() {
+        // itIsPossibleToChangeSceneがfalseならシーンチェンジしない
+        if (!itIsPossibleToChangeScene) return;
+
         // Submitボタンでシーン変更
         if (useAButtonInput && Input.GetButtonDown("Submit")) {
             ChangeScene();
