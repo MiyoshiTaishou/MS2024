@@ -52,8 +52,8 @@ public class BossAI : NetworkBehaviour
 
     [SerializeField, Header("のけぞり時の行動データ")]
     public BossActionData parryction;
-    //[Tooltip("ダウン時エフェクト")]
-    //public ParticleSystem Dawnparticle;
+    [Tooltip("ダウン時エフェクト")]
+    public ParticleSystem Dawnparticle;
 
     [SerializeField, Header("攻撃の予兆に関する項目")]
     [Tooltip("攻撃予兆エフェクト")]
@@ -89,17 +89,13 @@ public class BossAI : NetworkBehaviour
 
     [SerializeField, Header("チュートリアルモード")]
     private bool isTutorial = false;
-
-    //ダウンパーティクル
-    GameObject DawnParticle;
-
+   
     public override void Spawned()
     {
         NokezoriRegist = MaxNokezoriRegist;
         NokezoriRegistCount = 0;
         animator = GetComponent<Animator>(); // Animator コンポーネントを取得
-        currentSequenceIndex = Random.Range(0, actionSequence.Length);
-        DawnParticle=gameObject.transform.Find("DawnParticle").gameObject;
+        currentSequenceIndex = Random.Range(0, actionSequence.Length);        
         Nokezori = 0;
         // プレイヤーオブジェクトをすべて取得してリストに保存
         players = new List<Transform>();
@@ -426,8 +422,8 @@ public class BossAI : NetworkBehaviour
             switch (isParticle)
             {
                 case 2:
-                    DawnParticle.SetActive(true);
-                    //RPC_Particle();
+                    //DawnParticle.SetActive(true);
+                    RPC_Particle();
                     isParticle = 3;
                     break;
             }
