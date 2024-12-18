@@ -1,7 +1,9 @@
+using Fusion;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class SimpleSceneChanger : MonoBehaviour
+public class SimpleSceneChanger : NetworkBehaviour
 {
     [Header("設定")]
     public string targetScene; // 切り替えるシーン名
@@ -15,12 +17,12 @@ public class SimpleSceneChanger : MonoBehaviour
 
         // Submitボタンでシーン変更
         if (useAButtonInput && Input.GetButtonDown("Submit")) {
-            ChangeScene();
+            RPC_ClientSceneTransition();
         }
 
         // Cancelボタンでシーン変更
         if (useBButtonInput && Input.GetButtonDown("Cancel")) {
-            ChangeScene();
+            RPC_ClientSceneTransition();
         }
     }
 
@@ -32,5 +34,27 @@ public class SimpleSceneChanger : MonoBehaviour
         else {
             Debug.LogError("ターゲットシーンが設定されていません。");
         }
+    }
+
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    private void RPC_ClientSceneTransition()
+    {
+        // クライアントは先にシーン遷移を実行
+        if (!Object.HasStateAuthority)
+        {
+            SceneManager.LoadScene(targetScene);
+        }
+        else
+        {
+            // ホスト側はクライアントの遷移が完了した後にシーン遷移
+            StartCoroutine(HostSceneTransition());
+        }
+    }
+
+    private IEnumerator HostSceneTransition()
+    {
+        yield return new WaitForSeconds(2); // クライアント側がシーン遷移するまでの時間を調整
+        Runner.Shutdown();
+        SceneManager.LoadScene(targetScene);
     }
 }
