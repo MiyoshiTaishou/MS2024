@@ -29,7 +29,7 @@ public class PulsatingCircle : NetworkBehaviour
     public override void Render()
     {
         // 現在のスケール
-        float currentScale = transform.localScale.x * 1.5f;
+        float currentScale = transform.localScale.x * 2.0f;
 
         // スケールを更新
         currentScale += scaleDirection * speed * Time.deltaTime;
