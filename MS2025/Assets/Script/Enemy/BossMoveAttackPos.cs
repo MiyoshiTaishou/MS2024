@@ -108,6 +108,7 @@ public class BossMoveAttackPos : BossActionData
         attackArea.GetComponent<BoxCollider>().enabled = true;
 
         attackArea.GetComponent<MoveToBossObject>().RPC_SetToMove(false);
+        attackArea.GetComponent<MoveToBossObject>().RPC_SetToSpecial(true);
 
         resetCoroutine = null;
 
@@ -161,7 +162,8 @@ public class BossMoveAttackPos : BossActionData
                 //resetCoroutine = ResetToOriginalPosition();
                 //boss.GetComponent<MonoBehaviour>().StartCoroutine(resetCoroutine);
                 attackArea.GetComponent<MoveToBossObject>().RPC_SetToMove(true);
-                attackAreaView.GetComponent<PulsatingCircle>().RPC_Active(false);
+            attackArea.GetComponent<MoveToBossObject>().RPC_SetToSpecial(false);
+            attackAreaView.GetComponent<PulsatingCircle>().RPC_Active(false);
             attackArea.transform.rotation = Quaternion.identity;
             return true;
             }
@@ -199,6 +201,7 @@ public class BossMoveAttackPos : BossActionData
         attackArea.GetComponent<BoxCollider>().enabled = false;
 
         attackArea.GetComponent<MoveToBossObject>().RPC_SetToMove(true);
+        attackArea.GetComponent<MoveToBossObject>().RPC_SetToSpecial(false);
         attackAreaView.GetComponent<PulsatingCircle>().RPC_Active(false);
 
         isMoving = false;
