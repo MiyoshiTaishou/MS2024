@@ -106,38 +106,38 @@ public class MoveToBossObject : NetworkBehaviour
         {
             target.GetComponent<BossAI>().isDirCheck = false;
 
-            //if (initDir)
-            //{
-            //    //向き変更処理
-            //    if (!isDir)
-            //    {
-            //        transform.localScale = scale;
-            //        Debug.Log("向き正常");
-            //    }
-            //    else
-            //    {
-            //        Vector3 temp = scale;
-            //        temp.x = -scale.x;
-            //        transform.localScale = temp;
-            //        Debug.Log("向き反対");
-            //    }
-            //}
-            //else
-            //{
-            //    //向き変更処理
-            //    if (!isDir)
-            //    {
-            //        Vector3 temp = scale;
-            //        temp.x = -scale.x;
-            //        transform.localScale = temp;
-            //        Debug.Log("向き反対");
-            //    }
-            //    else
-            //    {
-            //        transform.localScale = scale;
-            //        Debug.Log("向き正常");                  
-            //    }
-            //}
+            if (initDir)
+            {
+                //向き変更処理
+                if (!isDir)
+                {
+                    transform.localScale = scale;
+                    Debug.Log("向き正常");
+                }
+                else
+                {
+                    Vector3 temp = scale;
+                    temp.x = -scale.x;
+                    transform.localScale = temp;
+                    Debug.Log("向き反対");
+                }
+            }
+            else
+            {
+                //向き変更処理
+                if (!isDir)
+                {
+                    Vector3 temp = scale;
+                    temp.x = -scale.x;
+                    transform.localScale = temp;
+                    Debug.Log("向き反対");
+                }
+                else
+                {
+                    transform.localScale = scale;
+                    Debug.Log("向き正常");                  
+                }
+            }
         }   
     }
 }

@@ -78,6 +78,7 @@ public class BossMoveAttackPos : BossActionData
 
         attackArea.transform.rotation = Quaternion.identity;             
         attackArea.transform.rotation = Quaternion.Euler(0, 0, rotPunch);
+        attackArea.transform.localScale = new Vector3(-2f, 2f, 2f);
 
         //attackArea.transform.localRotation = rotPunch2;
 
