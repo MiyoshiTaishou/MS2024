@@ -142,11 +142,13 @@ public class BossMoveAttackPos : BossActionData
                 //boss.GetComponent<MonoBehaviour>().StartCoroutine(resetCoroutine);
                 attackArea.GetComponent<MoveToBossObject>().RPC_SetToMove(true);
                 attackAreaView.GetComponent<PulsatingCircle>().RPC_Active(false);
-                return true;
+            attackArea.transform.rotation = Quaternion.identity;
+            return true;
             }
             else if(progress >= 1.0f && resetCoroutine == null && !canMove)
             {
-                return true;
+            attackArea.transform.rotation = Quaternion.identity;
+            return true;
             }
 
             // ƒŠƒZƒbƒgˆ—‚ªŠ®—¹‚·‚é‚Ì‚ğ‘Ò‚Â
