@@ -15,6 +15,7 @@ public class MoveToBossObject : NetworkBehaviour
 
     // ’Ç]ˆ—‚ğÀs‚·‚é‚©
     [Networked] private bool isToMove { get; set; }
+    [Networked] private bool isToSpecial { get; set; }
 
     //Œü‚«‚ğ•Ï‚¦‚éˆ—
     [Networked] private bool isDir { get; set; }
@@ -38,6 +39,11 @@ public class MoveToBossObject : NetworkBehaviour
         isToMove = _isToMove;
     }
 
+    public void SetToSpecial(bool _isToMove)
+    {
+        isToSpecial = _isToMove;
+    }
+
     public void SetDir(bool _isDir)
     {
         isDir = _isDir;
@@ -47,6 +53,12 @@ public class MoveToBossObject : NetworkBehaviour
     public void RPC_SetToMove(bool _toMove)
     {
         SetToMove(_toMove);
+    }
+
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    public void RPC_SetToSpecial(bool _toMove)
+    {
+        SetToSpecial(_toMove);
     }
 
     [Rpc(RpcSources.All, RpcTargets.All)]
@@ -84,7 +96,14 @@ public class MoveToBossObject : NetworkBehaviour
             }
             else
             {
-                animator.SetTrigger("Attack");
+                if (isToSpecial)
+                {
+                    animator.SetTrigger("Special");
+                }
+                else
+                {
+                    animator.SetTrigger("Attack");
+                }                
             }
 
             // ó‘Ô‚ÌXV
