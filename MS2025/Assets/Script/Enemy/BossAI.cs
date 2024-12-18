@@ -279,6 +279,7 @@ public class BossAI : NetworkBehaviour
         //currentSequenceIndex = 0;
         isActionInitialized = false;
         isInterrupted = false;
+        rb.constraints = RigidbodyConstraints.FreezeRotation;
         GameObject attackAreaview;
         attackAreaview = transform.Find("Area")?.gameObject;
         attackAreaview.GetComponent<PulsatingCircle>().RPC_Active(false);
