@@ -522,7 +522,7 @@ public class BossAI : NetworkBehaviour
     public void RPC_Particle()
     {
         //// パーティクルシステムのインスタンスを生成
-        //newParticle = Instantiate(Dawnparticle, this.transform);
+        newParticle = Instantiate(Dawnparticle, this.transform);
 
         // パーティクルを生成（親オブジェクトの子にする）
         newParticle.transform.parent = this.transform;
