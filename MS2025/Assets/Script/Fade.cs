@@ -28,7 +28,6 @@ public class Fade : MonoBehaviour{
                 }
             break;
             case Phase.Beginning:
-                StartCoroutine(FadeOut());
                 phase = Phase.Now;
             break;
             case Phase.Now:
@@ -36,31 +35,32 @@ public class Fade : MonoBehaviour{
                 if(FadeTime <= 0.0f){
                     phase = Phase.End;
                 }
+                UpdateFadeOut();
             break;
             case Phase.End:
-                StartCoroutine(FadeIn());
                 phase = Phase.Waiting;
+                UpdateFadeIn();
             break;
         }
     }
 
-    protected IEnumerator FadeIn(){
-        float startTime = Time.time; // 開始時間
-        while (Time.time - startTime < duration){
-            float t = (Time.time - startTime) / duration;
+    private void UpdateFadeIn(){
+        float elapsed = duration - FadeTime / 50;
+        if (elapsed < duration) {
+            float t = elapsed / duration;
             canvasGroup.alpha = Mathf.Lerp(1.0f, 0.0f, t);
-            yield return null;
+        } else {
+            canvasGroup.alpha = 0.0f; // 確保完全透明
         }
-        canvasGroup.alpha = 0.0f; // 确保完全透明
     }
 
-    protected IEnumerator FadeOut(){
-        float startTime = Time.time; // 開始時間
-        while (Time.time - startTime < duration){
-            float t = (Time.time - startTime) / duration;
+    private void UpdateFadeOut(){
+        float elapsed = duration - FadeTime / 50;
+        if (elapsed < duration) {
+            float t = elapsed / duration;
             canvasGroup.alpha = Mathf.Lerp(0.0f, 1.0f, t);
-            yield return null;
+        } else {
+            canvasGroup.alpha = 1.0f; // 確保完全不透明
         }
-        canvasGroup.alpha = 1.0f; // 确保完全不透明
     }
 }
