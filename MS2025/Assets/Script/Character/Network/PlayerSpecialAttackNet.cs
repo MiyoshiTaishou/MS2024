@@ -56,6 +56,10 @@ public class PlayerSpecialAttackNet : NetworkBehaviour
     [SerializeField, ReadOnly]
     private List<Image> PlayerFireList = new List<Image>();
 
+    [SerializeField] List<Sprite> Normal;
+    [SerializeField] List<Sprite> Special;
+
+
     GameObject change;
     ShareNumbers sharenum;
     public override void Spawned()
@@ -181,9 +185,9 @@ public class PlayerSpecialAttackNet : NetworkBehaviour
                 combo.color = specialColor;
             }
 
-            foreach (var player in PlayerFireList)
+            for (int i = 0; i < PlayerFireList.Count; i++)
             {
-                player.color= Color.white;
+                PlayerFireList[i].sprite = Special[i];
             }
         }
         else
@@ -195,11 +199,10 @@ public class PlayerSpecialAttackNet : NetworkBehaviour
                 combo.color = color;
             }
 
-            foreach (var player in PlayerFireList)
+            for (int i = 0;i <  PlayerFireList.Count;i++)
             {
-                Color color= Color.white;
-                color.a = 0;
-                player.color = color;
+                PlayerFireList[i].sprite = Normal[i];
+
             }
         }
     }
