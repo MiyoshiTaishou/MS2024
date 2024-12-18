@@ -81,11 +81,11 @@ public class BossMoveAttackPos : BossActionData
 
         if (isPunche)
         {
-            attackArea.transform.localScale = new Vector3(2f, -2f, -2f);
+            attackArea.transform.localScale = new Vector3(2f, 2f, 2f);
         }
         else
         {
-            attackArea.transform.localScale = new Vector3(2f, 2f, 2f);
+            attackArea.transform.localScale = new Vector3(2f, 2f, -2f);
         }
         attackArea.transform.rotation = Quaternion.identity;             
         attackArea.transform.rotation = Quaternion.Euler(0, 0, rotPunch);       
@@ -119,7 +119,16 @@ public class BossMoveAttackPos : BossActionData
     }
 
     public override bool ExecuteAction(GameObject boss, Transform player)
-    {       
+    {
+        if (isPunche)
+        {
+            attackArea.transform.localScale = new Vector3(2f, 2f, 2f);
+        }
+        else
+        {
+            attackArea.transform.localScale = new Vector3(2f, 2f, -2f);
+        }
+
         if (isComp)
         {
             return true; // ƒAƒNƒVƒ‡ƒ“Š®—¹
