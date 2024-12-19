@@ -27,6 +27,10 @@ public class BossStatus : NetworkBehaviour
     [SerializeField] private Color HPBar2= new Color32(25, 176, 0, 255);
     [SerializeField] private Color HPBar3= new Color32(255, 221, 0, 255);
 
+    [SerializeField] private Sprite HPBarSprite2;
+    [SerializeField] private Sprite HPBarSprite3;
+
+
     [Tooltip("被ダメージエフェクト")]
    [SerializeField] private ParticleSystem Damageparticle;
 
@@ -193,12 +197,14 @@ public class BossStatus : NetworkBehaviour
 
         if (DeathCount == 1)
         {
-            Fill.color = HPBar2;
+            //Fill.color = HPBar2;
+            Fill.sprite = HPBarSprite2;
             Destroy(GameObject.Find("BossHPBarP"));
         }
         else if (DeathCount == 2)
         {
-            Fill.color = HPBar3;
+            //Fill.color = HPBar3;
+            Fill.sprite = HPBarSprite3;
             Destroy(GameObject.Find("BossHPBarG"));
         }
         else if(DeathCount==3)
