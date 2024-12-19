@@ -15,7 +15,8 @@ MonoBehaviour:
   actionName: attack
   moveAttackEndPosTime: 3
   EndPosition: {x: -5, y: 2, z: 0}
-  rotPunch: -90
+  rotPunch: 90
+  isPunche: 0
   curve:
     serializedVersion: 2
     m_Curve:
@@ -41,7 +42,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   attackAnimSpeed: 50
-  attackScale: {x: 2, y: 40, z: 40}
+  attackScale: {x: 40, y: 2, z: 40}
   isCameraShake: 1
   cameraDuration: 0.1
   magnitude: 1

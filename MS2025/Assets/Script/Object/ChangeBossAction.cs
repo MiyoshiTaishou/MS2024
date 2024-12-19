@@ -115,6 +115,9 @@ public class ChangeBossAction : NetworkBehaviour
                 StartCoroutine(EndTutorial());                
                 // クライアントに先にシーン遷移を指示
                 gameManager.RPC_EndBattle(10, 5);
+                TextNo = 6;
+                break;
+            case 6:
                 break;
         }
 
