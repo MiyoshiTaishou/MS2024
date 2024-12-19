@@ -79,16 +79,16 @@ public class BossMoveAttackPos : BossActionData
         attackArea.GetComponent<BoxCollider>().size = attackScale;
         attackArea.SetActive(true);
 
-        if (isPunche)
-        {
-            attackArea.transform.localScale = new Vector3(2f, 2f, 2f);
-        }
-        else
-        {
-            attackArea.transform.localScale = new Vector3(2f, 2f, -2f);
-        }
-        attackArea.transform.rotation = Quaternion.identity;             
-        attackArea.transform.rotation = Quaternion.Euler(0, 0, rotPunch);       
+        //if (isPunche)
+        //{
+        //    attackArea.transform.localScale = new Vector3(2f, 2f, 2f);
+        //}
+        //else
+        //{
+        //    attackArea.transform.localScale = new Vector3(2f, 2f, -2f);
+        //}
+        //attackArea.transform.rotation = Quaternion.identity;             
+        //attackArea.transform.rotation = Quaternion.Euler(0, 0, rotPunch);       
 
         //attackArea.transform.localRotation = rotPunch2;
 
@@ -108,6 +108,7 @@ public class BossMoveAttackPos : BossActionData
         attackArea.GetComponent<BoxCollider>().enabled = true;
 
         attackArea.GetComponent<MoveToBossObject>().RPC_SetToMove(false);
+        attackArea.GetComponent<MoveToBossObject>().RPC_SetToSpecial(true);
 
         resetCoroutine = null;
 
@@ -120,14 +121,14 @@ public class BossMoveAttackPos : BossActionData
 
     public override bool ExecuteAction(GameObject boss, Transform player)
     {
-        if (isPunche)
-        {
-            attackArea.transform.localScale = new Vector3(2f, 2f, 2f);
-        }
-        else
-        {
-            attackArea.transform.localScale = new Vector3(2f, 2f, -2f);
-        }
+        //if (isPunche)
+        //{
+        //    attackArea.transform.localScale = new Vector3(2f, 2f, 2f);
+        //}
+        //else
+        //{
+        //    attackArea.transform.localScale = new Vector3(2f, 2f, -2f);
+        //}
 
         if (isComp)
         {
@@ -161,7 +162,8 @@ public class BossMoveAttackPos : BossActionData
                 //resetCoroutine = ResetToOriginalPosition();
                 //boss.GetComponent<MonoBehaviour>().StartCoroutine(resetCoroutine);
                 attackArea.GetComponent<MoveToBossObject>().RPC_SetToMove(true);
-                attackAreaView.GetComponent<PulsatingCircle>().RPC_Active(false);
+            attackArea.GetComponent<MoveToBossObject>().RPC_SetToSpecial(false);
+            attackAreaView.GetComponent<PulsatingCircle>().RPC_Active(false);
             attackArea.transform.rotation = Quaternion.identity;
             return true;
             }
@@ -199,6 +201,7 @@ public class BossMoveAttackPos : BossActionData
         attackArea.GetComponent<BoxCollider>().enabled = false;
 
         attackArea.GetComponent<MoveToBossObject>().RPC_SetToMove(true);
+        attackArea.GetComponent<MoveToBossObject>().RPC_SetToSpecial(false);
         attackAreaView.GetComponent<PulsatingCircle>().RPC_Active(false);
 
         isMoving = false;

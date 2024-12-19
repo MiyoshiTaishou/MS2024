@@ -15,7 +15,7 @@ MonoBehaviour:
   actionName: attack
   moveAttackEndPosTime: 3
   EndPosition: {x: 5, y: 2, z: 0}
-  rotPunch: -90
+  rotPunch: 90
   isPunche: 1
   curve:
     serializedVersion: 2
@@ -48,7 +48,7 @@ MonoBehaviour:
   magnitude: 1
   attackAreaName: BossAttackAreaKitune
   canParry: 0
-  canKnockBack: 1
+  canKnockBack: 0
   canMove: 1
   parryType: 3
   attackClip: {fileID: 8300000, guid: 9041a2f5a46a0a94aa3d617ef8582742, type: 3}
