@@ -83,7 +83,9 @@ public class CameraZoom : NetworkBehaviour
             pos.x = center;
             pos.y = newY;
             pos.z = newZ;
-            transform.position = pos;
+            //transform.position = pos;
+            Vector3 targetPosition = new Vector3(center, newY, newZ);
+            transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * 5f)
             //Debug.Log("‹——£" + minX + "‚Á‚±" + maxX);
         }
     }
