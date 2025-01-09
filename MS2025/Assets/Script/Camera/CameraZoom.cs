@@ -15,6 +15,8 @@ public class CameraZoom : NetworkBehaviour
     [SerializeField, Tooltip("ズーム倍率")] float zoomConf;
     [SerializeField, Header("ここよりカメラを引かない")] float zoomLimit;
     [SerializeField, Header("一番近いやつからこの値だけは引く")] float zeroRangezoom;
+
+    Vector3 goalPos;
     public override void FixedUpdateNetwork()
     {
        
@@ -83,7 +85,9 @@ public class CameraZoom : NetworkBehaviour
             pos.x = center;
             pos.y = newY;
             pos.z = newZ;
-            transform.position = pos;
+            //transform.position = pos;
+            Vector3 targetPosition = new Vector3(center, newY, newZ);
+            transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * 5f);
             //Debug.Log("距離" + minX + "っこ" + maxX);
         }
     }
