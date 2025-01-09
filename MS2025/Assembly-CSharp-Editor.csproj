@@ -60,9 +60,9 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\2022.3.43f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\LightRays2D\Editor\LightRays2DEditor.cs" />
     <Compile Include="Assets\AfterImageEffect2D\Editor\StaticAfterImageEffect2DPlayerEditor.cs" />
     <Compile Include="Assets\TutorialInfo\Scripts\Editor\ReadmeEditor.cs" />
+    <Compile Include="Assets\LightRays2D\Editor\LightRays2DEditor.cs" />
     <Compile Include="Assets\AfterImageEffect2D\Editor\DynamicAfterImageEffect2DPlayerEditor.cs" />
     <Compile Include="Assets\AfterImageEffect2D\Editor\AfterImageEffect2DPlayerBaseEditor.cs" />
   </ItemGroup>
@@ -477,6 +477,10 @@
     </Reference>
     <Reference Include="Fusion.Realtime">
       <HintPath>Assets\Photon\Fusion\Assemblies\Fusion.Realtime.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Coffee.UIEffect.R">
+      <HintPath>Library\PackageCache\com.coffee.ui-effect@811f5762e6\Runtime\Coffee.UIEffect.R.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="nunit.framework">
@@ -1029,6 +1033,10 @@
     </Reference>
     <Reference Include="Unity.VisualStudio.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.VisualStudio.Editor.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Coffee.UIEffect">
+      <HintPath>Library\ScriptAssemblies\Coffee.UIEffect.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEditor.UI">
